@@ -37,6 +37,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IClient.cs" />
     <Compile Include="IHeader.cs" />
     <Compile Include="IHeaderCollection.cs">
       <SubType>Code</SubType>
