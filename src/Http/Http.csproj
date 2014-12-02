@@ -35,16 +35,31 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="Diagrams\Headers.cd" />
+    <None Include="Diagrams\Messages.cd" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Headers\Header.cs" />
-    <Compile Include="IClient.cs" />
+    <Compile Include="EntityHeaderCollection.cs" />
+    <Compile Include="Header.cs" />
+    <Compile Include="GeneralHeaderCollection.cs" />
+    <Compile Include="HeaderCollection.cs" />
+    <Compile Include="HeaderSerializer.cs" />
+    <Compile Include="IEntity.cs" />
+    <Compile Include="IEntityHeaderCollection.cs" />
+    <Compile Include="IGeneralHeaderCollection.cs" />
     <Compile Include="IHeader.cs" />
     <Compile Include="IHeaderCollection.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IMessage.cs" />
+    <Compile Include="IRequest.cs" />
+    <Compile Include="IRequestHeaderCollection.cs" />
+    <Compile Include="IResponse.cs" />
+    <Compile Include="IResponseHeaderCollection.cs" />
     <Compile Include="IUserAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestHeaderCollection.cs" />
+    <Compile Include="ResponseHeaderCollection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

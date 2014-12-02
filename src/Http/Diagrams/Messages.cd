@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Interface Name="Http.IMessage">
+    <Position X="7.5" Y="6.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IMessage.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Entity" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="Http.IRequest">
+    <Position X="6" Y="8" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAACAAAAgAAAAA=</HashCode>
+      <FileName>IRequest.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Http.IResponse">
+    <Position X="10" Y="8" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAEAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IResponse.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Http.IEntity">
+    <Position X="7.75" Y="4.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IEntity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

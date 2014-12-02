@@ -2,7 +2,8 @@
 
 namespace Http
 {
-    public interface IHeader : IDictionary<string, IList<string>>
+    public interface IHeader : IList<string>
     {
+        string Name { get; set; }
     }
 }
