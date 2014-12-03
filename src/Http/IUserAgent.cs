@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Http
 {
-    public interface IUserAgent
+    public interface IUserAgent : IDisposable
     {
         Task SendAsync(IRequestMessage message, CancellationToken cancellationToken, Func<Stream, CancellationToken, Task> writeAsync = null);
     }

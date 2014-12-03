@@ -7,6 +7,9 @@ namespace Http
 {
     public class PortableUserAgent : IUserAgent
     {
+        /// <summary>Indicates whether this object has been disposed.</summary>
+        private bool disposed;
+
         private readonly Stream stream;
 
         public PortableUserAgent(Stream stream)
@@ -16,6 +19,11 @@ namespace Http
 
         public async Task SendAsync(IRequestMessage message, CancellationToken cancellationToken, Func<Stream, CancellationToken, Task> writeAsync = null)
         {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().FullName);
+            }
+
             using (stream)
             using (var writer = new StreamWriter(stream))
             {
@@ -67,6 +75,36 @@ namespace Http
                 await writer.WriteAsync(header.First()).ConfigureAwait(false);
                 await writer.WriteLineAsync().ConfigureAwait(false);
             }
+        }
+
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+        void IDisposable.Dispose()
+        {
+            this.Close();
+        }
+
+        /// <summary>This method calls <see cref="Dispose(bool)" />, specifying <c>true</c> to release all resources.</summary>
+        public void Close()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+        /// <param name="disposing"><c>true</c> to clean up both managed and unmanaged resources; otherwise, <c>false</c> to clean up only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                this.stream.Dispose();
+            }
+
+            this.disposed = true;
         }
     }
 }
