@@ -55,6 +55,7 @@
     <Compile Include="IResponseMessage.cs" />
     <Compile Include="IResponseHeaderCollection.cs" />
     <Compile Include="IResponse.cs" />
+    <Compile Include="IUserAgent.cs" />
     <Compile Include="PortableUserAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestMessage.cs" />
