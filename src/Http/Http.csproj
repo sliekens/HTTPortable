@@ -43,7 +43,6 @@
     <Compile Include="Header.cs" />
     <Compile Include="GeneralHeaderCollection.cs" />
     <Compile Include="HeaderCollection.cs" />
-    <Compile Include="HeaderSerializer.cs" />
     <Compile Include="IEntityHeaderCollection.cs" />
     <Compile Include="IGeneralHeaderCollection.cs" />
     <Compile Include="IHeader.cs" />
