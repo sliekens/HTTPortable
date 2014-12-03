@@ -1,11 +1,9 @@
-﻿using System.IO;
-
-namespace Http
+﻿namespace Http
 {
     public interface IMessage
     {
         IGeneralHeaderCollection Headers { get; }
 
-        IEntity Entity { get; set; }
+        IEntityHeaderCollection ContentHeaders { get; set; }
     }
 }
