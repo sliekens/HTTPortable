@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,26 +28,6 @@ namespace Http
 
         public LazyStreamReader(Stream stream, bool detectEncodingFromByteOrderMarks) : base(stream, detectEncodingFromByteOrderMarks)
         {
-        }
-
-        public override Task<int> ReadAsync(char[] buffer, int index, int count)
-        {
-            return base.ReadAsync(buffer, index, count);
-        }
-
-        public override int ReadBlock(char[] buffer, int index, int count)
-        {
-            return base.ReadBlock(buffer, index, count);
-        }
-
-        public override Task<int> ReadBlockAsync(char[] buffer, int index, int count)
-        {
-            return base.ReadBlockAsync(buffer, index, count);
-        }
-
-        public override string ReadLine()
-        {
-            return base.ReadLine();
         }
 
         public override async Task<string> ReadLineAsync()
@@ -91,16 +68,6 @@ namespace Http
             }
 
             return lineBuffer.ToString();
-        }
-
-        public override string ReadToEnd()
-        {
-            return base.ReadToEnd();
-        }
-
-        public override Task<string> ReadToEndAsync()
-        {
-            return base.ReadToEndAsync();
         }
     }
 }
