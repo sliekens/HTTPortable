@@ -13,13 +13,6 @@ namespace Http.Tcp.WinRT
             this.socket = streamSocket;
         }
 
-        public static IUserAgent Create()
-        {
-            var streamSocket = new StreamSocket();
-            var userAgent = new UserAgent(streamSocket);
-            return userAgent;
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
