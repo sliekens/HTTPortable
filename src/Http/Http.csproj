@@ -49,7 +49,6 @@
     <Compile Include="IMessage.cs" />
     <Compile Include="IRequestMessage.cs" />
     <Compile Include="IResponseMessage.cs" />
-    <Compile Include="IResponse.cs" />
     <Compile Include="IUserAgent.cs" />
     <Compile Include="LazyStreamReader.cs" />
     <Compile Include="PortableUserAgent.cs" />
