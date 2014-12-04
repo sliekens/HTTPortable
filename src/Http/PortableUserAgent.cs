@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 namespace Http
@@ -10,11 +11,13 @@ namespace Http
         /// <summary>Indicates whether this object has been disposed.</summary>
         private bool disposed;
 
-        private readonly Stream stream;
+        private readonly Stream inputStream;
+        private readonly Stream outputStream;
 
-        public PortableUserAgent(Stream stream)
+        public PortableUserAgent(Stream inputStream, Stream outputStream)
         {
-            this.stream = stream;
+            this.inputStream = inputStream;
+            this.outputStream = outputStream;
         }
 
         public async Task SendAsync(IRequestMessage message, CancellationToken cancellationToken, Func<Stream, CancellationToken, Task> writeAsync = null)
@@ -24,8 +27,7 @@ namespace Http
                 throw new ObjectDisposedException(this.GetType().FullName);
             }
 
-            using (stream)
-            using (var writer = new StreamWriter(stream))
+            using (var writer = new StreamWriter(this.outputStream, new UTF8Encoding(false), 512, true))
             {
                 await WriteRequestLineAsync(writer, message).ConfigureAwait(false);
                 await WriteHeadersAsync(writer, message.Headers).ConfigureAwait(false);
@@ -33,13 +35,10 @@ namespace Http
                 await WriteHeadersAsync(writer, message.ContentHeaders).ConfigureAwait(false);
                 await writer.WriteLineAsync().ConfigureAwait(false);
                 await writer.FlushAsync().ConfigureAwait(false);
-
                 if (writeAsync != null)
                 {
-                    await writeAsync(stream, cancellationToken).ConfigureAwait(false);
+                    await writeAsync(this.outputStream, cancellationToken).ConfigureAwait(false);
                 }
-
-                await writer.FlushAsync().ConfigureAwait(false);
             }
 
             // TODO: what should this method actually return?
@@ -55,12 +54,50 @@ namespace Http
             // -- Imagine pipelining a request for 2GB of binary data, and then another request for 2MB of text data. The text file, even though it's much lighter to process, will be stuck in the response pipeline until after the binary data has been received.
         }
 
+        public async Task ReceiveAsync(CancellationToken cancellationToken, Func<IResponseMessage, Stream, CancellationToken, Task> readAsync = null)
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().FullName);
+            }
+
+            var message = new ResponseMessage();
+            using (var reader = new LazyStreamReader(this.inputStream, Encoding.UTF8, false, 1, true))
+            {
+                var status = await reader.ReadLineAsync();
+                string line;
+                while ((line = await reader.ReadLineAsync()) != "")
+                {
+                    var rawHeader = line.Split(new[] { ':', ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
+                    var name = rawHeader[0];
+                    var value = rawHeader[1];
+                    var predicate = new Func<IHeader, bool>(h => h.Name.Equals(name, StringComparison.Ordinal));
+                    var header = message.Headers.SingleOrDefault(predicate) ??
+                                 message.ResponseHeaders.SingleOrDefault(predicate) ??
+                                 message.ContentHeaders.SingleOrDefault(predicate);
+                    if (header == null)
+                    {
+                        message.ContentHeaders.Add(header = new Header(name));
+                    }
+
+                    header.Add(value);
+                }
+
+                if (readAsync != null)
+                {
+                    await readAsync(message, reader.BaseStream, cancellationToken);
+                }
+            }
+        }
+
+
         private static async Task WriteRequestLineAsync(StreamWriter writer, IRequestMessage message)
         {
             await writer.WriteAsync(message.Method).ConfigureAwait(false);
             await writer.WriteAsync(' ').ConfigureAwait(false);
             await writer.WriteAsync(message.RequestUri).ConfigureAwait(false);
             await writer.WriteAsync(' ').ConfigureAwait(false);
+            await writer.WriteAsync("HTTP/").ConfigureAwait(false);
             await writer.WriteAsync(message.HttpVersion.ToString(2)).ConfigureAwait(false);
             await writer.WriteLineAsync().ConfigureAwait(false);
         }
@@ -101,7 +138,8 @@ namespace Http
 
             if (disposing)
             {
-                this.stream.Dispose();
+                this.inputStream.Dispose();
+                this.outputStream.Dispose();
             }
 
             this.disposed = true;

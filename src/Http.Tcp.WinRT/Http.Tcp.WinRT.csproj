@@ -2,19 +2,19 @@
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D920B511-E7A9-487F-BDE3-4F4599C65AC7}</ProjectGuid>
+    <ProjectGuid>{825FEAFB-0641-48AB-AC2F-72120A4B49B6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Http</RootNamespace>
-    <AssemblyName>Http</AssemblyName>
+    <RootNamespace>Http.Tcp.WinRT</RootNamespace>
+    <AssemblyName>Http.Tcp.WinRT</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile32</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,34 +35,18 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <None Include="Diagrams\Headers.cd" />
-    <None Include="Diagrams\Messages.cd" />
+    <ProjectReference Include="..\Http\Http.csproj">
+      <Project>{d920b511-e7a9-487f-bde3-4f4599c65ac7}</Project>
+      <Name>Http</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntityHeaderCollection.cs" />
-    <Compile Include="Header.cs" />
-    <Compile Include="GeneralHeaderCollection.cs" />
-    <Compile Include="HeaderCollection.cs" />
-    <Compile Include="IEntityHeaderCollection.cs" />
-    <Compile Include="IGeneralHeaderCollection.cs" />
-    <Compile Include="IHeader.cs" />
-    <Compile Include="IHeaderCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IMessage.cs" />
-    <Compile Include="IRequestMessage.cs" />
-    <Compile Include="IRequestHeaderCollection.cs" />
-    <Compile Include="IResponseMessage.cs" />
-    <Compile Include="IResponseHeaderCollection.cs" />
-    <Compile Include="IResponse.cs" />
-    <Compile Include="IUserAgent.cs" />
-    <Compile Include="LazyStreamReader.cs" />
-    <Compile Include="PortableUserAgent.cs" />
+    <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
+    <TargetPlatform Include="Windows, Version=8.1" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestMessage.cs" />
-    <Compile Include="RequestHeaderCollection.cs" />
-    <Compile Include="ResponseHeaderCollection.cs" />
-    <Compile Include="ResponseMessage.cs" />
+    <Compile Include="UserAgent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
