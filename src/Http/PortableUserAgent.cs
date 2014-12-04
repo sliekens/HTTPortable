@@ -39,10 +39,15 @@ namespace Http
             using (var reader = new LazyStreamReader(inputStream, Encoding.UTF8, false, 1, true))
             {
                 var status = await reader.ReadLineAsync();
+                var statusComponents = status.Split(new[] { ' ' }, 3);
+                message.Version = Version.Parse(statusComponents[0].Substring(5, 3));
+                message.Status = int.Parse(statusComponents[1]);
+                message.Reason = statusComponents[2];
+
                 string line;
                 while ((line = await reader.ReadLineAsync()) != string.Empty)
                 {
-                    var rawHeader = line.Split(new[] {':', ' '}, 2, StringSplitOptions.RemoveEmptyEntries);
+                    var rawHeader = line.Split(new[] { ':', ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
                     var name = rawHeader[0];
                     var value = rawHeader[1];
                     var predicate = new Func<IHeader, bool>(h => h.Name.Equals(name, StringComparison.Ordinal));
