@@ -7,7 +7,7 @@ namespace Http
     {
         Version Version { get; set; }
 
-        HttpStatusCode Status { get; set; }
+        int Status { get; set; }
 
         string Reason { get; set; }
     }

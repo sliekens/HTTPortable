@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Http
@@ -18,7 +17,7 @@ namespace Http
 
         public Version Version { get; set; }
 
-        public HttpStatusCode Status { get; set; }
+        public int Status { get; set; }
 
         public string Reason { get; set; }
     }
