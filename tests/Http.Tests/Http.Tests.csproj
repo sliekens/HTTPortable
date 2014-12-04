@@ -50,11 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="EntityHeaderCollectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GeneralHeaderCollectionTests.cs" />
-    <Compile Include="RequestHeaderCollectionTests.cs" />
-    <Compile Include="ResponseHeaderCollectionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Http\Http.csproj">

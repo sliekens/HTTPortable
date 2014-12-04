@@ -13,21 +13,15 @@ namespace Http
             this.Method = method;
             this.RequestUri = requestUri;
             this.HttpVersion = httpVersion;
-            this.Headers = new GeneralHeaderCollection();
-            this.RequestHeaders = new RequestHeaderCollection();
-            this.ContentHeaders = new EntityHeaderCollection();
+            this.Headers = new HeaderCollection();
         }
 
-        public IGeneralHeaderCollection Headers { get; private set; }
-
-        public IEntityHeaderCollection ContentHeaders { get; set; }
+        public IHeaderCollection Headers { get; private set; }
 
         public string Method { get; set; }
 
         public string RequestUri { get; set; }
 
         public Version HttpVersion { get; set; }
-
-        public IRequestHeaderCollection RequestHeaders { get; set; }
     }
 }

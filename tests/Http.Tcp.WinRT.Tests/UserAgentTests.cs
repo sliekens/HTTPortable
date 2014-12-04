@@ -34,16 +34,17 @@ namespace Http.Tcp.WinRT.Tests
         public async Task GetOriginIp()
         {
             var request = new RequestMessage("GET", "/ip", Version.Parse("1.1"));
-            request.Headers.Connection.Add("keep-alive");
-            request.RequestHeaders.UserAgent.Add("UA");
-            request.RequestHeaders.Host.Add("httpbin.org");
-            request.RequestHeaders.Accept.Add("application/json");
+            request.Headers.Add(new Header("Connection") { "keep-alive" });
+            request.Headers.Add(new Header("User-Agent") { "UA" });
+            request.Headers.Add(new Header("Host") { "httpbin.org" });
+            request.Headers.Add(new Header("Accept") { "application/json" });
             await userAgent.SendAsync(request, CancellationToken.None);
             var contentBuffer = new StringBuilder();
             await userAgent.ReceiveAsync(CancellationToken.None, async (message, stream, cancellationToken) =>
             {
-                var length = Convert.ToInt32(message.ContentHeaders.ContentLength.FirstOrDefault());
-                var buffer = new byte[length];
+                var contentLengthHeader = message.Headers.FirstOrDefault(header => header.Name.Equals("Content-Length", StringComparison.Ordinal));
+                var contentLength = Convert.ToInt32(contentLengthHeader.First());
+                var buffer = new byte[contentLength];
                 await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
                 contentBuffer.Append(Encoding.UTF8.GetString(buffer, 0, buffer.Length));
             });

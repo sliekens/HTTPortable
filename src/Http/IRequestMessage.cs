@@ -10,7 +10,5 @@ namespace Http
         string RequestUri { get; set; }
 
         Version HttpVersion { get; set; }
-
-        IRequestHeaderCollection RequestHeaders { get; set; }
     }
 }

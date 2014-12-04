@@ -47,12 +47,10 @@ namespace Http
                     var name = rawHeader[0];
                     var value = rawHeader[1];
                     var predicate = new Func<IHeader, bool>(h => h.Name.Equals(name, StringComparison.Ordinal));
-                    var header = message.Headers.SingleOrDefault(predicate) ??
-                                 message.ResponseHeaders.SingleOrDefault(predicate) ??
-                                 message.ContentHeaders.SingleOrDefault(predicate);
+                    var header = message.Headers.SingleOrDefault(predicate);
                     if (header == null)
                     {
-                        message.ContentHeaders.Add(header = new Header(name));
+                        message.Headers.Add(header = new Header(name));
                     }
 
                     header.Add(value);
@@ -77,8 +75,6 @@ namespace Http
             {
                 await WriteRequestLineAsync(writer, message).ConfigureAwait(false);
                 await WriteHeadersAsync(writer, message.Headers).ConfigureAwait(false);
-                await WriteHeadersAsync(writer, message.RequestHeaders).ConfigureAwait(false);
-                await WriteHeadersAsync(writer, message.ContentHeaders).ConfigureAwait(false);
                 await writer.WriteLineAsync().ConfigureAwait(false);
                 await writer.FlushAsync().ConfigureAwait(false);
                 if (writeAsync != null)

@@ -10,7 +10,5 @@ namespace Http
         HttpStatusCode Status { get; set; }
 
         string Reason { get; set; }
-
-        IResponseHeaderCollection ResponseHeaders { get; set; }
     }
 }

@@ -11,21 +11,15 @@ namespace Http
 
         public ResponseMessage()
         {
-            this.Headers = new GeneralHeaderCollection();
-            this.ResponseHeaders = new ResponseHeaderCollection();
-            this.ContentHeaders = new EntityHeaderCollection();
+            this.Headers = new HeaderCollection();
         }
 
-        public IGeneralHeaderCollection Headers { get; private set; }
-
-        public IEntityHeaderCollection ContentHeaders { get; set; }
+        public IHeaderCollection Headers { get; private set; }
 
         public Version Version { get; set; }
 
         public HttpStatusCode Status { get; set; }
 
         public string Reason { get; set; }
-
-        public IResponseHeaderCollection ResponseHeaders { get; set; }
     }
 }
