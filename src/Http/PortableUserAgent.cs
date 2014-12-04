@@ -129,7 +129,7 @@ namespace Http
 
         private static async Task WriteHeadersAsync(StreamWriter writer, IHeaderCollection headerCollection)
         {
-            var headerHasValue = new Func<IHeader, bool>(header => header.Any());
+            var headerHasValue = new Func<IHeader, bool>(header => !header.Optional || header.Any());
             foreach (var header in headerCollection.Where(headerHasValue).OrderBy(h => h.Name, StringComparer.Ordinal))
             {
                 await writer.WriteAsync(header.Name).ConfigureAwait(false);

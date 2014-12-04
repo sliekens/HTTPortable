@@ -7,6 +7,8 @@ namespace Http
     [DebuggerTypeProxy(typeof(HeaderDebugView))]
     public class Header : List<string>, IHeader
     {
+        private bool optional = true;
+
         public Header(string name)
             : base(1)
         {
@@ -14,6 +16,18 @@ namespace Http
         }
 
         public string Name { get; set; }
+
+        public bool Optional
+        {
+            get
+            {
+                return this.optional;
+            }
+            set
+            {
+                this.optional = value;
+            }
+        }
 
         [DebuggerDisplay("{Values}")]
         private class HeaderDebugView
