@@ -28,8 +28,7 @@ namespace Http
             GC.SuppressFinalize(this);
         }
 
-        public async Task ReceiveAsync(CancellationToken cancellationToken,
-            Func<IResponseMessage, Stream, CancellationToken, Task> readAsync = null)
+        public async Task ReceiveAsync(CancellationToken cancellationToken, Func<IResponseMessage, Stream, CancellationToken, Task> readAsync = null)
         {
             if (disposed)
             {
@@ -41,7 +40,7 @@ namespace Http
             {
                 var status = await reader.ReadLineAsync();
                 string line;
-                while ((line = await reader.ReadLineAsync()) != "")
+                while ((line = await reader.ReadLineAsync()) != string.Empty)
                 {
                     var rawHeader = line.Split(new[] {':', ' '}, 2, StringSplitOptions.RemoveEmptyEntries);
                     var name = rawHeader[0];
@@ -55,16 +54,18 @@ namespace Http
 
                     header.Add(value);
                 }
+            }
 
-                if (readAsync != null)
+            if (readAsync != null)
+            {
+                using (var messageBodyStream = new MessageBodyStream(message, this.inputStream))
                 {
-                    await readAsync(message, reader.BaseStream, cancellationToken);
+                    await readAsync(message, messageBodyStream, cancellationToken);
                 }
             }
         }
 
-        public async Task SendAsync(IRequestMessage message, CancellationToken cancellationToken,
-            Func<Stream, CancellationToken, Task> writeAsync = null)
+        public async Task SendAsync(IRequestMessage message, CancellationToken cancellationToken, Func<Stream, CancellationToken, Task> writeAsync = null)
         {
             if (disposed)
             {
@@ -79,7 +80,7 @@ namespace Http
                 await writer.FlushAsync().ConfigureAwait(false);
                 if (writeAsync != null)
                 {
-                    await writeAsync(outputStream, cancellationToken).ConfigureAwait(false);
+                    await writeAsync(writer.BaseStream, cancellationToken).ConfigureAwait(false);
                 }
             }
 

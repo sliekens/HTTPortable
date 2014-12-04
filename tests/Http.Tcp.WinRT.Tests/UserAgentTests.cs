@@ -4,9 +4,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Data.Json;
 using Windows.Networking;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
@@ -30,27 +33,29 @@ namespace Http.Tcp.WinRT.Tests
 
         public TestContext TestContext { get; set; }
 
+        [DataContract]
+        class MessageBody
+        {
+            [DataMember(Name = "origin")]
+            public string Origin { get; set; }
+        }
+
         [TestMethod]
         public async Task GetOriginIp()
         {
+            MessageBody messageBody = null;
             var request = new RequestMessage("GET", "/ip", Version.Parse("1.1"));
             request.Headers.Add(new Header("Connection") { "keep-alive" });
             request.Headers.Add(new Header("User-Agent") { "UA" });
-            request.Headers.Add(new Header("Host") { "httpbin.org" });
-            request.Headers.Add(new Header("Accept") { "application/json" });
+            request.Headers.Add(new Header("Host")       { "httpbin.org" });
+            request.Headers.Add(new Header("Accept")     { "application/json" });
             await userAgent.SendAsync(request, CancellationToken.None);
-            var contentBuffer = new StringBuilder();
             await userAgent.ReceiveAsync(CancellationToken.None, async (message, stream, cancellationToken) =>
             {
-                var contentLengthHeader = message.Headers.FirstOrDefault(header => header.Name.Equals("Content-Length", StringComparison.Ordinal));
-                var contentLength = Convert.ToInt32(contentLengthHeader.First());
-                var buffer = new byte[contentLength];
-                await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
-                contentBuffer.Append(Encoding.UTF8.GetString(buffer, 0, buffer.Length));
+                messageBody = (MessageBody)new DataContractJsonSerializer(typeof(MessageBody)).ReadObject(stream);
             });
 
-            var content = contentBuffer.ToString();
-            Debug.WriteLine(content);
+            Debug.WriteLine(messageBody.Origin);
         }
 
         [TestCleanup]
