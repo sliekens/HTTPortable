@@ -43,7 +43,6 @@ namespace Http
                 message.Version = Version.Parse(statusComponents[0].Substring(5, 3));
                 message.Status = int.Parse(statusComponents[1]);
                 message.Reason = statusComponents[2];
-
                 string line;
                 while ((line = await reader.ReadLineAsync()) != string.Empty)
                 {

@@ -39,6 +39,7 @@
     <None Include="Diagrams\Messages.cd" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HeaderCollectionExtensions.cs" />
     <Compile Include="MessageBodyStream.cs" />
     <Compile Include="Header.cs" />
     <Compile Include="HeaderCollection.cs" />

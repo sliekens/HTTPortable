@@ -12,7 +12,17 @@ namespace Http
         public MessageBodyStream(IResponseMessage response, Stream responseContent)
         {
             this.responseContent = responseContent;
-            this.lazyLength = new Lazy<long>(() => ParseLength(response).GetValueOrDefault(-1));
+            this.lazyLength = new Lazy<long>(() =>
+            {
+                long result;
+                var headers = response.Headers;
+                if (headers != null && headers.TryGetContentLength(out result))
+                {
+                    return result;
+                }
+
+                return -1;
+            });
         }
 
         public override void Flush()
@@ -79,18 +89,6 @@ namespace Http
             {
                 return this.lazyLength.Value;
             }
-        }
-
-        private static long? ParseLength(IResponseMessage response)
-        {
-            long length;
-            var header = response.Headers.SingleOrDefault(h => h.Name.Equals("Content-Length"));
-            if (header != null && long.TryParse(header.FirstOrDefault(), out length))
-            {
-                return length;
-            }
-
-            return null;
         }
 
         public override long Position { get; set; }
