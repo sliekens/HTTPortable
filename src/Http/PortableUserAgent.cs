@@ -58,13 +58,13 @@ namespace Http
 
                     header.Add(value);
                 }
-            }
 
-            if (readAsync != null)
-            {
-                using (var messageBodyStream = new MessageBodyStream(message, this.inputStream))
+                if (readAsync != null)
                 {
-                    await readAsync(message, messageBodyStream, cancellationToken);
+                    using (var messageBodyStream = new MessageBodyStream(message, reader.BaseStream))
+                    {
+                        await readAsync(message, messageBodyStream, cancellationToken);
+                    }
                 }
             }
         }

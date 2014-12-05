@@ -9,11 +9,8 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Data.Json;
 using Windows.Networking;
 using Windows.Networking.Sockets;
-using Windows.Storage.Streams;
-using Windows.Web.Http;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
 namespace Http.Tcp.WinRT.Tests
@@ -50,9 +47,12 @@ namespace Http.Tcp.WinRT.Tests
             request.Headers.Add(new Header("Host")       { "httpbin.org" });
             request.Headers.Add(new Header("Accept")     { "application/json" });
             await userAgent.SendAsync(request, CancellationToken.None);
-            await userAgent.ReceiveAsync(CancellationToken.None, async (message, stream, cancellationToken) =>
+            await userAgent.ReceiveAsync(CancellationToken.None, (message, stream, cancellationToken) =>
             {
-                messageBody = (MessageBody)new DataContractJsonSerializer(typeof(MessageBody)).ReadObject(stream);
+                return Task.Run(() =>
+                {
+                    messageBody = (MessageBody)new DataContractJsonSerializer(typeof(MessageBody)).ReadObject(stream);
+                }, cancellationToken);
             });
 
             Debug.WriteLine(messageBody.Origin);
