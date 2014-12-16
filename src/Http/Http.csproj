@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,6 +38,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
     <None Include="Diagrams\Headers.cd" />
     <None Include="Diagrams\Messages.cd" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CircularBufferStream.cs" />
@@ -57,6 +59,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestMessage.cs" />
     <Compile Include="ResponseMessage.cs" />
+    <Compile Include="Grammars\Rfc7230\HttpNameLexer.cs" />
+    <Compile Include="Grammars\Rfc7230\HttpNameToken.cs" />
+    <Compile Include="Grammars\Rfc7230\HttpVersionLexer.cs" />
+    <Compile Include="Grammars\Rfc7230\HttpVersionToken.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Text.Scanning">
+      <HintPath>..\packages\Text.Scanning.0.1.0-alpha\lib\portable-net45+win+wpa\Text.Scanning.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

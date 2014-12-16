@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Http.Grammars.Rfc7230;
+using Text.Scanning;
 
 namespace Http
 {
@@ -38,9 +40,19 @@ namespace Http
             var message = new ResponseMessage();
             using (var reader = new LazyStreamReader(inputStream, Encoding.UTF8, false, 1, true))
             {
-                var status = await reader.ReadLineAsync();
-                var statusComponents = status.Split(new[] { ' ' }, 3);
-                message.Version = Version.Parse(statusComponents[0].Substring(5, 3));
+                var statusLine = await reader.ReadLineAsync();
+                var statusComponents = statusLine.Split(new[] { ' ' }, 3);
+                using (var stringReader = new StringReader(statusComponents[0]))
+                using (var scanner = new TextScanner(stringReader))
+                {
+                    scanner.Read();
+                    var lexer = new HttpVersionLexer(scanner);
+                    var httpVersion = lexer.Read();
+                    var major = int.Parse(httpVersion.Digit1.Data); 
+                    var minor = int.Parse(httpVersion.Digit2.Data);
+                    message.Version = new Version(major, minor);
+                }
+
                 message.Status = int.Parse(statusComponents[1]);
                 message.Reason = statusComponents[2];
                 string line;
