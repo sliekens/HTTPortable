@@ -30,7 +30,7 @@
             GC.SuppressFinalize(this);
         }
 
-        public async Task ReceiveAsync(CancellationToken cancellationToken, OnResponseCallback callback = null)
+        public async Task ReceiveAsync(CancellationToken cancellationToken, OnResponseHeadersComplete callback = null)
         {
             if (this.disposed)
             {
