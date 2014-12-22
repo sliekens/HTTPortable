@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using Text.Scanning;
-
-namespace Http.Grammars.Rfc7230
+﻿namespace Http.Grammars.Rfc7230
 {
+    using Text.Scanning;
+
     public class HttpNameLexer : Lexer<HttpNameToken>
     {
         public override HttpNameToken Read(ITextScanner scanner)
@@ -20,14 +19,43 @@ namespace Http.Grammars.Rfc7230
         public override bool TryRead(ITextScanner scanner, out HttpNameToken token)
         {
             var context = scanner.GetContext();
-            if ("HTTP".ToCharArray().All(scanner.TryMatch))
+
+            // H
+            if (!scanner.TryMatch('\u0048'))
             {
-                token = new HttpNameToken(context);
-                return true;
+                token = default(HttpNameToken);
+                return false;
             }
 
-            token = default(HttpNameToken);
-            return false;
+            // T
+            if (!scanner.TryMatch('\u0054'))
+            {
+                scanner.PutBack('\u0048');
+                token = default(HttpNameToken);
+                return false;
+            }
+
+            // T
+            if (!scanner.TryMatch('\u0054'))
+            {
+                scanner.PutBack('\u0054');
+                scanner.PutBack('\u0048');
+                token = default(HttpNameToken);
+                return false;
+            }
+
+            // P
+            if (!scanner.TryMatch('\u0050'))
+            {
+                scanner.PutBack('\u0054');
+                scanner.PutBack('\u0054');
+                scanner.PutBack('\u0048');
+                token = default(HttpNameToken);
+                return false;
+            }
+
+            token = new HttpNameToken(context);
+            return true;
         }
     }
 }
