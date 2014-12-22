@@ -57,24 +57,42 @@ namespace Http
                 throw new NotSupportedException();
             }
 
+            if (count == 0)
+            {
+                return 0;
+            }
+
             lock (this.messageBody)
             {
                 var position = this.Position;
                 var length = this.Length;
                 var available = length - position;
+
+                // Check for end of input
                 if (available == 0)
                 {
                     return 0;
                 }
 
-                // BUG: this check is wrong
-                if (offset + count > available)
+                // Ensure no reading past end of input
+                if (count > available)
                 {
                     count = (int)available;
                 }
 
+                // Ensure buffer index in range
+                if (offset + count > buffer.Length)
+                {
+                    count = buffer.Length - offset;
+                }
+
+                // Delegate read operation to the inner stream
                 var read = this.messageBody.Read(buffer, offset, count);
+
+                // Update the position
                 this.Position += read;
+
+                // Return the number of bytes read
                 return read;
             }
         }
