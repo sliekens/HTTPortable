@@ -65,24 +65,34 @@ namespace Http.Grammars.Rfc7230
 
             if (!scanner.TryMatch('/'))
             {
+                this.httpNameLexer.PutBack(scanner, httpName);
                 token = default(HttpVersionToken);
                 return false;
             }
 
             if (!this.digitLexer.TryRead(scanner, out digit1))
             {
+                scanner.PutBack('/');
+                this.httpNameLexer.PutBack(scanner, httpName);
                 token = default(HttpVersionToken);
                 return false;
             }
 
             if (!scanner.TryMatch('.'))
             {
+                this.digitLexer.PutBack(scanner, digit1);
+                scanner.PutBack('/');
+                this.httpNameLexer.PutBack(scanner, httpName);
                 token = default(HttpVersionToken);
                 return false;
             }
 
             if (!this.digitLexer.TryRead(scanner, out digit2))
             {
+                scanner.PutBack('.');
+                this.digitLexer.PutBack(scanner, digit1);
+                scanner.PutBack('/');
+                this.httpNameLexer.PutBack(scanner, httpName);
                 token = default(HttpVersionToken);
                 return false;
             }
