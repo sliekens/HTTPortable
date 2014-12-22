@@ -1,6 +1,7 @@
 ﻿namespace Http
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -40,25 +41,20 @@
             var message = new ResponseMessage();
             using (var reader = new LazyStreamReader(this.inputStream, Encoding.UTF8, false, 1, true))
             {
-                var statusLine = await reader.ReadLineAsync();
-                var statusComponents = statusLine.Split(new[] {' '}, 3);
-                using (TextReader stringReader = new StringReader(statusComponents[0]))
-                using (ITextScanner scanner = new TextScanner(stringReader))
+                using (ITextScanner scanner = new TextScanner(reader))
                 {
                     scanner.Read();
-                    var lexer = new HttpVersionLexer();
-                    var httpVersion = lexer.Read(scanner);
-                    var major = int.Parse(httpVersion.Digit1.Data);
-                    var minor = int.Parse(httpVersion.Digit2.Data);
-                    message.Version = new Version(major, minor);
+                    var lexer = new StatusLineLexer();
+                    var statusLine = lexer.Read(scanner);
+                    message.Version = statusLine.HttpVersion.ToVersion();
+                    message.Status = int.Parse(statusLine.StatusCode.Data);
+                    message.Reason = statusLine.ReasonPhrase.Data;
                 }
 
-                message.Status = int.Parse(statusComponents[1]);
-                message.Reason = statusComponents[2];
                 string line;
                 while ((line = await reader.ReadLineAsync()) != string.Empty)
                 {
-                    var rawHeader = line.Split(new[] {':', ' '}, 2, StringSplitOptions.RemoveEmptyEntries);
+                    var rawHeader = line.Split(new[] { ':', ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
                     var name = rawHeader[0];
                     var value = rawHeader[1];
                     var predicate = new Func<IHeader, bool>(h => h.Name.Equals(name, StringComparison.Ordinal));
