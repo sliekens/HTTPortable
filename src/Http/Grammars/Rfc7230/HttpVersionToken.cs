@@ -3,6 +3,8 @@ using Text.Scanning.Core;
 
 namespace Http.Grammars.Rfc7230
 {
+    using System;
+
     public class HttpVersionToken : Token
     {
         private readonly HttpNameToken httpName;
@@ -40,6 +42,13 @@ namespace Http.Grammars.Rfc7230
             {
                 return this.digit2;
             }
+        }
+
+        public Version ToVersion()
+        {
+            var major = int.Parse(this.Digit1.Data);
+            var minor = int.Parse(this.Digit2.Data);
+            return new Version(major, minor);
         }
     }
 }
