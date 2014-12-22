@@ -7,7 +7,7 @@ namespace Http
 {
     public interface IUserAgent : IDisposable
     {
-        Task ReceiveAsync(CancellationToken cancellationToken, Func<IResponseMessage, Stream, CancellationToken, Task> readAsync = null);
+        Task ReceiveAsync(CancellationToken cancellationToken, OnResponseCallback callback = null);
 
         Task SendAsync(IRequestMessage message, CancellationToken cancellationToken, Func<Stream, CancellationToken, Task> writeAsync = null);
     }

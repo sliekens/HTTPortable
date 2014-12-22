@@ -30,8 +30,7 @@
             GC.SuppressFinalize(this);
         }
 
-        public async Task ReceiveAsync(CancellationToken cancellationToken,
-            Func<IResponseMessage, Stream, CancellationToken, Task> readAsync = null)
+        public async Task ReceiveAsync(CancellationToken cancellationToken, OnResponseCallback callback = null)
         {
             if (this.disposed)
             {
@@ -72,11 +71,11 @@
                     header.Add(value);
                 }
 
-                if (readAsync != null)
+                if (callback != null)
                 {
                     using (var messageBodyStream = new MessageBodyStream(message, reader.BaseStream))
                     {
-                        await readAsync(message, messageBodyStream, cancellationToken);
+                        await callback(message, messageBodyStream, cancellationToken);
                     }
                 }
             }
