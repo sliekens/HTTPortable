@@ -8,81 +8,80 @@ namespace Http.Grammars.Rfc7230
         private readonly ILexer<HttpNameToken> httpNameLexer;
         private readonly ILexer<DigitToken> digitLexer;
 
-        public HttpVersionLexer(ITextScanner scanner)
-            : this(scanner, new HttpNameLexer(scanner), new DigitLexer(scanner))
+        public HttpVersionLexer()
+            : this(new HttpNameLexer(), new DigitLexer())
         {
         }
 
-        public HttpVersionLexer(ITextScanner scanner, ILexer<HttpNameToken> httpNameLexer, ILexer<DigitToken> digitLexer)
-            : base(scanner)
+        public HttpVersionLexer(ILexer<HttpNameToken> httpNameLexer, ILexer<DigitToken> digitLexer)
         {
             this.httpNameLexer = httpNameLexer;
             this.digitLexer = digitLexer;
         }
 
-        public override HttpVersionToken Read()
+        public override HttpVersionToken Read(ITextScanner scanner)
         {
             HttpNameToken httpName;
             DigitToken digit1;
             DigitToken digit2;
-            var context = this.Scanner.GetContext();
+            var context = scanner.GetContext();
             try
             {
-                httpName = this.httpNameLexer.Read();
-                var slashContext = this.Scanner.GetContext();
-                if (!this.Scanner.TryMatch('/'))
+                httpName = this.httpNameLexer.Read(scanner);
+                var slashContext = scanner.GetContext();
+                if (!scanner.TryMatch('/'))
                 {
-                    throw new SyntaxErrorException("Expected '/'", slashContext);
+                    throw new SyntaxErrorException(slashContext, "Expected '/'");
                 }
 
-                digit1 = this.digitLexer.Read();
-                var dotContext = this.Scanner.GetContext();
-                if (!this.Scanner.TryMatch('.'))
+                digit1 = this.digitLexer.Read(scanner);
+                var dotContext = scanner.GetContext();
+                if (!scanner.TryMatch('.'))
                 {
-                    throw new SyntaxErrorException("Expected '.'", slashContext);
+                    throw new SyntaxErrorException(dotContext, "Expected '.'");
                 }
 
-                digit2 = this.digitLexer.Read();
+                digit2 = this.digitLexer.Read(scanner);
             }
             catch (SyntaxErrorException syntaxErrorException)
             {
-                throw new SyntaxErrorException("Expected 'HTTP-version'", syntaxErrorException, context);
+                throw new SyntaxErrorException(context, "Expected 'HTTP-version'", syntaxErrorException);
             }
 
             return new HttpVersionToken(httpName, digit1, digit2, context);
         }
 
-        public override bool TryRead(out HttpVersionToken token)
+        public override bool TryRead(ITextScanner scanner, out HttpVersionToken token)
         {
             HttpNameToken httpName;
             DigitToken digit1;
             DigitToken digit2;
-            var context = this.Scanner.GetContext();
-            if (!this.httpNameLexer.TryRead(out httpName))
+            var context = scanner.GetContext();
+            if (!this.httpNameLexer.TryRead(scanner, out httpName))
             {
                 token = default(HttpVersionToken);
                 return false;
             }
 
-            if (!this.Scanner.TryMatch('/'))
+            if (!scanner.TryMatch('/'))
             {
                 token = default(HttpVersionToken);
                 return false;
             }
 
-            if (!this.digitLexer.TryRead(out digit1))
+            if (!this.digitLexer.TryRead(scanner, out digit1))
             {
                 token = default(HttpVersionToken);
                 return false;
             }
 
-            if (!this.Scanner.TryMatch('.'))
+            if (!scanner.TryMatch('.'))
             {
                 token = default(HttpVersionToken);
                 return false;
             }
 
-            if (!this.digitLexer.TryRead(out digit2))
+            if (!this.digitLexer.TryRead(scanner, out digit2))
             {
                 token = default(HttpVersionToken);
                 return false;

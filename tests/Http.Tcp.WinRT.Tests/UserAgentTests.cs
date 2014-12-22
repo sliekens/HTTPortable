@@ -82,6 +82,7 @@ namespace Http.Tcp.WinRT.Tests
             });
 
             Assert.AreEqual("https://github.com/StevenLiekens/http-client", dataContract.UserAgent);
+            Debug.WriteLine(dataContract.UserAgent);
         }
 
         [TestCleanup]

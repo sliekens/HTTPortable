@@ -1,14 +1,14 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Http.Grammars.Rfc7230;
-using Text.Scanning;
-
-namespace Http
+﻿namespace Http
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Grammars.Rfc7230;
+    using Text.Scanning;
+
     public class PortableUserAgent : IUserAgent
     {
         /// <summary>Indicates whether this object has been disposed.</summary>
@@ -26,29 +26,30 @@ namespace Http
         /// <summary>This method calls <see cref="Dispose(bool)" />, specifying <c>true</c> to release all resources.</summary>
         public void Close()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        public async Task ReceiveAsync(CancellationToken cancellationToken, Func<IResponseMessage, Stream, CancellationToken, Task> readAsync = null)
+        public async Task ReceiveAsync(CancellationToken cancellationToken,
+            Func<IResponseMessage, Stream, CancellationToken, Task> readAsync = null)
         {
-            if (disposed)
+            if (this.disposed)
             {
-                throw new ObjectDisposedException(GetType().FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
 
             var message = new ResponseMessage();
-            using (var reader = new LazyStreamReader(inputStream, Encoding.UTF8, false, 1, true))
+            using (var reader = new LazyStreamReader(this.inputStream, Encoding.UTF8, false, 1, true))
             {
                 var statusLine = await reader.ReadLineAsync();
-                var statusComponents = statusLine.Split(new[] { ' ' }, 3);
-                using (var stringReader = new StringReader(statusComponents[0]))
-                using (var scanner = new TextScanner(stringReader))
+                var statusComponents = statusLine.Split(new[] {' '}, 3);
+                using (TextReader stringReader = new StringReader(statusComponents[0]))
+                using (ITextScanner scanner = new TextScanner(stringReader))
                 {
                     scanner.Read();
-                    var lexer = new HttpVersionLexer(scanner);
-                    var httpVersion = lexer.Read();
-                    var major = int.Parse(httpVersion.Digit1.Data); 
+                    var lexer = new HttpVersionLexer();
+                    var httpVersion = lexer.Read(scanner);
+                    var major = int.Parse(httpVersion.Digit1.Data);
                     var minor = int.Parse(httpVersion.Digit2.Data);
                     message.Version = new Version(major, minor);
                 }
@@ -58,7 +59,7 @@ namespace Http
                 string line;
                 while ((line = await reader.ReadLineAsync()) != string.Empty)
                 {
-                    var rawHeader = line.Split(new[] { ':', ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
+                    var rawHeader = line.Split(new[] {':', ' '}, 2, StringSplitOptions.RemoveEmptyEntries);
                     var name = rawHeader[0];
                     var value = rawHeader[1];
                     var predicate = new Func<IHeader, bool>(h => h.Name.Equals(name, StringComparison.Ordinal));
@@ -81,14 +82,15 @@ namespace Http
             }
         }
 
-        public async Task SendAsync(IRequestMessage message, CancellationToken cancellationToken, Func<Stream, CancellationToken, Task> writeAsync = null)
+        public async Task SendAsync(IRequestMessage message, CancellationToken cancellationToken,
+            Func<Stream, CancellationToken, Task> writeAsync = null)
         {
-            if (disposed)
+            if (this.disposed)
             {
-                throw new ObjectDisposedException(GetType().FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
 
-            using (var writer = new StreamWriter(outputStream, new UTF8Encoding(false), 512, true))
+            using (var writer = new StreamWriter(this.outputStream, new UTF8Encoding(false), 512, true))
             {
                 await WriteRequestLineAsync(writer, message).ConfigureAwait(false);
                 await WriteHeadersAsync(writer, message.Headers).ConfigureAwait(false);
@@ -116,28 +118,28 @@ namespace Http
         /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         void IDisposable.Dispose()
         {
-            Close();
+            this.Close();
         }
 
         /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         /// <param name="disposing">
-        ///     <c>true</c> to clean up both managed and unmanaged resources; otherwise, <c>false</c> to clean
-        ///     up only unmanaged resources.
+        /// <c>true</c> to clean up both managed and unmanaged resources; otherwise, <c>false</c> to clean up only unmanaged
+        /// resources.
         /// </param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposed)
+            if (this.disposed)
             {
                 return;
             }
 
             if (disposing)
             {
-                inputStream.Dispose();
-                outputStream.Dispose();
+                this.inputStream.Dispose();
+                this.outputStream.Dispose();
             }
 
-            disposed = true;
+            this.disposed = true;
         }
 
         private static async Task WriteHeadersAsync(StreamWriter writer, IHeaderCollection headerCollection)
