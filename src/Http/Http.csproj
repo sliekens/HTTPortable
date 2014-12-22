@@ -55,6 +55,7 @@
     <Compile Include="IResponseMessage.cs" />
     <Compile Include="IUserAgent.cs" />
     <Compile Include="LazyStreamReader.cs" />
+    <Compile Include="OnRequestHeadersComplete.cs" />
     <Compile Include="OnResponseHeadersComplete.cs" />
     <Compile Include="PortableUserAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

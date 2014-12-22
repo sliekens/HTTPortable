@@ -82,7 +82,7 @@
         }
 
         public async Task SendAsync(IRequestMessage message, CancellationToken cancellationToken,
-            Func<Stream, CancellationToken, Task> writeAsync = null)
+            OnRequestHeadersComplete callback = null)
         {
             if (this.disposed)
             {
@@ -95,9 +95,9 @@
                 await WriteHeadersAsync(writer, message.Headers).ConfigureAwait(false);
                 await writer.WriteLineAsync().ConfigureAwait(false);
                 await writer.FlushAsync().ConfigureAwait(false);
-                if (writeAsync != null)
+                if (callback != null)
                 {
-                    await writeAsync(writer.BaseStream, cancellationToken).ConfigureAwait(false);
+                    await callback(message, writer.BaseStream, cancellationToken).ConfigureAwait(false);
                 }
             }
 

@@ -9,6 +9,6 @@ namespace Http
     {
         Task ReceiveAsync(CancellationToken cancellationToken, OnResponseHeadersComplete callback = null);
 
-        Task SendAsync(IRequestMessage message, CancellationToken cancellationToken, Func<Stream, CancellationToken, Task> writeAsync = null);
+        Task SendAsync(IRequestMessage message, CancellationToken cancellationToken, OnRequestHeadersComplete callback = null);
     }
 }
