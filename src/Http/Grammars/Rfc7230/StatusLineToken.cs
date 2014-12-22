@@ -31,6 +31,54 @@
             this.crLf = crLf;
         }
 
+        public CrLfToken CrLf
+        {
+            get
+            {
+                return this.crLf;
+            }
+        }
+
+        public HttpVersionToken HttpVersion
+        {
+            get
+            {
+                return this.httpVersion;
+            }
+        }
+
+        public ReasonPhraseToken ReasonPhrase
+        {
+            get
+            {
+                return this.reasonPhrase;
+            }
+        }
+
+        public SpToken Sp1
+        {
+            get
+            {
+                return this.sp1;
+            }
+        }
+
+        public SpToken Sp2
+        {
+            get
+            {
+                return this.sp2;
+            }
+        }
+
+        public StatusCodeToken StatusCode
+        {
+            get
+            {
+                return this.statusCode;
+            }
+        }
+
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
