@@ -113,6 +113,7 @@
     <SDKReference Include="TestPlatform, Version=11.0" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Grammars\Rfc7230\StatusCodeLexerTests.cs" />
     <Compile Include="UserAgentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -121,6 +122,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="Http.Tcp.WinRT.Tests_TemporaryKey.pfx" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\UnitTestLogo.scale-100.png">
@@ -145,6 +147,12 @@
       <Project>{d920b511-e7a9-487f-bde3-4f4599c65ac7}</Project>
       <Name>Http</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Text.Scanning, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\src\packages\Text.Scanning.0.1.0-alpha\lib\portable-net45+win+wpa\Text.Scanning.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
