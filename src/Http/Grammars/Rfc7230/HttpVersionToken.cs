@@ -18,7 +18,7 @@ namespace Http.Grammars.Rfc7230
             this.digit2 = digit2;
         }
 
-        public Token HttpName
+        public HttpNameToken HttpName
         {
             get
             {
