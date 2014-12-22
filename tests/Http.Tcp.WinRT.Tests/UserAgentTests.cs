@@ -15,6 +15,8 @@ using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
 namespace Http.Tcp.WinRT.Tests
 {
+    using System.Globalization;
+
     [TestClass]
     public class WithHttpBin
     {
@@ -83,6 +85,87 @@ namespace Http.Tcp.WinRT.Tests
 
             Assert.AreEqual("https://github.com/StevenLiekens/http-client", dataContract.UserAgent);
             Debug.WriteLine(dataContract.UserAgent);
+        }
+
+        [DataContract]
+        class EchoDataContract
+        {
+            [DataMember]
+            public Args args { get; set; }
+            [DataMember]
+            public string data { get; set; }
+            [DataMember]
+            public Files files { get; set; }
+            [DataMember]
+            public Form form { get; set; }
+            [DataMember]
+            public Headers headers { get; set; }
+            [DataMember]
+            public object json { get; set; }
+            [DataMember]
+            public string origin { get; set; }
+            [DataMember]
+            public string url { get; set; }
+        }
+
+        [DataContract]
+        public class Args
+        {
+        }
+
+        [DataContract]
+        public class Files
+        {
+        }
+
+        [DataContract]
+        public class Form
+        {
+        }
+
+        [DataContract]
+        public class Headers
+        {
+            [DataMember]
+            public string ConnectTime { get; set; }
+            [DataMember]
+            public string Connection { get; set; }
+            [DataMember]
+            public string ContentLength { get; set; }
+            [DataMember]
+            public string Host { get; set; }
+            [DataMember]
+            public string TotalRouteTime { get; set; }
+            [DataMember]
+            public string UserAgent { get; set; }
+            [DataMember]
+            public string Via { get; set; }
+            [DataMember]
+            public string XRequestId { get; set; }
+        }
+
+
+        [TestMethod]
+        public async Task EchoPostData()
+        {
+            EchoDataContract dataContract = null;
+            var content = "Echo";
+            var request = new RequestMessage("POST", "http://httpbin.org/post", Version.Parse("1.1"));
+            request.Headers.Add(new Header("Host") { "httpbin.org" });
+            request.Headers.Add(new Header("User-Agent") { "https://github.com/StevenLiekens/http-client" });
+            request.Headers.Add(new Header("Content-Length") { content.Length.ToString(NumberFormatInfo.InvariantInfo) });
+            await this.userAgent.SendAsync(request, CancellationToken.None, (message, stream, token) =>
+            {
+                var bytes = Encoding.UTF8.GetBytes(content);
+                return stream.WriteAsync(bytes, 0, bytes.Length, token);
+            });
+
+            await this.userAgent.ReceiveAsync(CancellationToken.None, async (message, stream, cancellationToken) =>
+            {
+                dataContract = (EchoDataContract)new DataContractJsonSerializer(typeof(EchoDataContract)).ReadObject(stream);
+            });
+
+            Assert.AreEqual(content, dataContract.data);
         }
 
         [TestCleanup]
