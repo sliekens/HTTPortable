@@ -71,11 +71,18 @@
                     header.Add(value);
                 }
 
-                if (callback != null)
+                using (var messageBodyStream = new MessageBodyStream(message, reader.BaseStream))
                 {
-                    using (var messageBodyStream = new MessageBodyStream(message, reader.BaseStream))
+                    // Invoke the callback (if specified) that will optionally consume the message body
+                    if (callback != null)
                     {
                         await callback(message, messageBodyStream, cancellationToken);
+                    }
+
+                    // Swallow remaining bytes (if any)
+                    if (messageBodyStream.Position < messageBodyStream.Length)
+                    {
+                        await messageBodyStream.CopyToAsync(Stream.Null);
                     }
                 }
             }
