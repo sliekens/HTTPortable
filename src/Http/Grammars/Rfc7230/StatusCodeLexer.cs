@@ -33,6 +33,12 @@
 
         public override bool TryRead(ITextScanner scanner, out StatusCodeToken token)
         {
+            if (scanner.EndOfInput)
+            {
+                token = default(StatusCodeToken);
+                return false;
+            }
+
             DigitToken digit1, digit2, digit3;
             var context = scanner.GetContext();
             if (!this.digitLexer.TryRead(scanner, out digit1))
