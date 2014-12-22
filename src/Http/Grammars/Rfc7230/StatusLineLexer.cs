@@ -12,6 +12,11 @@
         private readonly ILexer<SpToken> spLexer;
         private readonly ILexer<StatusCodeToken> statusCodeLexer;
 
+        public StatusLineLexer()
+            : this(new HttpVersionLexer(), new SpLexer(), new StatusCodeLexer(), new ReasonPhraseLexer(), new CrLfLexer())
+        {
+        }
+
         public StatusLineLexer(ILexer<HttpVersionToken> httpVersionLexer, ILexer<SpToken> spLexer,
             ILexer<StatusCodeToken> statusCodeLexer, ILexer<ReasonPhraseToken> reasonPhraseLexer,
             ILexer<CrLfToken> crLfLexer)
