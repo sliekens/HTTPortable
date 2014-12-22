@@ -42,6 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CircularBufferStream.cs" />
+    <Compile Include="Grammars\Rfc7230\ObsTextLexer.cs" />
+    <Compile Include="Grammars\Rfc7230\ObsTextToken.cs" />
+    <Compile Include="Grammars\Rfc7230\ReasonPhraseLexer.cs" />
+    <Compile Include="Grammars\Rfc7230\ReasonPhraseToken.cs" />
     <Compile Include="Grammars\Rfc7230\StatusCodeLexer.cs" />
     <Compile Include="Grammars\Rfc7230\StatusCodeToken.cs" />
     <Compile Include="HeaderCollectionExtensions.cs" />
