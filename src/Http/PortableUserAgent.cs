@@ -97,7 +97,10 @@
                 await writer.FlushAsync().ConfigureAwait(false);
                 if (callback != null)
                 {
-                    await callback(message, writer.BaseStream, cancellationToken).ConfigureAwait(false);
+                    using (var messageBodyStream = new MessageBodyStream(message, writer.BaseStream))
+                    {
+                        await callback(message, messageBodyStream, cancellationToken).ConfigureAwait(false);
+                    }
                 }
             }
 
