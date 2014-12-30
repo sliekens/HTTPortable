@@ -39,7 +39,7 @@
             }
 
             var message = new ResponseMessage();
-            using (var reader = new LazyStreamReader(this.inputStream, Encoding.UTF8, false, 1, true))
+            using (var reader = new SimpleStreamReader(this.inputStream))
             {
                 using (ITextScanner scanner = new TextScanner(reader))
                 {
@@ -67,7 +67,7 @@
                     header.Add(value);
                 }
 
-                using (var messageBodyStream = new MessageBodyStream(message, reader.BaseStream))
+                using (var messageBodyStream = new MessageBodyStream(message, this.inputStream))
                 {
                     // Invoke the callback (if specified) that will optionally consume the message body
                     if (callback != null)

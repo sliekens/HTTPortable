@@ -62,7 +62,7 @@
     <Compile Include="IRequestMessage.cs" />
     <Compile Include="IResponseMessage.cs" />
     <Compile Include="IUserAgent.cs" />
-    <Compile Include="LazyStreamReader.cs" />
+    <Compile Include="SimpleStreamReader.cs" />
     <Compile Include="OnRequestHeadersComplete.cs" />
     <Compile Include="OnResponseHeadersComplete.cs" />
     <Compile Include="PortableUserAgent.cs" />
