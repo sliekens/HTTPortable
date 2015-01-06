@@ -49,22 +49,22 @@
                     message.Version = statusLine.HttpVersion.ToVersion();
                     message.Status = int.Parse(statusLine.StatusCode.Data);
                     message.Reason = statusLine.ReasonPhrase.Data;
-                }
 
-                string line;
-                while ((line = await reader.ReadLineAsync()) != string.Empty)
-                {
-                    var rawHeader = line.Split(new[] { ':', ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
-                    var name = rawHeader[0];
-                    var value = rawHeader[1];
-                    var predicate = new Func<IHeader, bool>(h => h.Name.Equals(name, StringComparison.Ordinal));
-                    var header = message.Headers.SingleOrDefault(predicate);
-                    if (header == null)
+                    string line;
+                    while ((line = await reader.ReadLineAsync()) != string.Empty)
                     {
-                        message.Headers.Add(header = new Header(name));
-                    }
+                        var rawHeader = line.Split(new[] { ':', ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
+                        var name = rawHeader[0];
+                        var value = rawHeader[1];
+                        var predicate = new Func<IHeader, bool>(h => h.Name.Equals(name, StringComparison.Ordinal));
+                        var header = message.Headers.SingleOrDefault(predicate);
+                        if (header == null)
+                        {
+                            message.Headers.Add(header = new Header(name));
+                        }
 
-                    header.Add(value);
+                        header.Add(value);
+                    }
                 }
 
                 using (var messageBodyStream = new MessageBodyStream(message, this.inputStream))
