@@ -18,6 +18,11 @@
         private readonly Stream inputStream;
         private readonly Stream outputStream;
 
+        public PortableUserAgent(Stream stream)
+            : this(stream, stream)
+        {
+        }
+
         public PortableUserAgent(Stream inputStream, Stream outputStream)
         {
             this.inputStream = inputStream;
