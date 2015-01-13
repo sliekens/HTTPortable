@@ -53,6 +53,7 @@
     <Compile Include="Grammars\Rfc7230\StatusLineLexer.cs" />
     <Compile Include="Grammars\Rfc7230\StatusLineToken.cs" />
     <Compile Include="HeaderCollectionExtensions.cs" />
+    <Compile Include="IUserAgentFactory.cs" />
     <Compile Include="MessageBodyStream.cs" />
     <Compile Include="Header.cs" />
     <Compile Include="HeaderCollection.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="IRequestMessage.cs" />
     <Compile Include="IResponseMessage.cs" />
     <Compile Include="IUserAgent.cs" />
+    <Compile Include="ProxyUserAgentFactory.cs" />
     <Compile Include="SimpleStreamReader.cs" />
     <Compile Include="OnRequestHeadersComplete.cs" />
     <Compile Include="OnResponseHeadersComplete.cs" />
