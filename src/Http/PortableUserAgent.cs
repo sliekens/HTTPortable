@@ -72,7 +72,13 @@
                     }
                 }
 
-                using (var messageBodyStream = new MessageBodyStream(message, this.inputStream))
+                long contentLength;
+                if (!message.Headers.TryGetContentLength(out contentLength))
+                {
+                    contentLength = 0;
+                }
+
+                using (var messageBodyStream = new MessageBodyStream(this.inputStream, contentLength))
                 {
                     // Invoke the callback (if specified) that will optionally consume the message body
                     if (callback != null)
@@ -105,7 +111,13 @@
                 await writer.FlushAsync().ConfigureAwait(false);
                 if (callback != null)
                 {
-                    using (var messageBodyStream = new MessageBodyStream(message, writer.BaseStream))
+                    long contentLength;
+                    if (!message.Headers.TryGetContentLength(out contentLength))
+                    {
+                        contentLength = 0;
+                    }
+
+                    using (var messageBodyStream = new MessageBodyStream(writer.BaseStream, contentLength))
                     {
                         await callback(message, messageBodyStream, cancellationToken).ConfigureAwait(false);
                     }
