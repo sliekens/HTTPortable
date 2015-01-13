@@ -149,14 +149,27 @@
 
         private static async Task WriteHeadersAsync(StreamWriter writer, IHeaderCollection headerCollection)
         {
-            var headerHasValue = new Func<IHeader, bool>(header => !header.Optional || header.Any());
-            foreach (var header in headerCollection.Where(headerHasValue).OrderBy(h => h.Name, StringComparer.Ordinal))
+            foreach (var header in headerCollection.Where(ShouldSendHeader).OrderBy(h => h.Name, StringComparer.Ordinal))
             {
                 await writer.WriteAsync(header.Name).ConfigureAwait(false);
                 await writer.WriteAsync(": ").ConfigureAwait(false);
                 await writer.WriteAsync(header.First()).ConfigureAwait(false);
                 await writer.WriteLineAsync().ConfigureAwait(false);
             }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the given header should be included in a request.
+        /// By default, headers should be included if they have one or more values.
+        /// Additionally, an implementation of the <see cref="IHeader"/> interface is allowed to override
+        /// the <see cref="IHeader.Optional"/> property in a way that indicates that the header must be included in a request,
+        /// even if it has no values.
+        /// </summary>
+        /// <param name="header">The header to evaluate.</param>
+        /// <returns><c>true</c> if the header should be included in a request; otherwise, <c>false</c>.</returns>
+        private static bool ShouldSendHeader(IHeader header)
+        {
+            return !header.Optional || header.Any();
         }
 
         private static async Task WriteRequestLineAsync(StreamWriter writer, IRequestMessage message)
