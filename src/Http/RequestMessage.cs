@@ -12,12 +12,14 @@ namespace Http
     {
         private readonly IHeaderCollection headers;
         private readonly string method;
+        private readonly string requestUri;
 
         public RequestMessage(string method, string requestUri, Version httpVersion)
         {
             Contract.Requires(!string.IsNullOrWhiteSpace(method));
+            Contract.Requires(!string.IsNullOrWhiteSpace(requestUri));
             this.method = method;
-            this.RequestUri = requestUri;
+            this.requestUri = requestUri;
             this.HttpVersion = httpVersion;
             this.headers = new HeaderCollection();
         }
@@ -38,7 +40,13 @@ namespace Http
             }
         }
 
-        public string RequestUri { get; set; }
+        public string RequestUri
+        {
+            get
+            {
+                return this.requestUri;
+            }
+        }
 
         public Version HttpVersion { get; set; }
 
@@ -46,6 +54,7 @@ namespace Http
         private void ObjectInvariant()
         {
             Contract.Invariant(!string.IsNullOrWhiteSpace(this.method));
+            Contract.Invariant(!string.IsNullOrWhiteSpace(this.requestUri));
             Contract.Invariant(this.headers != null);
         }
 

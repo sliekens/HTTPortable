@@ -6,7 +6,7 @@ namespace Http
     {
         string Method { get; }
 
-        string RequestUri { get; set; }
+        string RequestUri { get; }
 
         Version HttpVersion { get; set; }
     }
