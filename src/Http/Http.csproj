@@ -52,7 +52,7 @@
     <Compile Include="Grammars\Rfc7230\StatusCodeToken.cs" />
     <Compile Include="Grammars\Rfc7230\StatusLineLexer.cs" />
     <Compile Include="Grammars\Rfc7230\StatusLineToken.cs" />
-    <Compile Include="HeaderCollectionExtensions.cs" />
+    <Compile Include="ExtensionsForIHeaderCollection.cs" />
     <Compile Include="IUserAgentFactory.cs" />
     <Compile Include="MessageBodyStream.cs" />
     <Compile Include="Header.cs" />

@@ -3,7 +3,8 @@ using System.Linq;
 
 namespace Http
 {
-    public static class HeaderCollectionExtensions
+    /// <summary>Provides extension methods for the <see cref="T:Http.IHeaderCollection" /> interface.</summary>
+    public static class ExtensionsForIHeaderCollection
     {
         public static bool TryGetContentLength(this IHeaderCollection instance, out long result)
         {
