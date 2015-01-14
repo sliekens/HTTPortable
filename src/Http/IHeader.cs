@@ -6,6 +6,6 @@ namespace Http
     {
         string Name { get; set; }
 
-        bool Optional { get; set; }
+        bool Optional { get; }
     }
 }

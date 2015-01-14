@@ -7,25 +7,28 @@ namespace Http
     [DebuggerTypeProxy(typeof(HeaderDebugView))]
     public class Header : List<string>, IHeader
     {
-        private bool optional = true;
+        private readonly bool optional;
 
         public Header(string name)
+            : this(name, optional: true)
+        {
+        }
+
+        public Header(string name, bool optional)
             : base(1)
         {
             this.Name = name;
+            this.optional = optional;
         }
 
         public string Name { get; set; }
 
+        /// <inheritdoc />
         public bool Optional
         {
             get
             {
                 return this.optional;
-            }
-            set
-            {
-                this.optional = value;
             }
         }
 
