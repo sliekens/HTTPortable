@@ -1,6 +1,4 @@
 using System;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace Http
 {
@@ -8,7 +6,6 @@ namespace Http
 
     public class ResponseMessage : IResponseMessage
     {
-        private readonly Task<Stream> getResponseStreamDelegate;
         private readonly IHeaderCollection headers;
 
         public ResponseMessage()
