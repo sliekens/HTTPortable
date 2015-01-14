@@ -3,25 +3,37 @@ using System.Diagnostics;
 
 namespace Http
 {
+    using System.Diagnostics.Contracts;
+
     [DebuggerDisplay("Count = {Count}", Name = "{Name}")]
     [DebuggerTypeProxy(typeof(HeaderDebugView))]
     public class Header : List<string>, IHeader
     {
         private readonly bool optional;
+        private readonly string name;
 
         public Header(string name)
             : this(name, optional: true)
         {
+            Contract.Requires(!string.IsNullOrEmpty(name));
         }
 
         public Header(string name, bool optional)
             : base(1)
         {
-            this.Name = name;
+            Contract.Requires(!string.IsNullOrEmpty(name));
+            this.name = name;
             this.optional = optional;
         }
 
-        public string Name { get; set; }
+        /// <inheritdoc />
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+        }
 
         /// <inheritdoc />
         public bool Optional
@@ -31,6 +43,13 @@ namespace Http
                 return this.optional;
             }
         }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(!string.IsNullOrEmpty(this.name));
+        }
+
 
         [DebuggerDisplay("{Values}")]
         private class HeaderDebugView
