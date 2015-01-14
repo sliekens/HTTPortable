@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Net.Http;
 
 namespace Http
 {
     public interface IRequestMessage : IMessage
     {
-        string Method { get; set; }
+        string Method { get; }
 
         string RequestUri { get; set; }
 
