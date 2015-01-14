@@ -1,7 +1,6 @@
-using System;
-
 namespace Http
 {
+    using System;
     using System.Diagnostics.Contracts;
 
     public class ResponseMessage : IResponseMessage
@@ -9,8 +8,14 @@ namespace Http
         private readonly IHeaderCollection headers;
 
         public ResponseMessage()
+            : this(new HeaderCollection())
         {
-            this.headers = new HeaderCollection();
+        }
+
+        public ResponseMessage(IHeaderCollection headers)
+        {
+            Contract.Requires(headers != null);
+            this.headers = headers;
         }
 
         public IHeaderCollection Headers
@@ -21,11 +26,9 @@ namespace Http
             }
         }
 
-        public Version Version { get; set; }
-
-        public int Status { get; set; }
-
         public string Reason { get; set; }
+        public int Status { get; set; }
+        public Version Version { get; set; }
 
         [ContractInvariantMethod]
         private void ObjectInvariant()
