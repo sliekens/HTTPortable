@@ -16,14 +16,23 @@ namespace Http
         private readonly Version httpVersion;
 
         public RequestMessage(string method, string requestUri, Version httpVersion)
+            : this(method, requestUri, httpVersion, new HeaderCollection())
         {
             Contract.Requires(!string.IsNullOrWhiteSpace(method));
             Contract.Requires(!string.IsNullOrWhiteSpace(requestUri));
             Contract.Requires(httpVersion != null);
+        }
+
+        public RequestMessage(string method, string requestUri, Version httpVersion, IHeaderCollection headers)
+        {
+            Contract.Requires(!string.IsNullOrWhiteSpace(method));
+            Contract.Requires(!string.IsNullOrWhiteSpace(requestUri));
+            Contract.Requires(httpVersion != null);
+            Contract.Requires(headers != null);
             this.method = method;
             this.requestUri = requestUri;
             this.httpVersion = httpVersion;
-            this.headers = new HeaderCollection();
+            this.headers = headers;
         }
 
         public IHeaderCollection Headers
