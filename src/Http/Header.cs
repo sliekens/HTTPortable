@@ -9,21 +9,21 @@ namespace Http
     [DebuggerTypeProxy(typeof(HeaderDebugView))]
     public class Header : List<string>, IHeader
     {
-        private readonly bool optional;
+        private readonly bool required;
         private readonly string name;
 
         public Header(string name)
-            : this(name, optional: true)
+            : this(name, required: false)
         {
             Contract.Requires(!string.IsNullOrEmpty(name));
         }
 
-        public Header(string name, bool optional)
+        public Header(string name, bool required)
             : base(1)
         {
             Contract.Requires(!string.IsNullOrEmpty(name));
             this.name = name;
-            this.optional = optional;
+            this.required = required;
         }
 
         /// <inheritdoc />
@@ -36,11 +36,11 @@ namespace Http
         }
 
         /// <inheritdoc />
-        public bool Optional
+        public bool Required
         {
             get
             {
-                return this.optional;
+                return this.required;
             }
         }
 

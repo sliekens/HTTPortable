@@ -9,10 +9,10 @@
         string Name { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the header is optional. An optional header is a header that may be ommitted if
-        /// there are no values associated with that header. A required header will always be included in the message, even if it
-        /// has no value associated with it.
+        /// Gets a value indicating whether the header is required. A required header will always be included in the
+        /// message, even if it has no value associated with it. An optional header is a header that may be ommitted if there are
+        /// no values associated with that header.
         /// </summary>
-        bool Optional { get; }
+        bool Required { get; }
     }
 }
