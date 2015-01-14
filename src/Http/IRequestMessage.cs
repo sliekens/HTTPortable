@@ -8,6 +8,6 @@ namespace Http
 
         string RequestUri { get; }
 
-        Version HttpVersion { get; set; }
+        Version HttpVersion { get; }
     }
 }
