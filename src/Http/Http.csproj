@@ -54,6 +54,7 @@
     <Compile Include="Grammars\Rfc7230\StatusLineLexer.cs" />
     <Compile Include="Grammars\Rfc7230\StatusLineToken.cs" />
     <Compile Include="ExtensionsForIHeaderCollection.cs" />
+    <Compile Include="Headers\ContentLengthHeader.cs" />
     <Compile Include="IUserAgentFactory.cs" />
     <Compile Include="MessageBodyStream.cs" />
     <Compile Include="Header.cs" />
@@ -84,6 +85,7 @@
       <HintPath>..\packages\Text.Scanning.0.1.0-alpha\lib\portable-net45+win+wpa\Text.Scanning.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
