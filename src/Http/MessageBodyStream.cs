@@ -67,21 +67,32 @@ namespace Http
                 throw new NotSupportedException("Precondition: Stream.CanRead");
             }
 
+            // Optimization: return early if the caller wants 0 bytes
+            if (count == 0)
+            {
+                return 0;
+            }
+
+
             lock (this.messageBody)
             {
-                var position = this.Position;
-                var length = this.Length;
-                var available = length - position;
-                int bytesRead;
+                var unread = this.contentLength - this.position;
+
+                // Optimization: return early if there are no unread bytes
+                if (unread == 0)
+                {
+                    return 0;
+                }
 
                 // Ensure no reading past the end of the message body
                 // This step is vital: HTTP pipelining permits multiple messages on the same stream
-                if (count > available)
+                if (count > unread)
                 {
-                    count = (int)available;
+                    count = (int)unread;
                 }
 
-                // Delegate read operation to the inner stream
+                // Delegate the read operation to the inner stream
+                int bytesRead;
                 try
                 {
                     bytesRead = this.messageBody.Read(buffer, offset, count);
