@@ -6,15 +6,19 @@ namespace Http
     public class ResponseMessage : IResponseMessage
     {
         private readonly IHeaderCollection headers;
+        private readonly Version httpVersion;
 
-        public ResponseMessage()
-            : this(new HeaderCollection())
+        public ResponseMessage(Version httpVersion)
+            : this(httpVersion, new HeaderCollection())
         {
+            Contract.Requires(httpVersion != null);
         }
 
-        public ResponseMessage(IHeaderCollection headers)
+        public ResponseMessage(Version httpVersion, IHeaderCollection headers)
         {
+            Contract.Requires(httpVersion != null);
             Contract.Requires(headers != null);
+            this.httpVersion = httpVersion;
             this.headers = headers;
         }
 
@@ -28,11 +32,20 @@ namespace Http
 
         public string Reason { get; set; }
         public int Status { get; set; }
-        public Version HttpVersion { get; set; }
+
+        /// <inheritdoc />
+        public Version HttpVersion
+        {
+            get
+            {
+                return this.httpVersion;
+            }
+        }
 
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
+            Contract.Invariant(this.httpVersion != null);
             Contract.Invariant(this.headers != null);
         }
     }
