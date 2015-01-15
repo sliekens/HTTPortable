@@ -43,7 +43,7 @@
                 throw new ObjectDisposedException(this.GetType().FullName);
             }
 
-            var message = new ResponseMessage();
+            ResponseMessage message;
             using (var reader = new SimpleStreamReader(this.inputStream))
             {
                 using (ITextScanner scanner = new TextScanner(reader))
@@ -51,10 +51,11 @@
                     scanner.Read();
                     var lexer = new StatusLineLexer();
                     var statusLine = lexer.Read(scanner);
-                    message.HttpVersion = statusLine.HttpVersion.ToVersion();
-                    message.Status = int.Parse(statusLine.StatusCode.Data);
-                    message.Reason = statusLine.ReasonPhrase.Data;
-
+                    var httpVersion = statusLine.HttpVersion.ToVersion();
+                    var status = int.Parse(statusLine.StatusCode.Data);
+                    var reason = statusLine.ReasonPhrase.Data;
+                    message = new ResponseMessage(httpVersion, status);
+                    message.Reason = reason;
                     string line;
                     while ((line = await reader.ReadLineAsync()) != string.Empty)
                     {

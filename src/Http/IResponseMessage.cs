@@ -3,7 +3,7 @@
     /// <summary>Provides the interface for response messages.</summary>
     public interface IResponseMessage : IMessage
     {
-        int Status { get; set; }
+        int Status { get; }
 
         string Reason { get; set; }
     }
