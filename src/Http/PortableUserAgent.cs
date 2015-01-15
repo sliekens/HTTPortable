@@ -54,8 +54,7 @@
                     var httpVersion = statusLine.HttpVersion.ToVersion();
                     var status = int.Parse(statusLine.StatusCode.Data);
                     var reason = statusLine.ReasonPhrase.Data;
-                    message = new ResponseMessage(httpVersion, status);
-                    message.Reason = reason;
+                    message = new ResponseMessage(httpVersion, status, reason);
                     string line;
                     while ((line = await reader.ReadLineAsync()) != string.Empty)
                     {

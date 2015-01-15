@@ -8,21 +8,25 @@ namespace Http
         private readonly IHeaderCollection headers;
         private readonly Version httpVersion;
         private readonly int status;
+        private readonly string reason;
 
-        public ResponseMessage(Version httpVersion, int status)
-            : this(httpVersion, status, new HeaderCollection())
+        public ResponseMessage(Version httpVersion, int status, string reason)
+            : this(httpVersion, status, new HeaderCollection(), reason)
         {
             Contract.Requires(httpVersion != null);
             Contract.Requires(status >= 100 && status <= 999);
+            Contract.Requires(!string.IsNullOrWhiteSpace(reason));
         }
 
-        public ResponseMessage(Version httpVersion, int status, IHeaderCollection headers)
+        public ResponseMessage(Version httpVersion, int status, IHeaderCollection headers, string reason)
         {
             Contract.Requires(httpVersion != null);
             Contract.Requires(headers != null);
             Contract.Requires(status >= 100 && status <= 999);
+            Contract.Requires(!string.IsNullOrWhiteSpace(reason));
             this.httpVersion = httpVersion;
             this.headers = headers;
+            this.reason = reason;
             this.status = status;
         }
 
@@ -34,7 +38,14 @@ namespace Http
             }
         }
 
-        public string Reason { get; set; }
+        /// <inheritdoc />
+        public string Reason
+        {
+            get
+            {
+                return this.reason;
+            }
+        }
 
         /// <inheritdoc />
         public int Status
@@ -60,6 +71,7 @@ namespace Http
             Contract.Invariant(this.httpVersion != null);
             Contract.Invariant(this.headers != null);
             Contract.Invariant(this.status >= 100 && this.status <= 999);
+            Contract.Invariant(!string.IsNullOrWhiteSpace(this.reason));
         }
     }
 }

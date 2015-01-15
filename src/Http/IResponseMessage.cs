@@ -5,6 +5,6 @@
     {
         int Status { get; }
 
-        string Reason { get; set; }
+        string Reason { get; }
     }
 }
