@@ -28,7 +28,7 @@ namespace Http
 
         public string Reason { get; set; }
         public int Status { get; set; }
-        public Version Version { get; set; }
+        public Version HttpVersion { get; set; }
 
         [ContractInvariantMethod]
         private void ObjectInvariant()

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Net;
 
 namespace Http
 {
+    /// <summary>Provides the interface for response messages.</summary>
     public interface IResponseMessage : IMessage
     {
-        Version Version { get; set; }
+        Version HttpVersion { get; set; }
 
         int Status { get; set; }
 

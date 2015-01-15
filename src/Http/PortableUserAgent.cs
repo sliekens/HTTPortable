@@ -51,7 +51,7 @@
                     scanner.Read();
                     var lexer = new StatusLineLexer();
                     var statusLine = lexer.Read(scanner);
-                    message.Version = statusLine.HttpVersion.ToVersion();
+                    message.HttpVersion = statusLine.HttpVersion.ToVersion();
                     message.Status = int.Parse(statusLine.StatusCode.Data);
                     message.Reason = statusLine.ReasonPhrase.Data;
 
