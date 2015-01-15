@@ -1,5 +1,6 @@
 ﻿namespace Http
 {
+    using System;
     using System.Diagnostics.Contracts;
 
     [ContractClassFor(typeof(IMessage))]
@@ -11,6 +12,15 @@
             {
                 Contract.Ensures(Contract.Result<IHeaderCollection>() != null);
                 throw new System.NotImplementedException();
+            }
+        }
+
+        public Version HttpVersion
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<Version>() != null);
+                throw new NotImplementedException();
             }
         }
     }
