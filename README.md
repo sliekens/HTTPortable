@@ -5,7 +5,15 @@ This library is intended for users with advanced knowledge of HTTP as well as co
 
 # Background and Goals
 
-HTTP is typically spoken over TCP, but it is fundamentally transport agnostic. Most (if not all) HTTP client libraries, including the .NET framework's `System.Net.WebRequest` API, are hard-coded to use TCP/IP sockets.
+HTTP is typically spoken over TCP, but it is fundamentally transport agnostic.
+
+Taken from RFC 7230:
+> HTTP messaging is independent of the underlying transport- or
+> session-layer connection protocol(s).  HTTP only presumes a reliable
+> transport with in-order delivery of requests and the corresponding
+> in-order delivery of responses.
+
+Unfortunately, most HTTP libraries are hard-coded to use TCP/IP sockets. That includes the .NET framework's `System.Net.WebRequest` API and also the ASP.NET framework in its entirey.
 
 The key goal for this project is to allow any `System.IO.Stream` to be used as the transport channel. This opens up tons of new possibilities. For example: HTTP over Bluetooth.
 
@@ -76,7 +84,7 @@ class Program
         await sslStream.AuthenticateAsClientAsync("codeload.github.com");
 
         // Create a new user agent object for the given inbound and outbound streams (in/out are the same in this case)
-        var userAgent = new UserAgent(sslStream, sslStream);
+        var userAgent = new UserAgent(sslStream);
 
         // Asynchronously send the request
         await userAgent.SendAsync(request, CancellationToken.None);
