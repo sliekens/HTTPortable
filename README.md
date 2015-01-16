@@ -13,7 +13,7 @@ Taken from RFC 7230:
 > transport with in-order delivery of requests and the corresponding
 > in-order delivery of responses.
 
-Unfortunately, most HTTP libraries are hard-coded to use TCP/IP sockets. That includes the .NET framework's `System.Net.WebRequest` API and also the ASP.NET framework in its entirey.
+Unfortunately, most HTTP libraries are hard-coded to use TCP/IP sockets. That includes the .NET framework's `System.Net.WebRequest` API and also the ASP.NET framework in its entirety.
 
 The key goal for this project is to allow any `System.IO.Stream` to be used as the transport channel. This opens up tons of new possibilities. For example: HTTP over Bluetooth.
 
