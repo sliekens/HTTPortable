@@ -114,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Grammars\Rfc7230\StatusCodeLexerTests.cs" />
+    <Compile Include="Grammars\Rfc7230\tcharLexerTests.cs" />
     <Compile Include="UserAgentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

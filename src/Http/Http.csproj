@@ -54,6 +54,8 @@
     <Compile Include="Grammars\Rfc7230\StatusLineLexer.cs" />
     <Compile Include="Grammars\Rfc7230\StatusLineToken.cs" />
     <Compile Include="ExtensionsForIHeaderCollection.cs" />
+    <Compile Include="Grammars\Rfc7230\tchar.cs" />
+    <Compile Include="Grammars\Rfc7230\tcharLexer.cs" />
     <Compile Include="Headers\ContentLengthHeader.cs" />
     <Compile Include="IUserAgentFactory.cs" />
     <Compile Include="MessageBodyStream.cs" />
