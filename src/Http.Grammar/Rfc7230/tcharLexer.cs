@@ -35,6 +35,12 @@ namespace Http.Grammar.Rfc7230
 
         public override bool TryRead(ITextScanner scanner, out tchar token)
         {
+            if (scanner.EndOfInput)
+            {
+                token = default (tchar);
+                return false;
+            }
+
             var context = scanner.GetContext();
             foreach (var c in new[] { '!', '#', '$', '%', '&', '\'', '*', '+', '-', '.', '^', '_', '`', '|', '~' })
             {
