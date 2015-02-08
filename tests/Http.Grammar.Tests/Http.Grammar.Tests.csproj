@@ -56,6 +56,7 @@
     <Compile Include="Rfc7230\StatusCodeLexerTests.cs" />
     <Compile Include="Rfc7230\tcharLexerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rfc7230\TokenLexerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Http.Grammar\Http.Grammar.csproj">
