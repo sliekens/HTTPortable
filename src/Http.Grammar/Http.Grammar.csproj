@@ -35,6 +35,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rfc7230\FieldNameLexer.cs" />
+    <Compile Include="Rfc7230\FieldNameToken.cs" />
     <Compile Include="Rfc7230\FieldVCharLexer.cs" />
     <Compile Include="Rfc7230\FieldVCharToken.cs" />
     <Compile Include="Rfc7230\HttpNameLexer.cs" />
