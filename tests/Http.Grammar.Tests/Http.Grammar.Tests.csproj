@@ -54,6 +54,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Rfc7230\FieldContentLexerTests.cs" />
+    <Compile Include="Rfc7230\FieldValueLexerTests.cs" />
     <Compile Include="Rfc7230\ObsFoldLexerTests.cs" />
     <Compile Include="Rfc7230\OWSLexerTests.cs" />
     <Compile Include="Rfc7230\RWSLexerTests.cs" />

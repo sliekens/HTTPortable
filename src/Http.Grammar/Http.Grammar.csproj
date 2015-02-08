@@ -39,6 +39,8 @@
     <Compile Include="Rfc7230\FieldContentToken.cs" />
     <Compile Include="Rfc7230\FieldNameLexer.cs" />
     <Compile Include="Rfc7230\FieldNameToken.cs" />
+    <Compile Include="Rfc7230\FieldValueLexer.cs" />
+    <Compile Include="Rfc7230\FieldValueToken.cs" />
     <Compile Include="Rfc7230\FieldVCharLexer.cs" />
     <Compile Include="Rfc7230\FieldVCharToken.cs" />
     <Compile Include="Rfc7230\HttpNameLexer.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="Rfc7230\TCharToken.cs" />
     <Compile Include="Rfc7230\TCharLexer.cs" />
     <Compile Include="Rfc7230\TokenLexer.cs" />
+    <Compile Include="Rfc7230\TokenMutex.cs" />
     <Compile Include="Rfc7230\TokenToken.cs" />
     <Compile Include="Rfc7230\WspMutex.cs" />
   </ItemGroup>
