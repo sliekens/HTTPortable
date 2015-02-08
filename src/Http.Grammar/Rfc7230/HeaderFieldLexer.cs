@@ -9,6 +9,11 @@ namespace Http.Grammar.Rfc7230
         private readonly ILexer<OWSToken> owsLexer;
         private readonly ILexer<FieldValueToken> fieldValueLexer;
 
+        public HeaderFieldLexer()
+            : this(new FieldNameLexer(), new OWSLexer(), new FieldValueLexer())
+        {
+        }
+
         public HeaderFieldLexer(ILexer<FieldNameToken> fieldNameLexer, ILexer<OWSToken> owsLexer, ILexer<FieldValueToken> fieldValueLexer)
         {
             Contract.Requires(fieldNameLexer != null);
