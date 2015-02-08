@@ -4,13 +4,12 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    // ReSharper disable once InconsistentNaming
-    public class tchar : Token
+    public class TCharToken : Token
     {
         private readonly AlphaToken alpha;
         private readonly DigitToken digit;
 
-        public tchar(char data, ITextContext context)
+        public TCharToken(char data, ITextContext context)
             : base(data, context)
         {
             Contract.Requires(data == '!' || data == '#' || data == '$' || data == '%' || data == '&' || data == '\'' ||
@@ -18,14 +17,14 @@ namespace Http.Grammar.Rfc7230
                               data == '`' || data == '|' || data == '~');
         }
 
-        public tchar(DigitToken digit, ITextContext context)
+        public TCharToken(DigitToken digit, ITextContext context)
             : base(digit.Data, context)
         {
             Contract.Requires(digit != null);
             this.digit = digit;
         }
 
-        public tchar(AlphaToken alpha, ITextContext context)
+        public TCharToken(AlphaToken alpha, ITextContext context)
             : base(alpha.Data, context)
         {
             Contract.Requires(alpha != null);

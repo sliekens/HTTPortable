@@ -8,17 +8,17 @@ namespace Http.Grammar.Rfc7230
 {
     public class TokenLexer : Lexer<TokenToken>
     {
-        private readonly ILexer<tchar> tcharLexer;
+        private readonly ILexer<TCharToken> tCharLexer;
 
         public TokenLexer()
-            : this(new tcharLexer())
+            : this(new TCharLexer())
         {
         }
 
-        public TokenLexer(ILexer<tchar> tcharLexer)
+        public TokenLexer(ILexer<TCharToken> tCharLexer)
         {
-            Contract.Requires(tcharLexer != null);
-            this.tcharLexer = tcharLexer;
+            Contract.Requires(tCharLexer != null);
+            this.tCharLexer = tCharLexer;
         }
 
         public override TokenToken Read(ITextScanner scanner)
@@ -42,27 +42,27 @@ namespace Http.Grammar.Rfc7230
             }
 
             var context = scanner.GetContext();
-            tchar tchar;
-            if (!this.tcharLexer.TryRead(scanner, out tchar))
+            TCharToken tChar;
+            if (!this.tCharLexer.TryRead(scanner, out tChar))
             {
                 token = default(TokenToken);
                 return false;
             }
 
-            List<tchar> list = new List<tchar> { tchar };
-            while (this.tcharLexer.TryRead(scanner, out tchar))
+            List<TCharToken> list = new List<TCharToken> { tChar };
+            while (this.tCharLexer.TryRead(scanner, out tChar))
             {
-                list.Add(tchar);
+                list.Add(tChar);
             }
 
-            token = new TokenToken(new ReadOnlyCollection<tchar>(list), context);
+            token = new TokenToken(new ReadOnlyCollection<TCharToken>(list), context);
             return true;
         }
 
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.tcharLexer != null);
+            Contract.Invariant(this.tCharLexer != null);
         }
 
     }

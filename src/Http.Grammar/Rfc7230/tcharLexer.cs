@@ -4,27 +4,27 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class tcharLexer : Lexer<tchar>
+    public class TCharLexer : Lexer<TCharToken>
     {
         private readonly ILexer<AlphaToken> alphaLexer;
         private readonly ILexer<DigitToken> digitLexer;
 
-        public tcharLexer()
+        public TCharLexer()
             : this(new AlphaLexer(), new DigitLexer())
         {
         }
 
-        public tcharLexer(ILexer<AlphaToken> alphaLexer, ILexer<DigitToken> digitLexer)
+        public TCharLexer(ILexer<AlphaToken> alphaLexer, ILexer<DigitToken> digitLexer)
         {
             Contract.Requires(alphaLexer != null);
             Contract.Requires(digitLexer != null);
             this.alphaLexer = alphaLexer;
             this.digitLexer = digitLexer;
         }
-        public override tchar Read(ITextScanner scanner)
+        public override TCharToken Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            tchar token;
+            TCharToken token;
             if (this.TryRead(scanner, out token))
             {
                 return token;
@@ -33,11 +33,11 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'tchar'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out tchar token)
+        public override bool TryRead(ITextScanner scanner, out TCharToken token)
         {
             if (scanner.EndOfInput)
             {
-                token = default (tchar);
+                token = default (TCharToken);
                 return false;
             }
 
@@ -46,7 +46,7 @@ namespace Http.Grammar.Rfc7230
             {
                 if (scanner.TryMatch(c))
                 {
-                    token = new tchar(c, context);
+                    token = new TCharToken(c, context);
                     return true;
                 }
             }
@@ -54,18 +54,18 @@ namespace Http.Grammar.Rfc7230
             DigitToken digit;
             if (this.digitLexer.TryRead(scanner, out digit))
             {
-                token = new tchar(digit, context);
+                token = new TCharToken(digit, context);
                 return true;
             }
 
             AlphaToken alpha;
             if (this.alphaLexer.TryRead(scanner, out alpha))
             {
-                token = new tchar(alpha, context);
+                token = new TCharToken(alpha, context);
                 return true;
             }
 
-            token = default(tchar);
+            token = default(TCharToken);
             return false;
         }
 

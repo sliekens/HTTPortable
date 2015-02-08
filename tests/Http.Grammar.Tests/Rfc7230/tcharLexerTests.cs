@@ -6,12 +6,12 @@ using Text.Scanning;
 namespace Http.Grammar.Rfc7230
 {
     [TestClass]
-    public class tcharLexerTests
+    public class TCharLexerTests
     {
         [TestMethod]
         public void ReadDigits()
         {
-            var lexer = new tcharLexer();
+            var lexer = new TCharLexer();
             char[] input = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
             foreach (var c in input)
             {
@@ -32,7 +32,7 @@ namespace Http.Grammar.Rfc7230
         [TestMethod]
         public void ReadAlphas()
         {
-            var lexer = new tcharLexer();
+            var lexer = new TCharLexer();
             foreach (char c in Enumerable.Range('a', 26))
             {
                 var text = new string(c, 1);
@@ -52,7 +52,7 @@ namespace Http.Grammar.Rfc7230
         [TestMethod]
         public void ReadSymbols()
         {
-            var lexer = new tcharLexer();
+            var lexer = new TCharLexer();
             foreach (char c in new[] { '!', '#', '$', '%', '&', '\'', '*', '+', '-', '.', '^', '_', '`', '|', '~' })
             {
                 var text = new string(c, 1);
