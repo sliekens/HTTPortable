@@ -1,5 +1,6 @@
 ﻿using Http.Grammar.Rfc7230;
 using Text.Scanning;
+using Text.Scanning.Core;
 
 namespace Http
 {
@@ -49,26 +50,32 @@ namespace Http
                 using (ITextScanner scanner = new TextScanner(reader))
                 {
                     scanner.Read();
-                    var lexer = new StatusLineLexer();
-                    var statusLine = lexer.Read(scanner);
+                    var statusLineLexer = new StatusLineLexer();
+                    var statusLine = statusLineLexer.Read(scanner);
                     var httpVersion = statusLine.HttpVersion.ToVersion();
                     var status = int.Parse(statusLine.StatusCode.Data);
                     var reason = statusLine.ReasonPhrase.Data;
                     message = new ResponseMessage(httpVersion, status, reason);
-                    string line;
-                    while ((line = await reader.ReadLineAsync()) != string.Empty)
+                    var headerFieldLexer = new HeaderFieldLexer();
+                    var crLfLexer = new CrLfLexer();
+                    for (; ; )
                     {
-                        var rawHeader = line.Split(new[] { ':', ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
-                        var name = rawHeader[0];
-                        var value = rawHeader[1];
-                        var predicate = new Func<IHeader, bool>(h => h.Name.Equals(name, StringComparison.Ordinal));
-                        var header = message.Headers.SingleOrDefault(predicate);
-                        if (header == null)
+                        HeaderFieldToken headerField;
+                        if (headerFieldLexer.TryRead(scanner, out headerField))
                         {
-                            message.Headers.Add(header = new Header(name));
+                            crLfLexer.Read(scanner);
+                            message.Headers.Add(new Header(headerField.FieldName.Data)
+                            {
+                                headerField.FieldValue.Data
+                            });
                         }
-
-                        header.Add(value);
+                        else
+                        {
+                            if (scanner.TryMatch('\r'))
+                            {
+                                break;
+                            }
+                        }
                     }
                 }
 
