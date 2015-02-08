@@ -18,5 +18,22 @@ namespace Http.Grammar.Rfc7230
             this.fieldName = fieldName;
             this.fieldValue = fieldValue;
         }
+
+        public FieldNameToken FieldName
+        {
+            get { return fieldName; }
+        }
+
+        public FieldValueToken FieldValue
+        {
+            get { return fieldValue; }
+        }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.fieldName != null);
+            Contract.Invariant(this.fieldValue != null);
+        }
     }
 }
