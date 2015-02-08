@@ -43,6 +43,8 @@
     <Compile Include="Rfc7230\FieldValueToken.cs" />
     <Compile Include="Rfc7230\FieldVCharLexer.cs" />
     <Compile Include="Rfc7230\FieldVCharToken.cs" />
+    <Compile Include="Rfc7230\HeaderFieldLexer.cs" />
+    <Compile Include="Rfc7230\HeaderFieldToken.cs" />
     <Compile Include="Rfc7230\HttpNameLexer.cs" />
     <Compile Include="Rfc7230\HttpNameToken.cs" />
     <Compile Include="Rfc7230\HttpVersionLexer.cs" />
