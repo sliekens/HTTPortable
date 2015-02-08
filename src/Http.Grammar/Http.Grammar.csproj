@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D920B511-E7A9-487F-BDE3-4F4599C65AC7}</ProjectGuid>
+    <ProjectGuid>{2816FE01-4760-4718-9268-C55293181DED}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Http</RootNamespace>
-    <AssemblyName>Http</AssemblyName>
+    <RootNamespace>Http.Grammar</RootNamespace>
+    <AssemblyName>Http.Grammar</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -24,7 +24,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,47 +34,31 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <None Include="Diagrams\Headers.cd" />
-    <None Include="Diagrams\Messages.cd" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CircularBufferStream.cs" />
-    <Compile Include="ContractClassForIMessage.cs" />
-    <Compile Include="ExtensionsForIHeaderCollection.cs" />
-    <Compile Include="Headers\ContentLengthHeader.cs" />
-    <Compile Include="IUserAgentFactory.cs" />
-    <Compile Include="MessageBodyStream.cs" />
-    <Compile Include="Header.cs" />
-    <Compile Include="HeaderCollection.cs" />
-    <Compile Include="IHeader.cs" />
-    <Compile Include="IHeaderCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IMessage.cs" />
-    <Compile Include="IRequestMessage.cs" />
-    <Compile Include="IResponseMessage.cs" />
-    <Compile Include="IUserAgent.cs" />
-    <Compile Include="ProxyUserAgentFactory.cs" />
-    <Compile Include="SimpleStreamReader.cs" />
-    <Compile Include="OnRequestHeadersComplete.cs" />
-    <Compile Include="OnResponseHeadersComplete.cs" />
-    <Compile Include="PortableUserAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestMessage.cs" />
-    <Compile Include="ResponseMessage.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Http.Grammar\Http.Grammar.csproj">
-      <Project>{2816fe01-4760-4718-9268-c55293181ded}</Project>
-      <Name>Http.Grammar</Name>
-    </ProjectReference>
+    <Compile Include="Rfc7230\FieldVCharLexer.cs" />
+    <Compile Include="Rfc7230\FieldVCharToken.cs" />
+    <Compile Include="Rfc7230\HttpNameLexer.cs" />
+    <Compile Include="Rfc7230\HttpNameToken.cs" />
+    <Compile Include="Rfc7230\HttpVersionLexer.cs" />
+    <Compile Include="Rfc7230\HttpVersionToken.cs" />
+    <Compile Include="Rfc7230\ObsTextLexer.cs" />
+    <Compile Include="Rfc7230\ObsTextToken.cs" />
+    <Compile Include="Rfc7230\ReasonPhraseLexer.cs" />
+    <Compile Include="Rfc7230\ReasonPhraseToken.cs" />
+    <Compile Include="Rfc7230\StatusCodeLexer.cs" />
+    <Compile Include="Rfc7230\StatusCodeToken.cs" />
+    <Compile Include="Rfc7230\StatusLineLexer.cs" />
+    <Compile Include="Rfc7230\StatusLineToken.cs" />
+    <Compile Include="Rfc7230\tchar.cs" />
+    <Compile Include="Rfc7230\tcharLexer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Text.Scanning">
       <HintPath>..\packages\Text.Scanning.0.1.0-alpha\lib\portable-net45+win+wpa\Text.Scanning.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

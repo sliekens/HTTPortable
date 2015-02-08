@@ -1,8 +1,8 @@
-﻿namespace Http.Grammars.Rfc7230
-{
-    using System.Diagnostics.Contracts;
-    using Text.Scanning;
+﻿using System.Diagnostics.Contracts;
+using Text.Scanning;
 
+namespace Http.Grammar.Rfc7230
+{
     public class ObsTextToken : Token
     {
         public ObsTextToken(char data, ITextContext context)

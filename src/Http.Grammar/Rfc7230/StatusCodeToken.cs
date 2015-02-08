@@ -1,8 +1,8 @@
-﻿namespace Http.Grammars.Rfc7230
-{
-    using Text.Scanning;
-    using Text.Scanning.Core;
+﻿using Text.Scanning;
+using Text.Scanning.Core;
 
+namespace Http.Grammar.Rfc7230
+{
     public class StatusCodeToken : Token
     {
         private readonly DigitToken digit1;
@@ -10,7 +10,7 @@
         private readonly DigitToken digit3;
 
         public StatusCodeToken(DigitToken digit1, DigitToken digit2, DigitToken digit3, ITextContext context)
-            : base(string.Concat(digit1, digit2, digit3), context)
+            : base(string.Concat((object) digit1, (object) digit2, (object) digit3), context)
         {
             this.digit1 = digit1;
             this.digit2 = digit2;

@@ -1,10 +1,10 @@
-﻿namespace Http.Grammars.Rfc7230
-{
-    using System.Collections.Generic;
-    using System.Diagnostics.Contracts;
-    using Text.Scanning;
-    using Text.Scanning.Core;
+﻿using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using Text.Scanning;
+using Text.Scanning.Core;
 
+namespace Http.Grammar.Rfc7230
+{
     public class ReasonPhraseToken : Token
     {
         private readonly IList<Token> tokens;

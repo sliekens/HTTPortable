@@ -1,9 +1,9 @@
-﻿namespace Http.Grammars.Rfc7230
-{
-    using System.Diagnostics.Contracts;
-    using Text.Scanning;
-    using Text.Scanning.Core;
+﻿using System.Diagnostics.Contracts;
+using Text.Scanning;
+using Text.Scanning.Core;
 
+namespace Http.Grammar.Rfc7230
+{
     public class StatusLineToken : Token
     {
         private readonly CrLfToken crLf;

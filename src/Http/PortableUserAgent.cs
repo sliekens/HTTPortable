@@ -1,14 +1,14 @@
-﻿namespace Http
+﻿using Http.Grammar.Rfc7230;
+using Text.Scanning;
+
+namespace Http
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-    using Grammars.Rfc7230;
-    using Text.Scanning;
 
     public class PortableUserAgent : IUserAgent
     {

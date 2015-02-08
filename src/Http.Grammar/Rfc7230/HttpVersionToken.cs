@@ -1,10 +1,9 @@
-﻿using Text.Scanning;
+﻿using System;
+using Text.Scanning;
 using Text.Scanning.Core;
 
-namespace Http.Grammars.Rfc7230
+namespace Http.Grammar.Rfc7230
 {
-    using System;
-
     public class HttpVersionToken : Token
     {
         private readonly HttpNameToken httpName;

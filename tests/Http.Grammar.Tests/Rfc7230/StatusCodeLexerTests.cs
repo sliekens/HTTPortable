@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Text.Scanning;
 
-namespace Http.Grammars.Rfc7230
+namespace Http.Grammar.Rfc7230
 {
     [TestClass]
     public class StatusCodeLexerTests

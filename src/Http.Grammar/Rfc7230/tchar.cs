@@ -2,7 +2,7 @@
 using Text.Scanning;
 using Text.Scanning.Core;
 
-namespace Http.Grammars.Rfc7230
+namespace Http.Grammar.Rfc7230
 {
     // ReSharper disable once InconsistentNaming
     public class tchar : Token

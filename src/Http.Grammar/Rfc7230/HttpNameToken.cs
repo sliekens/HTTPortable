@@ -1,6 +1,6 @@
 ﻿using Text.Scanning;
 
-namespace Http.Grammars.Rfc7230
+namespace Http.Grammar.Rfc7230
 {
     public class HttpNameToken : Token
     {

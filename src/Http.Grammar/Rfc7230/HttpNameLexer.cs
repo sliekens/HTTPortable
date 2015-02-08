@@ -1,7 +1,7 @@
-﻿namespace Http.Grammars.Rfc7230
-{
-    using Text.Scanning;
+﻿using Text.Scanning;
 
+namespace Http.Grammar.Rfc7230
+{
     public class HttpNameLexer : Lexer<HttpNameToken>
     {
         public override HttpNameToken Read(ITextScanner scanner)
