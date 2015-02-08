@@ -44,20 +44,20 @@ namespace Http.Grammar.Rfc7230
             }
 
             var context = scanner.GetContext();
-            IList<OWSToken.OWSMutex> tokens = new List<OWSToken.OWSMutex>();
+            IList<WspMutex> tokens = new List<WspMutex>();
             for (;;)
             {
                 SpToken sp;
                 if (spLexer.TryRead(scanner, out sp))
                 {
-                    tokens.Add(new OWSToken.OWSMutex(sp));
+                    tokens.Add(new WspMutex(sp));
                 }
                 else
                 {
                     HTabToken hTab;
                     if (hTabLexer.TryRead(scanner, out hTab))
                     {
-                        tokens.Add(new OWSToken.OWSMutex(hTab));
+                        tokens.Add(new WspMutex(hTab));
                     }
                     else
                     {
