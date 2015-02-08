@@ -53,6 +53,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Rfc7230\OWSLexerTests.cs" />
     <Compile Include="Rfc7230\StatusCodeLexerTests.cs" />
     <Compile Include="Rfc7230\TCharLexerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

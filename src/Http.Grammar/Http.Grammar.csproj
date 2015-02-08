@@ -45,6 +45,8 @@
     <Compile Include="Rfc7230\HttpVersionToken.cs" />
     <Compile Include="Rfc7230\ObsTextLexer.cs" />
     <Compile Include="Rfc7230\ObsTextToken.cs" />
+    <Compile Include="Rfc7230\OWSLexer.cs" />
+    <Compile Include="Rfc7230\OWSToken.cs" />
     <Compile Include="Rfc7230\ReasonPhraseLexer.cs" />
     <Compile Include="Rfc7230\ReasonPhraseToken.cs" />
     <Compile Include="Rfc7230\StatusCodeLexer.cs" />
