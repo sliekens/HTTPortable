@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Globalization;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
@@ -13,10 +10,8 @@ using Windows.Networking;
 using Windows.Networking.Sockets;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
-namespace Http.Tcp.WinRT.Tests
+namespace Http.Tcp.WinRT
 {
-    using System.Globalization;
-
     [TestClass]
     public class WithHttpBin
     {

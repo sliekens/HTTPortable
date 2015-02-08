@@ -1,10 +1,9 @@
-﻿namespace Http.Tcp.WinRT.Tests.Grammars.Rfc7230
-{
-    using System.IO;
-    using Http.Grammars.Rfc7230;
-    using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-    using Text.Scanning;
+﻿using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Text.Scanning;
 
+namespace Http.Grammars.Rfc7230
+{
     [TestClass]
     public class StatusCodeLexerTests
     {

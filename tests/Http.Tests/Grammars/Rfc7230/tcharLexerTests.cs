@@ -1,10 +1,9 @@
 ﻿using System.IO;
 using System.Linq;
-using Http.Grammars.Rfc7230;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Text.Scanning;
 
-namespace Http.Tcp.WinRT.Tests.Grammars.Rfc7230
+namespace Http.Grammars.Rfc7230
 {
     [TestClass]
     public class tcharLexerTests
