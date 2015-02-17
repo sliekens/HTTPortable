@@ -59,6 +59,8 @@
     <Compile Include="Rfc7230\OWSToken.cs" />
     <Compile Include="Rfc7230\ReasonPhraseLexer.cs" />
     <Compile Include="Rfc7230\ReasonPhraseToken.cs" />
+    <Compile Include="Rfc7230\RequestLineLexer.cs" />
+    <Compile Include="Rfc7230\RequestLineToken.cs" />
     <Compile Include="Rfc7230\RWSLexer.cs" />
     <Compile Include="Rfc7230\RWSToken.cs" />
     <Compile Include="Rfc7230\StatusCodeLexer.cs" />
@@ -74,14 +76,11 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Text.Scanning">
-      <HintPath>..\packages\Text.Scanning.1.0.21-alpha1\lib\portable-net45+win+wpa81\Text.Scanning.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Text.Scanning.1.0.27-alpha1\lib\portable-net45+win+wpa81\Text.Scanning.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -38,9 +38,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
     <None Include="Diagrams\Headers.cd" />
     <None Include="Diagrams\Messages.cd" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CircularBufferStream.cs" />
@@ -76,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Text.Scanning">
-      <HintPath>..\packages\Text.Scanning.1.0.21-alpha1\lib\portable-net45+win+wpa81\Text.Scanning.dll</HintPath>
+      <HintPath>..\packages\Text.Scanning.1.0.27-alpha1\lib\portable-net45+win+wpa81\Text.Scanning.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
