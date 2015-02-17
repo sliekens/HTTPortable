@@ -49,6 +49,8 @@
     <Compile Include="Rfc7230\HttpNameToken.cs" />
     <Compile Include="Rfc7230\HttpVersionLexer.cs" />
     <Compile Include="Rfc7230\HttpVersionToken.cs" />
+    <Compile Include="Rfc7230\MethodLexer.cs" />
+    <Compile Include="Rfc7230\MethodToken.cs" />
     <Compile Include="Rfc7230\ObsFoldLexer.cs" />
     <Compile Include="Rfc7230\ObsFoldToken.cs" />
     <Compile Include="Rfc7230\ObsTextLexer.cs" />
@@ -72,11 +74,14 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Text.Scanning">
-      <HintPath>..\packages\Text.Scanning.0.1.0-alpha\lib\portable-net45+win+wpa\Text.Scanning.dll</HintPath>
+      <HintPath>..\packages\Text.Scanning.1.0.21-alpha1\lib\portable-net45+win+wpa81\Text.Scanning.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
