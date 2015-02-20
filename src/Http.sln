@@ -11,7 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Http.Tcp.WinRT", "Http.Tcp.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{96351A8A-62C3-4BBF-A597-CE49D7304372}"
 	ProjectSection(SolutionItems) = preProject
+		Core.abnf = Core.abnf
 		..\README.md = ..\README.md
+		RFC3986.abnf = RFC3986.abnf
+		RFC7230.abnf = RFC7230.abnf
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Http.Tcp.WinRT.Tests", "..\tests\Http.Tcp.WinRT.Tests\Http.Tcp.WinRT.Tests.csproj", "{7DF32770-668D-421D-BCDC-87420ED083F6}"
@@ -27,11 +30,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Http.Grammar.Tests", "..\tests\Http.Grammar.Tests\Http.Grammar.Tests.csproj", "{3DB712C2-1EB9-410C-A024-B859900027DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uri.Grammar", "Uri.Grammar\Uri.Grammar.csproj", "{CB82326F-14EE-43B4-A97C-3424F5E04861}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RFC 3986", "RFC 3986", "{1FC9A9BC-3066-46DE-B29E-9E475F3A1BA1}"
-	ProjectSection(SolutionItems) = preProject
-		Collected ABNF for URI.txt = Collected ABNF for URI.txt
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -152,6 +150,5 @@ Global
 		{2816FE01-4760-4718-9268-C55293181DED} = {1F16C091-B18C-44ED-911F-A6582257B4FE}
 		{3DB712C2-1EB9-410C-A024-B859900027DD} = {D292E7A7-ECD8-4CD9-8BA8-200AD97F23F1}
 		{CB82326F-14EE-43B4-A97C-3424F5E04861} = {1F16C091-B18C-44ED-911F-A6582257B4FE}
-		{1FC9A9BC-3066-46DE-B29E-9E475F3A1BA1} = {96351A8A-62C3-4BBF-A597-CE49D7304372}
 	EndGlobalSection
 EndGlobal
