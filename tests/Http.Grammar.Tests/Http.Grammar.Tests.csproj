@@ -58,6 +58,7 @@
     <Compile Include="Rfc7230\FieldValueLexerTests.cs" />
     <Compile Include="Rfc7230\ObsFoldLexerTests.cs" />
     <Compile Include="Rfc7230\OWSLexerTests.cs" />
+    <Compile Include="Rfc7230\RequestLineLexerTests.cs" />
     <Compile Include="Rfc7230\RWSLexerTests.cs" />
     <Compile Include="Rfc7230\StatusCodeLexerTests.cs" />
     <Compile Include="Rfc7230\TCharLexerTests.cs" />
