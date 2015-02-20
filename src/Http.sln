@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{96351A8A-62C3-4BBF-A597-CE49D7304372}"
 	ProjectSection(SolutionItems) = preProject
 		Core.abnf = Core.abnf
+		LICENSE.txt = LICENSE.txt
 		..\README.md = ..\README.md
 		RFC3986.abnf = RFC3986.abnf
 		RFC7230.abnf = RFC7230.abnf
