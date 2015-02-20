@@ -12,6 +12,11 @@ namespace Http.Grammar.Rfc7230
         private readonly ILexer<SpToken> spLexer;
         private readonly ILexer<TokenToken> tokenLexer;
 
+        public RequestLineLexer()
+            : this(new MethodLexer(), new SpLexer(), new TokenLexer(), new HttpVersionLexer(), new CrLfLexer())
+        {
+        }
+
         public RequestLineLexer(ILexer<MethodToken> methodLexer, ILexer<SpToken> spLexer, ILexer<TokenToken> tokenLexer,
             ILexer<HttpVersionToken> httpVersionLexer, ILexer<CrLfToken> crLfLexer)
         {
