@@ -7,7 +7,7 @@ namespace Http.Grammar.Rfc7230
     public class FieldValue : Element
     {
         public FieldValue(IList<Alternative<FieldContent, ObsoletedFold>> data, ITextContext context)
-            : base(string.Concat(data.Select(alternative => alternative.Element.Data)), context)
+            : base(string.Concat(data.Select(element => element.Data)), context)
         {
         }
     }
