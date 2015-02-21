@@ -5,28 +5,28 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class OWSLexer : Lexer<OWS>
+    public class OptionalWhiteSpaceLexer : Lexer<OptionalWhiteSpace>
     {
-        private readonly HorizontalTabLexer hTabLexer;
+        private readonly HorizontalTabLexer horizontalTabLexer;
         private readonly SpaceLexer SpaceLexer;
 
-        public OWSLexer()
+        public OptionalWhiteSpaceLexer()
             : this(new SpaceLexer(), new HorizontalTabLexer())
         {
         }
 
-        public OWSLexer(SpaceLexer SpaceLexer, HorizontalTabLexer hTabLexer)
+        public OptionalWhiteSpaceLexer(SpaceLexer SpaceLexer, HorizontalTabLexer horizontalTabLexer)
         {
             Contract.Requires(SpaceLexer != null);
-            Contract.Requires(hTabLexer != null);
+            Contract.Requires(horizontalTabLexer != null);
             this.SpaceLexer = SpaceLexer;
-            this.hTabLexer = hTabLexer;
+            this.horizontalTabLexer = horizontalTabLexer;
         }
 
-        public override OWS Read(ITextScanner scanner)
+        public override OptionalWhiteSpace Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            OWS token;
+            OptionalWhiteSpace token;
             if (TryRead(scanner, out token))
             {
                 return token;
@@ -35,14 +35,15 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'OWS'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out OWS token)
+        public override bool TryRead(ITextScanner scanner, out OptionalWhiteSpace token)
         {
             if (scanner.EndOfInput)
             {
-                token = default(OWS);
+                token = default(OptionalWhiteSpace);
                 return false;
             }
 
+            // TODO: refactoring using WSP lexers
             var context = scanner.GetContext();
             IList<WhiteSpace> elements = new List<WhiteSpace>();
             for (;;)
@@ -55,7 +56,7 @@ namespace Http.Grammar.Rfc7230
                 else
                 {
                     HorizontalTab hTab;
-                    if (hTabLexer.TryRead(scanner, out hTab))
+                    if (this.horizontalTabLexer.TryRead(scanner, out hTab))
                     {
                         elements.Add(new WhiteSpace(hTab, context));
                     }
@@ -66,7 +67,7 @@ namespace Http.Grammar.Rfc7230
                 }
             }
 
-            token = new OWS(elements, context);
+            token = new OptionalWhiteSpace(elements, context);
             return true;
         }
 
@@ -74,7 +75,7 @@ namespace Http.Grammar.Rfc7230
         private void ObjectInvariant()
         {
             Contract.Invariant(this.SpaceLexer != null);
-            Contract.Invariant(this.hTabLexer != null);
+            Contract.Invariant(this.horizontalTabLexer != null);
         }
     }
 }

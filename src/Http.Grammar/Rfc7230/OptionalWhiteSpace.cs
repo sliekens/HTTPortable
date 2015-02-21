@@ -7,10 +7,10 @@ namespace Http.Grammar.Rfc7230
 {
     using Text.Scanning.Core;
 
-    public class OWS : Element
+    public class OptionalWhiteSpace : Element
     {
-        public OWS(IList<WhiteSpace> data, ITextContext context)
-            : base(string.Concat(data.Select(mutex => mutex.Data)), context)
+        public OptionalWhiteSpace(IList<WhiteSpace> data, ITextContext context)
+            : base(string.Concat(data.Select(space => space.Data)), context)
         {
             Contract.Requires(data != null);
         }

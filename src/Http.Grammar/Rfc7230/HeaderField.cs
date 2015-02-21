@@ -8,7 +8,7 @@ namespace Http.Grammar.Rfc7230
         private readonly FieldName fieldName;
         private readonly FieldValue fieldValue;
 
-        public HeaderField(FieldName fieldName, OWS ows1, FieldValue fieldValue, OWS ows2, ITextContext context)
+        public HeaderField(FieldName fieldName, OptionalWhiteSpace ows1, FieldValue fieldValue, OptionalWhiteSpace ows2, ITextContext context)
             : base(string.Concat(fieldName.Data, ":", ows1.Data, fieldValue.Data, ows2.Data), context)
         {
             Contract.Requires(fieldName != null);

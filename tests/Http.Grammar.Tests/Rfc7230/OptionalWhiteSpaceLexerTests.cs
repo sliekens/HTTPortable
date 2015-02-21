@@ -5,13 +5,13 @@ using Text.Scanning;
 namespace Http.Grammar.Rfc7230
 {
     [TestClass]
-    public class OWSLexerTests
+    public class OptionalWhiteSpaceLexerTests
     {
         [TestMethod]
         public void ReadWhiteSpaces()
         {
             const string input = " \t \t\t\t   ";
-            var lexer = new OWSLexer();
+            var lexer = new OptionalWhiteSpaceLexer();
             using (TextReader textReader = new StringReader(input))
             using (ITextScanner textScanner = new TextScanner(textReader))
             {

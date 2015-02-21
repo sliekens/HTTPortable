@@ -6,15 +6,15 @@ namespace Http.Grammar.Rfc7230
     public class HeaderFieldLexer : Lexer<HeaderField>
     {
         private readonly ILexer<FieldName> fieldNameLexer;
-        private readonly ILexer<OWS> owsLexer;
+        private readonly ILexer<OptionalWhiteSpace> owsLexer;
         private readonly ILexer<FieldValue> fieldValueLexer;
 
         public HeaderFieldLexer()
-            : this(new FieldNameLexer(), new OWSLexer(), new FieldValueLexer())
+            : this(new FieldNameLexer(), new OptionalWhiteSpaceLexer(), new FieldValueLexer())
         {
         }
 
-        public HeaderFieldLexer(ILexer<FieldName> fieldNameLexer, ILexer<OWS> owsLexer, ILexer<FieldValue> fieldValueLexer)
+        public HeaderFieldLexer(ILexer<FieldName> fieldNameLexer, ILexer<OptionalWhiteSpace> owsLexer, ILexer<FieldValue> fieldValueLexer)
         {
             Contract.Requires(fieldNameLexer != null);
             Contract.Requires(owsLexer != null);
@@ -59,7 +59,7 @@ namespace Http.Grammar.Rfc7230
                 return false;
             }
 
-            OWS ows1;
+            OptionalWhiteSpace ows1;
             if (!this.owsLexer.TryRead(scanner, out ows1))
             {
                 scanner.PutBack(':');
@@ -78,7 +78,7 @@ namespace Http.Grammar.Rfc7230
                 return false;
             }
 
-            OWS ows2;
+            OptionalWhiteSpace ows2;
             if (!this.owsLexer.TryRead(scanner, out ows2))
             {
                 this.fieldValueLexer.PutBack(scanner, fieldValue);
