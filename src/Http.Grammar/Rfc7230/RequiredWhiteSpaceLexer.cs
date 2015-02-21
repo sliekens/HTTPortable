@@ -7,20 +7,17 @@ namespace Http.Grammar.Rfc7230
 {
     public class RequiredWhiteSpaceLexer : Lexer<RequiredWhiteSpace>
     {
-        private readonly ILexer<Space> SpaceLexer;
-        private readonly ILexer<HorizontalTab> hTabLexer;
+        private readonly ILexer<WhiteSpace> whiteSpaceLexer;
 
         public RequiredWhiteSpaceLexer()
-            : this(new SpaceLexer(), new HorizontalTabLexer())
+            : this(new WhiteSpaceLexer())
         {
         }
 
-        public RequiredWhiteSpaceLexer(ILexer<Space> SpaceLexer, ILexer<HorizontalTab> hTabLexer)
+        public RequiredWhiteSpaceLexer(ILexer<WhiteSpace> whiteSpaceLexer)
         {
-            Contract.Requires(SpaceLexer != null);
-            Contract.Requires(hTabLexer != null);
-            this.SpaceLexer = SpaceLexer;
-            this.hTabLexer = hTabLexer;
+            Contract.Requires(whiteSpaceLexer != null);
+            this.whiteSpaceLexer = whiteSpaceLexer;
         }
 
         public override RequiredWhiteSpace Read(ITextScanner scanner)
@@ -44,56 +41,27 @@ namespace Http.Grammar.Rfc7230
             }
 
             var context = scanner.GetContext();
-            Space space;
-            HorizontalTab horizontalTab;
-            IList<WhiteSpace> tokens = new List<WhiteSpace>();
-            if (this.SpaceLexer.TryRead(scanner, out space))
+            WhiteSpace whiteSpace;
+            IList<WhiteSpace> elements = new List<WhiteSpace>();
+            while (this.whiteSpaceLexer.TryRead(scanner, out whiteSpace))
             {
-                tokens.Add(new WhiteSpace(space, context));
-            }
-            else
-            {
-                if (hTabLexer.TryRead(scanner, out horizontalTab))
-                {
-                    tokens.Add(new WhiteSpace(horizontalTab, context));
-                }
-                else
-                {
-                    element = default(RequiredWhiteSpace);
-                    return false;
-                }
+                elements.Add(whiteSpace);
             }
 
-
-            // BUG: context is not updated
-            for (; ; )
+            if (elements.Count == 0)
             {
-                if (SpaceLexer.TryRead(scanner, out space))
-                {
-                    tokens.Add(new WhiteSpace(space, context));
-                }
-                else
-                {
-                    if (hTabLexer.TryRead(scanner, out horizontalTab))
-                    {
-                        tokens.Add(new WhiteSpace(horizontalTab, context));
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
+                element = default(RequiredWhiteSpace);
+                return false;
             }
 
-            element = new RequiredWhiteSpace(tokens, context);
+            element = new RequiredWhiteSpace(elements, context);
             return true;
         }
 
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.SpaceLexer != null);
-            Contract.Invariant(this.hTabLexer != null);
+            Contract.Invariant(this.whiteSpaceLexer != null);
         }
     }
 }
