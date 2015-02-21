@@ -4,6 +4,9 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
+    using System.Diagnostics.CodeAnalysis;
+    using System.Diagnostics.Contracts;
+
     public class HttpVersion : Element
     {
         private readonly HttpName httpName;
@@ -13,6 +16,9 @@ namespace Http.Grammar.Rfc7230
         public HttpVersion(HttpName httpName, Digit digit1, Digit digit2, ITextContext context)
             : base(string.Concat(httpName.Data, "/", digit1.Data, ".", digit2.Data), context)
         {
+            Contract.Requires(httpName != null);
+            Contract.Requires(digit1 != null);
+            Contract.Requires(digit2 != null);
             this.httpName = httpName;
             this.digit1 = digit1;
             this.digit2 = digit2;
@@ -47,6 +53,15 @@ namespace Http.Grammar.Rfc7230
             var major = int.Parse(this.Digit1.Data);
             var minor = int.Parse(this.Digit2.Data);
             return new Version(major, minor);
+        }
+
+        [ContractInvariantMethod]
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.httpName != null);
+            Contract.Invariant(this.digit1 != null);
+            Contract.Invariant(this.digit2 != null);
         }
     }
 }
