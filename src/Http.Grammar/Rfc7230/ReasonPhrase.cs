@@ -5,13 +5,14 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
+    using System.Linq;
+
     public class ReasonPhrase : Element
     {
-        public ReasonPhrase(IList<Element> elements, ITextContext context)
-            : base(string.Concat(elements), context)
+        public ReasonPhrase(IList<Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>> elements, ITextContext context)
+            : base(string.Concat(elements.Select(element => element.Data)), context)
         {
             Contract.Requires(elements != null);
-            Contract.Requires(Contract.ForAll(elements, element => element is HorizontalTab || element is Space || element is VisibleCharacter || element is ObsoletedText));
         }
     }
 }

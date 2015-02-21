@@ -46,28 +46,29 @@ namespace Http.Grammar.Rfc7230
         public override bool TryRead(ITextScanner scanner, out ReasonPhrase token)
         {
             var context = scanner.GetContext();
-            var tokens = new List<Element>();
+            var elements = new List<Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>>();
             while (!scanner.EndOfInput)
             {
-                HorizontalTab hTabToken;
-                Space Space;
-                VisibleCharacter vCharToken;
+                var currentContext = scanner.GetContext();
+                HorizontalTab horizontalTab;
+                Space space;
+                VisibleCharacter visibleCharacter;
                 ObsoletedText obsoletedText;
-                if (this.hTabLexer.TryRead(scanner, out hTabToken))
+                if (this.hTabLexer.TryRead(scanner, out horizontalTab))
                 {
-                    tokens.Add(hTabToken);
+                    elements.Add(new Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>(horizontalTab, currentContext));
                 }
-                else if (this.SpaceLexer.TryRead(scanner, out Space))
+                else if (this.SpaceLexer.TryRead(scanner, out space))
                 {
-                    tokens.Add(Space);
+                    elements.Add(new Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>(space, currentContext));
                 }
-                else if (this.vCharLexer.TryRead(scanner, out vCharToken))
+                else if (this.vCharLexer.TryRead(scanner, out visibleCharacter))
                 {
-                    tokens.Add(vCharToken);
+                    elements.Add(new Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>(visibleCharacter, currentContext));
                 }
                 else if (this.obsTextLexer.TryRead(scanner, out obsoletedText))
                 {
-                    tokens.Add(obsoletedText);
+                    elements.Add(new Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>(obsoletedText, currentContext));
                 }
                 else
                 {
@@ -75,7 +76,7 @@ namespace Http.Grammar.Rfc7230
                 }
             }
 
-            token = new ReasonPhrase(tokens, context);
+            token = new ReasonPhrase(elements, context);
             return true;
         }
 
