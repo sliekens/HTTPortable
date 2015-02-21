@@ -7,20 +7,17 @@ namespace Http.Grammar.Rfc7230
 {
     public class OptionalWhiteSpaceLexer : Lexer<OptionalWhiteSpace>
     {
-        private readonly HorizontalTabLexer horizontalTabLexer;
-        private readonly SpaceLexer SpaceLexer;
+        private readonly ILexer<WhiteSpace> whiteSpaceLexer;
 
         public OptionalWhiteSpaceLexer()
-            : this(new SpaceLexer(), new HorizontalTabLexer())
+            : this(new WhiteSpaceLexer())
         {
         }
 
-        public OptionalWhiteSpaceLexer(SpaceLexer SpaceLexer, HorizontalTabLexer horizontalTabLexer)
+        public OptionalWhiteSpaceLexer(ILexer<WhiteSpace> whiteSpaceLexer)
         {
-            Contract.Requires(SpaceLexer != null);
-            Contract.Requires(horizontalTabLexer != null);
-            this.SpaceLexer = SpaceLexer;
-            this.horizontalTabLexer = horizontalTabLexer;
+            Contract.Requires(whiteSpaceLexer != null);
+            this.whiteSpaceLexer = whiteSpaceLexer;
         }
 
         public override OptionalWhiteSpace Read(ITextScanner scanner)
@@ -43,28 +40,12 @@ namespace Http.Grammar.Rfc7230
                 return false;
             }
 
-            // TODO: refactoring using WSP lexers
             var context = scanner.GetContext();
+            WhiteSpace whiteSpace;
             IList<WhiteSpace> elements = new List<WhiteSpace>();
-            for (;;)
+            while (this.whiteSpaceLexer.TryRead(scanner, out whiteSpace))
             {
-                Space sp;
-                if (SpaceLexer.TryRead(scanner, out sp))
-                {
-                    elements.Add(new WhiteSpace(sp, context));
-                }
-                else
-                {
-                    HorizontalTab hTab;
-                    if (this.horizontalTabLexer.TryRead(scanner, out hTab))
-                    {
-                        elements.Add(new WhiteSpace(hTab, context));
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
+                elements.Add(whiteSpace);
             }
 
             token = new OptionalWhiteSpace(elements, context);
@@ -74,8 +55,7 @@ namespace Http.Grammar.Rfc7230
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.SpaceLexer != null);
-            Contract.Invariant(this.horizontalTabLexer != null);
+            Contract.Invariant(this.whiteSpaceLexer != null);
         }
     }
 }
