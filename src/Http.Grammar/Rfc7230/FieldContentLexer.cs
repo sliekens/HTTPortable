@@ -4,17 +4,17 @@ using Text.Scanning;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class FieldContentLexer : Lexer<FieldContentToken>
+    public class FieldContentLexer : Lexer<FieldContent>
     {
-        private readonly ILexer<FieldVCharToken> fieldVCharLexer;
-        private readonly ILexer<RWSToken> rwsLexer;
+        private readonly ILexer<FieldVChar> fieldVCharLexer;
+        private readonly ILexer<RWS> rwsLexer;
 
         public FieldContentLexer()
             : this(new FieldVCharLexer(), new RWSLexer())
         {
         }
 
-        public FieldContentLexer(ILexer<FieldVCharToken> fieldVCharLexer, ILexer<RWSToken> rwsLexer)
+        public FieldContentLexer(ILexer<FieldVChar> fieldVCharLexer, ILexer<RWS> rwsLexer)
         {
             Contract.Requires(fieldVCharLexer != null);
             Contract.Requires(rwsLexer != null);
@@ -22,10 +22,10 @@ namespace Http.Grammar.Rfc7230
             this.rwsLexer = rwsLexer;
         }
 
-        public override FieldContentToken Read(ITextScanner scanner)
+        public override FieldContent Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            FieldContentToken element;
+            FieldContent element;
             if (this.TryRead(scanner, out element))
             {
                 return element;
@@ -34,36 +34,36 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'field-content'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out FieldContentToken element)
+        public override bool TryRead(ITextScanner scanner, out FieldContent element)
         {
             if (scanner.EndOfInput)
             {
-                element = default(FieldContentToken);
+                element = default(FieldContent);
                 return false;
             }
 
             var context = scanner.GetContext();
-            FieldVCharToken fieldVCharLeft;
+            FieldVChar fieldVCharLeft;
             if (!this.fieldVCharLexer.TryRead(scanner, out fieldVCharLeft))
             {
-                element = default(FieldContentToken);
+                element = default(FieldContent);
                 return false;
             }
 
-            RWSToken rws;
+            RWS rws;
             if (this.rwsLexer.TryRead(scanner, out rws))
             {
-                FieldVCharToken fieldVCharRight;
+                FieldVChar fieldVCharRight;
                 if (this.fieldVCharLexer.TryRead(scanner, out fieldVCharRight))
                 {
-                    element = new FieldContentToken(fieldVCharLeft, rws, fieldVCharRight, context);
+                    element = new FieldContent(fieldVCharLeft, rws, fieldVCharRight, context);
                     return true;
                 }
 
                 this.rwsLexer.PutBack(scanner, rws);
             }
 
-            element = new FieldContentToken(fieldVCharLeft, context);
+            element = new FieldContent(fieldVCharLeft, context);
             return true;
         }
 

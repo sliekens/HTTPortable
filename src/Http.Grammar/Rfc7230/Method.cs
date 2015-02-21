@@ -3,11 +3,11 @@ using Text.Scanning;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class MethodToken : Element
+    public class Method : Element
     {
         private readonly Token token;
 
-        public MethodToken(Token token, ITextContext context)
+        public Method(Token token, ITextContext context)
             : base(token.Data, context)
         {
             Contract.Requires(token != null);

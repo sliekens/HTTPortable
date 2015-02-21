@@ -3,12 +3,12 @@ using Text.Scanning;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class HeaderFieldToken : Element
+    public class HeaderField : Element
     {
-        private readonly FieldNameToken fieldName;
-        private readonly FieldValueToken fieldValue;
+        private readonly FieldName fieldName;
+        private readonly FieldValue fieldValue;
 
-        public HeaderFieldToken(FieldNameToken fieldName, OWSToken ows1, FieldValueToken fieldValue, OWSToken ows2, ITextContext context)
+        public HeaderField(FieldName fieldName, OWS ows1, FieldValue fieldValue, OWS ows2, ITextContext context)
             : base(string.Concat(fieldName.Data, ":", ows1.Data, fieldValue.Data, ows2.Data), context)
         {
             Contract.Requires(fieldName != null);
@@ -19,12 +19,12 @@ namespace Http.Grammar.Rfc7230
             this.fieldValue = fieldValue;
         }
 
-        public FieldNameToken FieldName
+        public FieldName FieldName
         {
             get { return fieldName; }
         }
 
-        public FieldValueToken FieldValue
+        public FieldValue FieldValue
         {
             get { return fieldValue; }
         }

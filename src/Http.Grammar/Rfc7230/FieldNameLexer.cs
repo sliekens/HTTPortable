@@ -3,7 +3,7 @@ using Text.Scanning;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class FieldNameLexer : Lexer<FieldNameToken>
+    public class FieldNameLexer : Lexer<FieldName>
     {
         private readonly ILexer<Token> tokenLexer;
 
@@ -18,7 +18,7 @@ namespace Http.Grammar.Rfc7230
             this.tokenLexer = tokenLexer;
         }
 
-        public override FieldNameToken Read(ITextScanner scanner)
+        public override FieldName Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
             Token token;
@@ -32,14 +32,14 @@ namespace Http.Grammar.Rfc7230
 
             }
 
-            return new FieldNameToken(token, context);
+            return new FieldName(token, context);
         }
 
-        public override bool TryRead(ITextScanner scanner, out FieldNameToken element)
+        public override bool TryRead(ITextScanner scanner, out FieldName element)
         {
             if (scanner.EndOfInput)
             {
-                element = default(FieldNameToken);
+                element = default(FieldName);
                 return false;
             }
 
@@ -47,11 +47,11 @@ namespace Http.Grammar.Rfc7230
             Token token;
             if (this.tokenLexer.TryRead(scanner, out token))
             {
-                element = new FieldNameToken(token, context);
+                element = new FieldName(token, context);
                 return true;
             }
 
-            element = default(FieldNameToken);
+            element = default(FieldName);
             return false;
         }
 

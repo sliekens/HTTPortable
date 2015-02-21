@@ -8,14 +8,14 @@ namespace Http.Grammar.Rfc7230
 {
     public class TokenLexer : Lexer<Token>
     {
-        private readonly ILexer<TCharToken> tCharLexer;
+        private readonly ILexer<TChar> tCharLexer;
 
         public TokenLexer()
             : this(new TCharLexer())
         {
         }
 
-        public TokenLexer(ILexer<TCharToken> tCharLexer)
+        public TokenLexer(ILexer<TChar> tCharLexer)
         {
             Contract.Requires(tCharLexer != null);
             this.tCharLexer = tCharLexer;
@@ -42,20 +42,20 @@ namespace Http.Grammar.Rfc7230
             }
 
             var context = scanner.GetContext();
-            TCharToken tChar;
+            TChar tChar;
             if (!this.tCharLexer.TryRead(scanner, out tChar))
             {
                 token = default(Token);
                 return false;
             }
 
-            List<TCharToken> list = new List<TCharToken> { tChar };
+            List<TChar> list = new List<TChar> { tChar };
             while (this.tCharLexer.TryRead(scanner, out tChar))
             {
                 list.Add(tChar);
             }
 
-            token = new Token(new ReadOnlyCollection<TCharToken>(list), context);
+            token = new Token(new ReadOnlyCollection<TChar>(list), context);
             return true;
         }
 

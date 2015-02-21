@@ -7,9 +7,9 @@ namespace Http.Grammar.Rfc7230
 {
     using Text.Scanning.Core;
 
-    public class RWSToken : Element
+    public class RWS : Element
     {
-        public RWSToken(IList<WhiteSpace> whiteSpace, ITextContext context)
+        public RWS(IList<WhiteSpace> whiteSpace, ITextContext context)
             : base(string.Concat(whiteSpace.Select(space => space.Data)), context)
         {
             Contract.Requires(whiteSpace != null);

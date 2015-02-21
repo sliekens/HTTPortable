@@ -3,9 +3,9 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class HttpVersionLexer : Lexer<HttpVersionToken>
+    public class HttpVersionLexer : Lexer<HttpVersion>
     {
-        private readonly ILexer<HttpNameToken> httpNameLexer;
+        private readonly ILexer<HttpName> httpNameLexer;
         private readonly ILexer<Digit> digitLexer;
 
         public HttpVersionLexer()
@@ -13,15 +13,15 @@ namespace Http.Grammar.Rfc7230
         {
         }
 
-        public HttpVersionLexer(ILexer<HttpNameToken> httpNameLexer, ILexer<Digit> digitLexer)
+        public HttpVersionLexer(ILexer<HttpName> httpNameLexer, ILexer<Digit> digitLexer)
         {
             this.httpNameLexer = httpNameLexer;
             this.digitLexer = digitLexer;
         }
 
-        public override HttpVersionToken Read(ITextScanner scanner)
+        public override HttpVersion Read(ITextScanner scanner)
         {
-            HttpNameToken httpName;
+            HttpName httpName;
             Digit digit1;
             Digit digit2;
             var context = scanner.GetContext();
@@ -48,25 +48,25 @@ namespace Http.Grammar.Rfc7230
                 throw new SyntaxErrorException(context, "Expected 'HTTP-version'", syntaxErrorException);
             }
 
-            return new HttpVersionToken(httpName, digit1, digit2, context);
+            return new HttpVersion(httpName, digit1, digit2, context);
         }
 
-        public override bool TryRead(ITextScanner scanner, out HttpVersionToken element)
+        public override bool TryRead(ITextScanner scanner, out HttpVersion element)
         {
-            HttpNameToken httpName;
+            HttpName httpName;
             Digit digit1;
             Digit digit2;
             var context = scanner.GetContext();
             if (!this.httpNameLexer.TryRead(scanner, out httpName))
             {
-                element = default(HttpVersionToken);
+                element = default(HttpVersion);
                 return false;
             }
 
             if (!scanner.TryMatch('/'))
             {
                 this.httpNameLexer.PutBack(scanner, httpName);
-                element = default(HttpVersionToken);
+                element = default(HttpVersion);
                 return false;
             }
 
@@ -74,7 +74,7 @@ namespace Http.Grammar.Rfc7230
             {
                 scanner.PutBack('/');
                 this.httpNameLexer.PutBack(scanner, httpName);
-                element = default(HttpVersionToken);
+                element = default(HttpVersion);
                 return false;
             }
 
@@ -83,7 +83,7 @@ namespace Http.Grammar.Rfc7230
                 this.digitLexer.PutBack(scanner, digit1);
                 scanner.PutBack('/');
                 this.httpNameLexer.PutBack(scanner, httpName);
-                element = default(HttpVersionToken);
+                element = default(HttpVersion);
                 return false;
             }
 
@@ -93,11 +93,11 @@ namespace Http.Grammar.Rfc7230
                 this.digitLexer.PutBack(scanner, digit1);
                 scanner.PutBack('/');
                 this.httpNameLexer.PutBack(scanner, httpName);
-                element = default(HttpVersionToken);
+                element = default(HttpVersion);
                 return false;
             }
 
-            element = new HttpVersionToken(httpName, digit1, digit2, context);
+            element = new HttpVersion(httpName, digit1, digit2, context);
             return true;
         }
     }

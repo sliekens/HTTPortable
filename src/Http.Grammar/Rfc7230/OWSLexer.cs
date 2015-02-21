@@ -5,7 +5,7 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class OWSLexer : Lexer<OWSToken>
+    public class OWSLexer : Lexer<OWS>
     {
         private readonly HorizontalTabLexer hTabLexer;
         private readonly SpaceLexer SpaceLexer;
@@ -23,10 +23,10 @@ namespace Http.Grammar.Rfc7230
             this.hTabLexer = hTabLexer;
         }
 
-        public override OWSToken Read(ITextScanner scanner)
+        public override OWS Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            OWSToken token;
+            OWS token;
             if (TryRead(scanner, out token))
             {
                 return token;
@@ -35,11 +35,11 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'OWS'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out OWSToken token)
+        public override bool TryRead(ITextScanner scanner, out OWS token)
         {
             if (scanner.EndOfInput)
             {
-                token = default(OWSToken);
+                token = default(OWS);
                 return false;
             }
 
@@ -66,7 +66,7 @@ namespace Http.Grammar.Rfc7230
                 }
             }
 
-            token = new OWSToken(elements, context);
+            token = new OWS(elements, context);
             return true;
         }
 

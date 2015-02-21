@@ -4,17 +4,17 @@ using Text.Scanning;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class FieldValueLexer : Lexer<FieldValueToken>
+    public class FieldValueLexer : Lexer<FieldValue>
     {
-        private readonly ILexer<FieldContentToken> fieldContentLexer;
-        private readonly ILexer<ObsFoldToken> obsFoldLexer;
+        private readonly ILexer<FieldContent> fieldContentLexer;
+        private readonly ILexer<ObsFold> obsFoldLexer;
 
         public FieldValueLexer()
             : this(new FieldContentLexer(), new ObsFoldLexer())
         {
         }
 
-        public FieldValueLexer(ILexer<FieldContentToken> fieldContentLexer, ILexer<ObsFoldToken> obsFoldLexer)
+        public FieldValueLexer(ILexer<FieldContent> fieldContentLexer, ILexer<ObsFold> obsFoldLexer)
         {
             Contract.Requires(fieldContentLexer != null);
             Contract.Requires(obsFoldLexer != null);
@@ -22,10 +22,10 @@ namespace Http.Grammar.Rfc7230
             this.obsFoldLexer = obsFoldLexer;
         }
 
-        public override FieldValueToken Read(ITextScanner scanner)
+        public override FieldValue Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            FieldValueToken element;
+            FieldValue element;
             if (this.TryRead(scanner, out element))
             {
                 return element;
@@ -34,29 +34,29 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'field-value'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out FieldValueToken element)
+        public override bool TryRead(ITextScanner scanner, out FieldValue element)
         {
             if (scanner.EndOfInput)
             {
-                element = default(FieldValueToken);
+                element = default(FieldValue);
                 return false;
             }
 
             var context = scanner.GetContext();
-            IList<Alternative<FieldContentToken, ObsFoldToken>> tokens = new List<Alternative<FieldContentToken, ObsFoldToken>>();
+            IList<Alternative<FieldContent, ObsFold>> tokens = new List<Alternative<FieldContent, ObsFold>>();
             for (; ; )
             {
-                FieldContentToken fieldContent;
+                FieldContent fieldContent;
                 if (this.fieldContentLexer.TryRead(scanner, out fieldContent))
                 {
-                    tokens.Add(new Alternative<FieldContentToken, ObsFoldToken>(fieldContent, context));
+                    tokens.Add(new Alternative<FieldContent, ObsFold>(fieldContent, context));
                 }
                 else
                 {
-                    ObsFoldToken obsFold;
+                    ObsFold obsFold;
                     if (this.obsFoldLexer.TryRead(scanner, out obsFold))
                     {
-                        tokens.Add(new Alternative<FieldContentToken, ObsFoldToken>(obsFold, context));
+                        tokens.Add(new Alternative<FieldContent, ObsFold>(obsFold, context));
                     }
                     else
                     {
@@ -65,7 +65,7 @@ namespace Http.Grammar.Rfc7230
                 }
             }
 
-            element = new FieldValueToken(tokens, context);
+            element = new FieldValue(tokens, context);
             return true;
         }
 

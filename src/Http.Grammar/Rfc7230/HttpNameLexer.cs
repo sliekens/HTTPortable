@@ -2,12 +2,12 @@
 
 namespace Http.Grammar.Rfc7230
 {
-    public class HttpNameLexer : Lexer<HttpNameToken>
+    public class HttpNameLexer : Lexer<HttpName>
     {
-        public override HttpNameToken Read(ITextScanner scanner)
+        public override HttpName Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            HttpNameToken element;
+            HttpName element;
             if (this.TryRead(scanner, out element))
             {
                 return element;
@@ -16,14 +16,14 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected HTTP-name");
         }
 
-        public override bool TryRead(ITextScanner scanner, out HttpNameToken element)
+        public override bool TryRead(ITextScanner scanner, out HttpName element)
         {
             var context = scanner.GetContext();
 
             // H
             if (!scanner.TryMatch('\u0048'))
             {
-                element = default(HttpNameToken);
+                element = default(HttpName);
                 return false;
             }
 
@@ -31,7 +31,7 @@ namespace Http.Grammar.Rfc7230
             if (!scanner.TryMatch('\u0054'))
             {
                 scanner.PutBack('\u0048');
-                element = default(HttpNameToken);
+                element = default(HttpName);
                 return false;
             }
 
@@ -40,7 +40,7 @@ namespace Http.Grammar.Rfc7230
             {
                 scanner.PutBack('\u0054');
                 scanner.PutBack('\u0048');
-                element = default(HttpNameToken);
+                element = default(HttpName);
                 return false;
             }
 
@@ -50,11 +50,11 @@ namespace Http.Grammar.Rfc7230
                 scanner.PutBack('\u0054');
                 scanner.PutBack('\u0054');
                 scanner.PutBack('\u0048');
-                element = default(HttpNameToken);
+                element = default(HttpName);
                 return false;
             }
 
-            element = new HttpNameToken(context);
+            element = new HttpName(context);
             return true;
         }
     }

@@ -5,14 +5,14 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class RequestLineToken : Element
+    public class RequestLine : Element
     {
-        private readonly MethodToken method;
+        private readonly Method method;
         private readonly Token requestTarget;
-        private readonly HttpVersionToken httpVersion;
+        private readonly HttpVersion httpVersion;
 
         // TODO: implement a URI element
-        public RequestLineToken(MethodToken method, Space sp1, Token requestTarget, Space sp2, HttpVersionToken httpVersion, EndOfLine endOfLine, ITextContext context)
+        public RequestLine(Method method, Space sp1, Token requestTarget, Space sp2, HttpVersion httpVersion, EndOfLine endOfLine, ITextContext context)
             : base(string.Concat(method.Data, sp1.Data, requestTarget.Data, sp2.Data, httpVersion.Data, endOfLine.Data), context)
         {
             Contract.Requires(method != null);

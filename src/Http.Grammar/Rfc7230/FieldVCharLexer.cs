@@ -5,10 +5,10 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class FieldVCharLexer : Lexer<FieldVCharToken>
+    public class FieldVCharLexer : Lexer<FieldVChar>
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly ILexer<ObsTextToken> obsTextLexer;
+        private readonly ILexer<ObsText> obsTextLexer;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly ILexer<VisibleCharacter> vCharLexer;
@@ -18,7 +18,7 @@ namespace Http.Grammar.Rfc7230
         {
         }
 
-        public FieldVCharLexer(ILexer<VisibleCharacter> vCharLexer, ILexer<ObsTextToken> obsTextLexer)
+        public FieldVCharLexer(ILexer<VisibleCharacter> vCharLexer, ILexer<ObsText> obsTextLexer)
         {
             Contract.Requires(vCharLexer != null);
             Contract.Requires(obsTextLexer != null);
@@ -26,9 +26,9 @@ namespace Http.Grammar.Rfc7230
             this.obsTextLexer = obsTextLexer;
         }
 
-        public override FieldVCharToken Read(ITextScanner scanner)
+        public override FieldVChar Read(ITextScanner scanner)
         {
-            FieldVCharToken element;
+            FieldVChar element;
             var context = scanner.GetContext();
             if (TryRead(scanner, out element))
             {
@@ -38,24 +38,24 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'field-vchar'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out FieldVCharToken element)
+        public override bool TryRead(ITextScanner scanner, out FieldVChar element)
         {
             var context = scanner.GetContext();
             VisibleCharacter vCharToken;
             if (vCharLexer.TryRead(scanner, out vCharToken))
             {
-                element = new FieldVCharToken(vCharToken, context);
+                element = new FieldVChar(vCharToken, context);
                 return true;
             }
 
-            ObsTextToken obsTextToken;
-            if (obsTextLexer.TryRead(scanner, out obsTextToken))
+            ObsText obsText;
+            if (obsTextLexer.TryRead(scanner, out obsText))
             {
-                element = new FieldVCharToken(obsTextToken, context);
+                element = new FieldVChar(obsText, context);
                 return true;
             }
 
-            element = default(FieldVCharToken);
+            element = default(FieldVChar);
             return false;
         }
 

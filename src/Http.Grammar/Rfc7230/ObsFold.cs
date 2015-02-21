@@ -6,10 +6,10 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class ObsFoldToken : Element
+    public class ObsFold : Element
     {
         // TODO: refactor whitespace as RWS
-        public ObsFoldToken(EndOfLine endOfLine, IList<WhiteSpace> whitespace, ITextContext context)
+        public ObsFold(EndOfLine endOfLine, IList<WhiteSpace> whitespace, ITextContext context)
             : base("\r\n" + string.Concat(whitespace.Select(space => space.Data)), context)
         {
             Contract.Requires(endOfLine != null);

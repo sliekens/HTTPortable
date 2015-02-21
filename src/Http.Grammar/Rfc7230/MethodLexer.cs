@@ -3,7 +3,7 @@ using Text.Scanning;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class MethodLexer : Lexer<MethodToken>
+    public class MethodLexer : Lexer<Method>
     {
         private readonly ILexer<Token> tokenLexer;
 
@@ -18,10 +18,10 @@ namespace Http.Grammar.Rfc7230
             this.tokenLexer = tokenLexer;
         }
 
-        public override MethodToken Read(ITextScanner scanner)
+        public override Method Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            MethodToken element;
+            Method element;
             if (this.TryRead(scanner, out element))
             {
                 return element;
@@ -30,17 +30,17 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'method'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out MethodToken element)
+        public override bool TryRead(ITextScanner scanner, out Method element)
         {
             var context = scanner.GetContext();
             Token token;
             if (this.tokenLexer.TryRead(scanner, out token))
             {
-                element = new MethodToken(token, context);
+                element = new Method(token, context);
                 return true;
             }
 
-            element = default(MethodToken);
+            element = default(Method);
             return false;
         }
 

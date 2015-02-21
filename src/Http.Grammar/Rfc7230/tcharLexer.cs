@@ -4,7 +4,7 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class TCharLexer : Lexer<TCharToken>
+    public class TCharLexer : Lexer<TChar>
     {
         private readonly ILexer<Alpha> alphaLexer;
         private readonly ILexer<Digit> digitLexer;
@@ -21,10 +21,10 @@ namespace Http.Grammar.Rfc7230
             this.alphaLexer = alphaLexer;
             this.digitLexer = digitLexer;
         }
-        public override TCharToken Read(ITextScanner scanner)
+        public override TChar Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            TCharToken token;
+            TChar token;
             if (this.TryRead(scanner, out token))
             {
                 return token;
@@ -33,11 +33,11 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'tchar'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out TCharToken token)
+        public override bool TryRead(ITextScanner scanner, out TChar token)
         {
             if (scanner.EndOfInput)
             {
-                token = default (TCharToken);
+                token = default (TChar);
                 return false;
             }
 
@@ -46,7 +46,7 @@ namespace Http.Grammar.Rfc7230
             {
                 if (scanner.TryMatch(c))
                 {
-                    token = new TCharToken(c, context);
+                    token = new TChar(c, context);
                     return true;
                 }
             }
@@ -54,18 +54,18 @@ namespace Http.Grammar.Rfc7230
             Digit digit;
             if (this.digitLexer.TryRead(scanner, out digit))
             {
-                token = new TCharToken(digit, context);
+                token = new TChar(digit, context);
                 return true;
             }
 
             Alpha alpha;
             if (this.alphaLexer.TryRead(scanner, out alpha))
             {
-                token = new TCharToken(alpha, context);
+                token = new TChar(alpha, context);
                 return true;
             }
 
-            token = default(TCharToken);
+            token = default(TChar);
             return false;
         }
 

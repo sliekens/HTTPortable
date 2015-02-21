@@ -4,13 +4,13 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class HttpVersionToken : Element
+    public class HttpVersion : Element
     {
-        private readonly HttpNameToken httpName;
+        private readonly HttpName httpName;
         private readonly Digit digit1;
         private readonly Digit digit2;
 
-        public HttpVersionToken(HttpNameToken httpName, Digit digit1, Digit digit2, ITextContext context)
+        public HttpVersion(HttpName httpName, Digit digit1, Digit digit2, ITextContext context)
             : base(string.Concat(httpName.Data, "/", digit1.Data, ".", digit2.Data), context)
         {
             this.httpName = httpName;
@@ -18,7 +18,7 @@ namespace Http.Grammar.Rfc7230
             this.digit2 = digit2;
         }
 
-        public HttpNameToken HttpName
+        public HttpName HttpName
         {
             get
             {

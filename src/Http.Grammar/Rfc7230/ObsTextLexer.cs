@@ -2,11 +2,11 @@
 
 namespace Http.Grammar.Rfc7230
 {
-    public class ObsTextLexer : Lexer<ObsTextToken>
+    public class ObsTextLexer : Lexer<ObsText>
     {
-        public override ObsTextToken Read(ITextScanner scanner)
+        public override ObsText Read(ITextScanner scanner)
         {
-            ObsTextToken token;
+            ObsText token;
             if (this.TryRead(scanner, out token))
             {
                 return token;
@@ -15,11 +15,11 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(scanner.GetContext(), "Expected 'obs-text'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out ObsTextToken token)
+        public override bool TryRead(ITextScanner scanner, out ObsText token)
         {
             if (scanner.EndOfInput)
             {
-                token = default(ObsTextToken);
+                token = default(ObsText);
                 return false;
             }
 
@@ -28,12 +28,12 @@ namespace Http.Grammar.Rfc7230
             {
                 if (scanner.TryMatch(c))
                 {
-                    token = new ObsTextToken(c, context);
+                    token = new ObsText(c, context);
                     return true;
                 }
             }
 
-            token = default(ObsTextToken);
+            token = default(ObsText);
             return false;
         }
     }

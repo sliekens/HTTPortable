@@ -5,33 +5,33 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class FieldVCharToken : Element
+    public class FieldVChar : Element
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly ObsTextToken obsTextToken;
+        private readonly ObsText obsText;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly VisibleCharacter visibleCharacter;
 
-        public FieldVCharToken(VisibleCharacter visibleCharacter, ITextContext context)
+        public FieldVChar(VisibleCharacter visibleCharacter, ITextContext context)
             : base(visibleCharacter.Data, context)
         {
             Contract.Requires(visibleCharacter != null);
             this.visibleCharacter = visibleCharacter;
         }
 
-        public FieldVCharToken(ObsTextToken obsTextToken, ITextContext context)
-            : base(obsTextToken.Data, context)
+        public FieldVChar(ObsText obsText, ITextContext context)
+            : base(obsText.Data, context)
         {
-            Contract.Requires(obsTextToken != null);
-            this.obsTextToken = obsTextToken;
+            Contract.Requires(obsText != null);
+            this.obsText = obsText;
         }
 
-        public ObsTextToken ObsText
+        public ObsText ObsText
         {
             get
             {
-                return this.obsTextToken;
+                return this.obsText;
             }
         }
 
@@ -46,7 +46,7 @@ namespace Http.Grammar.Rfc7230
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.visibleCharacter == null || this.obsTextToken == null);
+            Contract.Invariant(this.visibleCharacter == null || this.obsText == null);
         }
     }
 }

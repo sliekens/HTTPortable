@@ -3,18 +3,18 @@ using Text.Scanning;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class HeaderFieldLexer : Lexer<HeaderFieldToken>
+    public class HeaderFieldLexer : Lexer<HeaderField>
     {
-        private readonly ILexer<FieldNameToken> fieldNameLexer;
-        private readonly ILexer<OWSToken> owsLexer;
-        private readonly ILexer<FieldValueToken> fieldValueLexer;
+        private readonly ILexer<FieldName> fieldNameLexer;
+        private readonly ILexer<OWS> owsLexer;
+        private readonly ILexer<FieldValue> fieldValueLexer;
 
         public HeaderFieldLexer()
             : this(new FieldNameLexer(), new OWSLexer(), new FieldValueLexer())
         {
         }
 
-        public HeaderFieldLexer(ILexer<FieldNameToken> fieldNameLexer, ILexer<OWSToken> owsLexer, ILexer<FieldValueToken> fieldValueLexer)
+        public HeaderFieldLexer(ILexer<FieldName> fieldNameLexer, ILexer<OWS> owsLexer, ILexer<FieldValue> fieldValueLexer)
         {
             Contract.Requires(fieldNameLexer != null);
             Contract.Requires(owsLexer != null);
@@ -24,10 +24,10 @@ namespace Http.Grammar.Rfc7230
             this.fieldValueLexer = fieldValueLexer;
         }
 
-        public override HeaderFieldToken Read(ITextScanner scanner)
+        public override HeaderField Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            HeaderFieldToken element;
+            HeaderField element;
             if (this.TryRead(scanner, out element))
             {
                 return element;
@@ -36,60 +36,60 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'header-field'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out HeaderFieldToken element)
+        public override bool TryRead(ITextScanner scanner, out HeaderField element)
         {
             if (scanner.EndOfInput)
             {
-                element = default(HeaderFieldToken);
+                element = default(HeaderField);
                 return false;
             }
 
             var context = scanner.GetContext();
-            FieldNameToken fieldName;
+            FieldName fieldName;
             if (!this.fieldNameLexer.TryRead(scanner, out fieldName))
             {
-                element = default(HeaderFieldToken);
+                element = default(HeaderField);
                 return false;
             }
 
             if (!scanner.TryMatch(':'))
             {
                 this.fieldNameLexer.PutBack(scanner, fieldName);
-                element = default(HeaderFieldToken);
+                element = default(HeaderField);
                 return false;
             }
 
-            OWSToken ows1;
+            OWS ows1;
             if (!this.owsLexer.TryRead(scanner, out ows1))
             {
                 scanner.PutBack(':');
                 this.fieldNameLexer.PutBack(scanner, fieldName);
-                element = default(HeaderFieldToken);
+                element = default(HeaderField);
                 return false;
             }
 
-            FieldValueToken fieldValue;
+            FieldValue fieldValue;
             if (!this.fieldValueLexer.TryRead(scanner, out fieldValue))
             {
                 this.owsLexer.PutBack(scanner, ows1);
                 scanner.PutBack(':');
                 this.fieldNameLexer.PutBack(scanner, fieldName);
-                element = default(HeaderFieldToken);
+                element = default(HeaderField);
                 return false;
             }
 
-            OWSToken ows2;
+            OWS ows2;
             if (!this.owsLexer.TryRead(scanner, out ows2))
             {
                 this.fieldValueLexer.PutBack(scanner, fieldValue);
                 this.owsLexer.PutBack(scanner, ows1);
                 scanner.PutBack(':');
                 this.fieldNameLexer.PutBack(scanner, fieldName);
-                element = default(HeaderFieldToken);
+                element = default(HeaderField);
                 return false;
             }
 
-            element = new HeaderFieldToken(fieldName, ows1, fieldValue, ows2, context);
+            element = new HeaderField(fieldName, ows1, fieldValue, ows2, context);
             return true;
         }
 

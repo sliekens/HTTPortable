@@ -8,18 +8,18 @@ namespace Http.Grammar.Rfc7230
 {
     public class Token : Element
     {
-        private readonly IList<TCharToken> tCharList;
+        private readonly IList<TChar> tCharList;
 
-        public Token(IList<TCharToken> tCharList, ITextContext context)
+        public Token(IList<TChar> tCharList, ITextContext context)
             : base(string.Concat(tCharList.Select(tchar => tchar.Data)), context)
         {
             Contract.Requires(tCharList != null);
             Contract.Requires(tCharList.Count > 0);
             Contract.Requires(Contract.ForAll(tCharList, tchar => tchar != null));
-            this.tCharList = new ReadOnlyCollection<TCharToken>(tCharList.ToList());
+            this.tCharList = new ReadOnlyCollection<TChar>(tCharList.ToList());
         }
 
-        public IList<TCharToken> TCharList
+        public IList<TChar> TCharList
         {
             get
             {

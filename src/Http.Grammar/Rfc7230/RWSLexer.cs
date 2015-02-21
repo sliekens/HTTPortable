@@ -5,7 +5,7 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class RWSLexer : Lexer<RWSToken>
+    public class RWSLexer : Lexer<RWS>
     {
         private readonly ILexer<Space> SpaceLexer;
         private readonly ILexer<HorizontalTab> hTabLexer;
@@ -23,10 +23,10 @@ namespace Http.Grammar.Rfc7230
             this.hTabLexer = hTabLexer;
         }
 
-        public override RWSToken Read(ITextScanner scanner)
+        public override RWS Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            RWSToken element;
+            RWS element;
             if (this.TryRead(scanner, out element))
             {
                 return element;
@@ -35,11 +35,11 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'RWS'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out RWSToken element)
+        public override bool TryRead(ITextScanner scanner, out RWS element)
         {
             if (scanner.EndOfInput)
             {
-                element = default(RWSToken);
+                element = default(RWS);
                 return false;
             }
 
@@ -59,7 +59,7 @@ namespace Http.Grammar.Rfc7230
                 }
                 else
                 {
-                    element = default(RWSToken);
+                    element = default(RWS);
                     return false;
                 }
             }
@@ -85,7 +85,7 @@ namespace Http.Grammar.Rfc7230
                 }
             }
 
-            element = new RWSToken(tokens, context);
+            element = new RWS(tokens, context);
             return true;
         }
 

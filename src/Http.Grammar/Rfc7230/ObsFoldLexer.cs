@@ -5,7 +5,7 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class ObsFoldLexer : Lexer<ObsFoldToken>
+    public class ObsFoldLexer : Lexer<ObsFold>
     {
         private readonly ILexer<EndOfLine> crLfLexer;
         private readonly ILexer<Space> spLexer;
@@ -26,10 +26,10 @@ namespace Http.Grammar.Rfc7230
             this.hTabLexer = hTabLexer;
         }
 
-        public override ObsFoldToken Read(ITextScanner scanner)
+        public override ObsFold Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            ObsFoldToken element;
+            ObsFold element;
             if (this.TryRead(scanner, out element))
             {
                 return element;
@@ -38,11 +38,11 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'obs-fold'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out ObsFoldToken element)
+        public override bool TryRead(ITextScanner scanner, out ObsFold element)
         {
             if (scanner.EndOfInput)
             {
-                element = default(ObsFoldToken);
+                element = default(ObsFold);
                 return false;
             }
 
@@ -50,7 +50,7 @@ namespace Http.Grammar.Rfc7230
             EndOfLine endOfLine;
             if (!this.crLfLexer.TryRead(scanner, out endOfLine))
             {
-                element = default(ObsFoldToken);
+                element = default(ObsFold);
                 return false;
             }
 
@@ -70,7 +70,7 @@ namespace Http.Grammar.Rfc7230
                 else
                 {
                     this.crLfLexer.PutBack(scanner, endOfLine);
-                    element = default(ObsFoldToken);
+                    element = default(ObsFold);
                     return false;
                 }
             }
@@ -95,7 +95,7 @@ namespace Http.Grammar.Rfc7230
                 }
             }
 
-            element = new ObsFoldToken(endOfLine, elements, context);
+            element = new ObsFold(endOfLine, elements, context);
             return true;
         }
 

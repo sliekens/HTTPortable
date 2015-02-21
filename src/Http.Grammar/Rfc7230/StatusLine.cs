@@ -4,14 +4,14 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class StatusLineToken : Element
+    public class StatusLine : Element
     {
-        private readonly HttpVersionToken httpVersion;
-        private readonly ReasonPhraseToken reasonPhrase;
-        private readonly StatusCodeToken statusCode;
+        private readonly HttpVersion httpVersion;
+        private readonly ReasonPhrase reasonPhrase;
+        private readonly StatusCode statusCode;
 
-        public StatusLineToken(HttpVersionToken httpVersion, Space space1, StatusCodeToken statusCode, Space space2,
-            ReasonPhraseToken reasonPhrase, EndOfLine endOfLine, ITextContext context)
+        public StatusLine(HttpVersion httpVersion, Space space1, StatusCode statusCode, Space space2,
+            ReasonPhrase reasonPhrase, EndOfLine endOfLine, ITextContext context)
             : base(string.Concat(httpVersion, space1, statusCode, space2, reasonPhrase, endOfLine), context)
         {
             Contract.Requires(httpVersion != null);
@@ -25,7 +25,7 @@ namespace Http.Grammar.Rfc7230
             this.reasonPhrase = reasonPhrase;
         }
 
-        public HttpVersionToken HttpVersion
+        public HttpVersion HttpVersion
         {
             get
             {
@@ -33,7 +33,7 @@ namespace Http.Grammar.Rfc7230
             }
         }
 
-        public ReasonPhraseToken ReasonPhrase
+        public ReasonPhrase ReasonPhrase
         {
             get
             {
@@ -41,7 +41,7 @@ namespace Http.Grammar.Rfc7230
             }
         }
 
-        public StatusCodeToken StatusCode
+        public StatusCode StatusCode
         {
             get
             {

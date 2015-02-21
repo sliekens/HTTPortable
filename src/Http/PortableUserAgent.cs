@@ -60,7 +60,7 @@ namespace Http
                     var crLfLexer = new EndOfLineLexer();
                     for (; ; )
                     {
-                        HeaderFieldToken headerField;
+                        HeaderField headerField;
                         if (headerFieldLexer.TryRead(scanner, out headerField))
                         {
                             crLfLexer.Read(scanner);

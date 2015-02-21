@@ -4,21 +4,21 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class StatusLineLexer : Lexer<StatusLineToken>
+    public class StatusLineLexer : Lexer<StatusLine>
     {
         private readonly ILexer<EndOfLine> endOfLineLexer;
-        private readonly ILexer<HttpVersionToken> httpVersionLexer;
-        private readonly ILexer<ReasonPhraseToken> reasonPhraseLexer;
+        private readonly ILexer<HttpVersion> httpVersionLexer;
+        private readonly ILexer<ReasonPhrase> reasonPhraseLexer;
         private readonly ILexer<Space> spaceLexer;
-        private readonly ILexer<StatusCodeToken> statusCodeLexer;
+        private readonly ILexer<StatusCode> statusCodeLexer;
 
         public StatusLineLexer()
             : this(new HttpVersionLexer(), new SpaceLexer(), new StatusCodeLexer(), new ReasonPhraseLexer(), new EndOfLineLexer())
         {
         }
 
-        public StatusLineLexer(ILexer<HttpVersionToken> httpVersionLexer, ILexer<Space> spaceLexer,
-            ILexer<StatusCodeToken> statusCodeLexer, ILexer<ReasonPhraseToken> reasonPhraseLexer,
+        public StatusLineLexer(ILexer<HttpVersion> httpVersionLexer, ILexer<Space> spaceLexer,
+            ILexer<StatusCode> statusCodeLexer, ILexer<ReasonPhrase> reasonPhraseLexer,
             ILexer<EndOfLine> endOfLineLexer)
         {
             Contract.Requires(httpVersionLexer != null);
@@ -33,10 +33,10 @@ namespace Http.Grammar.Rfc7230
             this.endOfLineLexer = endOfLineLexer;
         }
 
-        public override StatusLineToken Read(ITextScanner scanner)
+        public override StatusLine Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            StatusLineToken token;
+            StatusLine token;
             if (this.TryRead(scanner, out token))
             {
                 return token;
@@ -45,19 +45,19 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'status-line'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out StatusLineToken token)
+        public override bool TryRead(ITextScanner scanner, out StatusLine token)
         {
             if (scanner.EndOfInput)
             {
-                token = default(StatusLineToken);
+                token = default(StatusLine);
                 return false;
             }
 
             var context = scanner.GetContext();
-            HttpVersionToken httpVersion;
+            HttpVersion httpVersion;
             if (!this.httpVersionLexer.TryRead(scanner, out httpVersion))
             {
-                token = default(StatusLineToken);
+                token = default(StatusLine);
                 return false;
             }
 
@@ -65,16 +65,16 @@ namespace Http.Grammar.Rfc7230
             if (!this.spaceLexer.TryRead(scanner, out space1))
             {
                 this.httpVersionLexer.PutBack(scanner, httpVersion);
-                token = default(StatusLineToken);
+                token = default(StatusLine);
                 return false;
             }
 
-            StatusCodeToken statusCode;
+            StatusCode statusCode;
             if (!this.statusCodeLexer.TryRead(scanner, out statusCode))
             {
                 this.spaceLexer.PutBack(scanner, space1);
                 this.httpVersionLexer.PutBack(scanner, httpVersion);
-                token = default(StatusLineToken);
+                token = default(StatusLine);
                 return false;
             }
 
@@ -84,18 +84,18 @@ namespace Http.Grammar.Rfc7230
                 this.statusCodeLexer.PutBack(scanner, statusCode);
                 this.spaceLexer.PutBack(scanner, space1);
                 this.httpVersionLexer.PutBack(scanner, httpVersion);
-                token = default(StatusLineToken);
+                token = default(StatusLine);
                 return false;
             }
 
-            ReasonPhraseToken reasonPhrase;
+            ReasonPhrase reasonPhrase;
             if (!this.reasonPhraseLexer.TryRead(scanner, out reasonPhrase))
             {
                 this.spaceLexer.PutBack(scanner, space2);
                 this.statusCodeLexer.PutBack(scanner, statusCode);
                 this.spaceLexer.PutBack(scanner, space1);
                 this.httpVersionLexer.PutBack(scanner, httpVersion);
-                token = default(StatusLineToken);
+                token = default(StatusLine);
                 return false;
             }
 
@@ -107,11 +107,11 @@ namespace Http.Grammar.Rfc7230
                 this.statusCodeLexer.PutBack(scanner, statusCode);
                 this.spaceLexer.PutBack(scanner, space1);
                 this.httpVersionLexer.PutBack(scanner, httpVersion);
-                token = default(StatusLineToken);
+                token = default(StatusLine);
                 return false;
             }
 
-            token = new StatusLineToken(httpVersion, space1, statusCode, space2, reasonPhrase, endOfLine, context);
+            token = new StatusLine(httpVersion, space1, statusCode, space2, reasonPhrase, endOfLine, context);
             return true;
         }
 

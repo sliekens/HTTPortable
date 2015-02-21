@@ -2,9 +2,9 @@
 
 namespace Http.Grammar.Rfc7230
 {
-    public class HttpNameToken : Element
+    public class HttpName : Element
     {
-        public HttpNameToken(ITextContext context)
+        public HttpName(ITextContext context)
             : base("HTTP", context)
         {
         }

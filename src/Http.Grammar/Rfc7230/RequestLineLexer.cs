@@ -4,11 +4,11 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class RequestLineLexer : Lexer<RequestLineToken>
+    public class RequestLineLexer : Lexer<RequestLine>
     {
         private readonly ILexer<EndOfLine> crLfLexer;
-        private readonly ILexer<HttpVersionToken> httpVersionLexer;
-        private readonly ILexer<MethodToken> methodLexer;
+        private readonly ILexer<HttpVersion> httpVersionLexer;
+        private readonly ILexer<Method> methodLexer;
         private readonly ILexer<Space> spLexer;
         private readonly ILexer<Token> tokenLexer;
 
@@ -17,8 +17,8 @@ namespace Http.Grammar.Rfc7230
         {
         }
 
-        public RequestLineLexer(ILexer<MethodToken> methodLexer, ILexer<Space> spLexer, ILexer<Token> tokenLexer,
-            ILexer<HttpVersionToken> httpVersionLexer, ILexer<EndOfLine> crLfLexer)
+        public RequestLineLexer(ILexer<Method> methodLexer, ILexer<Space> spLexer, ILexer<Token> tokenLexer,
+            ILexer<HttpVersion> httpVersionLexer, ILexer<EndOfLine> crLfLexer)
         {
             Contract.Requires(methodLexer != null);
             Contract.Requires(spLexer != null);
@@ -32,10 +32,10 @@ namespace Http.Grammar.Rfc7230
             this.crLfLexer = crLfLexer;
         }
 
-        public override RequestLineToken Read(ITextScanner scanner)
+        public override RequestLine Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            RequestLineToken token;
+            RequestLine token;
             if (TryRead(scanner, out token))
             {
                 return token;
@@ -44,10 +44,10 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'request-line'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out RequestLineToken token)
+        public override bool TryRead(ITextScanner scanner, out RequestLine token)
         {
             var context = scanner.GetContext();
-            MethodToken method;
+            Method method;
             if (!methodLexer.TryRead(scanner, out method))
             {
                 return Default(out token);
@@ -78,7 +78,7 @@ namespace Http.Grammar.Rfc7230
                 return Default(out token);
             }
 
-            HttpVersionToken httpVersion;
+            HttpVersion httpVersion;
             if (!httpVersionLexer.TryRead(scanner, out httpVersion))
             {
                 spLexer.PutBack(scanner, sp2);
@@ -99,7 +99,7 @@ namespace Http.Grammar.Rfc7230
                 return Default(out token);
             }
 
-            token = new RequestLineToken(method, sp1, requestTarget, sp2, httpVersion, endOfLine, context);
+            token = new RequestLine(method, sp1, requestTarget, sp2, httpVersion, endOfLine, context);
             return true;
         }
 

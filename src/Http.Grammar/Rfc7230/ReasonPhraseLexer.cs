@@ -5,10 +5,10 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class ReasonPhraseLexer : Lexer<ReasonPhraseToken>
+    public class ReasonPhraseLexer : Lexer<ReasonPhrase>
     {
         private readonly ILexer<HorizontalTab> hTabLexer;
-        private readonly ILexer<ObsTextToken> obsTextLexer;
+        private readonly ILexer<ObsText> obsTextLexer;
         private readonly ILexer<Space> SpaceLexer;
         private readonly ILexer<VisibleCharacter> vCharLexer;
 
@@ -18,7 +18,7 @@ namespace Http.Grammar.Rfc7230
         }
 
         public ReasonPhraseLexer(ILexer<HorizontalTab> hTabLexer, ILexer<Space> SpaceLexer, ILexer<VisibleCharacter> vCharLexer,
-            ILexer<ObsTextToken> obsTextLexer)
+            ILexer<ObsText> obsTextLexer)
         {
             Contract.Requires(hTabLexer != null);
             Contract.Requires(SpaceLexer != null);
@@ -30,10 +30,10 @@ namespace Http.Grammar.Rfc7230
             this.obsTextLexer = obsTextLexer;
         }
 
-        public override ReasonPhraseToken Read(ITextScanner scanner)
+        public override ReasonPhrase Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            ReasonPhraseToken token;
+            ReasonPhrase token;
             if (this.TryRead(scanner, out token))
             {
                 return token;
@@ -43,7 +43,7 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'reason-phrase'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out ReasonPhraseToken token)
+        public override bool TryRead(ITextScanner scanner, out ReasonPhrase token)
         {
             var context = scanner.GetContext();
             var tokens = new List<Element>();
@@ -52,7 +52,7 @@ namespace Http.Grammar.Rfc7230
                 HorizontalTab hTabToken;
                 Space Space;
                 VisibleCharacter vCharToken;
-                ObsTextToken obsTextToken;
+                ObsText obsText;
                 if (this.hTabLexer.TryRead(scanner, out hTabToken))
                 {
                     tokens.Add(hTabToken);
@@ -65,9 +65,9 @@ namespace Http.Grammar.Rfc7230
                 {
                     tokens.Add(vCharToken);
                 }
-                else if (this.obsTextLexer.TryRead(scanner, out obsTextToken))
+                else if (this.obsTextLexer.TryRead(scanner, out obsText))
                 {
-                    tokens.Add(obsTextToken);
+                    tokens.Add(obsText);
                 }
                 else
                 {
@@ -75,7 +75,7 @@ namespace Http.Grammar.Rfc7230
                 }
             }
 
-            token = new ReasonPhraseToken(tokens, context);
+            token = new ReasonPhrase(tokens, context);
             return true;
         }
 

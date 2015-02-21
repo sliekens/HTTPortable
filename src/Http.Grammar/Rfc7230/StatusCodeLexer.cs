@@ -4,7 +4,7 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class StatusCodeLexer : Lexer<StatusCodeToken>
+    public class StatusCodeLexer : Lexer<StatusCode>
     {
         private readonly ILexer<Digit> digitLexer;
 
@@ -19,10 +19,10 @@ namespace Http.Grammar.Rfc7230
             this.digitLexer = digitLexer;
         }
 
-        public override StatusCodeToken Read(ITextScanner scanner)
+        public override StatusCode Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            StatusCodeToken token;
+            StatusCode token;
             if (this.TryRead(scanner, out token))
             {
                 return token;
@@ -31,11 +31,11 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'status-code'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out StatusCodeToken token)
+        public override bool TryRead(ITextScanner scanner, out StatusCode token)
         {
             if (scanner.EndOfInput)
             {
-                token = default(StatusCodeToken);
+                token = default(StatusCode);
                 return false;
             }
 
@@ -43,14 +43,14 @@ namespace Http.Grammar.Rfc7230
             var context = scanner.GetContext();
             if (!this.digitLexer.TryRead(scanner, out digit1))
             {
-                token = default(StatusCodeToken);
+                token = default(StatusCode);
                 return false;
             }
 
             if (!this.digitLexer.TryRead(scanner, out digit2))
             {
                 this.digitLexer.PutBack(scanner, digit1);
-                token = default(StatusCodeToken);
+                token = default(StatusCode);
                 return false;
             }
 
@@ -58,11 +58,11 @@ namespace Http.Grammar.Rfc7230
             {
                 this.digitLexer.PutBack(scanner, digit2);
                 this.digitLexer.PutBack(scanner, digit1);
-                token = default(StatusCodeToken);
+                token = default(StatusCode);
                 return false;
             }
 
-            token = new StatusCodeToken(digit1, digit2, digit3, context);
+            token = new StatusCode(digit1, digit2, digit3, context);
             return true;
         }
 
