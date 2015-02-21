@@ -36,6 +36,8 @@
   <ItemGroup>
     <Compile Include="GenDelimsLexer.cs" />
     <Compile Include="GenDelimsToken.cs" />
+    <Compile Include="PCharLexer.cs" />
+    <Compile Include="PCharToken.cs" />
     <Compile Include="PctEncodedLexer.cs" />
     <Compile Include="PctEncodedToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
