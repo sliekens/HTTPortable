@@ -8,25 +8,31 @@ namespace Http.Grammar.Rfc7230
         private readonly FieldName fieldName;
         private readonly FieldValue fieldValue;
 
-        public HeaderField(FieldName fieldName, OptionalWhiteSpace ows1, FieldValue fieldValue, OptionalWhiteSpace ows2, ITextContext context)
-            : base(string.Concat(fieldName.Data, ":", ows1.Data, fieldValue.Data, ows2.Data), context)
+        public HeaderField(FieldName fieldName, OptionalWhiteSpace optionalWhiteSpace1, FieldValue fieldValue, OptionalWhiteSpace optionalWhiteSpace2, ITextContext context)
+            : base(string.Concat(fieldName.Data, ":", optionalWhiteSpace1.Data, fieldValue.Data, optionalWhiteSpace2.Data), context)
         {
             Contract.Requires(fieldName != null);
-            Contract.Requires(ows1 != null);
+            Contract.Requires(optionalWhiteSpace1 != null);
             Contract.Requires(fieldValue != null);
-            Contract.Requires(ows2 != null);
+            Contract.Requires(optionalWhiteSpace2 != null);
             this.fieldName = fieldName;
             this.fieldValue = fieldValue;
         }
 
         public FieldName FieldName
         {
-            get { return fieldName; }
+            get
+            {
+                return this.fieldName;
+            }
         }
 
         public FieldValue FieldValue
         {
-            get { return fieldValue; }
+            get
+            {
+                return this.fieldValue;
+            }
         }
 
         [ContractInvariantMethod]
