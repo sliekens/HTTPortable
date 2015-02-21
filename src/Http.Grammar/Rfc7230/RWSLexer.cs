@@ -7,74 +7,76 @@ namespace Http.Grammar.Rfc7230
 {
     public class RWSLexer : Lexer<RWSToken>
     {
-        private readonly ILexer<SpToken> spLexer;
-        private readonly ILexer<HTabToken> hTabLexer;
+        private readonly ILexer<Space> SpaceLexer;
+        private readonly ILexer<HorizontalTab> hTabLexer;
 
         public RWSLexer()
-            : this(new SpLexer(), new HTabLexer())
+            : this(new SpaceLexer(), new HorizontalTabLexer())
         {
         }
 
-        public RWSLexer(ILexer<SpToken> spLexer, ILexer<HTabToken> hTabLexer)
+        public RWSLexer(ILexer<Space> SpaceLexer, ILexer<HorizontalTab> hTabLexer)
         {
-            Contract.Requires(spLexer != null);
+            Contract.Requires(SpaceLexer != null);
             Contract.Requires(hTabLexer != null);
-            this.spLexer = spLexer;
+            this.SpaceLexer = SpaceLexer;
             this.hTabLexer = hTabLexer;
         }
 
         public override RWSToken Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            RWSToken token;
-            if (this.TryRead(scanner, out token))
+            RWSToken element;
+            if (this.TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'RWS'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out RWSToken token)
+        public override bool TryRead(ITextScanner scanner, out RWSToken element)
         {
             if (scanner.EndOfInput)
             {
-                token = default(RWSToken);
+                element = default(RWSToken);
                 return false;
             }
 
             var context = scanner.GetContext();
-            SpToken sp;
-            HTabToken hTab;
-            IList<WspMutex> tokens = new List<WspMutex>();
-            if (this.spLexer.TryRead(scanner, out sp))
+            Space space;
+            HorizontalTab horizontalTab;
+            IList<WhiteSpace> tokens = new List<WhiteSpace>();
+            if (this.SpaceLexer.TryRead(scanner, out space))
             {
-                tokens.Add(new WspMutex(sp));
+                tokens.Add(new WhiteSpace(space, context));
             }
             else
             {
-                if (hTabLexer.TryRead(scanner, out hTab))
+                if (hTabLexer.TryRead(scanner, out horizontalTab))
                 {
-                    tokens.Add(new WspMutex(hTab));
+                    tokens.Add(new WhiteSpace(horizontalTab, context));
                 }
                 else
                 {
-                    token = default(RWSToken);
+                    element = default(RWSToken);
                     return false;
                 }
             }
 
+
+            // BUG: context is not updated
             for (; ; )
             {
-                if (spLexer.TryRead(scanner, out sp))
+                if (SpaceLexer.TryRead(scanner, out space))
                 {
-                    tokens.Add(new WspMutex(sp));
+                    tokens.Add(new WhiteSpace(space, context));
                 }
                 else
                 {
-                    if (hTabLexer.TryRead(scanner, out hTab))
+                    if (hTabLexer.TryRead(scanner, out horizontalTab))
                     {
-                        tokens.Add(new WspMutex(hTab));
+                        tokens.Add(new WhiteSpace(horizontalTab, context));
                     }
                     else
                     {
@@ -83,14 +85,14 @@ namespace Http.Grammar.Rfc7230
                 }
             }
 
-            token = new RWSToken(tokens, context);
+            element = new RWSToken(tokens, context);
             return true;
         }
 
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.spLexer != null);
+            Contract.Invariant(this.SpaceLexer != null);
             Contract.Invariant(this.hTabLexer != null);
         }
     }

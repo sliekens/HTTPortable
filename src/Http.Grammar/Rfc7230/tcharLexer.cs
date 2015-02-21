@@ -6,15 +6,15 @@ namespace Http.Grammar.Rfc7230
 {
     public class TCharLexer : Lexer<TCharToken>
     {
-        private readonly ILexer<AlphaToken> alphaLexer;
-        private readonly ILexer<DigitToken> digitLexer;
+        private readonly ILexer<Alpha> alphaLexer;
+        private readonly ILexer<Digit> digitLexer;
 
         public TCharLexer()
             : this(new AlphaLexer(), new DigitLexer())
         {
         }
 
-        public TCharLexer(ILexer<AlphaToken> alphaLexer, ILexer<DigitToken> digitLexer)
+        public TCharLexer(ILexer<Alpha> alphaLexer, ILexer<Digit> digitLexer)
         {
             Contract.Requires(alphaLexer != null);
             Contract.Requires(digitLexer != null);
@@ -51,14 +51,14 @@ namespace Http.Grammar.Rfc7230
                 }
             }
 
-            DigitToken digit;
+            Digit digit;
             if (this.digitLexer.TryRead(scanner, out digit))
             {
                 token = new TCharToken(digit, context);
                 return true;
             }
 
-            AlphaToken alpha;
+            Alpha alpha;
             if (this.alphaLexer.TryRead(scanner, out alpha))
             {
                 token = new TCharToken(alpha, context);

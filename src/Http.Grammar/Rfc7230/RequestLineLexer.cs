@@ -6,19 +6,19 @@ namespace Http.Grammar.Rfc7230
 {
     public class RequestLineLexer : Lexer<RequestLineToken>
     {
-        private readonly ILexer<CrLfToken> crLfLexer;
+        private readonly ILexer<EndOfLine> crLfLexer;
         private readonly ILexer<HttpVersionToken> httpVersionLexer;
         private readonly ILexer<MethodToken> methodLexer;
-        private readonly ILexer<SpToken> spLexer;
-        private readonly ILexer<TokenToken> tokenLexer;
+        private readonly ILexer<Space> spLexer;
+        private readonly ILexer<Token> tokenLexer;
 
         public RequestLineLexer()
-            : this(new MethodLexer(), new SpLexer(), new TokenLexer(), new HttpVersionLexer(), new CrLfLexer())
+            : this(new MethodLexer(), new SpaceLexer(), new TokenLexer(), new HttpVersionLexer(), new EndOfLineLexer())
         {
         }
 
-        public RequestLineLexer(ILexer<MethodToken> methodLexer, ILexer<SpToken> spLexer, ILexer<TokenToken> tokenLexer,
-            ILexer<HttpVersionToken> httpVersionLexer, ILexer<CrLfToken> crLfLexer)
+        public RequestLineLexer(ILexer<MethodToken> methodLexer, ILexer<Space> spLexer, ILexer<Token> tokenLexer,
+            ILexer<HttpVersionToken> httpVersionLexer, ILexer<EndOfLine> crLfLexer)
         {
             Contract.Requires(methodLexer != null);
             Contract.Requires(spLexer != null);
@@ -53,7 +53,7 @@ namespace Http.Grammar.Rfc7230
                 return Default(out token);
             }
 
-            SpToken sp1;
+            Space sp1;
             if (!spLexer.TryRead(scanner, out sp1))
             {
                 methodLexer.PutBack(scanner, method);
@@ -61,7 +61,7 @@ namespace Http.Grammar.Rfc7230
             }
 
             // TODO: implement a URI parser
-            TokenToken requestTarget;
+            Token requestTarget;
             if (!tokenLexer.TryRead(scanner, out requestTarget))
             {
                 spLexer.PutBack(scanner, sp1);
@@ -69,7 +69,7 @@ namespace Http.Grammar.Rfc7230
                 return Default(out token);
             }
 
-            SpToken sp2;
+            Space sp2;
             if (!spLexer.TryRead(scanner, out sp2))
             {
                 tokenLexer.PutBack(scanner, requestTarget);
@@ -88,7 +88,7 @@ namespace Http.Grammar.Rfc7230
                 return Default(out token);
             }
 
-            CrLfToken endOfLine;
+            EndOfLine endOfLine;
             if (!crLfLexer.TryRead(scanner, out endOfLine))
             {
                 httpVersionLexer.PutBack(scanner, httpVersion);

@@ -6,15 +6,15 @@ namespace Uri.Grammar
 {
     public class UnreservedLexer : Lexer<UnreservedToken>
     {
-        private readonly ILexer<AlphaToken> alphaLexer;
-        private readonly ILexer<DigitToken> digitLexer;
+        private readonly ILexer<Alpha> alphaLexer;
+        private readonly ILexer<Digit> digitLexer;
 
         public UnreservedLexer()
             : this(new AlphaLexer(), new DigitLexer())
         {
         }
 
-        public UnreservedLexer(ILexer<AlphaToken> alphaLexer, ILexer<DigitToken> digitLexer)
+        public UnreservedLexer(ILexer<Alpha> alphaLexer, ILexer<Digit> digitLexer)
         {
             Contract.Requires(alphaLexer != null);
             Contract.Requires(digitLexer != null);
@@ -43,14 +43,14 @@ namespace Uri.Grammar
             }
 
             var context = scanner.GetContext();
-            AlphaToken alpha;
+            Alpha alpha;
             if (this.alphaLexer.TryRead(scanner, out alpha))
             {
                 token = new UnreservedToken(alpha, context);
                 return true;
             }
 
-            DigitToken digit;
+            Digit digit;
             if (this.digitLexer.TryRead(scanner, out digit))
             {
                 token = new UnreservedToken(digit, context);

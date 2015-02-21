@@ -25,38 +25,38 @@ namespace Http.Grammar.Rfc7230
         public override FieldValueToken Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            FieldValueToken token;
-            if (this.TryRead(scanner, out token))
+            FieldValueToken element;
+            if (this.TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'field-value'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out FieldValueToken token)
+        public override bool TryRead(ITextScanner scanner, out FieldValueToken element)
         {
             if (scanner.EndOfInput)
             {
-                token = default(FieldValueToken);
+                element = default(FieldValueToken);
                 return false;
             }
 
             var context = scanner.GetContext();
-            IList<TokenMutex<FieldContentToken, ObsFoldToken>> tokens = new List<TokenMutex<FieldContentToken, ObsFoldToken>>();
+            IList<Alternative<FieldContentToken, ObsFoldToken>> tokens = new List<Alternative<FieldContentToken, ObsFoldToken>>();
             for (; ; )
             {
                 FieldContentToken fieldContent;
                 if (this.fieldContentLexer.TryRead(scanner, out fieldContent))
                 {
-                    tokens.Add(new TokenMutex<FieldContentToken, ObsFoldToken>(fieldContent));
+                    tokens.Add(new Alternative<FieldContentToken, ObsFoldToken>(fieldContent, context));
                 }
                 else
                 {
                     ObsFoldToken obsFold;
                     if (this.obsFoldLexer.TryRead(scanner, out obsFold))
                     {
-                        tokens.Add(new TokenMutex<FieldContentToken, ObsFoldToken>(obsFold));
+                        tokens.Add(new Alternative<FieldContentToken, ObsFoldToken>(obsFold, context));
                     }
                     else
                     {
@@ -65,7 +65,7 @@ namespace Http.Grammar.Rfc7230
                 }
             }
 
-            token = new FieldValueToken(tokens, context);
+            element = new FieldValueToken(tokens, context);
             return true;
         }
 

@@ -3,29 +3,29 @@ using Text.Scanning;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class FieldNameToken : Token
+    public class FieldNameToken : Element
     {
-        private readonly TokenToken token;
+        private readonly Token element;
 
-        public FieldNameToken(TokenToken token, ITextContext context)
-            : base(token.Data, context)
+        public FieldNameToken(Token element, ITextContext context)
+            : base(element.Data, context)
         {
-            Contract.Requires(token != null);
-            this.token = token;
+            Contract.Requires(element != null);
+            this.element = element;
         }
 
-        public TokenToken Token
+        public Token Element
         {
             get
             {
-                return this.token;
+                return this.element;
             }
         }
 
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.token != null);
+            Contract.Invariant(this.element != null);
         }
     }
 }

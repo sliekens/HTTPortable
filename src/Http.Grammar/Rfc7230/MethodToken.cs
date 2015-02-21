@@ -3,20 +3,20 @@ using Text.Scanning;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class MethodToken : Token
+    public class MethodToken : Element
     {
-        private readonly TokenToken token;
+        private readonly Token token;
 
-        public MethodToken(TokenToken token, ITextContext context)
+        public MethodToken(Token token, ITextContext context)
             : base(token.Data, context)
         {
             Contract.Requires(token != null);
             this.token = token;
         }
 
-        public TokenToken Token
+        public Token Token
         {
-            get { return token; }
+            get { return this.token; }
         }
     }
 }

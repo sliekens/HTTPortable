@@ -3,7 +3,7 @@ using Text.Scanning;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class HeaderFieldToken : Token
+    public class HeaderFieldToken : Element
     {
         private readonly FieldNameToken fieldName;
         private readonly FieldValueToken fieldValue;

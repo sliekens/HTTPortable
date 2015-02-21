@@ -27,20 +27,20 @@ namespace Http.Grammar.Rfc7230
         public override HeaderFieldToken Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            HeaderFieldToken token;
-            if (this.TryRead(scanner, out token))
+            HeaderFieldToken element;
+            if (this.TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'header-field'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out HeaderFieldToken token)
+        public override bool TryRead(ITextScanner scanner, out HeaderFieldToken element)
         {
             if (scanner.EndOfInput)
             {
-                token = default(HeaderFieldToken);
+                element = default(HeaderFieldToken);
                 return false;
             }
 
@@ -48,14 +48,14 @@ namespace Http.Grammar.Rfc7230
             FieldNameToken fieldName;
             if (!this.fieldNameLexer.TryRead(scanner, out fieldName))
             {
-                token = default(HeaderFieldToken);
+                element = default(HeaderFieldToken);
                 return false;
             }
 
             if (!scanner.TryMatch(':'))
             {
                 this.fieldNameLexer.PutBack(scanner, fieldName);
-                token = default(HeaderFieldToken);
+                element = default(HeaderFieldToken);
                 return false;
             }
 
@@ -64,7 +64,7 @@ namespace Http.Grammar.Rfc7230
             {
                 scanner.PutBack(':');
                 this.fieldNameLexer.PutBack(scanner, fieldName);
-                token = default(HeaderFieldToken);
+                element = default(HeaderFieldToken);
                 return false;
             }
 
@@ -74,7 +74,7 @@ namespace Http.Grammar.Rfc7230
                 this.owsLexer.PutBack(scanner, ows1);
                 scanner.PutBack(':');
                 this.fieldNameLexer.PutBack(scanner, fieldName);
-                token = default(HeaderFieldToken);
+                element = default(HeaderFieldToken);
                 return false;
             }
 
@@ -85,11 +85,11 @@ namespace Http.Grammar.Rfc7230
                 this.owsLexer.PutBack(scanner, ows1);
                 scanner.PutBack(':');
                 this.fieldNameLexer.PutBack(scanner, fieldName);
-                token = default(HeaderFieldToken);
+                element = default(HeaderFieldToken);
                 return false;
             }
 
-            token = new HeaderFieldToken(fieldName, ows1, fieldValue, ows2, context);
+            element = new HeaderFieldToken(fieldName, ows1, fieldValue, ows2, context);
             return true;
         }
 

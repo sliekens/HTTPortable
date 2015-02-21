@@ -6,14 +6,14 @@ namespace Uri.Grammar
 {
     public class PctEncodedLexer : Lexer<PctEncodedToken>
     {
-        private readonly ILexer<HexDigToken> hexDigLexer;
+        private readonly ILexer<HexadecimalDigit> hexDigLexer;
 
         public PctEncodedLexer()
-            : this(new HexDigLexer())
+            : this(new HexadecimalDigitLexer())
         {
         }
 
-        public PctEncodedLexer(ILexer<HexDigToken> hexDigLexer)
+        public PctEncodedLexer(ILexer<HexadecimalDigit> hexDigLexer)
         {
             Contract.Requires(hexDigLexer != null);
             this.hexDigLexer = hexDigLexer;
@@ -46,7 +46,7 @@ namespace Uri.Grammar
                 return false;
             }
 
-            HexDigToken hexDig1;
+            HexadecimalDigit hexDig1;
             if (!this.hexDigLexer.TryRead(scanner, out hexDig1))
             {
                 scanner.PutBack('%');
@@ -55,7 +55,7 @@ namespace Uri.Grammar
             }
 
 
-            HexDigToken hexDig2;
+            HexadecimalDigit hexDig2;
             if (!this.hexDigLexer.TryRead(scanner, out hexDig2))
             {
                 this.hexDigLexer.PutBack(scanner, hexDig1);

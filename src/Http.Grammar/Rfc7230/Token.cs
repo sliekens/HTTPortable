@@ -6,11 +6,11 @@ using Text.Scanning;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class TokenToken : Token
+    public class Token : Element
     {
         private readonly IList<TCharToken> tCharList;
 
-        public TokenToken(IList<TCharToken> tCharList, ITextContext context)
+        public Token(IList<TCharToken> tCharList, ITextContext context)
             : base(string.Concat(tCharList.Select(tchar => tchar.Data)), context)
         {
             Contract.Requires(tCharList != null);

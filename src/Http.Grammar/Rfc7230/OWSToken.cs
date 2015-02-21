@@ -5,10 +5,12 @@ using Text.Scanning;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class OWSToken : Token
+    using Text.Scanning.Core;
+
+    public class OWSToken : Element
     {
-        public OWSToken(IList<WspMutex> data, ITextContext context)
-            : base(string.Concat(data.Select(mutex => mutex.Token.Data)), context)
+        public OWSToken(IList<WhiteSpace> data, ITextContext context)
+            : base(string.Concat(data.Select(mutex => mutex.Data)), context)
         {
             Contract.Requires(data != null);
         }

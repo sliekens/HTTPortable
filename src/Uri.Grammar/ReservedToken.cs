@@ -3,13 +3,13 @@ using Text.Scanning;
 
 namespace Uri.Grammar
 {
-    public class ReservedToken : Token
+    public class ReservedToken : Element
     {
-        public ReservedToken(TokenMutex<GenDelimsToken, SubDelimsToken> data, ITextContext context)
-            : base(data.Token.Data, context)
+        public ReservedToken(Alternative<GenDelimsToken, SubDelimsToken> data, ITextContext context)
+            : base(data.Element.Data, context)
         {
             Contract.Requires(data != null);
-            Contract.Requires(data.Token != null);
+            Contract.Requires(data.Element != null);
         }
     }
 }

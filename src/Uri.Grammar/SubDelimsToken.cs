@@ -3,7 +3,7 @@ using Text.Scanning;
 
 namespace Uri.Grammar
 {
-    public class SubDelimsToken : Token
+    public class SubDelimsToken : Element
     {
         public SubDelimsToken(char data, ITextContext context)
             : base(data, context)

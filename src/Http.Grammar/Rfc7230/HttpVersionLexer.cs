@@ -6,14 +6,14 @@ namespace Http.Grammar.Rfc7230
     public class HttpVersionLexer : Lexer<HttpVersionToken>
     {
         private readonly ILexer<HttpNameToken> httpNameLexer;
-        private readonly ILexer<DigitToken> digitLexer;
+        private readonly ILexer<Digit> digitLexer;
 
         public HttpVersionLexer()
             : this(new HttpNameLexer(), new DigitLexer())
         {
         }
 
-        public HttpVersionLexer(ILexer<HttpNameToken> httpNameLexer, ILexer<DigitToken> digitLexer)
+        public HttpVersionLexer(ILexer<HttpNameToken> httpNameLexer, ILexer<Digit> digitLexer)
         {
             this.httpNameLexer = httpNameLexer;
             this.digitLexer = digitLexer;
@@ -22,8 +22,8 @@ namespace Http.Grammar.Rfc7230
         public override HttpVersionToken Read(ITextScanner scanner)
         {
             HttpNameToken httpName;
-            DigitToken digit1;
-            DigitToken digit2;
+            Digit digit1;
+            Digit digit2;
             var context = scanner.GetContext();
             try
             {
@@ -51,22 +51,22 @@ namespace Http.Grammar.Rfc7230
             return new HttpVersionToken(httpName, digit1, digit2, context);
         }
 
-        public override bool TryRead(ITextScanner scanner, out HttpVersionToken token)
+        public override bool TryRead(ITextScanner scanner, out HttpVersionToken element)
         {
             HttpNameToken httpName;
-            DigitToken digit1;
-            DigitToken digit2;
+            Digit digit1;
+            Digit digit2;
             var context = scanner.GetContext();
             if (!this.httpNameLexer.TryRead(scanner, out httpName))
             {
-                token = default(HttpVersionToken);
+                element = default(HttpVersionToken);
                 return false;
             }
 
             if (!scanner.TryMatch('/'))
             {
                 this.httpNameLexer.PutBack(scanner, httpName);
-                token = default(HttpVersionToken);
+                element = default(HttpVersionToken);
                 return false;
             }
 
@@ -74,7 +74,7 @@ namespace Http.Grammar.Rfc7230
             {
                 scanner.PutBack('/');
                 this.httpNameLexer.PutBack(scanner, httpName);
-                token = default(HttpVersionToken);
+                element = default(HttpVersionToken);
                 return false;
             }
 
@@ -83,7 +83,7 @@ namespace Http.Grammar.Rfc7230
                 this.digitLexer.PutBack(scanner, digit1);
                 scanner.PutBack('/');
                 this.httpNameLexer.PutBack(scanner, httpName);
-                token = default(HttpVersionToken);
+                element = default(HttpVersionToken);
                 return false;
             }
 
@@ -93,11 +93,11 @@ namespace Http.Grammar.Rfc7230
                 this.digitLexer.PutBack(scanner, digit1);
                 scanner.PutBack('/');
                 this.httpNameLexer.PutBack(scanner, httpName);
-                token = default(HttpVersionToken);
+                element = default(HttpVersionToken);
                 return false;
             }
 
-            token = new HttpVersionToken(httpName, digit1, digit2, context);
+            element = new HttpVersionToken(httpName, digit1, digit2, context);
             return true;
         }
     }

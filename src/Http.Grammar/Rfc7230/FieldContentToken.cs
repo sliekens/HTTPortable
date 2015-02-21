@@ -3,7 +3,7 @@ using Text.Scanning;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class FieldContentToken : Token
+    public class FieldContentToken : Element
     {
         public FieldContentToken(FieldVCharToken fieldVChar, ITextContext context)
             : base(fieldVChar.Data, context)

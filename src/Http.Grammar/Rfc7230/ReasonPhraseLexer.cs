@@ -7,25 +7,25 @@ namespace Http.Grammar.Rfc7230
 {
     public class ReasonPhraseLexer : Lexer<ReasonPhraseToken>
     {
-        private readonly ILexer<HTabToken> hTabLexer;
+        private readonly ILexer<HorizontalTab> hTabLexer;
         private readonly ILexer<ObsTextToken> obsTextLexer;
-        private readonly ILexer<SpToken> spLexer;
-        private readonly ILexer<VCharToken> vCharLexer;
+        private readonly ILexer<Space> SpaceLexer;
+        private readonly ILexer<VisibleCharacter> vCharLexer;
 
         public ReasonPhraseLexer()
-            : this(new HTabLexer(), new SpLexer(), new VCharLexer(), new ObsTextLexer())
+            : this(new HorizontalTabLexer(), new SpaceLexer(), new VisibleCharacterLexer(), new ObsTextLexer())
         {
         }
 
-        public ReasonPhraseLexer(ILexer<HTabToken> hTabLexer, ILexer<SpToken> spLexer, ILexer<VCharToken> vCharLexer,
+        public ReasonPhraseLexer(ILexer<HorizontalTab> hTabLexer, ILexer<Space> SpaceLexer, ILexer<VisibleCharacter> vCharLexer,
             ILexer<ObsTextToken> obsTextLexer)
         {
             Contract.Requires(hTabLexer != null);
-            Contract.Requires(spLexer != null);
+            Contract.Requires(SpaceLexer != null);
             Contract.Requires(vCharLexer != null);
             Contract.Requires(obsTextLexer != null);
             this.hTabLexer = hTabLexer;
-            this.spLexer = spLexer;
+            this.SpaceLexer = SpaceLexer;
             this.vCharLexer = vCharLexer;
             this.obsTextLexer = obsTextLexer;
         }
@@ -46,20 +46,20 @@ namespace Http.Grammar.Rfc7230
         public override bool TryRead(ITextScanner scanner, out ReasonPhraseToken token)
         {
             var context = scanner.GetContext();
-            var tokens = new List<Token>();
+            var tokens = new List<Element>();
             while (!scanner.EndOfInput)
             {
-                HTabToken hTabToken;
-                SpToken spToken;
-                VCharToken vCharToken;
+                HorizontalTab hTabToken;
+                Space Space;
+                VisibleCharacter vCharToken;
                 ObsTextToken obsTextToken;
                 if (this.hTabLexer.TryRead(scanner, out hTabToken))
                 {
                     tokens.Add(hTabToken);
                 }
-                else if (this.spLexer.TryRead(scanner, out spToken))
+                else if (this.SpaceLexer.TryRead(scanner, out Space))
                 {
-                    tokens.Add(spToken);
+                    tokens.Add(Space);
                 }
                 else if (this.vCharLexer.TryRead(scanner, out vCharToken))
                 {
@@ -83,7 +83,7 @@ namespace Http.Grammar.Rfc7230
         private void ObjectInvariant()
         {
             Contract.Invariant(this.hTabLexer != null);
-            Contract.Invariant(this.spLexer != null);
+            Contract.Invariant(this.SpaceLexer != null);
             Contract.Invariant(this.vCharLexer != null);
             Contract.Invariant(this.obsTextLexer != null);
         }

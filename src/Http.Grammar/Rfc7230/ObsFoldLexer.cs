@@ -7,16 +7,16 @@ namespace Http.Grammar.Rfc7230
 {
     public class ObsFoldLexer : Lexer<ObsFoldToken>
     {
-        private readonly ILexer<CrLfToken> crLfLexer;
-        private readonly ILexer<SpToken> spLexer;
-        private readonly ILexer<HTabToken> hTabLexer;
+        private readonly ILexer<EndOfLine> crLfLexer;
+        private readonly ILexer<Space> spLexer;
+        private readonly ILexer<HorizontalTab> hTabLexer;
 
         public ObsFoldLexer()
-            : this(new CrLfLexer(), new SpLexer(), new HTabLexer())
+            : this(new EndOfLineLexer(), new SpaceLexer(), new HorizontalTabLexer())
         {
         }
 
-        public ObsFoldLexer(ILexer<CrLfToken> crLfLexer, ILexer<SpToken> spLexer, ILexer<HTabToken> hTabLexer)
+        public ObsFoldLexer(ILexer<EndOfLine> crLfLexer, ILexer<Space> spLexer, ILexer<HorizontalTab> hTabLexer)
         {
             Contract.Requires(crLfLexer != null);
             Contract.Requires(spLexer != null);
@@ -29,63 +29,64 @@ namespace Http.Grammar.Rfc7230
         public override ObsFoldToken Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            ObsFoldToken token;
-            if (this.TryRead(scanner, out token))
+            ObsFoldToken element;
+            if (this.TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'obs-fold'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out ObsFoldToken token)
+        public override bool TryRead(ITextScanner scanner, out ObsFoldToken element)
         {
             if (scanner.EndOfInput)
             {
-                token = default(ObsFoldToken);
+                element = default(ObsFoldToken);
                 return false;
             }
 
             var context = scanner.GetContext();
-            CrLfToken crLf;
-            if (!this.crLfLexer.TryRead(scanner, out crLf))
+            EndOfLine endOfLine;
+            if (!this.crLfLexer.TryRead(scanner, out endOfLine))
             {
-                token = default(ObsFoldToken);
+                element = default(ObsFoldToken);
                 return false;
             }
 
-            SpToken sp;
-            HTabToken hTab;
-            IList<WspMutex> tokens = new List<WspMutex>();
-            if (this.spLexer.TryRead(scanner, out sp))
+            Space space;
+            HorizontalTab horizontalTab;
+            IList<WhiteSpace> elements = new List<WhiteSpace>();
+            if (this.spLexer.TryRead(scanner, out space))
             {
-                tokens.Add(new WspMutex(sp));
+                elements.Add(new WhiteSpace(space, context));
             }
             else
             {
-                if (hTabLexer.TryRead(scanner, out hTab))
+                if (hTabLexer.TryRead(scanner, out horizontalTab))
                 {
-                    tokens.Add(new WspMutex(hTab));
+                    elements.Add(new WhiteSpace(horizontalTab, context));
                 }
                 else
                 {
-                    this.crLfLexer.PutBack(scanner, crLf);
-                    token = default(ObsFoldToken);
+                    this.crLfLexer.PutBack(scanner, endOfLine);
+                    element = default(ObsFoldToken);
                     return false;
                 }
             }
 
+            // TODO: refactor using OWS lexers
             for (; ; )
             {
-                if (spLexer.TryRead(scanner, out sp))
+                if (spLexer.TryRead(scanner, out space))
                 {
-                    tokens.Add(new WspMutex(sp));
+                    elements.Add(new WhiteSpace(space, context));
                 }
                 else
                 {
-                    if (hTabLexer.TryRead(scanner, out hTab))
+                    if (hTabLexer.TryRead(scanner, out horizontalTab))
                     {
-                        tokens.Add(new WspMutex(hTab));
+                        elements.Add(new WhiteSpace(horizontalTab, context));
                     }
                     else
                     {
@@ -94,7 +95,7 @@ namespace Http.Grammar.Rfc7230
                 }
             }
 
-            token = new ObsFoldToken(crLf, tokens, context);
+            element = new ObsFoldToken(endOfLine, elements, context);
             return true;
         }
 

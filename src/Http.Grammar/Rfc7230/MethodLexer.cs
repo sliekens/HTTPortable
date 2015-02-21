@@ -5,14 +5,14 @@ namespace Http.Grammar.Rfc7230
 {
     public class MethodLexer : Lexer<MethodToken>
     {
-        private readonly ILexer<TokenToken> tokenLexer;
+        private readonly ILexer<Token> tokenLexer;
 
         public MethodLexer()
             : this(new TokenLexer())
         {
         }
 
-        public MethodLexer(ILexer<TokenToken> tokenLexer)
+        public MethodLexer(ILexer<Token> tokenLexer)
         {
             Contract.Requires(tokenLexer != null);
             this.tokenLexer = tokenLexer;
@@ -21,26 +21,26 @@ namespace Http.Grammar.Rfc7230
         public override MethodToken Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            MethodToken token;
-            if (this.TryRead(scanner, out token))
+            MethodToken element;
+            if (this.TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'method'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out MethodToken token)
+        public override bool TryRead(ITextScanner scanner, out MethodToken element)
         {
             var context = scanner.GetContext();
-            TokenToken tokenToken;
-            if (this.tokenLexer.TryRead(scanner, out tokenToken))
+            Token token;
+            if (this.tokenLexer.TryRead(scanner, out token))
             {
-                token = new MethodToken(tokenToken, context);
+                element = new MethodToken(token, context);
                 return true;
             }
 
-            token = default(MethodToken);
+            element = default(MethodToken);
             return false;
         }
 

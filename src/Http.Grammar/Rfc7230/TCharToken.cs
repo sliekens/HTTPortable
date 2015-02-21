@@ -4,10 +4,10 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class TCharToken : Token
+    public class TCharToken : Element
     {
-        private readonly AlphaToken alpha;
-        private readonly DigitToken digit;
+        private readonly Alpha alpha;
+        private readonly Digit digit;
 
         public TCharToken(char data, ITextContext context)
             : base(data, context)
@@ -17,26 +17,26 @@ namespace Http.Grammar.Rfc7230
                               data == '`' || data == '|' || data == '~');
         }
 
-        public TCharToken(DigitToken digit, ITextContext context)
+        public TCharToken(Digit digit, ITextContext context)
             : base(digit.Data, context)
         {
             Contract.Requires(digit != null);
             this.digit = digit;
         }
 
-        public TCharToken(AlphaToken alpha, ITextContext context)
+        public TCharToken(Alpha alpha, ITextContext context)
             : base(alpha.Data, context)
         {
             Contract.Requires(alpha != null);
             this.alpha = alpha;
         }
 
-        public AlphaToken Alpha
+        public Alpha Alpha
         {
             get { return alpha; }
         }
 
-        public DigitToken Digit
+        public Digit Digit
         {
             get { return digit; }
         }

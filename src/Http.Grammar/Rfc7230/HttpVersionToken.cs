@@ -4,15 +4,14 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class HttpVersionToken : Token
+    public class HttpVersionToken : Element
     {
         private readonly HttpNameToken httpName;
-        private readonly DigitToken digit1;
+        private readonly Digit digit1;
+        private readonly Digit digit2;
 
-        private readonly DigitToken digit2;
-
-        public HttpVersionToken(HttpNameToken httpName, DigitToken digit1, DigitToken digit2, ITextContext context)
-            : base(string.Concat(httpName, '/', digit1, '.', digit2), context)
+        public HttpVersionToken(HttpNameToken httpName, Digit digit1, Digit digit2, ITextContext context)
+            : base(string.Concat(httpName.Data, "/", digit1.Data, ".", digit2.Data), context)
         {
             this.httpName = httpName;
             this.digit1 = digit1;
@@ -27,7 +26,7 @@ namespace Http.Grammar.Rfc7230
             }
         }
 
-        public DigitToken Digit1
+        public Digit Digit1
         {
             get
             {
@@ -35,7 +34,7 @@ namespace Http.Grammar.Rfc7230
             }
         }
 
-        public DigitToken Digit2
+        public Digit Digit2
         {
             get
             {

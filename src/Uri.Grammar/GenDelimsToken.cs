@@ -3,7 +3,7 @@ using Text.Scanning;
 
 namespace Uri.Grammar
 {
-    public class GenDelimsToken : Token
+    public class GenDelimsToken : Element
     {
         public GenDelimsToken(char data, ITextContext context)
             : base(data, context)

@@ -5,14 +5,14 @@ namespace Http.Grammar.Rfc7230
 {
     public class FieldNameLexer : Lexer<FieldNameToken>
     {
-        private readonly ILexer<TokenToken> tokenLexer;
+        private readonly ILexer<Token> tokenLexer;
 
         public FieldNameLexer()
             : this(new TokenLexer())
         {
         }
 
-        public FieldNameLexer(ILexer<TokenToken> tokenLexer)
+        public FieldNameLexer(ILexer<Token> tokenLexer)
         {
             Contract.Requires(tokenLexer != null);
             this.tokenLexer = tokenLexer;
@@ -21,10 +21,10 @@ namespace Http.Grammar.Rfc7230
         public override FieldNameToken Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            TokenToken tokenToken;
+            Token token;
             try
             {
-                tokenToken = this.tokenLexer.Read(scanner);
+                token = this.tokenLexer.Read(scanner);
             }
             catch (SyntaxErrorException syntaxErrorException)
             {
@@ -32,26 +32,26 @@ namespace Http.Grammar.Rfc7230
 
             }
 
-            return new FieldNameToken(tokenToken, context);
+            return new FieldNameToken(token, context);
         }
 
-        public override bool TryRead(ITextScanner scanner, out FieldNameToken token)
+        public override bool TryRead(ITextScanner scanner, out FieldNameToken element)
         {
             if (scanner.EndOfInput)
             {
-                token = default(FieldNameToken);
+                element = default(FieldNameToken);
                 return false;
             }
 
             var context = scanner.GetContext();
-            TokenToken tokenToken;
-            if (this.tokenLexer.TryRead(scanner, out tokenToken))
+            Token token;
+            if (this.tokenLexer.TryRead(scanner, out token))
             {
-                token = new FieldNameToken(tokenToken, context);
+                element = new FieldNameToken(token, context);
                 return true;
             }
 
-            token = default(FieldNameToken);
+            element = default(FieldNameToken);
             return false;
         }
 

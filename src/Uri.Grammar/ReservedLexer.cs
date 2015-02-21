@@ -36,18 +36,18 @@ namespace Uri.Grammar
             }
 
             var context = scanner.GetContext();
-            TokenMutex<GenDelimsToken, SubDelimsToken> data;
+            Alternative<GenDelimsToken, SubDelimsToken> data;
             GenDelimsToken genDelims;
             if (this.genDelimsLexer.TryRead(scanner, out genDelims))
             {
-                data = new TokenMutex<GenDelimsToken, SubDelimsToken>(genDelims);
+                data = new Alternative<GenDelimsToken, SubDelimsToken>(genDelims, context);
             }
             else
             {
                 SubDelimsToken subDelims;
                 if (this.subDelimsLexer.TryRead(scanner, out subDelims))
                 {
-                    data = new TokenMutex<GenDelimsToken, SubDelimsToken>(subDelims);
+                    data = new Alternative<GenDelimsToken, SubDelimsToken>(subDelims, context);
                 }
                 else
                 {

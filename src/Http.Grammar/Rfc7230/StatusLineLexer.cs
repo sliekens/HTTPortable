@@ -6,31 +6,31 @@ namespace Http.Grammar.Rfc7230
 {
     public class StatusLineLexer : Lexer<StatusLineToken>
     {
-        private readonly ILexer<CrLfToken> crLfLexer;
+        private readonly ILexer<EndOfLine> endOfLineLexer;
         private readonly ILexer<HttpVersionToken> httpVersionLexer;
         private readonly ILexer<ReasonPhraseToken> reasonPhraseLexer;
-        private readonly ILexer<SpToken> spLexer;
+        private readonly ILexer<Space> spaceLexer;
         private readonly ILexer<StatusCodeToken> statusCodeLexer;
 
         public StatusLineLexer()
-            : this(new HttpVersionLexer(), new SpLexer(), new StatusCodeLexer(), new ReasonPhraseLexer(), new CrLfLexer())
+            : this(new HttpVersionLexer(), new SpaceLexer(), new StatusCodeLexer(), new ReasonPhraseLexer(), new EndOfLineLexer())
         {
         }
 
-        public StatusLineLexer(ILexer<HttpVersionToken> httpVersionLexer, ILexer<SpToken> spLexer,
+        public StatusLineLexer(ILexer<HttpVersionToken> httpVersionLexer, ILexer<Space> spaceLexer,
             ILexer<StatusCodeToken> statusCodeLexer, ILexer<ReasonPhraseToken> reasonPhraseLexer,
-            ILexer<CrLfToken> crLfLexer)
+            ILexer<EndOfLine> endOfLineLexer)
         {
             Contract.Requires(httpVersionLexer != null);
-            Contract.Requires(spLexer != null);
+            Contract.Requires(spaceLexer != null);
             Contract.Requires(statusCodeLexer != null);
             Contract.Requires(reasonPhraseLexer != null);
-            Contract.Requires(crLfLexer != null);
+            Contract.Requires(endOfLineLexer != null);
             this.httpVersionLexer = httpVersionLexer;
-            this.spLexer = spLexer;
+            this.spaceLexer = spaceLexer;
             this.statusCodeLexer = statusCodeLexer;
             this.reasonPhraseLexer = reasonPhraseLexer;
-            this.crLfLexer = crLfLexer;
+            this.endOfLineLexer = endOfLineLexer;
         }
 
         public override StatusLineToken Read(ITextScanner scanner)
@@ -61,8 +61,8 @@ namespace Http.Grammar.Rfc7230
                 return false;
             }
 
-            SpToken sp1;
-            if (!this.spLexer.TryRead(scanner, out sp1))
+            Space space1;
+            if (!this.spaceLexer.TryRead(scanner, out space1))
             {
                 this.httpVersionLexer.PutBack(scanner, httpVersion);
                 token = default(StatusLineToken);
@@ -72,17 +72,17 @@ namespace Http.Grammar.Rfc7230
             StatusCodeToken statusCode;
             if (!this.statusCodeLexer.TryRead(scanner, out statusCode))
             {
-                this.spLexer.PutBack(scanner, sp1);
+                this.spaceLexer.PutBack(scanner, space1);
                 this.httpVersionLexer.PutBack(scanner, httpVersion);
                 token = default(StatusLineToken);
                 return false;
             }
 
-            SpToken sp2;
-            if (!this.spLexer.TryRead(scanner, out sp2))
+            Space space2;
+            if (!this.spaceLexer.TryRead(scanner, out space2))
             {
                 this.statusCodeLexer.PutBack(scanner, statusCode);
-                this.spLexer.PutBack(scanner, sp1);
+                this.spaceLexer.PutBack(scanner, space1);
                 this.httpVersionLexer.PutBack(scanner, httpVersion);
                 token = default(StatusLineToken);
                 return false;
@@ -91,27 +91,27 @@ namespace Http.Grammar.Rfc7230
             ReasonPhraseToken reasonPhrase;
             if (!this.reasonPhraseLexer.TryRead(scanner, out reasonPhrase))
             {
-                this.spLexer.PutBack(scanner, sp2);
+                this.spaceLexer.PutBack(scanner, space2);
                 this.statusCodeLexer.PutBack(scanner, statusCode);
-                this.spLexer.PutBack(scanner, sp1);
+                this.spaceLexer.PutBack(scanner, space1);
                 this.httpVersionLexer.PutBack(scanner, httpVersion);
                 token = default(StatusLineToken);
                 return false;
             }
 
-            CrLfToken crLf;
-            if (!this.crLfLexer.TryRead(scanner, out crLf))
+            EndOfLine endOfLine;
+            if (!this.endOfLineLexer.TryRead(scanner, out endOfLine))
             {
                 this.reasonPhraseLexer.PutBack(scanner, reasonPhrase);
-                this.spLexer.PutBack(scanner, sp2);
+                this.spaceLexer.PutBack(scanner, space2);
                 this.statusCodeLexer.PutBack(scanner, statusCode);
-                this.spLexer.PutBack(scanner, sp1);
+                this.spaceLexer.PutBack(scanner, space1);
                 this.httpVersionLexer.PutBack(scanner, httpVersion);
                 token = default(StatusLineToken);
                 return false;
             }
 
-            token = new StatusLineToken(httpVersion, sp1, statusCode, sp2, reasonPhrase, crLf, context);
+            token = new StatusLineToken(httpVersion, space1, statusCode, space2, reasonPhrase, endOfLine, context);
             return true;
         }
 
@@ -119,10 +119,10 @@ namespace Http.Grammar.Rfc7230
         private void ObjectInvariant()
         {
             Contract.Invariant(this.httpVersionLexer != null);
-            Contract.Invariant(this.spLexer != null);
+            Contract.Invariant(this.spaceLexer != null);
             Contract.Invariant(this.statusCodeLexer != null);
             Contract.Invariant(this.reasonPhraseLexer != null);
-            Contract.Invariant(this.crLfLexer != null);
+            Contract.Invariant(this.endOfLineLexer != null);
         }
     }
 }

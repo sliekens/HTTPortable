@@ -6,14 +6,14 @@ namespace Http.Grammar.Rfc7230
 {
     public class StatusCodeLexer : Lexer<StatusCodeToken>
     {
-        private readonly ILexer<DigitToken> digitLexer;
+        private readonly ILexer<Digit> digitLexer;
 
         public StatusCodeLexer()
             : this(new DigitLexer())
         {
         }
 
-        public StatusCodeLexer(ILexer<DigitToken> digitLexer)
+        public StatusCodeLexer(ILexer<Digit> digitLexer)
         {
             Contract.Requires(digitLexer != null);
             this.digitLexer = digitLexer;
@@ -39,7 +39,7 @@ namespace Http.Grammar.Rfc7230
                 return false;
             }
 
-            DigitToken digit1, digit2, digit3;
+            Digit digit1, digit2, digit3;
             var context = scanner.GetContext();
             if (!this.digitLexer.TryRead(scanner, out digit1))
             {

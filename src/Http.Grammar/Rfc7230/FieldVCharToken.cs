@@ -5,19 +5,19 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class FieldVCharToken : Token
+    public class FieldVCharToken : Element
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly ObsTextToken obsTextToken;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly VCharToken vCharToken;
+        private readonly VisibleCharacter visibleCharacter;
 
-        public FieldVCharToken(VCharToken vCharToken, ITextContext context)
-            : base(vCharToken.Data, context)
+        public FieldVCharToken(VisibleCharacter visibleCharacter, ITextContext context)
+            : base(visibleCharacter.Data, context)
         {
-            Contract.Requires(vCharToken != null);
-            this.vCharToken = vCharToken;
+            Contract.Requires(visibleCharacter != null);
+            this.visibleCharacter = visibleCharacter;
         }
 
         public FieldVCharToken(ObsTextToken obsTextToken, ITextContext context)
@@ -31,22 +31,22 @@ namespace Http.Grammar.Rfc7230
         {
             get
             {
-                return obsTextToken;
+                return this.obsTextToken;
             }
         }
 
-        public VCharToken VChar
+        public VisibleCharacter VChar
         {
             get
             {
-                return vCharToken;
+                return this.visibleCharacter;
             }
         }
 
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(vCharToken != null ^ obsTextToken != null);
+            Contract.Invariant(this.visibleCharacter == null || this.obsTextToken == null);
         }
     }
 }

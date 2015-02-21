@@ -7,19 +7,19 @@ namespace Http.Grammar.Rfc7230
 {
     public class OWSLexer : Lexer<OWSToken>
     {
-        private readonly HTabLexer hTabLexer;
-        private readonly SpLexer spLexer;
+        private readonly HorizontalTabLexer hTabLexer;
+        private readonly SpaceLexer SpaceLexer;
 
         public OWSLexer()
-            : this(new SpLexer(), new HTabLexer())
+            : this(new SpaceLexer(), new HorizontalTabLexer())
         {
         }
 
-        public OWSLexer(SpLexer spLexer, HTabLexer hTabLexer)
+        public OWSLexer(SpaceLexer SpaceLexer, HorizontalTabLexer hTabLexer)
         {
-            Contract.Requires(spLexer != null);
+            Contract.Requires(SpaceLexer != null);
             Contract.Requires(hTabLexer != null);
-            this.spLexer = spLexer;
+            this.SpaceLexer = SpaceLexer;
             this.hTabLexer = hTabLexer;
         }
 
@@ -44,20 +44,20 @@ namespace Http.Grammar.Rfc7230
             }
 
             var context = scanner.GetContext();
-            IList<WspMutex> tokens = new List<WspMutex>();
+            IList<WhiteSpace> elements = new List<WhiteSpace>();
             for (;;)
             {
-                SpToken sp;
-                if (spLexer.TryRead(scanner, out sp))
+                Space sp;
+                if (SpaceLexer.TryRead(scanner, out sp))
                 {
-                    tokens.Add(new WspMutex(sp));
+                    elements.Add(new WhiteSpace(sp, context));
                 }
                 else
                 {
-                    HTabToken hTab;
+                    HorizontalTab hTab;
                     if (hTabLexer.TryRead(scanner, out hTab))
                     {
-                        tokens.Add(new WspMutex(hTab));
+                        elements.Add(new WhiteSpace(hTab, context));
                     }
                     else
                     {
@@ -66,15 +66,15 @@ namespace Http.Grammar.Rfc7230
                 }
             }
 
-            token = new OWSToken(tokens, context);
+            token = new OWSToken(elements, context);
             return true;
         }
 
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(spLexer != null);
-            Contract.Invariant(hTabLexer != null);
+            Contract.Invariant(this.SpaceLexer != null);
+            Contract.Invariant(this.hTabLexer != null);
         }
     }
 }

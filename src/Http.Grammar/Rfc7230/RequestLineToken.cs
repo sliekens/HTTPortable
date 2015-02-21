@@ -5,22 +5,22 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class RequestLineToken : Token
+    public class RequestLineToken : Element
     {
         private readonly MethodToken method;
-        private readonly TokenToken requestTarget;
+        private readonly Token requestTarget;
         private readonly HttpVersionToken httpVersion;
 
-        // TODO: implement a URI token
-        public RequestLineToken(MethodToken method, SpToken sp1, TokenToken requestTarget, SpToken sp2, HttpVersionToken httpVersion, CrLfToken crLf, ITextContext context)
-            : base(string.Concat(method.Data, sp1.Data, requestTarget.Data, sp2.Data, httpVersion.Data, crLf.Data), context)
+        // TODO: implement a URI element
+        public RequestLineToken(MethodToken method, Space sp1, Token requestTarget, Space sp2, HttpVersionToken httpVersion, EndOfLine endOfLine, ITextContext context)
+            : base(string.Concat(method.Data, sp1.Data, requestTarget.Data, sp2.Data, httpVersion.Data, endOfLine.Data), context)
         {
             Contract.Requires(method != null);
             Contract.Requires(sp1 != null);
             Contract.Requires(requestTarget != null);
             Contract.Requires(sp2 != null);
             Contract.Requires(httpVersion != null);
-            Contract.Requires(crLf != null);
+            Contract.Requires(endOfLine != null);
             this.method = method;
             this.requestTarget = requestTarget;
             this.httpVersion = httpVersion;

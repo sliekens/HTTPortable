@@ -11,14 +11,14 @@ namespace Http.Grammar.Rfc7230
         private readonly ILexer<ObsTextToken> obsTextLexer;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly ILexer<VCharToken> vCharLexer;
+        private readonly ILexer<VisibleCharacter> vCharLexer;
 
         public FieldVCharLexer()
-            : this(new VCharLexer(), new ObsTextLexer())
+            : this(new VisibleCharacterLexer(), new ObsTextLexer())
         {
         }
 
-        public FieldVCharLexer(ILexer<VCharToken> vCharLexer, ILexer<ObsTextToken> obsTextLexer)
+        public FieldVCharLexer(ILexer<VisibleCharacter> vCharLexer, ILexer<ObsTextToken> obsTextLexer)
         {
             Contract.Requires(vCharLexer != null);
             Contract.Requires(obsTextLexer != null);
@@ -28,34 +28,34 @@ namespace Http.Grammar.Rfc7230
 
         public override FieldVCharToken Read(ITextScanner scanner)
         {
-            FieldVCharToken token;
+            FieldVCharToken element;
             var context = scanner.GetContext();
-            if (TryRead(scanner, out token))
+            if (TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'field-vchar'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out FieldVCharToken token)
+        public override bool TryRead(ITextScanner scanner, out FieldVCharToken element)
         {
             var context = scanner.GetContext();
-            VCharToken vCharToken;
+            VisibleCharacter vCharToken;
             if (vCharLexer.TryRead(scanner, out vCharToken))
             {
-                token = new FieldVCharToken(vCharToken, context);
+                element = new FieldVCharToken(vCharToken, context);
                 return true;
             }
 
             ObsTextToken obsTextToken;
             if (obsTextLexer.TryRead(scanner, out obsTextToken))
             {
-                token = new FieldVCharToken(obsTextToken, context);
+                element = new FieldVCharToken(obsTextToken, context);
                 return true;
             }
 
-            token = default(FieldVCharToken);
+            element = default(FieldVCharToken);
             return false;
         }
 

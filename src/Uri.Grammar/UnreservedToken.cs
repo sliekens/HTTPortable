@@ -4,15 +4,15 @@ using Text.Scanning.Core;
 
 namespace Uri.Grammar
 {
-    public class UnreservedToken : Token
+    public class UnreservedToken : Element
     {
-        public UnreservedToken(AlphaToken alpha, ITextContext context)
+        public UnreservedToken(Alpha alpha, ITextContext context)
             : base(alpha.Data, context)
         {
             Contract.Requires(alpha != null);
         }
 
-        public UnreservedToken(DigitToken digit, ITextContext context)
+        public UnreservedToken(Digit digit, ITextContext context)
             : base(digit.Data, context)
         {
             Contract.Requires(digit != null);

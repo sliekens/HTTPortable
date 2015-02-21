@@ -5,14 +5,16 @@ using Text.Scanning;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class RWSToken : Token
+    using Text.Scanning.Core;
+
+    public class RWSToken : Element
     {
-        public RWSToken(IList<WspMutex> whiteSpace, ITextContext context)
-            : base(string.Concat(whiteSpace.Select(mutex => mutex.Token.Data)), context)
+        public RWSToken(IList<WhiteSpace> whiteSpace, ITextContext context)
+            : base(string.Concat(whiteSpace.Select(space => space.Data)), context)
         {
             Contract.Requires(whiteSpace != null);
             Contract.Requires(whiteSpace.Count > 0);
-            Contract.Requires(Contract.ForAll(whiteSpace, mutex => mutex != null));
+            Contract.Requires(Contract.ForAll(whiteSpace, space => space != null));
         }
     }
 }

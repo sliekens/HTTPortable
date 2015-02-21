@@ -25,20 +25,20 @@ namespace Http.Grammar.Rfc7230
         public override FieldContentToken Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            FieldContentToken token;
-            if (this.TryRead(scanner, out token))
+            FieldContentToken element;
+            if (this.TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'field-content'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out FieldContentToken token)
+        public override bool TryRead(ITextScanner scanner, out FieldContentToken element)
         {
             if (scanner.EndOfInput)
             {
-                token = default(FieldContentToken);
+                element = default(FieldContentToken);
                 return false;
             }
 
@@ -46,7 +46,7 @@ namespace Http.Grammar.Rfc7230
             FieldVCharToken fieldVCharLeft;
             if (!this.fieldVCharLexer.TryRead(scanner, out fieldVCharLeft))
             {
-                token = default(FieldContentToken);
+                element = default(FieldContentToken);
                 return false;
             }
 
@@ -56,14 +56,14 @@ namespace Http.Grammar.Rfc7230
                 FieldVCharToken fieldVCharRight;
                 if (this.fieldVCharLexer.TryRead(scanner, out fieldVCharRight))
                 {
-                    token = new FieldContentToken(fieldVCharLeft, rws, fieldVCharRight, context);
+                    element = new FieldContentToken(fieldVCharLeft, rws, fieldVCharRight, context);
                     return true;
                 }
 
                 this.rwsLexer.PutBack(scanner, rws);
             }
 
-            token = new FieldContentToken(fieldVCharLeft, context);
+            element = new FieldContentToken(fieldVCharLeft, context);
             return true;
         }
 

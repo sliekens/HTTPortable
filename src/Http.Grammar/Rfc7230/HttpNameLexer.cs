@@ -7,23 +7,23 @@ namespace Http.Grammar.Rfc7230
         public override HttpNameToken Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            HttpNameToken token;
-            if (this.TryRead(scanner, out token))
+            HttpNameToken element;
+            if (this.TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected HTTP-name");
         }
 
-        public override bool TryRead(ITextScanner scanner, out HttpNameToken token)
+        public override bool TryRead(ITextScanner scanner, out HttpNameToken element)
         {
             var context = scanner.GetContext();
 
             // H
             if (!scanner.TryMatch('\u0048'))
             {
-                token = default(HttpNameToken);
+                element = default(HttpNameToken);
                 return false;
             }
 
@@ -31,7 +31,7 @@ namespace Http.Grammar.Rfc7230
             if (!scanner.TryMatch('\u0054'))
             {
                 scanner.PutBack('\u0048');
-                token = default(HttpNameToken);
+                element = default(HttpNameToken);
                 return false;
             }
 
@@ -40,7 +40,7 @@ namespace Http.Grammar.Rfc7230
             {
                 scanner.PutBack('\u0054');
                 scanner.PutBack('\u0048');
-                token = default(HttpNameToken);
+                element = default(HttpNameToken);
                 return false;
             }
 
@@ -50,11 +50,11 @@ namespace Http.Grammar.Rfc7230
                 scanner.PutBack('\u0054');
                 scanner.PutBack('\u0054');
                 scanner.PutBack('\u0048');
-                token = default(HttpNameToken);
+                element = default(HttpNameToken);
                 return false;
             }
 
-            token = new HttpNameToken(context);
+            element = new HttpNameToken(context);
             return true;
         }
     }

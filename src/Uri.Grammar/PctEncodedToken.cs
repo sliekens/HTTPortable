@@ -4,13 +4,13 @@ using Text.Scanning.Core;
 
 namespace Uri.Grammar
 {
-    public class PctEncodedToken : Token
+    public class PctEncodedToken : Element
     {
-        public PctEncodedToken(HexDigToken hexDig1, HexDigToken hexDig2, ITextContext context)
-            : base(string.Concat("%", hexDig1.Data, hexDig2.Data), context)
+        public PctEncodedToken(HexadecimalDigit hexadecimalDigit1, HexadecimalDigit hexadecimalDigit2, ITextContext context)
+            : base(string.Concat("%", hexadecimalDigit1.Data, hexadecimalDigit2.Data), context)
         {
-            Contract.Requires(hexDig1 != null);
-            Contract.Requires(hexDig2 != null);
+            Contract.Requires(hexadecimalDigit1 != null);
+            Contract.Requires(hexadecimalDigit2 != null);
         }
     }
 }

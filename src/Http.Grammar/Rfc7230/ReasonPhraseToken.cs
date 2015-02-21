@@ -5,31 +5,13 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class ReasonPhraseToken : Token
+    public class ReasonPhraseToken : Element
     {
-        private readonly IList<Token> tokens;
-
-        public ReasonPhraseToken(IList<Token> tokens, ITextContext context)
-            : base(string.Concat(tokens), context)
+        public ReasonPhraseToken(IList<Element> elements, ITextContext context)
+            : base(string.Concat(elements), context)
         {
-            Contract.Requires(tokens != null);
-            Contract.Requires(Contract.ForAll(tokens,
-                token => token is HTabToken || token is SpToken || token is VCharToken || token is ObsTextToken));
-            this.tokens = tokens;
-        }
-
-        public IList<Token> Tokens
-        {
-            get
-            {
-                return this.tokens;
-            }
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.tokens != null);
+            Contract.Requires(elements != null);
+            Contract.Requires(Contract.ForAll(elements, token => token is HorizontalTab || token is Space || token is VisibleCharacter || token is ObsTextToken));
         }
     }
 }

@@ -6,7 +6,7 @@ using Text.Scanning;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class TokenLexer : Lexer<TokenToken>
+    public class TokenLexer : Lexer<Token>
     {
         private readonly ILexer<TCharToken> tCharLexer;
 
@@ -21,23 +21,23 @@ namespace Http.Grammar.Rfc7230
             this.tCharLexer = tCharLexer;
         }
 
-        public override TokenToken Read(ITextScanner scanner)
+        public override Token Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            TokenToken token;
+            Token token;
             if (this.TryRead(scanner, out token))
             {
                 return token;
             }
 
-            throw new SyntaxErrorException(context, "Expected 'token'");
+            throw new SyntaxErrorException(context, "Expected 'element'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out TokenToken token)
+        public override bool TryRead(ITextScanner scanner, out Token token)
         {
             if (scanner.EndOfInput)
             {
-                token = default(TokenToken);
+                token = default(Token);
                 return false;
             }
 
@@ -45,7 +45,7 @@ namespace Http.Grammar.Rfc7230
             TCharToken tChar;
             if (!this.tCharLexer.TryRead(scanner, out tChar))
             {
-                token = default(TokenToken);
+                token = default(Token);
                 return false;
             }
 
@@ -55,7 +55,7 @@ namespace Http.Grammar.Rfc7230
                 list.Add(tChar);
             }
 
-            token = new TokenToken(new ReadOnlyCollection<TCharToken>(list), context);
+            token = new Token(new ReadOnlyCollection<TCharToken>(list), context);
             return true;
         }
 

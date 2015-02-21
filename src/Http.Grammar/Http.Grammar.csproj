@@ -70,13 +70,11 @@
     <Compile Include="Rfc7230\TCharToken.cs" />
     <Compile Include="Rfc7230\TCharLexer.cs" />
     <Compile Include="Rfc7230\TokenLexer.cs" />
-    <Compile Include="Rfc7230\TokenMutex.cs" />
-    <Compile Include="Rfc7230\TokenToken.cs" />
-    <Compile Include="Rfc7230\WspMutex.cs" />
+    <Compile Include="Rfc7230\Token.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Text.Scanning">
-      <HintPath>..\packages\Text.Scanning.1.0.31-alpha1\lib\portable-net45+win+wpa81\Text.Scanning.dll</HintPath>
+      <HintPath>..\packages\Text.Scanning.1.0.51-alpha1\lib\portable-net45+win+wpa81\Text.Scanning.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

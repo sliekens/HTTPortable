@@ -3,7 +3,7 @@ using Text.Scanning;
 
 namespace Uri.Grammar
 {
-    public class PCharToken : Token
+    public class PCharToken : Element
     {
         public PCharToken(UnreservedToken unreserved, ITextContext context)
             : base(unreserved.Data, context)

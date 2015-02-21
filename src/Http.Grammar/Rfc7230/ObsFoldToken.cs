@@ -6,12 +6,13 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class ObsFoldToken : Token
+    public class ObsFoldToken : Element
     {
-        public ObsFoldToken(CrLfToken crLf, IList<WspMutex> whitespace, ITextContext context)
-            : base("\r\n" + string.Concat(whitespace.Select(mutex => mutex.Token.Data)), context)
+        // TODO: refactor whitespace as RWS
+        public ObsFoldToken(EndOfLine endOfLine, IList<WhiteSpace> whitespace, ITextContext context)
+            : base("\r\n" + string.Concat(whitespace.Select(space => space.Data)), context)
         {
-            Contract.Requires(crLf != null);
+            Contract.Requires(endOfLine != null);
             Contract.Requires(whitespace != null);
             Contract.Requires(whitespace.Count > 0);
             Contract.Requires(Contract.ForAll(whitespace, mutex => mutex != null));

@@ -57,7 +57,7 @@ namespace Http
                     var reason = statusLine.ReasonPhrase.Data;
                     message = new ResponseMessage(httpVersion, status, reason);
                     var headerFieldLexer = new HeaderFieldLexer();
-                    var crLfLexer = new CrLfLexer();
+                    var crLfLexer = new EndOfLineLexer();
                     for (; ; )
                     {
                         HeaderFieldToken headerField;

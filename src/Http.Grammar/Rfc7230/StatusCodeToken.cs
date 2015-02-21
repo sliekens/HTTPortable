@@ -3,21 +3,21 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class StatusCodeToken : Token
+    public class StatusCodeToken : Element
     {
-        private readonly DigitToken digit1;
-        private readonly DigitToken digit2;
-        private readonly DigitToken digit3;
+        private readonly Digit digit1;
+        private readonly Digit digit2;
+        private readonly Digit digit3;
 
-        public StatusCodeToken(DigitToken digit1, DigitToken digit2, DigitToken digit3, ITextContext context)
-            : base(string.Concat((object) digit1, (object) digit2, (object) digit3), context)
+        public StatusCodeToken(Digit digit1, Digit digit2, Digit digit3, ITextContext context)
+            : base(string.Concat(digit1.Data, digit2.Data, digit3.Data), context)
         {
             this.digit1 = digit1;
             this.digit2 = digit2;
             this.digit3 = digit3;
         }
 
-        public DigitToken Digit1
+        public Digit Digit1
         {
             get
             {
@@ -25,7 +25,7 @@ namespace Http.Grammar.Rfc7230
             }
         }
 
-        public DigitToken Digit2
+        public Digit Digit2
         {
             get
             {
@@ -33,7 +33,7 @@ namespace Http.Grammar.Rfc7230
             }
         }
 
-        public DigitToken Digit3
+        public Digit Digit3
         {
             get
             {
@@ -43,7 +43,7 @@ namespace Http.Grammar.Rfc7230
 
         public int ToInt()
         {
-            return int.Parse(this.Digit1.Data) * 100 + int.Parse(this.Digit2.Data) * 10 + int.Parse(this.Digit3.Data);
+            return int.Parse(this.Data);
         }
     }
 }
