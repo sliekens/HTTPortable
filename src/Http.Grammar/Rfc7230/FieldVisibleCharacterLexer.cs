@@ -5,7 +5,7 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class FieldVCharLexer : Lexer<FieldVChar>
+    public class FieldVisibleCharacterLexer : Lexer<FieldVisibleCharacter>
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly ILexer<ObsoletedText> obsTextLexer;
@@ -13,12 +13,12 @@ namespace Http.Grammar.Rfc7230
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly ILexer<VisibleCharacter> vCharLexer;
 
-        public FieldVCharLexer()
+        public FieldVisibleCharacterLexer()
             : this(new VisibleCharacterLexer(), new ObsoletedTextLexer())
         {
         }
 
-        public FieldVCharLexer(ILexer<VisibleCharacter> vCharLexer, ILexer<ObsoletedText> obsTextLexer)
+        public FieldVisibleCharacterLexer(ILexer<VisibleCharacter> vCharLexer, ILexer<ObsoletedText> obsTextLexer)
         {
             Contract.Requires(vCharLexer != null);
             Contract.Requires(obsTextLexer != null);
@@ -26,9 +26,9 @@ namespace Http.Grammar.Rfc7230
             this.obsTextLexer = obsTextLexer;
         }
 
-        public override FieldVChar Read(ITextScanner scanner)
+        public override FieldVisibleCharacter Read(ITextScanner scanner)
         {
-            FieldVChar element;
+            FieldVisibleCharacter element;
             var context = scanner.GetContext();
             if (TryRead(scanner, out element))
             {
@@ -38,24 +38,24 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'field-vchar'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out FieldVChar element)
+        public override bool TryRead(ITextScanner scanner, out FieldVisibleCharacter element)
         {
             var context = scanner.GetContext();
             VisibleCharacter vCharToken;
             if (vCharLexer.TryRead(scanner, out vCharToken))
             {
-                element = new FieldVChar(vCharToken, context);
+                element = new FieldVisibleCharacter(vCharToken, context);
                 return true;
             }
 
             ObsoletedText obsoletedText;
             if (obsTextLexer.TryRead(scanner, out obsoletedText))
             {
-                element = new FieldVChar(obsoletedText, context);
+                element = new FieldVisibleCharacter(obsoletedText, context);
                 return true;
             }
 
-            element = default(FieldVChar);
+            element = default(FieldVisibleCharacter);
             return false;
         }
 

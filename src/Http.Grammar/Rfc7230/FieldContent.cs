@@ -5,18 +5,18 @@ namespace Http.Grammar.Rfc7230
 {
     public class FieldContent : Element
     {
-        public FieldContent(FieldVChar fieldVChar, ITextContext context)
-            : base(fieldVChar.Data, context)
+        public FieldContent(FieldVisibleCharacter fieldVisibleCharacter, ITextContext context)
+            : base(fieldVisibleCharacter.Data, context)
         {
-            Contract.Requires(fieldVChar != null);
+            Contract.Requires(fieldVisibleCharacter != null);
         }
 
-        public FieldContent(FieldVChar fieldVCharLeft, RequiredWhiteSpace requiredWhiteSpace, FieldVChar fieldVCharRight, ITextContext context)
-            : base(string.Concat(fieldVCharLeft.Data, requiredWhiteSpace.Data, fieldVCharRight.Data), context)
+        public FieldContent(FieldVisibleCharacter fieldVisibleCharacterLeft, RequiredWhiteSpace requiredWhiteSpace, FieldVisibleCharacter fieldVisibleCharacterRight, ITextContext context)
+            : base(string.Concat(fieldVisibleCharacterLeft.Data, requiredWhiteSpace.Data, fieldVisibleCharacterRight.Data), context)
         {
-            Contract.Requires(fieldVCharLeft != null);
+            Contract.Requires(fieldVisibleCharacterLeft != null);
             Contract.Requires(requiredWhiteSpace != null);
-            Contract.Requires(fieldVCharRight != null);
+            Contract.Requires(fieldVisibleCharacterRight != null);
         }
     }
 }

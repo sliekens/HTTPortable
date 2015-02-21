@@ -41,8 +41,8 @@
     <Compile Include="Rfc7230\FieldName.cs" />
     <Compile Include="Rfc7230\FieldValueLexer.cs" />
     <Compile Include="Rfc7230\FieldValue.cs" />
-    <Compile Include="Rfc7230\FieldVCharLexer.cs" />
-    <Compile Include="Rfc7230\FieldVChar.cs" />
+    <Compile Include="Rfc7230\FieldVisibleCharacterLexer.cs" />
+    <Compile Include="Rfc7230\FieldVisibleCharacter.cs" />
     <Compile Include="Rfc7230\HeaderFieldLexer.cs" />
     <Compile Include="Rfc7230\HeaderField.cs" />
     <Compile Include="Rfc7230\HttpNameLexer.cs" />

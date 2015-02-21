@@ -5,7 +5,7 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class FieldVChar : Element
+    public class FieldVisibleCharacter : Element
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly ObsoletedText obsoletedText;
@@ -13,14 +13,14 @@ namespace Http.Grammar.Rfc7230
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly VisibleCharacter visibleCharacter;
 
-        public FieldVChar(VisibleCharacter visibleCharacter, ITextContext context)
+        public FieldVisibleCharacter(VisibleCharacter visibleCharacter, ITextContext context)
             : base(visibleCharacter.Data, context)
         {
             Contract.Requires(visibleCharacter != null);
             this.visibleCharacter = visibleCharacter;
         }
 
-        public FieldVChar(ObsoletedText obsoletedText, ITextContext context)
+        public FieldVisibleCharacter(ObsoletedText obsoletedText, ITextContext context)
             : base(obsoletedText.Data, context)
         {
             Contract.Requires(obsoletedText != null);
