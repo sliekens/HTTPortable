@@ -9,6 +9,11 @@ namespace Uri.Grammar
         private readonly ILexer<AlphaToken> alphaLexer;
         private readonly ILexer<DigitToken> digitLexer;
 
+        public UnreservedLexer()
+            : this(new AlphaLexer(), new DigitLexer())
+        {
+        }
+
         public UnreservedLexer(ILexer<AlphaToken> alphaLexer, ILexer<DigitToken> digitLexer)
         {
             Contract.Requires(alphaLexer != null);
