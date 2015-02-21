@@ -7,14 +7,14 @@ namespace Http.Grammar.Rfc7230
     public class FieldValueLexer : Lexer<FieldValue>
     {
         private readonly ILexer<FieldContent> fieldContentLexer;
-        private readonly ILexer<ObsFold> obsFoldLexer;
+        private readonly ILexer<ObsoletedFold> obsFoldLexer;
 
         public FieldValueLexer()
-            : this(new FieldContentLexer(), new ObsFoldLexer())
+            : this(new FieldContentLexer(), new ObsoletedFoldLexer())
         {
         }
 
-        public FieldValueLexer(ILexer<FieldContent> fieldContentLexer, ILexer<ObsFold> obsFoldLexer)
+        public FieldValueLexer(ILexer<FieldContent> fieldContentLexer, ILexer<ObsoletedFold> obsFoldLexer)
         {
             Contract.Requires(fieldContentLexer != null);
             Contract.Requires(obsFoldLexer != null);
@@ -43,20 +43,20 @@ namespace Http.Grammar.Rfc7230
             }
 
             var context = scanner.GetContext();
-            IList<Alternative<FieldContent, ObsFold>> tokens = new List<Alternative<FieldContent, ObsFold>>();
+            IList<Alternative<FieldContent, ObsoletedFold>> tokens = new List<Alternative<FieldContent, ObsoletedFold>>();
             for (; ; )
             {
                 FieldContent fieldContent;
                 if (this.fieldContentLexer.TryRead(scanner, out fieldContent))
                 {
-                    tokens.Add(new Alternative<FieldContent, ObsFold>(fieldContent, context));
+                    tokens.Add(new Alternative<FieldContent, ObsoletedFold>(fieldContent, context));
                 }
                 else
                 {
-                    ObsFold obsFold;
-                    if (this.obsFoldLexer.TryRead(scanner, out obsFold))
+                    ObsoletedFold obsoletedFold;
+                    if (this.obsFoldLexer.TryRead(scanner, out obsoletedFold))
                     {
-                        tokens.Add(new Alternative<FieldContent, ObsFold>(obsFold, context));
+                        tokens.Add(new Alternative<FieldContent, ObsoletedFold>(obsoletedFold, context));
                     }
                     else
                     {

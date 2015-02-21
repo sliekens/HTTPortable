@@ -51,8 +51,8 @@
     <Compile Include="Rfc7230\HttpVersion.cs" />
     <Compile Include="Rfc7230\MethodLexer.cs" />
     <Compile Include="Rfc7230\Method.cs" />
-    <Compile Include="Rfc7230\ObsFoldLexer.cs" />
-    <Compile Include="Rfc7230\ObsFold.cs" />
+    <Compile Include="Rfc7230\ObsoletedFoldLexer.cs" />
+    <Compile Include="Rfc7230\ObsoletedFold.cs" />
     <Compile Include="Rfc7230\ObsoletedTextLexer.cs" />
     <Compile Include="Rfc7230\ObsoletedText.cs" />
     <Compile Include="Rfc7230\OptionalWhiteSpaceLexer.cs" />

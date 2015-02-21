@@ -56,7 +56,7 @@
   <ItemGroup>
     <Compile Include="Rfc7230\FieldContentLexerTests.cs" />
     <Compile Include="Rfc7230\FieldValueLexerTests.cs" />
-    <Compile Include="Rfc7230\ObsFoldLexerTests.cs" />
+    <Compile Include="Rfc7230\ObsoletedFoldLexerTests.cs" />
     <Compile Include="Rfc7230\OptionalWhiteSpaceLexerTests.cs" />
     <Compile Include="Rfc7230\RequestLineLexerTests.cs" />
     <Compile Include="Rfc7230\RequiredWhiteSpaceLexerTests.cs" />

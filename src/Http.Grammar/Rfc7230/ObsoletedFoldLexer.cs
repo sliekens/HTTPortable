@@ -5,18 +5,18 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class ObsFoldLexer : Lexer<ObsFold>
+    public class ObsoletedFoldLexer : Lexer<ObsoletedFold>
     {
         private readonly ILexer<EndOfLine> crLfLexer;
         private readonly ILexer<Space> spLexer;
         private readonly ILexer<HorizontalTab> hTabLexer;
 
-        public ObsFoldLexer()
+        public ObsoletedFoldLexer()
             : this(new EndOfLineLexer(), new SpaceLexer(), new HorizontalTabLexer())
         {
         }
 
-        public ObsFoldLexer(ILexer<EndOfLine> crLfLexer, ILexer<Space> spLexer, ILexer<HorizontalTab> hTabLexer)
+        public ObsoletedFoldLexer(ILexer<EndOfLine> crLfLexer, ILexer<Space> spLexer, ILexer<HorizontalTab> hTabLexer)
         {
             Contract.Requires(crLfLexer != null);
             Contract.Requires(spLexer != null);
@@ -26,10 +26,10 @@ namespace Http.Grammar.Rfc7230
             this.hTabLexer = hTabLexer;
         }
 
-        public override ObsFold Read(ITextScanner scanner)
+        public override ObsoletedFold Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            ObsFold element;
+            ObsoletedFold element;
             if (this.TryRead(scanner, out element))
             {
                 return element;
@@ -38,11 +38,11 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'obs-fold'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out ObsFold element)
+        public override bool TryRead(ITextScanner scanner, out ObsoletedFold element)
         {
             if (scanner.EndOfInput)
             {
-                element = default(ObsFold);
+                element = default(ObsoletedFold);
                 return false;
             }
 
@@ -50,7 +50,7 @@ namespace Http.Grammar.Rfc7230
             EndOfLine endOfLine;
             if (!this.crLfLexer.TryRead(scanner, out endOfLine))
             {
-                element = default(ObsFold);
+                element = default(ObsoletedFold);
                 return false;
             }
 
@@ -70,7 +70,7 @@ namespace Http.Grammar.Rfc7230
                 else
                 {
                     this.crLfLexer.PutBack(scanner, endOfLine);
-                    element = default(ObsFold);
+                    element = default(ObsoletedFold);
                     return false;
                 }
             }
@@ -95,7 +95,7 @@ namespace Http.Grammar.Rfc7230
                 }
             }
 
-            element = new ObsFold(endOfLine, elements, context);
+            element = new ObsoletedFold(endOfLine, elements, context);
             return true;
         }
 

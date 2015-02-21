@@ -5,13 +5,13 @@ using Text.Scanning;
 namespace Http.Grammar.Rfc7230
 {
     [TestClass]
-    public class ObsFoldLexerTests
+    public class ObsoletedFoldLexerTests
     {
         [TestMethod]
         public void ReadObsoleteFold1()
         {
             const string input = "\r\n ";
-            var lexer = new ObsFoldLexer();
+            var lexer = new ObsoletedFoldLexer();
             using (ITextScanner scanner = new TextScanner(new StringReader(input)))
             {
                 scanner.Read();
@@ -26,7 +26,7 @@ namespace Http.Grammar.Rfc7230
         public void ReadObsoleteFold2()
         {
             const string input = "\r\n\t";
-            var lexer = new ObsFoldLexer();
+            var lexer = new ObsoletedFoldLexer();
             using (ITextScanner scanner = new TextScanner(new StringReader(input)))
             {
                 scanner.Read();
@@ -41,7 +41,7 @@ namespace Http.Grammar.Rfc7230
         public void ReadObsoleteFold3()
         {
             const string input = "\r\n \t";
-            var lexer = new ObsFoldLexer();
+            var lexer = new ObsoletedFoldLexer();
             using (ITextScanner scanner = new TextScanner(new StringReader(input)))
             {
                 scanner.Read();
@@ -56,7 +56,7 @@ namespace Http.Grammar.Rfc7230
         public void ReadObsoleteFold4()
         {
             const string input = "\r\n\t ";
-            var lexer = new ObsFoldLexer();
+            var lexer = new ObsoletedFoldLexer();
             using (ITextScanner scanner = new TextScanner(new StringReader(input)))
             {
                 scanner.Read();
