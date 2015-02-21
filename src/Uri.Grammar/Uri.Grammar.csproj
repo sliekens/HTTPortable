@@ -41,6 +41,8 @@
     <Compile Include="ReservedToken.cs" />
     <Compile Include="SubDelimsLexer.cs" />
     <Compile Include="SubDelimsToken.cs" />
+    <Compile Include="UnreservedLexer.cs" />
+    <Compile Include="UnreservedToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Text.Scanning">
