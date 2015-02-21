@@ -61,8 +61,8 @@
     <Compile Include="Rfc7230\ReasonPhrase.cs" />
     <Compile Include="Rfc7230\RequestLineLexer.cs" />
     <Compile Include="Rfc7230\RequestLine.cs" />
-    <Compile Include="Rfc7230\RWSLexer.cs" />
-    <Compile Include="Rfc7230\RWS.cs" />
+    <Compile Include="Rfc7230\RequiredWhiteSpaceLexer.cs" />
+    <Compile Include="Rfc7230\RequiredWhiteSpace.cs" />
     <Compile Include="Rfc7230\StatusCodeLexer.cs" />
     <Compile Include="Rfc7230\StatusCode.cs" />
     <Compile Include="Rfc7230\StatusLineLexer.cs" />

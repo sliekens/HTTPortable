@@ -5,17 +5,17 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class RWSLexer : Lexer<RWS>
+    public class RequiredWhiteSpaceLexer : Lexer<RequiredWhiteSpace>
     {
         private readonly ILexer<Space> SpaceLexer;
         private readonly ILexer<HorizontalTab> hTabLexer;
 
-        public RWSLexer()
+        public RequiredWhiteSpaceLexer()
             : this(new SpaceLexer(), new HorizontalTabLexer())
         {
         }
 
-        public RWSLexer(ILexer<Space> SpaceLexer, ILexer<HorizontalTab> hTabLexer)
+        public RequiredWhiteSpaceLexer(ILexer<Space> SpaceLexer, ILexer<HorizontalTab> hTabLexer)
         {
             Contract.Requires(SpaceLexer != null);
             Contract.Requires(hTabLexer != null);
@@ -23,10 +23,10 @@ namespace Http.Grammar.Rfc7230
             this.hTabLexer = hTabLexer;
         }
 
-        public override RWS Read(ITextScanner scanner)
+        public override RequiredWhiteSpace Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            RWS element;
+            RequiredWhiteSpace element;
             if (this.TryRead(scanner, out element))
             {
                 return element;
@@ -35,11 +35,11 @@ namespace Http.Grammar.Rfc7230
             throw new SyntaxErrorException(context, "Expected 'RWS'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out RWS element)
+        public override bool TryRead(ITextScanner scanner, out RequiredWhiteSpace element)
         {
             if (scanner.EndOfInput)
             {
-                element = default(RWS);
+                element = default(RequiredWhiteSpace);
                 return false;
             }
 
@@ -59,7 +59,7 @@ namespace Http.Grammar.Rfc7230
                 }
                 else
                 {
-                    element = default(RWS);
+                    element = default(RequiredWhiteSpace);
                     return false;
                 }
             }
@@ -85,7 +85,7 @@ namespace Http.Grammar.Rfc7230
                 }
             }
 
-            element = new RWS(tokens, context);
+            element = new RequiredWhiteSpace(tokens, context);
             return true;
         }
 

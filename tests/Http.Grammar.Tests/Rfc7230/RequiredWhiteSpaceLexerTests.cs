@@ -5,13 +5,13 @@ using Text.Scanning;
 namespace Http.Grammar.Rfc7230
 {
     [TestClass]
-    public class RWSLexerTests
+    public class RequiredWhiteSpaceLexerTests
     {
         [TestMethod]
         public void ReadRequiredWhiteSpace1()
         {
             const string input = " ";
-            var lexer = new RWSLexer();
+            var lexer = new RequiredWhiteSpaceLexer();
             using (ITextScanner textScanner = new TextScanner(new StringReader(input)))
             {
                 textScanner.Read();
@@ -26,7 +26,7 @@ namespace Http.Grammar.Rfc7230
         public void ReadRequiredWhiteSpace2()
         {
             const string input = "\t";
-            var lexer = new RWSLexer();
+            var lexer = new RequiredWhiteSpaceLexer();
             using (ITextScanner textScanner = new TextScanner(new StringReader(input)))
             {
                 textScanner.Read();
@@ -41,7 +41,7 @@ namespace Http.Grammar.Rfc7230
         public void ReadRequiredWhiteSpace3()
         {
             const string input = " \t";
-            var lexer = new RWSLexer();
+            var lexer = new RequiredWhiteSpaceLexer();
             using (ITextScanner textScanner = new TextScanner(new StringReader(input)))
             {
                 textScanner.Read();
@@ -56,7 +56,7 @@ namespace Http.Grammar.Rfc7230
         public void ReadRequiredWhiteSpace4()
         {
             const string input = "\t ";
-            var lexer = new RWSLexer();
+            var lexer = new RequiredWhiteSpaceLexer();
             using (ITextScanner textScanner = new TextScanner(new StringReader(input)))
             {
                 textScanner.Read();

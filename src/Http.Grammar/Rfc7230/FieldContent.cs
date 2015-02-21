@@ -11,11 +11,11 @@ namespace Http.Grammar.Rfc7230
             Contract.Requires(fieldVChar != null);
         }
 
-        public FieldContent(FieldVChar fieldVCharLeft, RWS rws, FieldVChar fieldVCharRight, ITextContext context)
-            : base(string.Concat(fieldVCharLeft.Data, rws.Data, fieldVCharRight.Data), context)
+        public FieldContent(FieldVChar fieldVCharLeft, RequiredWhiteSpace requiredWhiteSpace, FieldVChar fieldVCharRight, ITextContext context)
+            : base(string.Concat(fieldVCharLeft.Data, requiredWhiteSpace.Data, fieldVCharRight.Data), context)
         {
             Contract.Requires(fieldVCharLeft != null);
-            Contract.Requires(rws != null);
+            Contract.Requires(requiredWhiteSpace != null);
             Contract.Requires(fieldVCharRight != null);
         }
     }

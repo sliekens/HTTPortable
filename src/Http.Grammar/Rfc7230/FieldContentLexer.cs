@@ -7,14 +7,14 @@ namespace Http.Grammar.Rfc7230
     public class FieldContentLexer : Lexer<FieldContent>
     {
         private readonly ILexer<FieldVChar> fieldVCharLexer;
-        private readonly ILexer<RWS> rwsLexer;
+        private readonly ILexer<RequiredWhiteSpace> rwsLexer;
 
         public FieldContentLexer()
-            : this(new FieldVCharLexer(), new RWSLexer())
+            : this(new FieldVCharLexer(), new RequiredWhiteSpaceLexer())
         {
         }
 
-        public FieldContentLexer(ILexer<FieldVChar> fieldVCharLexer, ILexer<RWS> rwsLexer)
+        public FieldContentLexer(ILexer<FieldVChar> fieldVCharLexer, ILexer<RequiredWhiteSpace> rwsLexer)
         {
             Contract.Requires(fieldVCharLexer != null);
             Contract.Requires(rwsLexer != null);
@@ -50,17 +50,17 @@ namespace Http.Grammar.Rfc7230
                 return false;
             }
 
-            RWS rws;
-            if (this.rwsLexer.TryRead(scanner, out rws))
+            RequiredWhiteSpace requiredWhiteSpace;
+            if (this.rwsLexer.TryRead(scanner, out requiredWhiteSpace))
             {
                 FieldVChar fieldVCharRight;
                 if (this.fieldVCharLexer.TryRead(scanner, out fieldVCharRight))
                 {
-                    element = new FieldContent(fieldVCharLeft, rws, fieldVCharRight, context);
+                    element = new FieldContent(fieldVCharLeft, requiredWhiteSpace, fieldVCharRight, context);
                     return true;
                 }
 
-                this.rwsLexer.PutBack(scanner, rws);
+                this.rwsLexer.PutBack(scanner, requiredWhiteSpace);
             }
 
             element = new FieldContent(fieldVCharLeft, context);
