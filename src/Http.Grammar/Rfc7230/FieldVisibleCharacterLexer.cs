@@ -8,29 +8,29 @@ namespace Http.Grammar.Rfc7230
     public class FieldVisibleCharacterLexer : Lexer<FieldVisibleCharacter>
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly ILexer<ObsoletedText> obsTextLexer;
+        private readonly ILexer<ObsoletedText> obsoletedTextLexer;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly ILexer<VisibleCharacter> vCharLexer;
+        private readonly ILexer<VisibleCharacter> visibleCharLexer;
 
         public FieldVisibleCharacterLexer()
             : this(new VisibleCharacterLexer(), new ObsoletedTextLexer())
         {
         }
 
-        public FieldVisibleCharacterLexer(ILexer<VisibleCharacter> vCharLexer, ILexer<ObsoletedText> obsTextLexer)
+        public FieldVisibleCharacterLexer(ILexer<VisibleCharacter> visibleCharLexer, ILexer<ObsoletedText> obsoletedTextLexer)
         {
-            Contract.Requires(vCharLexer != null);
-            Contract.Requires(obsTextLexer != null);
-            this.vCharLexer = vCharLexer;
-            this.obsTextLexer = obsTextLexer;
+            Contract.Requires(visibleCharLexer != null);
+            Contract.Requires(obsoletedTextLexer != null);
+            this.visibleCharLexer = visibleCharLexer;
+            this.obsoletedTextLexer = obsoletedTextLexer;
         }
 
         public override FieldVisibleCharacter Read(ITextScanner scanner)
         {
             FieldVisibleCharacter element;
             var context = scanner.GetContext();
-            if (TryRead(scanner, out element))
+            if (this.TryRead(scanner, out element))
             {
                 return element;
             }
@@ -40,16 +40,22 @@ namespace Http.Grammar.Rfc7230
 
         public override bool TryRead(ITextScanner scanner, out FieldVisibleCharacter element)
         {
-            var context = scanner.GetContext();
-            VisibleCharacter vCharToken;
-            if (vCharLexer.TryRead(scanner, out vCharToken))
+            if (scanner.EndOfInput)
             {
-                element = new FieldVisibleCharacter(vCharToken, context);
+                element = default (FieldVisibleCharacter);
+                return false;
+            }
+
+            var context = scanner.GetContext();
+            VisibleCharacter visibleCharacter;
+            if (this.visibleCharLexer.TryRead(scanner, out visibleCharacter))
+            {
+                element = new FieldVisibleCharacter(visibleCharacter, context);
                 return true;
             }
 
             ObsoletedText obsoletedText;
-            if (obsTextLexer.TryRead(scanner, out obsoletedText))
+            if (this.obsoletedTextLexer.TryRead(scanner, out obsoletedText))
             {
                 element = new FieldVisibleCharacter(obsoletedText, context);
                 return true;
@@ -62,8 +68,8 @@ namespace Http.Grammar.Rfc7230
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(vCharLexer != null);
-            Contract.Invariant(obsTextLexer != null);
+            Contract.Invariant(this.visibleCharLexer != null);
+            Contract.Invariant(this.obsoletedTextLexer != null);
         }
     }
 }
