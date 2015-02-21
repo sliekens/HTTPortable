@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics.Contracts;
 using Text.Scanning;
 using Text.Scanning.Core;
 
@@ -8,6 +7,11 @@ namespace Uri.Grammar
     public class PctEncodedLexer : Lexer<PctEncodedToken>
     {
         private readonly ILexer<HexDigToken> hexDigLexer;
+
+        public PctEncodedLexer()
+            : this(new HexDigLexer())
+        {
+        }
 
         public PctEncodedLexer(ILexer<HexDigToken> hexDigLexer)
         {
