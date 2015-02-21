@@ -53,8 +53,8 @@
     <Compile Include="Rfc7230\Method.cs" />
     <Compile Include="Rfc7230\ObsFoldLexer.cs" />
     <Compile Include="Rfc7230\ObsFold.cs" />
-    <Compile Include="Rfc7230\ObsTextLexer.cs" />
-    <Compile Include="Rfc7230\ObsText.cs" />
+    <Compile Include="Rfc7230\ObsoletedTextLexer.cs" />
+    <Compile Include="Rfc7230\ObsoletedText.cs" />
     <Compile Include="Rfc7230\OptionalWhiteSpaceLexer.cs" />
     <Compile Include="Rfc7230\OptionalWhiteSpace.cs" />
     <Compile Include="Rfc7230\ReasonPhraseLexer.cs" />

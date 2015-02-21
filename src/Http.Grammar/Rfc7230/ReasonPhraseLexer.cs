@@ -8,17 +8,17 @@ namespace Http.Grammar.Rfc7230
     public class ReasonPhraseLexer : Lexer<ReasonPhrase>
     {
         private readonly ILexer<HorizontalTab> hTabLexer;
-        private readonly ILexer<ObsText> obsTextLexer;
+        private readonly ILexer<ObsoletedText> obsTextLexer;
         private readonly ILexer<Space> SpaceLexer;
         private readonly ILexer<VisibleCharacter> vCharLexer;
 
         public ReasonPhraseLexer()
-            : this(new HorizontalTabLexer(), new SpaceLexer(), new VisibleCharacterLexer(), new ObsTextLexer())
+            : this(new HorizontalTabLexer(), new SpaceLexer(), new VisibleCharacterLexer(), new ObsoletedTextLexer())
         {
         }
 
         public ReasonPhraseLexer(ILexer<HorizontalTab> hTabLexer, ILexer<Space> SpaceLexer, ILexer<VisibleCharacter> vCharLexer,
-            ILexer<ObsText> obsTextLexer)
+            ILexer<ObsoletedText> obsTextLexer)
         {
             Contract.Requires(hTabLexer != null);
             Contract.Requires(SpaceLexer != null);
@@ -52,7 +52,7 @@ namespace Http.Grammar.Rfc7230
                 HorizontalTab hTabToken;
                 Space Space;
                 VisibleCharacter vCharToken;
-                ObsText obsText;
+                ObsoletedText obsoletedText;
                 if (this.hTabLexer.TryRead(scanner, out hTabToken))
                 {
                     tokens.Add(hTabToken);
@@ -65,9 +65,9 @@ namespace Http.Grammar.Rfc7230
                 {
                     tokens.Add(vCharToken);
                 }
-                else if (this.obsTextLexer.TryRead(scanner, out obsText))
+                else if (this.obsTextLexer.TryRead(scanner, out obsoletedText))
                 {
-                    tokens.Add(obsText);
+                    tokens.Add(obsoletedText);
                 }
                 else
                 {

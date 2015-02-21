@@ -8,7 +8,7 @@ namespace Http.Grammar.Rfc7230
     public class FieldVChar : Element
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly ObsText obsText;
+        private readonly ObsoletedText obsoletedText;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly VisibleCharacter visibleCharacter;
@@ -20,18 +20,18 @@ namespace Http.Grammar.Rfc7230
             this.visibleCharacter = visibleCharacter;
         }
 
-        public FieldVChar(ObsText obsText, ITextContext context)
-            : base(obsText.Data, context)
+        public FieldVChar(ObsoletedText obsoletedText, ITextContext context)
+            : base(obsoletedText.Data, context)
         {
-            Contract.Requires(obsText != null);
-            this.obsText = obsText;
+            Contract.Requires(obsoletedText != null);
+            this.obsoletedText = obsoletedText;
         }
 
-        public ObsText ObsText
+        public ObsoletedText ObsoletedText
         {
             get
             {
-                return this.obsText;
+                return this.obsoletedText;
             }
         }
 
@@ -46,7 +46,7 @@ namespace Http.Grammar.Rfc7230
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.visibleCharacter == null || this.obsText == null);
+            Contract.Invariant(this.visibleCharacter == null || this.obsoletedText == null);
         }
     }
 }

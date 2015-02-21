@@ -3,9 +3,9 @@ using Text.Scanning;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class ObsText : Element
+    public class ObsoletedText : Element
     {
-        public ObsText(char data, ITextContext context)
+        public ObsoletedText(char data, ITextContext context)
             : base(data, context)
         {
             Contract.Requires(data >= '\u0080' && data <= '\u00FF');

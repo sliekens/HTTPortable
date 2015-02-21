@@ -8,17 +8,17 @@ namespace Http.Grammar.Rfc7230
     public class FieldVCharLexer : Lexer<FieldVChar>
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly ILexer<ObsText> obsTextLexer;
+        private readonly ILexer<ObsoletedText> obsTextLexer;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly ILexer<VisibleCharacter> vCharLexer;
 
         public FieldVCharLexer()
-            : this(new VisibleCharacterLexer(), new ObsTextLexer())
+            : this(new VisibleCharacterLexer(), new ObsoletedTextLexer())
         {
         }
 
-        public FieldVCharLexer(ILexer<VisibleCharacter> vCharLexer, ILexer<ObsText> obsTextLexer)
+        public FieldVCharLexer(ILexer<VisibleCharacter> vCharLexer, ILexer<ObsoletedText> obsTextLexer)
         {
             Contract.Requires(vCharLexer != null);
             Contract.Requires(obsTextLexer != null);
@@ -48,10 +48,10 @@ namespace Http.Grammar.Rfc7230
                 return true;
             }
 
-            ObsText obsText;
-            if (obsTextLexer.TryRead(scanner, out obsText))
+            ObsoletedText obsoletedText;
+            if (obsTextLexer.TryRead(scanner, out obsoletedText))
             {
-                element = new FieldVChar(obsText, context);
+                element = new FieldVChar(obsoletedText, context);
                 return true;
             }
 

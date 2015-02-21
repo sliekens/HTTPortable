@@ -11,7 +11,7 @@ namespace Http.Grammar.Rfc7230
             : base(string.Concat(elements), context)
         {
             Contract.Requires(elements != null);
-            Contract.Requires(Contract.ForAll(elements, element => element is HorizontalTab || element is Space || element is VisibleCharacter || element is ObsText));
+            Contract.Requires(Contract.ForAll(elements, element => element is HorizontalTab || element is Space || element is VisibleCharacter || element is ObsoletedText));
         }
     }
 }
