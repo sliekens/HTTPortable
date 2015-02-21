@@ -21,8 +21,6 @@ namespace Http.Grammar.Rfc7230
                 {
                     textScanner.Read();
                     var output = lexer.Read(textScanner);
-                    Assert.IsNull(output.Alpha);
-                    Assert.IsNotNull(output.Digit);
                     Assert.IsNotNull(output.Data);
                     Assert.AreEqual(text, output.Data);
                 }
@@ -41,8 +39,6 @@ namespace Http.Grammar.Rfc7230
                 {
                     textScanner.Read();
                     var output = lexer.Read(textScanner);
-                    Assert.IsNull(output.Digit);
-                    Assert.IsNotNull(output.Alpha);
                     Assert.IsNotNull(output.Data);
                     Assert.AreEqual(text, output.Data);
                 }
@@ -61,8 +57,6 @@ namespace Http.Grammar.Rfc7230
                 {
                     textScanner.Read();
                     var output = lexer.Read(textScanner);
-                    Assert.IsNull(output.Digit);
-                    Assert.IsNull(output.Alpha);
                     Assert.IsNotNull(output.Data);
                     Assert.AreEqual(text, output.Data);
                 }
