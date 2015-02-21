@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics.Contracts;
 using Text.Scanning;
 using Text.Scanning.Core;
 
@@ -7,23 +6,21 @@ namespace Http.Grammar.Rfc7230
 {
     public class ObsoletedFoldLexer : Lexer<ObsoletedFold>
     {
-        private readonly ILexer<EndOfLine> crLfLexer;
-        private readonly ILexer<Space> spLexer;
-        private readonly ILexer<HorizontalTab> hTabLexer;
+        private readonly ILexer<EndOfLine> endOfLineLexer;
+
+        private readonly ILexer<RequiredWhiteSpace> requiredWhiteSpaceLexer;
 
         public ObsoletedFoldLexer()
-            : this(new EndOfLineLexer(), new SpaceLexer(), new HorizontalTabLexer())
+            : this(new EndOfLineLexer(), new RequiredWhiteSpaceLexer())
         {
         }
 
-        public ObsoletedFoldLexer(ILexer<EndOfLine> crLfLexer, ILexer<Space> spLexer, ILexer<HorizontalTab> hTabLexer)
+        public ObsoletedFoldLexer(ILexer<EndOfLine> endOfLineLexer, ILexer<RequiredWhiteSpace> requiredWhiteSpaceLexer)
         {
-            Contract.Requires(crLfLexer != null);
-            Contract.Requires(spLexer != null);
-            Contract.Requires(hTabLexer != null);
-            this.crLfLexer = crLfLexer;
-            this.spLexer = spLexer;
-            this.hTabLexer = hTabLexer;
+            Contract.Requires(endOfLineLexer != null);
+            Contract.Requires(requiredWhiteSpaceLexer != null);
+            this.endOfLineLexer = endOfLineLexer;
+            this.requiredWhiteSpaceLexer = requiredWhiteSpaceLexer;
         }
 
         public override ObsoletedFold Read(ITextScanner scanner)
@@ -48,64 +45,29 @@ namespace Http.Grammar.Rfc7230
 
             var context = scanner.GetContext();
             EndOfLine endOfLine;
-            if (!this.crLfLexer.TryRead(scanner, out endOfLine))
+            if (!this.endOfLineLexer.TryRead(scanner, out endOfLine))
             {
                 element = default(ObsoletedFold);
                 return false;
             }
 
-            Space space;
-            HorizontalTab horizontalTab;
-            IList<WhiteSpace> elements = new List<WhiteSpace>();
-            if (this.spLexer.TryRead(scanner, out space))
+            RequiredWhiteSpace requiredWhiteSpace;
+            if (!this.requiredWhiteSpaceLexer.TryRead(scanner, out requiredWhiteSpace))
             {
-                elements.Add(new WhiteSpace(space, context));
-            }
-            else
-            {
-                if (hTabLexer.TryRead(scanner, out horizontalTab))
-                {
-                    elements.Add(new WhiteSpace(horizontalTab, context));
-                }
-                else
-                {
-                    this.crLfLexer.PutBack(scanner, endOfLine);
-                    element = default(ObsoletedFold);
-                    return false;
-                }
+                this.endOfLineLexer.PutBack(scanner, endOfLine);
+                element = default(ObsoletedFold);
+                return false;
             }
 
-            // TODO: refactor using OWS lexers
-            for (; ; )
-            {
-                if (spLexer.TryRead(scanner, out space))
-                {
-                    elements.Add(new WhiteSpace(space, context));
-                }
-                else
-                {
-                    if (hTabLexer.TryRead(scanner, out horizontalTab))
-                    {
-                        elements.Add(new WhiteSpace(horizontalTab, context));
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-
-            element = new ObsoletedFold(endOfLine, elements, context);
+            element = new ObsoletedFold(endOfLine, requiredWhiteSpace, context);
             return true;
         }
 
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.crLfLexer != null);
-            Contract.Invariant(this.spLexer != null);
-            Contract.Invariant(this.hTabLexer != null);
+            Contract.Invariant(this.endOfLineLexer != null);
+            Contract.Invariant(this.requiredWhiteSpaceLexer != null);
         }
-
     }
 }
