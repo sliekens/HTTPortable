@@ -19,6 +19,7 @@ namespace Http.Grammar.Rfc7230
 
         public RequestLineLexer(ILexer<Method> methodLexer, ILexer<Space> spLexer, ILexer<Token> tokenLexer,
             ILexer<HttpVersion> httpVersionLexer, ILexer<EndOfLine> crLfLexer)
+            : base("request-line")
         {
             Contract.Requires(methodLexer != null);
             Contract.Requires(spLexer != null);
@@ -30,18 +31,6 @@ namespace Http.Grammar.Rfc7230
             this.tokenLexer = tokenLexer;
             this.httpVersionLexer = httpVersionLexer;
             this.crLfLexer = crLfLexer;
-        }
-
-        public override RequestLine Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            RequestLine element;
-            if (TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'request-line'");
         }
 
         public override bool TryRead(ITextScanner scanner, out RequestLine element)

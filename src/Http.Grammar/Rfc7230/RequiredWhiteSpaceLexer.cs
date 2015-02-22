@@ -15,21 +15,10 @@ namespace Http.Grammar.Rfc7230
         }
 
         public RequiredWhiteSpaceLexer(ILexer<WhiteSpace> whiteSpaceLexer)
+            : base("RWS")
         {
             Contract.Requires(whiteSpaceLexer != null);
             this.whiteSpaceLexer = whiteSpaceLexer;
-        }
-
-        public override RequiredWhiteSpace Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            RequiredWhiteSpace element;
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'RWS'");
         }
 
         public override bool TryRead(ITextScanner scanner, out RequiredWhiteSpace element)

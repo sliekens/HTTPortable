@@ -15,23 +15,12 @@ namespace Uri.Grammar
         }
 
         public UnreservedLexer(ILexer<Alpha> alphaLexer, ILexer<Digit> digitLexer)
+            : base("unreserved")
         {
             Contract.Requires(alphaLexer != null);
             Contract.Requires(digitLexer != null);
             this.alphaLexer = alphaLexer;
             this.digitLexer = digitLexer;
-        }
-
-        public override Unreserved Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            Unreserved element;
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'unreserved'");
         }
 
         public override bool TryRead(ITextScanner scanner, out Unreserved element)

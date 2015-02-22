@@ -13,26 +13,10 @@ namespace Http.Grammar.Rfc7230
         }
 
         public FieldNameLexer(ILexer<Token> tokenLexer)
+            : base("field-name")
         {
             Contract.Requires(tokenLexer != null);
             this.tokenLexer = tokenLexer;
-        }
-
-        public override FieldName Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            Token token;
-            try
-            {
-                token = this.tokenLexer.Read(scanner);
-            }
-            catch (SyntaxErrorException syntaxErrorException)
-            {
-                throw new SyntaxErrorException(context, "Expected 'field-name'", syntaxErrorException);
-
-            }
-
-            return new FieldName(token, context);
         }
 
         public override bool TryRead(ITextScanner scanner, out FieldName element)

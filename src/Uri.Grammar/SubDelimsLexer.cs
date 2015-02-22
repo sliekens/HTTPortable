@@ -4,16 +4,9 @@ namespace Uri.Grammar
 {
     public class SubDelimsLexer : Lexer<SubDelims>
     {
-        public override SubDelims Read(ITextScanner scanner)
+        public SubDelimsLexer()
+            : base("sub-delims")
         {
-            var context = scanner.GetContext();
-            SubDelims element;
-            if (TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'sub-delims'");
         }
 
         public override bool TryRead(ITextScanner scanner, out SubDelims element)
@@ -24,7 +17,7 @@ namespace Uri.Grammar
             }
 
             var context = scanner.GetContext();
-            foreach (var c in new[] {'!', '$', '&', '\'', '(', ')', '*', '+', ',', ';', '='})
+            foreach (var c in new[] { '!', '$', '&', '\'', '(', ')', '*', '+', ',', ';', '=' })
             {
                 if (scanner.TryMatch(c))
                 {

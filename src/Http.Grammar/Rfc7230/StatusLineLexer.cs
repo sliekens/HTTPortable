@@ -20,6 +20,7 @@ namespace Http.Grammar.Rfc7230
         public StatusLineLexer(ILexer<HttpVersion> httpVersionLexer, ILexer<Space> spaceLexer,
             ILexer<StatusCode> statusCodeLexer, ILexer<ReasonPhrase> reasonPhraseLexer,
             ILexer<EndOfLine> endOfLineLexer)
+            : base("status-line")
         {
             Contract.Requires(httpVersionLexer != null);
             Contract.Requires(spaceLexer != null);
@@ -31,18 +32,6 @@ namespace Http.Grammar.Rfc7230
             this.statusCodeLexer = statusCodeLexer;
             this.reasonPhraseLexer = reasonPhraseLexer;
             this.endOfLineLexer = endOfLineLexer;
-        }
-
-        public override StatusLine Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            StatusLine element;
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'status-line'");
         }
 
         public override bool TryRead(ITextScanner scanner, out StatusLine element)

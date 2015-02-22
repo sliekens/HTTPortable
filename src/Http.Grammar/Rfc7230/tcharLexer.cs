@@ -15,24 +15,14 @@ namespace Http.Grammar.Rfc7230
         }
 
         public TCharLexer(ILexer<Alpha> alphaLexer, ILexer<Digit> digitLexer)
+            : base("tchar")
         {
             Contract.Requires(alphaLexer != null);
             Contract.Requires(digitLexer != null);
             this.alphaLexer = alphaLexer;
             this.digitLexer = digitLexer;
         }
-        public override TChar Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            TChar element;
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'tchar'");
-        }
-
+  
         public override bool TryRead(ITextScanner scanner, out TChar element)
         {
             if (scanner.EndOfInput)

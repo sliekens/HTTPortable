@@ -15,23 +15,12 @@ namespace Http.Grammar.Rfc7230
         }
 
         public FieldValueLexer(ILexer<FieldContent> fieldContentLexer, ILexer<ObsoletedFold> obsFoldLexer)
+            : base("field-value")
         {
             Contract.Requires(fieldContentLexer != null);
             Contract.Requires(obsFoldLexer != null);
             this.fieldContentLexer = fieldContentLexer;
             this.obsFoldLexer = obsFoldLexer;
-        }
-
-        public override FieldValue Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            FieldValue element;
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'field-value'");
         }
 
         public override bool TryRead(ITextScanner scanner, out FieldValue element)

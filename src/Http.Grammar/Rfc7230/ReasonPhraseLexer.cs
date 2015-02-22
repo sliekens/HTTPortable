@@ -19,6 +19,7 @@ namespace Http.Grammar.Rfc7230
 
         public ReasonPhraseLexer(ILexer<HorizontalTab> hTabLexer, ILexer<Space> SpaceLexer, ILexer<VisibleCharacter> vCharLexer,
             ILexer<ObsoletedText> obsTextLexer)
+            : base("reason-phrase")
         {
             Contract.Requires(hTabLexer != null);
             Contract.Requires(SpaceLexer != null);
@@ -28,19 +29,6 @@ namespace Http.Grammar.Rfc7230
             this.SpaceLexer = SpaceLexer;
             this.vCharLexer = vCharLexer;
             this.obsTextLexer = obsTextLexer;
-        }
-
-        public override ReasonPhrase Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            ReasonPhrase element;
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            // This code should never be reached, because reason-phrase can be an empty string
-            throw new SyntaxErrorException(context, "Expected 'reason-phrase'");
         }
 
         public override bool TryRead(ITextScanner scanner, out ReasonPhrase element)

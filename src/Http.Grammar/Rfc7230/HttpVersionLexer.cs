@@ -14,41 +14,10 @@ namespace Http.Grammar.Rfc7230
         }
 
         public HttpVersionLexer(ILexer<HttpName> httpNameLexer, ILexer<Digit> digitLexer)
+            : base("HTTP-version")
         {
             this.httpNameLexer = httpNameLexer;
             this.digitLexer = digitLexer;
-        }
-
-        public override HttpVersion Read(ITextScanner scanner)
-        {
-            HttpName httpName;
-            Digit digit1;
-            Digit digit2;
-            var context = scanner.GetContext();
-            try
-            {
-                httpName = this.httpNameLexer.Read(scanner);
-                var slashContext = scanner.GetContext();
-                if (!scanner.TryMatch('/'))
-                {
-                    throw new SyntaxErrorException(slashContext, "Expected '/'");
-                }
-
-                digit1 = this.digitLexer.Read(scanner);
-                var dotContext = scanner.GetContext();
-                if (!scanner.TryMatch('.'))
-                {
-                    throw new SyntaxErrorException(dotContext, "Expected '.'");
-                }
-
-                digit2 = this.digitLexer.Read(scanner);
-            }
-            catch (SyntaxErrorException syntaxErrorException)
-            {
-                throw new SyntaxErrorException(context, "Expected 'HTTP-version'", syntaxErrorException);
-            }
-
-            return new HttpVersion(httpName, digit1, digit2, context);
         }
 
         public override bool TryRead(ITextScanner scanner, out HttpVersion element)

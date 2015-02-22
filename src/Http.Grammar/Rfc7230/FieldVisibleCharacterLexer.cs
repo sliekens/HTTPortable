@@ -19,23 +19,12 @@ namespace Http.Grammar.Rfc7230
         }
 
         public FieldVisibleCharacterLexer(ILexer<VisibleCharacter> visibleCharLexer, ILexer<ObsoletedText> obsoletedTextLexer)
+            : base("field-vchar")
         {
             Contract.Requires(visibleCharLexer != null);
             Contract.Requires(obsoletedTextLexer != null);
             this.visibleCharLexer = visibleCharLexer;
             this.obsoletedTextLexer = obsoletedTextLexer;
-        }
-
-        public override FieldVisibleCharacter Read(ITextScanner scanner)
-        {
-            FieldVisibleCharacter element;
-            var context = scanner.GetContext();
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'field-vchar'");
         }
 
         public override bool TryRead(ITextScanner scanner, out FieldVisibleCharacter element)

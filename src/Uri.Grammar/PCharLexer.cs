@@ -16,6 +16,7 @@ namespace Uri.Grammar
 
         public PCharLexer(ILexer<Unreserved> unreservedLexer, ILexer<PctEncoded> pctEncodedLexer,
             ILexer<SubDelims> subDelimsLexer)
+            : base("pchar")
         {
             Contract.Requires(unreservedLexer != null);
             Contract.Requires(pctEncodedLexer != null);
@@ -23,18 +24,6 @@ namespace Uri.Grammar
             this.unreservedLexer = unreservedLexer;
             this.pctEncodedLexer = pctEncodedLexer;
             this.subDelimsLexer = subDelimsLexer;
-        }
-
-        public override PChar Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            PChar element;
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'pchar'");
         }
 
         public override bool TryRead(ITextScanner scanner, out PChar element)
@@ -67,7 +56,7 @@ namespace Uri.Grammar
                 return true;
             }
 
-            foreach (var c in new[] {':', '@'})
+            foreach (var c in new[] { ':', '@' })
             {
                 if (scanner.TryMatch(c))
                 {

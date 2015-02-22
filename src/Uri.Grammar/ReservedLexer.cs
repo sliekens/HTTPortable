@@ -8,24 +8,18 @@ namespace Uri.Grammar
         private readonly ILexer<GenDelims> genDelimsLexer;
         private readonly ILexer<SubDelims> subDelimsLexer;
 
+        public ReservedLexer()
+            : this(new GenDelimsLexer(), new SubDelimsLexer())
+        {
+        }
+
         public ReservedLexer(ILexer<GenDelims> genDelimsLexer, ILexer<SubDelims> subDelimsLexer)
+            : base("reserved")
         {
             Contract.Requires(genDelimsLexer != null);
             Contract.Requires(subDelimsLexer != null);
             this.genDelimsLexer = genDelimsLexer;
             this.subDelimsLexer = subDelimsLexer;
-        }
-
-        public override Reserved Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            Reserved element;
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'reserved'");
         }
 
         public override bool TryRead(ITextScanner scanner, out Reserved element)

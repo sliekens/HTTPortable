@@ -4,15 +4,9 @@ namespace Http.Grammar.Rfc7230
 {
     public class ObsoletedTextLexer : Lexer<ObsoletedText>
     {
-        public override ObsoletedText Read(ITextScanner scanner)
+        public ObsoletedTextLexer()
+            : base("obs-text")
         {
-            ObsoletedText element;
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(scanner.GetContext(), "Expected 'obs-text'");
         }
 
         public override bool TryRead(ITextScanner scanner, out ObsoletedText element)

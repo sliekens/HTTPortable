@@ -4,16 +4,9 @@ namespace Http.Grammar.Rfc7230
 {
     public class HttpNameLexer : Lexer<HttpName>
     {
-        public override HttpName Read(ITextScanner scanner)
+        public HttpNameLexer()
+            : base("HTTP-name")
         {
-            var context = scanner.GetContext();
-            HttpName element;
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected HTTP-name");
         }
 
         public override bool TryRead(ITextScanner scanner, out HttpName element)

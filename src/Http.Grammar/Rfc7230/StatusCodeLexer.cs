@@ -14,21 +14,10 @@ namespace Http.Grammar.Rfc7230
         }
 
         public StatusCodeLexer(ILexer<Digit> digitLexer)
+            : base("status-code")
         {
             Contract.Requires(digitLexer != null);
             this.digitLexer = digitLexer;
-        }
-
-        public override StatusCode Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            StatusCode element;
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'status-code'");
         }
 
         public override bool TryRead(ITextScanner scanner, out StatusCode element)

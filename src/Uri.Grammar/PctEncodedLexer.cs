@@ -14,21 +14,10 @@ namespace Uri.Grammar
         }
 
         public PctEncodedLexer(ILexer<HexadecimalDigit> hexDigLexer)
+            : base("pct-encoded")
         {
             Contract.Requires(hexDigLexer != null);
             this.hexDigLexer = hexDigLexer;
-        }
-
-        public override PctEncoded Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            PctEncoded element;
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'pct-encoded'");
         }
 
         public override bool TryRead(ITextScanner scanner, out PctEncoded element)

@@ -13,21 +13,10 @@ namespace Http.Grammar.Rfc7230
         }
 
         public MethodLexer(ILexer<Token> tokenLexer)
+            : base("method")
         {
             Contract.Requires(tokenLexer != null);
             this.tokenLexer = tokenLexer;
-        }
-
-        public override Method Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            Method element;
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'method'");
         }
 
         public override bool TryRead(ITextScanner scanner, out Method element)

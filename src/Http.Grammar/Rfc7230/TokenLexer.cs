@@ -16,21 +16,10 @@ namespace Http.Grammar.Rfc7230
         }
 
         public TokenLexer(ILexer<TChar> tCharLexer)
+            : base("token")
         {
             Contract.Requires(tCharLexer != null);
             this.tCharLexer = tCharLexer;
-        }
-
-        public override Token Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            Token token;
-            if (this.TryRead(scanner, out token))
-            {
-                return token;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'element'");
         }
 
         public override bool TryRead(ITextScanner scanner, out Token token)

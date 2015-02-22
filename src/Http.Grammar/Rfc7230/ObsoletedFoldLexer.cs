@@ -16,23 +16,12 @@ namespace Http.Grammar.Rfc7230
         }
 
         public ObsoletedFoldLexer(ILexer<EndOfLine> endOfLineLexer, ILexer<RequiredWhiteSpace> requiredWhiteSpaceLexer)
+            : base("obs-fold")
         {
             Contract.Requires(endOfLineLexer != null);
             Contract.Requires(requiredWhiteSpaceLexer != null);
             this.endOfLineLexer = endOfLineLexer;
             this.requiredWhiteSpaceLexer = requiredWhiteSpaceLexer;
-        }
-
-        public override ObsoletedFold Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            ObsoletedFold element;
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'obs-fold'");
         }
 
         public override bool TryRead(ITextScanner scanner, out ObsoletedFold element)

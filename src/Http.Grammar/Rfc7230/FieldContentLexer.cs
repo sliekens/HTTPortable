@@ -15,23 +15,12 @@ namespace Http.Grammar.Rfc7230
         }
 
         public FieldContentLexer(ILexer<FieldVisibleCharacter> fieldVisibleCharacterLexer, ILexer<RequiredWhiteSpace> requiredWhiteSpaceLexer)
+            : base("field-content")
         {
             Contract.Requires(fieldVisibleCharacterLexer != null);
             Contract.Requires(requiredWhiteSpaceLexer != null);
             this.fieldVisibleCharacterLexer = fieldVisibleCharacterLexer;
             this.requiredWhiteSpaceLexer = requiredWhiteSpaceLexer;
-        }
-
-        public override FieldContent Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            FieldContent element;
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'field-content'");
         }
 
         public override bool TryRead(ITextScanner scanner, out FieldContent element)

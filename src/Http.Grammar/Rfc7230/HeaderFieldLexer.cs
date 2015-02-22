@@ -15,6 +15,7 @@ namespace Http.Grammar.Rfc7230
         }
 
         public HeaderFieldLexer(ILexer<FieldName> fieldNameLexer, ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer, ILexer<FieldValue> fieldValueLexer)
+            : base("header-field")
         {
             Contract.Requires(fieldNameLexer != null);
             Contract.Requires(optionalWhiteSpaceLexer != null);
@@ -22,18 +23,6 @@ namespace Http.Grammar.Rfc7230
             this.fieldNameLexer = fieldNameLexer;
             this.optionalWhiteSpaceLexer = optionalWhiteSpaceLexer;
             this.fieldValueLexer = fieldValueLexer;
-        }
-
-        public override HeaderField Read(ITextScanner scanner)
-        {
-            var context = scanner.GetContext();
-            HeaderField element;
-            if (this.TryRead(scanner, out element))
-            {
-                return element;
-            }
-
-            throw new SyntaxErrorException(context, "Expected 'header-field'");
         }
 
         public override bool TryRead(ITextScanner scanner, out HeaderField element)
