@@ -35,29 +35,29 @@ namespace Http.Grammar.Rfc7230
         public override RequestLine Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            RequestLine token;
-            if (TryRead(scanner, out token))
+            RequestLine element;
+            if (TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'request-line'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out RequestLine token)
+        public override bool TryRead(ITextScanner scanner, out RequestLine element)
         {
             var context = scanner.GetContext();
             Method method;
             if (!methodLexer.TryRead(scanner, out method))
             {
-                return Default(out token);
+                return Default(out element);
             }
 
             Space sp1;
             if (!spLexer.TryRead(scanner, out sp1))
             {
                 methodLexer.PutBack(scanner, method);
-                return Default(out token);
+                return Default(out element);
             }
 
             // TODO: implement a URI parser
@@ -66,7 +66,7 @@ namespace Http.Grammar.Rfc7230
             {
                 spLexer.PutBack(scanner, sp1);
                 methodLexer.PutBack(scanner, method);
-                return Default(out token);
+                return Default(out element);
             }
 
             Space sp2;
@@ -75,7 +75,7 @@ namespace Http.Grammar.Rfc7230
                 tokenLexer.PutBack(scanner, requestTarget);
                 spLexer.PutBack(scanner, sp1);
                 methodLexer.PutBack(scanner, method);
-                return Default(out token);
+                return Default(out element);
             }
 
             HttpVersion httpVersion;
@@ -85,7 +85,7 @@ namespace Http.Grammar.Rfc7230
                 tokenLexer.PutBack(scanner, requestTarget);
                 spLexer.PutBack(scanner, sp1);
                 methodLexer.PutBack(scanner, method);
-                return Default(out token);
+                return Default(out element);
             }
 
             EndOfLine endOfLine;
@@ -96,10 +96,10 @@ namespace Http.Grammar.Rfc7230
                 tokenLexer.PutBack(scanner, requestTarget);
                 spLexer.PutBack(scanner, sp1);
                 methodLexer.PutBack(scanner, method);
-                return Default(out token);
+                return Default(out element);
             }
 
-            token = new RequestLine(method, sp1, requestTarget, sp2, httpVersion, endOfLine, context);
+            element = new RequestLine(method, sp1, requestTarget, sp2, httpVersion, endOfLine, context);
             return true;
         }
 

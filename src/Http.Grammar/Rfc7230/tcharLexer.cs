@@ -24,20 +24,20 @@ namespace Http.Grammar.Rfc7230
         public override TChar Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            TChar token;
-            if (this.TryRead(scanner, out token))
+            TChar element;
+            if (this.TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'tchar'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out TChar token)
+        public override bool TryRead(ITextScanner scanner, out TChar element)
         {
             if (scanner.EndOfInput)
             {
-                token = default (TChar);
+                element = default (TChar);
                 return false;
             }
 
@@ -46,7 +46,7 @@ namespace Http.Grammar.Rfc7230
             {
                 if (scanner.TryMatch(c))
                 {
-                    token = new TChar(c, context);
+                    element = new TChar(c, context);
                     return true;
                 }
             }
@@ -54,18 +54,18 @@ namespace Http.Grammar.Rfc7230
             Digit digit;
             if (this.digitLexer.TryRead(scanner, out digit))
             {
-                token = new TChar(digit, context);
+                element = new TChar(digit, context);
                 return true;
             }
 
             Alpha alpha;
             if (this.alphaLexer.TryRead(scanner, out alpha))
             {
-                token = new TChar(alpha, context);
+                element = new TChar(alpha, context);
                 return true;
             }
 
-            token = default(TChar);
+            element = default(TChar);
             return false;
         }
 

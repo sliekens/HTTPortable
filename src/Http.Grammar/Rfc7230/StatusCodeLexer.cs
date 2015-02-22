@@ -22,20 +22,20 @@ namespace Http.Grammar.Rfc7230
         public override StatusCode Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            StatusCode token;
-            if (this.TryRead(scanner, out token))
+            StatusCode element;
+            if (this.TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'status-code'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out StatusCode token)
+        public override bool TryRead(ITextScanner scanner, out StatusCode element)
         {
             if (scanner.EndOfInput)
             {
-                token = default(StatusCode);
+                element = default(StatusCode);
                 return false;
             }
 
@@ -43,14 +43,14 @@ namespace Http.Grammar.Rfc7230
             var context = scanner.GetContext();
             if (!this.digitLexer.TryRead(scanner, out digit1))
             {
-                token = default(StatusCode);
+                element = default(StatusCode);
                 return false;
             }
 
             if (!this.digitLexer.TryRead(scanner, out digit2))
             {
                 this.digitLexer.PutBack(scanner, digit1);
-                token = default(StatusCode);
+                element = default(StatusCode);
                 return false;
             }
 
@@ -58,11 +58,11 @@ namespace Http.Grammar.Rfc7230
             {
                 this.digitLexer.PutBack(scanner, digit2);
                 this.digitLexer.PutBack(scanner, digit1);
-                token = default(StatusCode);
+                element = default(StatusCode);
                 return false;
             }
 
-            token = new StatusCode(digit1, digit2, digit3, context);
+            element = new StatusCode(digit1, digit2, digit3, context);
             return true;
         }
 

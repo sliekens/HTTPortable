@@ -33,17 +33,17 @@ namespace Http.Grammar.Rfc7230
         public override ReasonPhrase Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            ReasonPhrase token;
-            if (this.TryRead(scanner, out token))
+            ReasonPhrase element;
+            if (this.TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             // This code should never be reached, because reason-phrase can be an empty string
             throw new SyntaxErrorException(context, "Expected 'reason-phrase'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out ReasonPhrase token)
+        public override bool TryRead(ITextScanner scanner, out ReasonPhrase element)
         {
             var context = scanner.GetContext();
             var elements = new List<Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>>();
@@ -76,7 +76,7 @@ namespace Http.Grammar.Rfc7230
                 }
             }
 
-            token = new ReasonPhrase(elements, context);
+            element = new ReasonPhrase(elements, context);
             return true;
         }
 

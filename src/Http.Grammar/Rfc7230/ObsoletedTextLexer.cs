@@ -6,20 +6,20 @@ namespace Http.Grammar.Rfc7230
     {
         public override ObsoletedText Read(ITextScanner scanner)
         {
-            ObsoletedText token;
-            if (this.TryRead(scanner, out token))
+            ObsoletedText element;
+            if (this.TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(scanner.GetContext(), "Expected 'obs-text'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out ObsoletedText token)
+        public override bool TryRead(ITextScanner scanner, out ObsoletedText element)
         {
             if (scanner.EndOfInput)
             {
-                token = default(ObsoletedText);
+                element = default(ObsoletedText);
                 return false;
             }
 
@@ -28,12 +28,12 @@ namespace Http.Grammar.Rfc7230
             {
                 if (scanner.TryMatch(c))
                 {
-                    token = new ObsoletedText(c, context);
+                    element = new ObsoletedText(c, context);
                     return true;
                 }
             }
 
-            token = default(ObsoletedText);
+            element = default(ObsoletedText);
             return false;
         }
     }

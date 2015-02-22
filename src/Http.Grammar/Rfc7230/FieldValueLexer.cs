@@ -43,20 +43,20 @@ namespace Http.Grammar.Rfc7230
             }
 
             var context = scanner.GetContext();
-            IList<Alternative<FieldContent, ObsoletedFold>> tokens = new List<Alternative<FieldContent, ObsoletedFold>>();
+            IList<Alternative<FieldContent, ObsoletedFold>> elements = new List<Alternative<FieldContent, ObsoletedFold>>();
             for (; ; )
             {
                 FieldContent fieldContent;
                 if (this.fieldContentLexer.TryRead(scanner, out fieldContent))
                 {
-                    tokens.Add(new Alternative<FieldContent, ObsoletedFold>(fieldContent, context));
+                    elements.Add(new Alternative<FieldContent, ObsoletedFold>(fieldContent, context));
                 }
                 else
                 {
                     ObsoletedFold obsoletedFold;
                     if (this.obsFoldLexer.TryRead(scanner, out obsoletedFold))
                     {
-                        tokens.Add(new Alternative<FieldContent, ObsoletedFold>(obsoletedFold, context));
+                        elements.Add(new Alternative<FieldContent, ObsoletedFold>(obsoletedFold, context));
                     }
                     else
                     {
@@ -65,7 +65,7 @@ namespace Http.Grammar.Rfc7230
                 }
             }
 
-            element = new FieldValue(tokens, context);
+            element = new FieldValue(elements, context);
             return true;
         }
 

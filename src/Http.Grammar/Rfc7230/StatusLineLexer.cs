@@ -36,20 +36,20 @@ namespace Http.Grammar.Rfc7230
         public override StatusLine Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            StatusLine token;
-            if (this.TryRead(scanner, out token))
+            StatusLine element;
+            if (this.TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'status-line'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out StatusLine token)
+        public override bool TryRead(ITextScanner scanner, out StatusLine element)
         {
             if (scanner.EndOfInput)
             {
-                token = default(StatusLine);
+                element = default(StatusLine);
                 return false;
             }
 
@@ -57,7 +57,7 @@ namespace Http.Grammar.Rfc7230
             HttpVersion httpVersion;
             if (!this.httpVersionLexer.TryRead(scanner, out httpVersion))
             {
-                token = default(StatusLine);
+                element = default(StatusLine);
                 return false;
             }
 
@@ -65,7 +65,7 @@ namespace Http.Grammar.Rfc7230
             if (!this.spaceLexer.TryRead(scanner, out space1))
             {
                 this.httpVersionLexer.PutBack(scanner, httpVersion);
-                token = default(StatusLine);
+                element = default(StatusLine);
                 return false;
             }
 
@@ -74,7 +74,7 @@ namespace Http.Grammar.Rfc7230
             {
                 this.spaceLexer.PutBack(scanner, space1);
                 this.httpVersionLexer.PutBack(scanner, httpVersion);
-                token = default(StatusLine);
+                element = default(StatusLine);
                 return false;
             }
 
@@ -84,7 +84,7 @@ namespace Http.Grammar.Rfc7230
                 this.statusCodeLexer.PutBack(scanner, statusCode);
                 this.spaceLexer.PutBack(scanner, space1);
                 this.httpVersionLexer.PutBack(scanner, httpVersion);
-                token = default(StatusLine);
+                element = default(StatusLine);
                 return false;
             }
 
@@ -95,7 +95,7 @@ namespace Http.Grammar.Rfc7230
                 this.statusCodeLexer.PutBack(scanner, statusCode);
                 this.spaceLexer.PutBack(scanner, space1);
                 this.httpVersionLexer.PutBack(scanner, httpVersion);
-                token = default(StatusLine);
+                element = default(StatusLine);
                 return false;
             }
 
@@ -107,11 +107,11 @@ namespace Http.Grammar.Rfc7230
                 this.statusCodeLexer.PutBack(scanner, statusCode);
                 this.spaceLexer.PutBack(scanner, space1);
                 this.httpVersionLexer.PutBack(scanner, httpVersion);
-                token = default(StatusLine);
+                element = default(StatusLine);
                 return false;
             }
 
-            token = new StatusLine(httpVersion, space1, statusCode, space2, reasonPhrase, endOfLine, context);
+            element = new StatusLine(httpVersion, space1, statusCode, space2, reasonPhrase, endOfLine, context);
             return true;
         }
 

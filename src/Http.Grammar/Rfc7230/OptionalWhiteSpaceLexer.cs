@@ -23,20 +23,20 @@ namespace Http.Grammar.Rfc7230
         public override OptionalWhiteSpace Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            OptionalWhiteSpace token;
-            if (TryRead(scanner, out token))
+            OptionalWhiteSpace element;
+            if (TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'OWS'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out OptionalWhiteSpace token)
+        public override bool TryRead(ITextScanner scanner, out OptionalWhiteSpace element)
         {
             if (scanner.EndOfInput)
             {
-                token = default(OptionalWhiteSpace);
+                element = default(OptionalWhiteSpace);
                 return false;
             }
 
@@ -48,7 +48,7 @@ namespace Http.Grammar.Rfc7230
                 elements.Add(whiteSpace);
             }
 
-            token = new OptionalWhiteSpace(elements, context);
+            element = new OptionalWhiteSpace(elements, context);
             return true;
         }
 
