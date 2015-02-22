@@ -3,19 +3,19 @@ using Text.Scanning;
 
 namespace Uri.Grammar
 {
-    public class PCharLexer : Lexer<PCharToken>
+    public class PCharLexer : Lexer<PChar>
     {
-        private readonly ILexer<PctEncodedToken> pctEncodedLexer;
-        private readonly ILexer<SubDelimsToken> subDelimsLexer;
-        private readonly ILexer<UnreservedToken> unreservedLexer;
+        private readonly ILexer<PctEncoded> pctEncodedLexer;
+        private readonly ILexer<SubDelims> subDelimsLexer;
+        private readonly ILexer<Unreserved> unreservedLexer;
 
         public PCharLexer()
             : this(new UnreservedLexer(), new PctEncodedLexer(), new SubDelimsLexer())
         {
         }
 
-        public PCharLexer(ILexer<UnreservedToken> unreservedLexer, ILexer<PctEncodedToken> pctEncodedLexer,
-            ILexer<SubDelimsToken> subDelimsLexer)
+        public PCharLexer(ILexer<Unreserved> unreservedLexer, ILexer<PctEncoded> pctEncodedLexer,
+            ILexer<SubDelims> subDelimsLexer)
         {
             Contract.Requires(unreservedLexer != null);
             Contract.Requires(pctEncodedLexer != null);
@@ -25,45 +25,45 @@ namespace Uri.Grammar
             this.subDelimsLexer = subDelimsLexer;
         }
 
-        public override PCharToken Read(ITextScanner scanner)
+        public override PChar Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            PCharToken token;
-            if (this.TryRead(scanner, out token))
+            PChar element;
+            if (this.TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'pchar'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out PCharToken token)
+        public override bool TryRead(ITextScanner scanner, out PChar element)
         {
             if (scanner.EndOfInput)
             {
-                token = default(PCharToken);
+                element = default(PChar);
                 return false;
             }
 
             var context = scanner.GetContext();
-            UnreservedToken unreserved;
+            Unreserved unreserved;
             if (this.unreservedLexer.TryRead(scanner, out unreserved))
             {
-                token = new PCharToken(unreserved, context);
+                element = new PChar(unreserved, context);
                 return true;
             }
 
-            PctEncodedToken pctEncoded;
+            PctEncoded pctEncoded;
             if (this.pctEncodedLexer.TryRead(scanner, out pctEncoded))
             {
-                token = new PCharToken(pctEncoded, context);
+                element = new PChar(pctEncoded, context);
                 return true;
             }
 
-            SubDelimsToken subDelims;
+            SubDelims subDelims;
             if (this.subDelimsLexer.TryRead(scanner, out subDelims))
             {
-                token = new PCharToken(subDelims, context);
+                element = new PChar(subDelims, context);
                 return true;
             }
 
@@ -71,12 +71,12 @@ namespace Uri.Grammar
             {
                 if (scanner.TryMatch(c))
                 {
-                    token = new PCharToken(c, context);
+                    element = new PChar(c, context);
                     return true;
                 }
             }
 
-            token = default(PCharToken);
+            element = default(PChar);
             return false;
         }
 

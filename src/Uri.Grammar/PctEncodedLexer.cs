@@ -4,7 +4,7 @@ using Text.Scanning.Core;
 
 namespace Uri.Grammar
 {
-    public class PctEncodedLexer : Lexer<PctEncodedToken>
+    public class PctEncodedLexer : Lexer<PctEncoded>
     {
         private readonly ILexer<HexadecimalDigit> hexDigLexer;
 
@@ -19,30 +19,30 @@ namespace Uri.Grammar
             this.hexDigLexer = hexDigLexer;
         }
 
-        public override PctEncodedToken Read(ITextScanner scanner)
+        public override PctEncoded Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            PctEncodedToken token;
-            if (this.TryRead(scanner, out token))
+            PctEncoded element;
+            if (this.TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'pct-encoded'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out PctEncodedToken token)
+        public override bool TryRead(ITextScanner scanner, out PctEncoded element)
         {
             if (scanner.EndOfInput)
             {
-                token = default(PctEncodedToken);
+                element = default(PctEncoded);
                 return false;
             }
 
             var context = scanner.GetContext();
             if (!scanner.TryMatch('%'))
             {
-                token = default(PctEncodedToken);
+                element = default(PctEncoded);
                 return false;
             }
 
@@ -50,7 +50,7 @@ namespace Uri.Grammar
             if (!this.hexDigLexer.TryRead(scanner, out hexDig1))
             {
                 scanner.PutBack('%');
-                token = default(PctEncodedToken);
+                element = default(PctEncoded);
                 return false;
             }
 
@@ -60,11 +60,11 @@ namespace Uri.Grammar
             {
                 this.hexDigLexer.PutBack(scanner, hexDig1);
                 scanner.PutBack('%');
-                token = default(PctEncodedToken);
+                element = default(PctEncoded);
                 return false;
             }
 
-            token = new PctEncodedToken(hexDig1, hexDig2, context);
+            element = new PctEncoded(hexDig1, hexDig2, context);
             return true;
         }
 

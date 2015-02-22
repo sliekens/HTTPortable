@@ -3,9 +3,9 @@ using Text.Scanning;
 
 namespace Uri.Grammar
 {
-    public class ReservedToken : Element
+    public class Reserved : Element
     {
-        public ReservedToken(Alternative<GenDelimsToken, SubDelimsToken> data, ITextContext context)
+        public Reserved(Alternative<GenDelims, SubDelims> data, ITextContext context)
             : base(data.Element.Data, context)
         {
             Contract.Requires(data != null);

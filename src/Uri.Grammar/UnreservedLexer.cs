@@ -4,7 +4,7 @@ using Text.Scanning.Core;
 
 namespace Uri.Grammar
 {
-    public class UnreservedLexer : Lexer<UnreservedToken>
+    public class UnreservedLexer : Lexer<Unreserved>
     {
         private readonly ILexer<Alpha> alphaLexer;
         private readonly ILexer<Digit> digitLexer;
@@ -22,23 +22,23 @@ namespace Uri.Grammar
             this.digitLexer = digitLexer;
         }
 
-        public override UnreservedToken Read(ITextScanner scanner)
+        public override Unreserved Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            UnreservedToken token;
-            if (this.TryRead(scanner, out token))
+            Unreserved element;
+            if (this.TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'unreserved'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out UnreservedToken token)
+        public override bool TryRead(ITextScanner scanner, out Unreserved element)
         {
             if (scanner.EndOfInput)
             {
-                token = default(UnreservedToken);
+                element = default(Unreserved);
                 return false;
             }
 
@@ -46,14 +46,14 @@ namespace Uri.Grammar
             Alpha alpha;
             if (this.alphaLexer.TryRead(scanner, out alpha))
             {
-                token = new UnreservedToken(alpha, context);
+                element = new Unreserved(alpha, context);
                 return true;
             }
 
             Digit digit;
             if (this.digitLexer.TryRead(scanner, out digit))
             {
-                token = new UnreservedToken(digit, context);
+                element = new Unreserved(digit, context);
                 return true;
             }
 
@@ -61,12 +61,12 @@ namespace Uri.Grammar
             {
                 if (scanner.TryMatch(c))
                 {
-                    token = new UnreservedToken(c, context);
+                    element = new Unreserved(c, context);
                     return true;
                 }
             }
 
-            token = default(UnreservedToken);
+            element = default(Unreserved);
             return false;
         }
 

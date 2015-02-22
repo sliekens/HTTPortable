@@ -2,25 +2,25 @@
 
 namespace Uri.Grammar
 {
-    public class GenDelimsLexer : Lexer<GenDelimsToken>
+    public class GenDelimsLexer : Lexer<GenDelims>
     {
-        public override GenDelimsToken Read(ITextScanner scanner)
+        public override GenDelims Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            GenDelimsToken token;
-            if (TryRead(scanner, out token))
+            GenDelims element;
+            if (TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'gen-delims'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out GenDelimsToken token)
+        public override bool TryRead(ITextScanner scanner, out GenDelims element)
         {
             if (scanner.EndOfInput)
             {
-                return Default(out token);
+                return Default(out element);
             }
 
             var context = scanner.GetContext();
@@ -28,12 +28,12 @@ namespace Uri.Grammar
             {
                 if (scanner.TryMatch(c))
                 {
-                    token = new GenDelimsToken(c, context);
+                    element = new GenDelims(c, context);
                     return true;
                 }
             }
 
-            return Default(out token);
+            return Default(out element);
         }
     }
 }

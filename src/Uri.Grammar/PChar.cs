@@ -3,27 +3,27 @@ using Text.Scanning;
 
 namespace Uri.Grammar
 {
-    public class PCharToken : Element
+    public class PChar : Element
     {
-        public PCharToken(UnreservedToken unreserved, ITextContext context)
+        public PChar(Unreserved unreserved, ITextContext context)
             : base(unreserved.Data, context)
         {
             Contract.Requires(unreserved != null);
         }
 
-        public PCharToken(PctEncodedToken pctEncoded, ITextContext context)
+        public PChar(PctEncoded pctEncoded, ITextContext context)
             : base(pctEncoded.Data, context)
         {
             Contract.Requires(pctEncoded != null);
         }
 
-        public PCharToken(SubDelimsToken subDelims, ITextContext context)
+        public PChar(SubDelims subDelims, ITextContext context)
             : base(subDelims.Data, context)
         {
             Contract.Requires(subDelims != null);
         }
 
-        public PCharToken(char data, ITextContext context)
+        public PChar(char data, ITextContext context)
             : base(data, context)
         {
             Contract.Requires(data == ':' || data == '@');

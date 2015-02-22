@@ -3,12 +3,12 @@ using Text.Scanning;
 
 namespace Uri.Grammar
 {
-    public class ReservedLexer : Lexer<ReservedToken>
+    public class ReservedLexer : Lexer<Reserved>
     {
-        private readonly ILexer<GenDelimsToken> genDelimsLexer;
-        private readonly ILexer<SubDelimsToken> subDelimsLexer;
+        private readonly ILexer<GenDelims> genDelimsLexer;
+        private readonly ILexer<SubDelims> subDelimsLexer;
 
-        public ReservedLexer(ILexer<GenDelimsToken> genDelimsLexer, ILexer<SubDelimsToken> subDelimsLexer)
+        public ReservedLexer(ILexer<GenDelims> genDelimsLexer, ILexer<SubDelims> subDelimsLexer)
         {
             Contract.Requires(genDelimsLexer != null);
             Contract.Requires(subDelimsLexer != null);
@@ -16,46 +16,46 @@ namespace Uri.Grammar
             this.subDelimsLexer = subDelimsLexer;
         }
 
-        public override ReservedToken Read(ITextScanner scanner)
+        public override Reserved Read(ITextScanner scanner)
         {
             var context = scanner.GetContext();
-            ReservedToken token;
-            if (this.TryRead(scanner, out token))
+            Reserved element;
+            if (this.TryRead(scanner, out element))
             {
-                return token;
+                return element;
             }
 
             throw new SyntaxErrorException(context, "Expected 'reserved'");
         }
 
-        public override bool TryRead(ITextScanner scanner, out ReservedToken token)
+        public override bool TryRead(ITextScanner scanner, out Reserved element)
         {
             if (scanner.EndOfInput)
             {
-                return Default(out token);
+                return Default(out element);
             }
 
             var context = scanner.GetContext();
-            Alternative<GenDelimsToken, SubDelimsToken> data;
-            GenDelimsToken genDelims;
+            Alternative<GenDelims, SubDelims> data;
+            GenDelims genDelims;
             if (this.genDelimsLexer.TryRead(scanner, out genDelims))
             {
-                data = new Alternative<GenDelimsToken, SubDelimsToken>(genDelims, context);
+                data = new Alternative<GenDelims, SubDelims>(genDelims, context);
             }
             else
             {
-                SubDelimsToken subDelims;
+                SubDelims subDelims;
                 if (this.subDelimsLexer.TryRead(scanner, out subDelims))
                 {
-                    data = new Alternative<GenDelimsToken, SubDelimsToken>(subDelims, context);
+                    data = new Alternative<GenDelims, SubDelims>(subDelims, context);
                 }
                 else
                 {
-                    return Default(out token);
+                    return Default(out element);
                 }
             }
 
-            token = new ReservedToken(data, context);
+            element = new Reserved(data, context);
             return true;
         }
 

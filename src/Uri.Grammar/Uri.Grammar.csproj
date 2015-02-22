@@ -35,18 +35,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="GenDelimsLexer.cs" />
-    <Compile Include="GenDelimsToken.cs" />
+    <Compile Include="GenDelims.cs" />
     <Compile Include="PCharLexer.cs" />
-    <Compile Include="PCharToken.cs" />
+    <Compile Include="PChar.cs" />
     <Compile Include="PctEncodedLexer.cs" />
-    <Compile Include="PctEncodedToken.cs" />
+    <Compile Include="PctEncoded.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReservedLexer.cs" />
-    <Compile Include="ReservedToken.cs" />
+    <Compile Include="Reserved.cs" />
     <Compile Include="SubDelimsLexer.cs" />
-    <Compile Include="SubDelimsToken.cs" />
+    <Compile Include="SubDelims.cs" />
     <Compile Include="UnreservedLexer.cs" />
-    <Compile Include="UnreservedToken.cs" />
+    <Compile Include="Unreserved.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Text.Scanning">
