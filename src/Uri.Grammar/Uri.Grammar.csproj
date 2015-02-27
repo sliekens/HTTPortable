@@ -34,8 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="GenDelimsLexer.cs" />
-    <Compile Include="GenDelims.cs" />
+    <Compile Include="GenericDelimiterLexer.cs" />
+    <Compile Include="GenericDelimiter.cs" />
     <Compile Include="PCharLexer.cs" />
     <Compile Include="PChar.cs" />
     <Compile Include="PctEncodedLexer.cs" />

@@ -2,14 +2,14 @@
 
 namespace Uri.Grammar
 {
-    public class GenDelimsLexer : Lexer<GenDelims>
+    public class GenericDelimiterLexer : Lexer<GenericDelimiter>
     {
-        public GenDelimsLexer()
+        public GenericDelimiterLexer()
             : base("gen-delims")
         {
         }
 
-        public override bool TryRead(ITextScanner scanner, out GenDelims element)
+        public override bool TryRead(ITextScanner scanner, out GenericDelimiter element)
         {
             if (scanner.EndOfInput)
             {
@@ -17,11 +17,11 @@ namespace Uri.Grammar
             }
 
             var context = scanner.GetContext();
-            foreach (var c in new[] {':', '/', '?', '#', '[', ']', '@'})
+            foreach (var c in new[] { ':', '/', '?', '#', '[', ']', '@' })
             {
                 if (scanner.TryMatch(c))
                 {
-                    element = new GenDelims(c, context);
+                    element = new GenericDelimiter(c, context);
                     return true;
                 }
             }
