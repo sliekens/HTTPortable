@@ -38,8 +38,8 @@
     <Compile Include="GenericDelimiter.cs" />
     <Compile Include="PCharLexer.cs" />
     <Compile Include="PChar.cs" />
-    <Compile Include="PctEncodedLexer.cs" />
-    <Compile Include="PctEncoded.cs" />
+    <Compile Include="PercentEncodingLexer.cs" />
+    <Compile Include="PercentEncoding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReservedLexer.cs" />
     <Compile Include="Reserved.cs" />

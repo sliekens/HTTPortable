@@ -11,10 +11,10 @@ namespace Uri.Grammar
             Contract.Requires(unreserved != null);
         }
 
-        public PChar(PctEncoded pctEncoded, ITextContext context)
-            : base(pctEncoded.Data, context)
+        public PChar(PercentEncoding percentEncoding, ITextContext context)
+            : base(percentEncoding.Data, context)
         {
-            Contract.Requires(pctEncoded != null);
+            Contract.Requires(percentEncoding != null);
         }
 
         public PChar(SubcomponentsDelimiter subcomponentsDelimiter, ITextContext context)

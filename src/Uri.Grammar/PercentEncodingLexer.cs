@@ -4,56 +4,56 @@ using Text.Scanning.Core;
 
 namespace Uri.Grammar
 {
-    public class PctEncodedLexer : Lexer<PctEncoded>
+    public class PercentEncodingLexer : Lexer<PercentEncoding>
     {
         private readonly ILexer<HexadecimalDigit> hexDigLexer;
 
-        public PctEncodedLexer()
+        public PercentEncodingLexer()
             : this(new HexadecimalDigitLexer())
         {
         }
 
-        public PctEncodedLexer(ILexer<HexadecimalDigit> hexDigLexer)
+        public PercentEncodingLexer(ILexer<HexadecimalDigit> hexDigLexer)
             : base("pct-encoded")
         {
             Contract.Requires(hexDigLexer != null);
             this.hexDigLexer = hexDigLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out PctEncoded element)
+        public override bool TryRead(ITextScanner scanner, out PercentEncoding element)
         {
             if (scanner.EndOfInput)
             {
-                element = default(PctEncoded);
+                element = default(PercentEncoding);
                 return false;
             }
 
             var context = scanner.GetContext();
             if (!scanner.TryMatch('%'))
             {
-                element = default(PctEncoded);
+                element = default(PercentEncoding);
                 return false;
             }
 
-            HexadecimalDigit hexDig1;
-            if (!this.hexDigLexer.TryRead(scanner, out hexDig1))
+            HexadecimalDigit hexadecimalDigit1;
+            if (!this.hexDigLexer.TryRead(scanner, out hexadecimalDigit1))
             {
                 scanner.PutBack('%');
-                element = default(PctEncoded);
+                element = default(PercentEncoding);
                 return false;
             }
 
 
-            HexadecimalDigit hexDig2;
-            if (!this.hexDigLexer.TryRead(scanner, out hexDig2))
+            HexadecimalDigit hexadecimalDigit2;
+            if (!this.hexDigLexer.TryRead(scanner, out hexadecimalDigit2))
             {
-                this.hexDigLexer.PutBack(scanner, hexDig1);
+                this.hexDigLexer.PutBack(scanner, hexadecimalDigit1);
                 scanner.PutBack('%');
-                element = default(PctEncoded);
+                element = default(PercentEncoding);
                 return false;
             }
 
-            element = new PctEncoded(hexDig1, hexDig2, context);
+            element = new PercentEncoding(hexadecimalDigit1, hexadecimalDigit2, context);
             return true;
         }
 
