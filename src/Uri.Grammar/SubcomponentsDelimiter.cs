@@ -3,9 +3,9 @@ using Text.Scanning;
 
 namespace Uri.Grammar
 {
-    public class SubDelims : Element
+    public class SubcomponentsDelimiter : Element
     {
-        public SubDelims(char data, ITextContext context)
+        public SubcomponentsDelimiter(char data, ITextContext context)
             : base(data, context)
         {
             Contract.Requires(data == '!'

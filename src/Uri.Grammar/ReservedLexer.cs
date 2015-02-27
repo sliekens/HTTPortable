@@ -6,14 +6,14 @@ namespace Uri.Grammar
     public class ReservedLexer : Lexer<Reserved>
     {
         private readonly ILexer<GenericDelimiter> genDelimsLexer;
-        private readonly ILexer<SubDelims> subDelimsLexer;
+        private readonly ILexer<SubcomponentsDelimiter> subDelimsLexer;
 
         public ReservedLexer()
-            : this(new GenericDelimiterLexer(), new SubDelimsLexer())
+            : this(new GenericDelimiterLexer(), new SubcomponentsDelimiterLexer())
         {
         }
 
-        public ReservedLexer(ILexer<GenericDelimiter> genDelimsLexer, ILexer<SubDelims> subDelimsLexer)
+        public ReservedLexer(ILexer<GenericDelimiter> genDelimsLexer, ILexer<SubcomponentsDelimiter> subDelimsLexer)
             : base("reserved")
         {
             Contract.Requires(genDelimsLexer != null);
@@ -30,18 +30,18 @@ namespace Uri.Grammar
             }
 
             var context = scanner.GetContext();
-            Alternative<GenericDelimiter, SubDelims> data;
+            Alternative<GenericDelimiter, SubcomponentsDelimiter> data;
             GenericDelimiter genericDelimiter;
             if (this.genDelimsLexer.TryRead(scanner, out genericDelimiter))
             {
-                data = new Alternative<GenericDelimiter, SubDelims>(genericDelimiter, context);
+                data = new Alternative<GenericDelimiter, SubcomponentsDelimiter>(genericDelimiter, context);
             }
             else
             {
-                SubDelims subDelims;
-                if (this.subDelimsLexer.TryRead(scanner, out subDelims))
+                SubcomponentsDelimiter subcomponentsDelimiter;
+                if (this.subDelimsLexer.TryRead(scanner, out subcomponentsDelimiter))
                 {
-                    data = new Alternative<GenericDelimiter, SubDelims>(subDelims, context);
+                    data = new Alternative<GenericDelimiter, SubcomponentsDelimiter>(subcomponentsDelimiter, context);
                 }
                 else
                 {

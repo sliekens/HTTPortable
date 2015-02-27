@@ -17,10 +17,10 @@ namespace Uri.Grammar
             Contract.Requires(pctEncoded != null);
         }
 
-        public PChar(SubDelims subDelims, ITextContext context)
-            : base(subDelims.Data, context)
+        public PChar(SubcomponentsDelimiter subcomponentsDelimiter, ITextContext context)
+            : base(subcomponentsDelimiter.Data, context)
         {
-            Contract.Requires(subDelims != null);
+            Contract.Requires(subcomponentsDelimiter != null);
         }
 
         public PChar(char data, ITextContext context)

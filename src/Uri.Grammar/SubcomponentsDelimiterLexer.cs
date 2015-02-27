@@ -2,14 +2,14 @@
 
 namespace Uri.Grammar
 {
-    public class SubDelimsLexer : Lexer<SubDelims>
+    public class SubcomponentsDelimiterLexer : Lexer<SubcomponentsDelimiter>
     {
-        public SubDelimsLexer()
+        public SubcomponentsDelimiterLexer()
             : base("sub-delims")
         {
         }
 
-        public override bool TryRead(ITextScanner scanner, out SubDelims element)
+        public override bool TryRead(ITextScanner scanner, out SubcomponentsDelimiter element)
         {
             if (scanner.EndOfInput)
             {
@@ -21,7 +21,7 @@ namespace Uri.Grammar
             {
                 if (scanner.TryMatch(c))
                 {
-                    element = new SubDelims(c, context);
+                    element = new SubcomponentsDelimiter(c, context);
                     return true;
                 }
             }

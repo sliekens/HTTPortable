@@ -5,7 +5,7 @@ namespace Uri.Grammar
 {
     public class Reserved : Element
     {
-        public Reserved(Alternative<GenericDelimiter, SubDelims> data, ITextContext context)
+        public Reserved(Alternative<GenericDelimiter, SubcomponentsDelimiter> data, ITextContext context)
             : base(data.Element.Data, context)
         {
             Contract.Requires(data != null);

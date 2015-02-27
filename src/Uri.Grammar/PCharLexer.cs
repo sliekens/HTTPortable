@@ -6,16 +6,16 @@ namespace Uri.Grammar
     public class PCharLexer : Lexer<PChar>
     {
         private readonly ILexer<PctEncoded> pctEncodedLexer;
-        private readonly ILexer<SubDelims> subDelimsLexer;
+        private readonly ILexer<SubcomponentsDelimiter> subDelimsLexer;
         private readonly ILexer<Unreserved> unreservedLexer;
 
         public PCharLexer()
-            : this(new UnreservedLexer(), new PctEncodedLexer(), new SubDelimsLexer())
+            : this(new UnreservedLexer(), new PctEncodedLexer(), new SubcomponentsDelimiterLexer())
         {
         }
 
         public PCharLexer(ILexer<Unreserved> unreservedLexer, ILexer<PctEncoded> pctEncodedLexer,
-            ILexer<SubDelims> subDelimsLexer)
+            ILexer<SubcomponentsDelimiter> subDelimsLexer)
             : base("pchar")
         {
             Contract.Requires(unreservedLexer != null);
@@ -49,10 +49,10 @@ namespace Uri.Grammar
                 return true;
             }
 
-            SubDelims subDelims;
-            if (this.subDelimsLexer.TryRead(scanner, out subDelims))
+            SubcomponentsDelimiter subcomponentsDelimiter;
+            if (this.subDelimsLexer.TryRead(scanner, out subcomponentsDelimiter))
             {
-                element = new PChar(subDelims, context);
+                element = new PChar(subcomponentsDelimiter, context);
                 return true;
             }
 

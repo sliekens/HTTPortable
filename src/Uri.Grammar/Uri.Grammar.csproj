@@ -43,8 +43,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReservedLexer.cs" />
     <Compile Include="Reserved.cs" />
-    <Compile Include="SubDelimsLexer.cs" />
-    <Compile Include="SubDelims.cs" />
+    <Compile Include="SubcomponentsDelimiterLexer.cs" />
+    <Compile Include="SubcomponentsDelimiter.cs" />
     <Compile Include="UnreservedLexer.cs" />
     <Compile Include="Unreserved.cs" />
   </ItemGroup>
