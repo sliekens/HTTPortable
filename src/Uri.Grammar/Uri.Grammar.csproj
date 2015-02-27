@@ -36,8 +36,8 @@
   <ItemGroup>
     <Compile Include="GenericDelimiterLexer.cs" />
     <Compile Include="GenericDelimiter.cs" />
-    <Compile Include="PCharLexer.cs" />
-    <Compile Include="PChar.cs" />
+    <Compile Include="PathCharacterLexer.cs" />
+    <Compile Include="PathCharacter.cs" />
     <Compile Include="PercentEncodingLexer.cs" />
     <Compile Include="PercentEncoding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

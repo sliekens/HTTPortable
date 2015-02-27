@@ -3,18 +3,18 @@ using Text.Scanning;
 
 namespace Uri.Grammar
 {
-    public class PCharLexer : Lexer<PChar>
+    public class PathCharacterLexer : Lexer<PathCharacter>
     {
         private readonly ILexer<PercentEncoding> pctEncodedLexer;
         private readonly ILexer<SubcomponentsDelimiter> subDelimsLexer;
         private readonly ILexer<Unreserved> unreservedLexer;
 
-        public PCharLexer()
+        public PathCharacterLexer()
             : this(new UnreservedLexer(), new PercentEncodingLexer(), new SubcomponentsDelimiterLexer())
         {
         }
 
-        public PCharLexer(ILexer<Unreserved> unreservedLexer, ILexer<PercentEncoding> pctEncodedLexer,
+        public PathCharacterLexer(ILexer<Unreserved> unreservedLexer, ILexer<PercentEncoding> pctEncodedLexer,
             ILexer<SubcomponentsDelimiter> subDelimsLexer)
             : base("pchar")
         {
@@ -26,11 +26,11 @@ namespace Uri.Grammar
             this.subDelimsLexer = subDelimsLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out PChar element)
+        public override bool TryRead(ITextScanner scanner, out PathCharacter element)
         {
             if (scanner.EndOfInput)
             {
-                element = default(PChar);
+                element = default(PathCharacter);
                 return false;
             }
 
@@ -38,21 +38,21 @@ namespace Uri.Grammar
             Unreserved unreserved;
             if (this.unreservedLexer.TryRead(scanner, out unreserved))
             {
-                element = new PChar(unreserved, context);
+                element = new PathCharacter(unreserved, context);
                 return true;
             }
 
             PercentEncoding percentEncoding;
             if (this.pctEncodedLexer.TryRead(scanner, out percentEncoding))
             {
-                element = new PChar(percentEncoding, context);
+                element = new PathCharacter(percentEncoding, context);
                 return true;
             }
 
             SubcomponentsDelimiter subcomponentsDelimiter;
             if (this.subDelimsLexer.TryRead(scanner, out subcomponentsDelimiter))
             {
-                element = new PChar(subcomponentsDelimiter, context);
+                element = new PathCharacter(subcomponentsDelimiter, context);
                 return true;
             }
 
@@ -60,12 +60,12 @@ namespace Uri.Grammar
             {
                 if (scanner.TryMatch(c))
                 {
-                    element = new PChar(c, context);
+                    element = new PathCharacter(c, context);
                     return true;
                 }
             }
 
-            element = default(PChar);
+            element = default(PathCharacter);
             return false;
         }
 
