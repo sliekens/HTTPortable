@@ -5,59 +5,55 @@ namespace Uri.Grammar
 {
     public class ReservedLexer : Lexer<Reserved>
     {
-        private readonly ILexer<GenericDelimiter> genDelimsLexer;
-        private readonly ILexer<SubcomponentsDelimiter> subDelimsLexer;
+        private readonly ILexer<GenericDelimiter> genericDelimiterLexer;
+        private readonly ILexer<SubcomponentsDelimiter> subcomponentsDelimiterLexer;
 
         public ReservedLexer()
             : this(new GenericDelimiterLexer(), new SubcomponentsDelimiterLexer())
         {
         }
 
-        public ReservedLexer(ILexer<GenericDelimiter> genDelimsLexer, ILexer<SubcomponentsDelimiter> subDelimsLexer)
+        public ReservedLexer(ILexer<GenericDelimiter> genericDelimiterLexer, ILexer<SubcomponentsDelimiter> subcomponentsDelimiterLexer)
             : base("reserved")
         {
-            Contract.Requires(genDelimsLexer != null);
-            Contract.Requires(subDelimsLexer != null);
-            this.genDelimsLexer = genDelimsLexer;
-            this.subDelimsLexer = subDelimsLexer;
+            Contract.Requires(genericDelimiterLexer != null);
+            Contract.Requires(subcomponentsDelimiterLexer != null);
+            this.genericDelimiterLexer = genericDelimiterLexer;
+            this.subcomponentsDelimiterLexer = subcomponentsDelimiterLexer;
         }
 
         public override bool TryRead(ITextScanner scanner, out Reserved element)
         {
             if (scanner.EndOfInput)
             {
-                return Default(out element);
+                element = default(Reserved);
+                return false;
             }
 
             var context = scanner.GetContext();
-            Alternative<GenericDelimiter, SubcomponentsDelimiter> data;
             GenericDelimiter genericDelimiter;
-            if (this.genDelimsLexer.TryRead(scanner, out genericDelimiter))
+            if (this.genericDelimiterLexer.TryRead(scanner, out genericDelimiter))
             {
-                data = new Alternative<GenericDelimiter, SubcomponentsDelimiter>(genericDelimiter, context);
-            }
-            else
-            {
-                SubcomponentsDelimiter subcomponentsDelimiter;
-                if (this.subDelimsLexer.TryRead(scanner, out subcomponentsDelimiter))
-                {
-                    data = new Alternative<GenericDelimiter, SubcomponentsDelimiter>(subcomponentsDelimiter, context);
-                }
-                else
-                {
-                    return Default(out element);
-                }
+                element = new Reserved(genericDelimiter, context);
+                return true;
             }
 
-            element = new Reserved(data, context);
-            return true;
+            SubcomponentsDelimiter subcomponentsDelimiter;
+            if (this.subcomponentsDelimiterLexer.TryRead(scanner, out subcomponentsDelimiter))
+            {
+                element = new Reserved(subcomponentsDelimiter, context);
+                return true;
+            }
+
+            element = default(Reserved);
+            return false;
         }
 
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.genDelimsLexer != null);
-            Contract.Invariant(this.subDelimsLexer != null);
+            Contract.Invariant(this.genericDelimiterLexer != null);
+            Contract.Invariant(this.subcomponentsDelimiterLexer != null);
         }
     }
 }
