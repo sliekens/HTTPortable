@@ -34,6 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Fragment.cs" />
+    <Compile Include="FragmentLexer.cs" />
     <Compile Include="GenericDelimiterLexer.cs" />
     <Compile Include="GenericDelimiter.cs" />
     <Compile Include="PathCharacterLexer.cs" />
@@ -50,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Text.Scanning">
-      <HintPath>..\packages\Text.Scanning.1.0.57-alpha1\lib\portable-net45+win+wpa81\Text.Scanning.dll</HintPath>
+      <HintPath>..\packages\Text.Scanning.1.0.60-alpha1\lib\portable-net45+win+wpa81\Text.Scanning.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
