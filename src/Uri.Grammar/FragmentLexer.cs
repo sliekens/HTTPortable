@@ -25,33 +25,31 @@
         {
             var elements = new List<Alternative<PathCharacter, Element>>();
             var context = scanner.GetContext();
-            element = new Fragment(elements, context);
-            do
+            while (!scanner.EndOfInput)
             {
+                var innerContext = scanner.GetContext();
                 PathCharacter pathCharacter;
                 if (this.pathCharacterLexer.TryRead(scanner, out pathCharacter))
                 {
-                    elements.Add(new Alternative<PathCharacter, Element>(pathCharacter, context));
+                    elements.Add(new Alternative<PathCharacter, Element>(pathCharacter, innerContext));
                 }
-                else if (scanner.TryMatch('/'))
+                else if (!scanner.EndOfInput && scanner.TryMatch('/'))
                 {
-                    var e = new Element('/', context);
-                    elements.Add(new Alternative<PathCharacter, Element>(e, context));
+                    var e = new Element('/', innerContext);
+                    elements.Add(new Alternative<PathCharacter, Element>(e, innerContext));
                 }
-                else if (scanner.TryMatch('?'))
+                else if (!scanner.EndOfInput && scanner.TryMatch('?'))
                 {
-                    var e = new Element('?', context);
-                    elements.Add(new Alternative<PathCharacter, Element>(e, context));
+                    var e = new Element('?', innerContext);
+                    elements.Add(new Alternative<PathCharacter, Element>(e, innerContext));
                 }
                 else
                 {
                     break;
                 }
-
-                context = scanner.GetContext();
             }
-            while (!scanner.EndOfInput);
 
+            element = new Fragment(elements, context);
             return true;
         }
 
