@@ -74,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Text.Scanning">
-      <HintPath>..\packages\Text.Scanning.1.0.60-alpha1\lib\portable-net45+win+wpa81\Text.Scanning.dll</HintPath>
+      <HintPath>..\packages\Text.Scanning.1.0.71-alpha1\lib\portable-net45+win+wpa81\Text.Scanning.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
