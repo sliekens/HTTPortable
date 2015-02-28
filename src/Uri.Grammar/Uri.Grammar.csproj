@@ -35,6 +35,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="PathEmpty.cs" />
+    <Compile Include="PathNoScheme.cs" />
+    <Compile Include="PathNoSchemeLexer.cs" />
     <Compile Include="PathRootless.cs" />
     <Compile Include="PathRootlessLexer.cs" />
     <Compile Include="QueryLexer.cs" />
