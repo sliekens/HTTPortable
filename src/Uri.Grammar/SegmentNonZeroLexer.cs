@@ -25,17 +25,16 @@
         {
             var elements = new List<PathCharacter>();
             var context = scanner.GetContext();
-            do
+            while (!scanner.EndOfInput)
             {
                 PathCharacter pathCharacter;
                 if (!this.pathCharacterLexer.TryRead(scanner, out pathCharacter))
                 {
                     break;
                 }
-
+                
                 elements.Add(pathCharacter);
             }
-            while (!scanner.EndOfInput);
 
             if (elements.Count == 0)
             {
