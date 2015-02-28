@@ -2,6 +2,8 @@
 
 namespace Uri.Grammar
 {
+    using System.Diagnostics.Contracts;
+
     public class SubcomponentsDelimiterLexer : Lexer<SubcomponentsDelimiter>
     {
         public SubcomponentsDelimiterLexer()
@@ -19,6 +21,7 @@ namespace Uri.Grammar
             var context = scanner.GetContext();
             foreach (var c in new[] { '!', '$', '&', '\'', '(', ')', '*', '+', ',', ';', '=' })
             {
+                Contract.Assert(!scanner.EndOfInput);
                 if (scanner.TryMatch(c))
                 {
                     element = new SubcomponentsDelimiter(c, context);
