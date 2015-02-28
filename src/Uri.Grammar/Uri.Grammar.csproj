@@ -47,6 +47,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReservedLexer.cs" />
     <Compile Include="Reserved.cs" />
+    <Compile Include="SegmentNonZeroLexer.cs" />
+    <Compile Include="SegmentNonZero.cs" />
     <Compile Include="Segment.cs" />
     <Compile Include="SegmentLexer.cs" />
     <Compile Include="SubcomponentsDelimiterLexer.cs" />
