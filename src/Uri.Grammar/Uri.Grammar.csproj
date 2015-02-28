@@ -34,6 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DecimalOctet.cs" />
+    <Compile Include="DecimalOctetLexer.cs" />
     <Compile Include="Path.cs" />
     <Compile Include="PathAbsolute.cs" />
     <Compile Include="PathAbsoluteOrEmpty.cs" />
