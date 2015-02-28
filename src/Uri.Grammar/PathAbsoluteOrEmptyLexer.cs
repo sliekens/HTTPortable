@@ -26,7 +26,7 @@
             var context = scanner.GetContext();
             var innerContext = scanner.GetContext();
             var elements = new List<Sequence<Element, Segment>>();
-            while (scanner.TryMatch('/'))
+            while (!scanner.EndOfInput && scanner.TryMatch('/'))
             {
                 Segment segment;
                 if (this.segmentLexer.TryRead(scanner, out segment))
