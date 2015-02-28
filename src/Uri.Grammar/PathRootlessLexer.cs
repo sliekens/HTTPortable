@@ -46,7 +46,7 @@ namespace Uri.Grammar
 
             var segments = new List<Sequence<Element, Segment>>();
             var innerContext = scanner.GetContext();
-            while (scanner.TryMatch('/'))
+            while (!scanner.EndOfInput && scanner.TryMatch('/'))
             {
                 var terminal = new Element('/', innerContext);
                 Segment segment;
