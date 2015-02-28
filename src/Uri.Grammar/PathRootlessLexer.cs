@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Uri.Grammar
 {
+    using System.Diagnostics.Contracts;
+
     using Text.Scanning;
 
     public class PathRootlessLexer : Lexer<PathRootless>
@@ -64,6 +66,13 @@ namespace Uri.Grammar
 
             element = new PathRootless(segmentNonZero, segments, context);
             return true;
+        }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.segmentNonZeroLexer != null);
+            Contract.Invariant(this.segmentLexer != null);
         }
     }
 }
