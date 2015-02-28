@@ -30,80 +30,105 @@
             }
 
             var context = scanner.GetContext();
-
             if (scanner.TryMatch('2'))
             {
                 // 2
-                if (scanner.TryMatch('5'))
+                if (scanner.EndOfInput)
                 {
-                    // 25
-                    for (char c = '\x0030'; c < '\x0035'; c++)
-                    {
-                        if (scanner.TryMatch(c))
-                        {
-                            // 25c
-                            element = new DecimalOctet("25", c, context);
-                            return true;
-                        }
-                    }
-
-                    // 25
-                    scanner.PutBack('5');
-
-                    // 2
                     scanner.PutBack('2');
                 }
                 else
                 {
-                    // 2
-                    for (char c = '\x0030'; c < '\x0034'; c++)
+                    Contract.Assert(!scanner.EndOfInput);
+                    if (scanner.TryMatch('5'))
                     {
-                        if (scanner.TryMatch(c))
+                        // 25
+                        if (!scanner.EndOfInput)
                         {
-                            // 2c
-                            Digit digit;
-                            if (this.digitLexer.TryRead(scanner, out digit))
+                            for (char c = '\x0030'; c <= '\x0035'; c++)
                             {
-                                // 2cd
-                                element = new DecimalOctet('2', c, digit, context);
+                                Contract.Assert(!scanner.EndOfInput);
+                                if (scanner.TryMatch(c))
+                                {
+                                    // 25c
+                                    element = new DecimalOctet("25", c, context);
+                                    return true;
+                                }
+                            }
+                        }
+
+                        // 25
+                        scanner.PutBack('5');
+
+                        // 2
+                        scanner.PutBack('2');
+                    }
+                    else
+                    {
+                        // 2
+                        for (char c = '\x0030'; c <= '\x0034'; c++)
+                        {
+                            if (scanner.EndOfInput)
+                            {
+                                break;
+                            }
+
+                            Contract.Assert(!scanner.EndOfInput);
+                            if (scanner.TryMatch(c))
+                            {
+                                // 2c
+                                Digit digit;
+                                if (this.digitLexer.TryRead(scanner, out digit))
+                                {
+                                    // 2cd
+                                    element = new DecimalOctet('2', c, digit, context);
+                                    return true;
+                                }
+
+                                // 2c
+                                scanner.PutBack(c);
+                                break;
+                            }
+                        }
+
+                        // 2
+                        scanner.PutBack('2');
+                    }
+                }
+            }
+            else
+            {
+                if (!scanner.EndOfInput)
+                {
+                    Contract.Assert(!scanner.EndOfInput);
+                    if (scanner.TryMatch('1'))
+                    {
+                        // 1
+                        Digit digit1;
+                        if (this.digitLexer.TryRead(scanner, out digit1))
+                        {
+                            // 1d
+                            Digit digit2;
+                            if (this.digitLexer.TryRead(scanner, out digit2))
+                            {
+                                // 1dd
+                                element = new DecimalOctet('1', digit1, digit2, context);
                                 return true;
                             }
 
-                            // 2c
-                            scanner.PutBack(c);
-                            break;
+                            // 1d
+                            this.digitLexer.PutBack(scanner, digit1);
                         }
-                    }
 
-                    // 2
-                    scanner.PutBack('2');
+                        // 1
+                        scanner.PutBack('1');
+                    }
                 }
             }
-            else if (scanner.TryMatch('1'))
+
+            for (char c = '\x0031'; c <= '\x0039'; c++)
             {
-                // 1
-                Digit digit1;
-                if (this.digitLexer.TryRead(scanner, out digit1))
-                {
-                    // 1d
-                    Digit digit2;
-                    if (this.digitLexer.TryRead(scanner, out digit2))
-                    {
-                        // 1dd
-                        element = new DecimalOctet('1', digit1, digit2, context);
-                        return true;
-                    }
-
-                    // 1d
-                    this.digitLexer.PutBack(scanner, digit1);
-                }
-
-                // 1
-                scanner.PutBack('1');
-            }
-
-            for (char c = '\x0031'; c < '\x0039'; c++)
-            {
+                Contract.Assert(!scanner.EndOfInput);
                 if (scanner.TryMatch(c))
                 {
                     // c
