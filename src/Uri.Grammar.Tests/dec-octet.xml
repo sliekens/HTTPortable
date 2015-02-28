@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Rows>
+<RowTest>
   <Row>
     <Input>0</Input>
     <Expected>0</Expected>
@@ -80,4 +80,4 @@
     <Input>25500</Input>
     <Expected>255</Expected>
   </Row>
-</Rows>
+</RowTest>
