@@ -35,7 +35,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="PathAbsolute.cs" />
+    <Compile Include="PathAbsoluteOrEmpty.cs" />
     <Compile Include="PathAbsoluteLexer.cs" />
+    <Compile Include="PathAbsoluteOrEmptyLexer.cs" />
     <Compile Include="PathEmpty.cs" />
     <Compile Include="PathNoScheme.cs" />
     <Compile Include="PathNoSchemeLexer.cs" />
