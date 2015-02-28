@@ -14,6 +14,11 @@
 
         private readonly ILexer<PathRootless> pathRootlessLexer;
 
+        public PathLexer()
+            : this(new PathAbsoluteOrEmptyLexer(), new PathAbsoluteLexer(), new PathNoSchemeLexer(), new PathRootlessLexer())
+        {
+        }
+
         public PathLexer(ILexer<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexer, ILexer<PathAbsolute> pathAbsoluteLexer, ILexer<PathNoScheme> pathNoSchemeLexer, ILexer<PathRootless> pathRootlessLexer)
             : base("path")
         {
