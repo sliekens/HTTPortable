@@ -46,8 +46,9 @@ namespace Uri.Grammar
                 return true;
             }
 
-            foreach (var c in new[] {'-', '.', '_', '~'})
+            foreach (var c in new[] { '-', '.', '_', '~' })
             {
+                Contract.Assert(!scanner.EndOfInput);
                 if (scanner.TryMatch(c))
                 {
                     element = new Unreserved(c, context);
