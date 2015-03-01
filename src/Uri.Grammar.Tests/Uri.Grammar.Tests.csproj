@@ -56,12 +56,16 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DecimalOctetLexerTests.cs" />
+    <Compile Include="IPv6AddressLexerTests.cs" />
     <Compile Include="LeastSignificantInt32LexerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IPv4AddressLexerTests.cs" />
     <Compile Include="HexadecimalInt16LexerTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="IPv6address.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ls32.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
