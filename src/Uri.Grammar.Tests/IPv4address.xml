@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RowTest>
+  <Row>
+    <Input>0.0.0.0</Input>
+    <Expected>0.0.0.0</Expected>
+  </Row>
+  <Row>
+    <Input>255.255.255.255</Input>
+    <Expected>255.255.255.255</Expected>
+  </Row>
+  <Row>
+    <Input>1.1.1.1</Input>
+    <Expected>1.1.1.1</Expected>
+  </Row>
+  <Row>
+    <Input>1.2.3.4</Input>
+    <Expected>1.2.3.4</Expected>
+  </Row>
+  <Row>
+    <Input>127.0.0.1</Input>
+    <Expected>127.0.0.1</Expected>
+  </Row>
+  <Row>
+    <Input>127.0.0.1</Input>
+    <Expected>127.0.0.1</Expected>
+  </Row>
+  <Row>
+    <Input>192.168.1.1:80</Input>
+    <Expected>192.168.1.1</Expected>
+  </Row>
+</RowTest>

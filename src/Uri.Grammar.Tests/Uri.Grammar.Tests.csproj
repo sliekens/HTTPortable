@@ -56,8 +56,12 @@
   <ItemGroup>
     <Compile Include="DecimalOctetLexerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IPv4AddressLexerTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="IPv4address.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="dec-octet.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

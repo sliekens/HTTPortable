@@ -36,6 +36,8 @@
   <ItemGroup>
     <Compile Include="DecimalOctet.cs" />
     <Compile Include="DecimalOctetLexer.cs" />
+    <Compile Include="IPv4Address.cs" />
+    <Compile Include="IPv4AddressLexer.cs" />
     <Compile Include="Path.cs" />
     <Compile Include="PathAbsolute.cs" />
     <Compile Include="PathAbsoluteOrEmpty.cs" />
