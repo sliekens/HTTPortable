@@ -55,11 +55,15 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DecimalOctetLexerTests.cs" />
+    <Compile Include="LeastSignificantInt32LexerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IPv4AddressLexerTests.cs" />
     <Compile Include="HexadecimalInt16LexerTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ls32.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="h16.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -40,6 +40,8 @@
     <Compile Include="HexadecimalInt16Lexer.cs" />
     <Compile Include="IPv4Address.cs" />
     <Compile Include="IPv4AddressLexer.cs" />
+    <Compile Include="LeastSignificantInt32.cs" />
+    <Compile Include="LeastSignificantInt32Lexer.cs" />
     <Compile Include="Path.cs" />
     <Compile Include="PathAbsolute.cs" />
     <Compile Include="PathAbsoluteOrEmpty.cs" />
