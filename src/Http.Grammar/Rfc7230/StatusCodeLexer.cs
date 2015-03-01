@@ -38,15 +38,15 @@ namespace Http.Grammar.Rfc7230
 
             if (!this.digitLexer.TryRead(scanner, out digit2))
             {
-                this.digitLexer.PutBack(scanner, digit1);
+                scanner.PutBack(digit1.Data);
                 element = default(StatusCode);
                 return false;
             }
 
             if (!this.digitLexer.TryRead(scanner, out digit3))
             {
-                this.digitLexer.PutBack(scanner, digit2);
-                this.digitLexer.PutBack(scanner, digit1);
+                scanner.PutBack(digit2.Data);
+                scanner.PutBack(digit1.Data);
                 element = default(StatusCode);
                 return false;
             }

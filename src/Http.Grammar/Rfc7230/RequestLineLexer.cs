@@ -42,10 +42,10 @@ namespace Http.Grammar.Rfc7230
                 return Default(out element);
             }
 
-            Space sp1;
-            if (!spLexer.TryRead(scanner, out sp1))
+            Space space1;
+            if (!spLexer.TryRead(scanner, out space1))
             {
-                methodLexer.PutBack(scanner, method);
+                scanner.PutBack(method.Data);
                 return Default(out element);
             }
 
@@ -53,42 +53,42 @@ namespace Http.Grammar.Rfc7230
             Token requestTarget;
             if (!tokenLexer.TryRead(scanner, out requestTarget))
             {
-                spLexer.PutBack(scanner, sp1);
-                methodLexer.PutBack(scanner, method);
+                scanner.PutBack(space1.Data);
+                scanner.PutBack(method.Data);
                 return Default(out element);
             }
 
-            Space sp2;
-            if (!spLexer.TryRead(scanner, out sp2))
+            Space space2;
+            if (!spLexer.TryRead(scanner, out space2))
             {
-                tokenLexer.PutBack(scanner, requestTarget);
-                spLexer.PutBack(scanner, sp1);
-                methodLexer.PutBack(scanner, method);
+                scanner.PutBack(requestTarget.Data);
+                scanner.PutBack(space1.Data);
+                scanner.PutBack(method.Data);
                 return Default(out element);
             }
 
             HttpVersion httpVersion;
             if (!httpVersionLexer.TryRead(scanner, out httpVersion))
             {
-                spLexer.PutBack(scanner, sp2);
-                tokenLexer.PutBack(scanner, requestTarget);
-                spLexer.PutBack(scanner, sp1);
-                methodLexer.PutBack(scanner, method);
+                scanner.PutBack(space2.Data);
+                scanner.PutBack(requestTarget.Data);
+                scanner.PutBack(space1.Data);
+                scanner.PutBack(method.Data);
                 return Default(out element);
             }
 
             EndOfLine endOfLine;
             if (!crLfLexer.TryRead(scanner, out endOfLine))
             {
-                httpVersionLexer.PutBack(scanner, httpVersion);
-                spLexer.PutBack(scanner, sp2);
-                tokenLexer.PutBack(scanner, requestTarget);
-                spLexer.PutBack(scanner, sp1);
-                methodLexer.PutBack(scanner, method);
+                scanner.PutBack(httpVersion.Data);
+                scanner.PutBack(space2.Data);
+                scanner.PutBack(requestTarget.Data);
+                scanner.PutBack(space1.Data);
+                scanner.PutBack(method.Data);
                 return Default(out element);
             }
 
-            element = new RequestLine(method, sp1, requestTarget, sp2, httpVersion, endOfLine, context);
+            element = new RequestLine(method, space1, requestTarget, space2, httpVersion, endOfLine, context);
             return true;
         }
 

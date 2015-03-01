@@ -49,7 +49,7 @@ namespace Http.Grammar.Rfc7230
                     return true;
                 }
 
-                this.requiredWhiteSpaceLexer.PutBack(scanner, requiredWhiteSpace);
+                scanner.PutBack(requiredWhiteSpace.Data);
             }
 
             element = new FieldContent(fieldVisibleCharacterLeft, context);

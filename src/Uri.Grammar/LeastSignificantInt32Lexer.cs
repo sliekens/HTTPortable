@@ -58,7 +58,7 @@
 
             if (scanner.EndOfInput || !scanner.TryMatch(':'))
             {
-                this.hexadecimalInt16Lexer.PutBack(scanner, left);
+                scanner.PutBack(left.Data);
                 element = default(LeastSignificantInt32);
                 return false;
             }
@@ -66,7 +66,7 @@
             if (!this.hexadecimalInt16Lexer.TryRead(scanner, out right))
             {
                 scanner.PutBack(':');
-                this.hexadecimalInt16Lexer.PutBack(scanner, left);
+                scanner.PutBack(left.Data);
                 element = default(LeastSignificantInt32);
                 return false;
             }

@@ -43,7 +43,7 @@ namespace Http.Grammar.Rfc7230
             RequiredWhiteSpace requiredWhiteSpace;
             if (!this.requiredWhiteSpaceLexer.TryRead(scanner, out requiredWhiteSpace))
             {
-                this.endOfLineLexer.PutBack(scanner, endOfLine);
+                scanner.PutBack(endOfLine.Data);
                 element = default(ObsoletedFold);
                 return false;
             }

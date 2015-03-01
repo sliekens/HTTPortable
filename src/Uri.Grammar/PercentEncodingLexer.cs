@@ -47,7 +47,7 @@ namespace Uri.Grammar
             HexadecimalDigit hexadecimalDigit2;
             if (!this.hexDigLexer.TryRead(scanner, out hexadecimalDigit2))
             {
-                this.hexDigLexer.PutBack(scanner, hexadecimalDigit1);
+                scanner.PutBack(hexadecimalDigit1.Data);
                 scanner.PutBack('%');
                 element = default(PercentEncoding);
                 return false;

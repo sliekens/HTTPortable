@@ -53,7 +53,7 @@ namespace Http.Grammar.Rfc7230
             Space space1;
             if (!this.spaceLexer.TryRead(scanner, out space1))
             {
-                this.httpVersionLexer.PutBack(scanner, httpVersion);
+                scanner.PutBack(httpVersion.Data);
                 element = default(StatusLine);
                 return false;
             }
@@ -61,8 +61,8 @@ namespace Http.Grammar.Rfc7230
             StatusCode statusCode;
             if (!this.statusCodeLexer.TryRead(scanner, out statusCode))
             {
-                this.spaceLexer.PutBack(scanner, space1);
-                this.httpVersionLexer.PutBack(scanner, httpVersion);
+                scanner.PutBack(space1.Data);
+                scanner.PutBack(httpVersion.Data);
                 element = default(StatusLine);
                 return false;
             }
@@ -70,9 +70,9 @@ namespace Http.Grammar.Rfc7230
             Space space2;
             if (!this.spaceLexer.TryRead(scanner, out space2))
             {
-                this.statusCodeLexer.PutBack(scanner, statusCode);
-                this.spaceLexer.PutBack(scanner, space1);
-                this.httpVersionLexer.PutBack(scanner, httpVersion);
+                scanner.PutBack(statusCode.Data);
+                scanner.PutBack(space1.Data);
+                scanner.PutBack(httpVersion.Data);
                 element = default(StatusLine);
                 return false;
             }
@@ -80,10 +80,10 @@ namespace Http.Grammar.Rfc7230
             ReasonPhrase reasonPhrase;
             if (!this.reasonPhraseLexer.TryRead(scanner, out reasonPhrase))
             {
-                this.spaceLexer.PutBack(scanner, space2);
-                this.statusCodeLexer.PutBack(scanner, statusCode);
-                this.spaceLexer.PutBack(scanner, space1);
-                this.httpVersionLexer.PutBack(scanner, httpVersion);
+                scanner.PutBack(space2.Data);
+                scanner.PutBack(statusCode.Data);
+                scanner.PutBack(space1.Data);
+                scanner.PutBack(httpVersion.Data);
                 element = default(StatusLine);
                 return false;
             }
@@ -91,11 +91,11 @@ namespace Http.Grammar.Rfc7230
             EndOfLine endOfLine;
             if (!this.endOfLineLexer.TryRead(scanner, out endOfLine))
             {
-                this.reasonPhraseLexer.PutBack(scanner, reasonPhrase);
-                this.spaceLexer.PutBack(scanner, space2);
-                this.statusCodeLexer.PutBack(scanner, statusCode);
-                this.spaceLexer.PutBack(scanner, space1);
-                this.httpVersionLexer.PutBack(scanner, httpVersion);
+                scanner.PutBack(reasonPhrase.Data);
+                scanner.PutBack(space2.Data);
+                scanner.PutBack(statusCode.Data);
+                scanner.PutBack(space1.Data);
+                scanner.PutBack(httpVersion.Data);
                 element = default(StatusLine);
                 return false;
             }

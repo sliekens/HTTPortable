@@ -43,7 +43,7 @@ namespace Http.Grammar.Rfc7230
 
             if (!scanner.TryMatch(':'))
             {
-                this.fieldNameLexer.PutBack(scanner, fieldName);
+                scanner.PutBack(fieldName.Data);
                 element = default(HeaderField);
                 return false;
             }
@@ -52,7 +52,7 @@ namespace Http.Grammar.Rfc7230
             if (!this.optionalWhiteSpaceLexer.TryRead(scanner, out optionalWhiteSpace1))
             {
                 scanner.PutBack(':');
-                this.fieldNameLexer.PutBack(scanner, fieldName);
+                scanner.PutBack(fieldName.Data);
                 element = default(HeaderField);
                 return false;
             }
@@ -60,9 +60,9 @@ namespace Http.Grammar.Rfc7230
             FieldValue fieldValue;
             if (!this.fieldValueLexer.TryRead(scanner, out fieldValue))
             {
-                this.optionalWhiteSpaceLexer.PutBack(scanner, optionalWhiteSpace1);
+                scanner.PutBack(optionalWhiteSpace1.Data);
                 scanner.PutBack(':');
-                this.fieldNameLexer.PutBack(scanner, fieldName);
+                scanner.PutBack(fieldName.Data);
                 element = default(HeaderField);
                 return false;
             }
@@ -70,10 +70,10 @@ namespace Http.Grammar.Rfc7230
             OptionalWhiteSpace optionalWhiteSpace2;
             if (!this.optionalWhiteSpaceLexer.TryRead(scanner, out optionalWhiteSpace2))
             {
-                this.fieldValueLexer.PutBack(scanner, fieldValue);
-                this.optionalWhiteSpaceLexer.PutBack(scanner, optionalWhiteSpace1);
+                scanner.PutBack(fieldValue.Data);
+                scanner.PutBack(optionalWhiteSpace1.Data);
                 scanner.PutBack(':');
-                this.fieldNameLexer.PutBack(scanner, fieldName);
+                scanner.PutBack(fieldName.Data);
                 element = default(HeaderField);
                 return false;
             }
@@ -89,6 +89,5 @@ namespace Http.Grammar.Rfc7230
             Contract.Invariant(this.optionalWhiteSpaceLexer != null);
             Contract.Invariant(this.fieldValueLexer != null);
         }
-
     }
 }

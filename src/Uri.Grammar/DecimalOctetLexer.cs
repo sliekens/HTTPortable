@@ -117,7 +117,7 @@
                             }
 
                             // 1d
-                            this.digitLexer.PutBack(scanner, digit1);
+                            scanner.PutBack(digit1.Data);
                         }
 
                         // 1

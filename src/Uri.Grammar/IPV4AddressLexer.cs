@@ -38,7 +38,7 @@
 
             if (scanner.EndOfInput || !scanner.TryMatch('.'))
             {
-                this.decimalOctetLexer.PutBack(scanner, octet1);
+                scanner.PutBack(octet1.Data);
                 element = default(IPv4Address);
                 return false;
             }
@@ -46,16 +46,16 @@
             if (!this.decimalOctetLexer.TryRead(scanner, out octet2))
             {
                 scanner.PutBack('.');
-                this.decimalOctetLexer.PutBack(scanner, octet1);
+                scanner.PutBack(octet1.Data);
                 element = default(IPv4Address);
                 return false;
             }
 
             if (scanner.EndOfInput || !scanner.TryMatch('.'))
             {
-                this.decimalOctetLexer.PutBack(scanner, octet2);
+                scanner.PutBack(octet2.Data);
                 scanner.PutBack('.');
-                this.decimalOctetLexer.PutBack(scanner, octet1);
+                scanner.PutBack(octet1.Data);
                 element = default(IPv4Address);
                 return false;
             }
@@ -63,20 +63,20 @@
             if (!this.decimalOctetLexer.TryRead(scanner, out octet3))
             {
                 scanner.PutBack('.');
-                this.decimalOctetLexer.PutBack(scanner, octet2);
+                scanner.PutBack(octet2.Data);
                 scanner.PutBack('.');
-                this.decimalOctetLexer.PutBack(scanner, octet1);
+                scanner.PutBack(octet1.Data);
                 element = default(IPv4Address);
                 return false;
             }
 
             if (scanner.EndOfInput || !scanner.TryMatch('.'))
             {
-                this.decimalOctetLexer.PutBack(scanner, octet3);
+                scanner.PutBack(octet3.Data);
                 scanner.PutBack('.');
-                this.decimalOctetLexer.PutBack(scanner, octet2);
+                scanner.PutBack(octet2.Data);
                 scanner.PutBack('.');
-                this.decimalOctetLexer.PutBack(scanner, octet1);
+                scanner.PutBack(octet1.Data);
                 element = default(IPv4Address);
                 return false;
             }
@@ -84,11 +84,11 @@
             if (!this.decimalOctetLexer.TryRead(scanner, out octet4))
             {
                 scanner.PutBack('.');
-                this.decimalOctetLexer.PutBack(scanner, octet3);
+                scanner.PutBack(octet3.Data);
                 scanner.PutBack('.');
-                this.decimalOctetLexer.PutBack(scanner, octet2);
+                scanner.PutBack(octet2.Data);
                 scanner.PutBack('.');
-                this.decimalOctetLexer.PutBack(scanner, octet1);
+                scanner.PutBack(octet1.Data);
                 element = default(IPv4Address);
                 return false;
             }

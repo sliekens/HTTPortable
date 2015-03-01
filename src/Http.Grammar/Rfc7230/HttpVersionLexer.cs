@@ -34,7 +34,7 @@ namespace Http.Grammar.Rfc7230
 
             if (!scanner.TryMatch('/'))
             {
-                this.httpNameLexer.PutBack(scanner, httpName);
+                scanner.PutBack(httpName.Data);
                 element = default(HttpVersion);
                 return false;
             }
@@ -42,16 +42,16 @@ namespace Http.Grammar.Rfc7230
             if (!this.digitLexer.TryRead(scanner, out digit1))
             {
                 scanner.PutBack('/');
-                this.httpNameLexer.PutBack(scanner, httpName);
+                scanner.PutBack(httpName.Data);
                 element = default(HttpVersion);
                 return false;
             }
 
             if (!scanner.TryMatch('.'))
             {
-                this.digitLexer.PutBack(scanner, digit1);
+                scanner.PutBack(digit1.Data);
                 scanner.PutBack('/');
-                this.httpNameLexer.PutBack(scanner, httpName);
+                scanner.PutBack(httpName.Data);
                 element = default(HttpVersion);
                 return false;
             }
@@ -59,9 +59,9 @@ namespace Http.Grammar.Rfc7230
             if (!this.digitLexer.TryRead(scanner, out digit2))
             {
                 scanner.PutBack('.');
-                this.digitLexer.PutBack(scanner, digit1);
+                scanner.PutBack(digit1.Data);
                 scanner.PutBack('/');
-                this.httpNameLexer.PutBack(scanner, httpName);
+                scanner.PutBack(httpName.Data);
                 element = default(HttpVersion);
                 return false;
             }
