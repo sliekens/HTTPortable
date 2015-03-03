@@ -666,8 +666,17 @@
 
         private bool TryReadNinthPass(ITextScanner scanner, out IPv6Address element)
         {
-            element = default(IPv6Address);
-            return false;
+            var context = scanner.GetContext();
+
+            var optionals = this.ReadOptionalInt16s(scanner, 7);
+            if (optionals == null)
+            {
+                element = default(IPv6Address);
+                return false;
+            }
+
+            element = new IPv6Address(string.Concat(optionals.Select(o => o.Data)), context);
+            return true;
         }
 
         private bool TryReadInt16AndSeparator(ITextScanner scanner, out Int16Colon element)
