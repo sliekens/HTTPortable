@@ -89,23 +89,6 @@
             return false;
         }
 
-        private IList<Int16Colon> ReadOptionalHexadecimalInt16s(ITextScanner scanner, int count)
-        {
-            var elements = new List<Int16Colon>(count);
-            for (int i = 0; i < count; i++)
-            {
-                Int16Colon hexadecimalInt16;
-                if (!this.TryReadInt16AndSeparator(scanner, out hexadecimalInt16))
-                {
-                    break;
-                }
-
-                elements.Add(hexadecimalInt16);
-            }
-
-            return elements;
-        }
-
         private IList<Element> ReadOptionalInt16s(ITextScanner scanner, int count)
         {
             var elements = new List<Element>(count + 1);
