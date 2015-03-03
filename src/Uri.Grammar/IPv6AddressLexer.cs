@@ -159,6 +159,12 @@
                 return elements;
             }
 
+            for (int j = elements.Count - 1; j >= 0; j--)
+            {
+                var element = elements[j];
+                scanner.PutBack(element.Data);
+            }
+
             return null;
         }
 
@@ -566,8 +572,42 @@
 
         private bool TryReadSixthPass(ITextScanner scanner, out IPv6Address element)
         {
-            element = default(IPv6Address);
-            return false;
+            var context = scanner.GetContext();
+
+            var optionals = this.ReadOptionalInt16s(scanner, 4);
+            if (optionals == null)
+            {
+                element = default(IPv6Address);
+                return false;
+            }
+
+            Int16Colon bits;
+            if (!this.TryReadInt16AndSeparator(scanner, out bits))
+            {
+                for (int i = optionals.Count - 1; i >= 0; i--)
+                {
+                    scanner.PutBack(optionals[i].Data);
+                }
+
+                element = default(IPv6Address);
+                return false;
+            }
+
+            LeastSignificantInt32 bits32;
+            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out bits32))
+            {
+                scanner.PutBack(bits.Data);
+                for (int i = optionals.Count - 1; i >= 0; i--)
+                {
+                    scanner.PutBack(optionals[i].Data);
+                }
+
+                element = default(IPv6Address);
+                return false;
+            }
+
+            element = new IPv6Address(string.Concat(string.Concat(optionals.Select(o => o.Data)), bits.Data, bits32.Data), context);
+            return true;
         }
 
         private bool TryReadSeventhPass(ITextScanner scanner, out IPv6Address element)
