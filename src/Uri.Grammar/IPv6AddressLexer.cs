@@ -639,8 +639,29 @@
 
         private bool TryReadEighthPass(ITextScanner scanner, out IPv6Address element)
         {
-            element = default(IPv6Address);
-            return false;
+            var context = scanner.GetContext();
+
+            var optionals = this.ReadOptionalInt16s(scanner, 6);
+            if (optionals == null)
+            {
+                element = default(IPv6Address);
+                return false;
+            }
+
+            HexadecimalInt16 bits;
+            if (!this.hexadecimalInt16Lexer.TryRead(scanner, out bits))
+            {
+                for (int i = optionals.Count - 1; i >= 0; i--)
+                {
+                    scanner.PutBack(optionals[i].Data);
+                }
+
+                element = default(IPv6Address);
+                return false;
+            }
+
+            element = new IPv6Address(string.Concat(string.Concat(optionals.Select(o => o.Data)), bits.Data), context);
+            return true;
         }
 
         private bool TryReadNinthPass(ITextScanner scanner, out IPv6Address element)
