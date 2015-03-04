@@ -4,9 +4,10 @@
     using System.Diagnostics.Contracts;
 
     using Text.Scanning;
-    using Int16Colon = Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>;
+
     using Colon = Text.Scanning.Element;
     using Colons = Text.Scanning.Sequence<Text.Scanning.Element, Text.Scanning.Element>;
+    using Int16Colon = Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>;
 
     public class IPv6AddressLexer : Lexer<IPv6Address>
     {
@@ -14,12 +15,18 @@
 
         private readonly ILexer<LeastSignificantInt32> leastSignificantInt32Lexer;
 
+        /// <summary>Initializes a new instance of the <see cref="IPv6AddressLexer"/> class.</summary>
         public IPv6AddressLexer()
             : this(new HexadecimalInt16Lexer(), new LeastSignificantInt32Lexer())
         {
         }
 
-        public IPv6AddressLexer(ILexer<HexadecimalInt16> hexadecimalInt16Lexer, ILexer<LeastSignificantInt32> leastSignificantInt32Lexer)
+        /// <summary>Initializes a new instance of the <see cref="IPv6AddressLexer"/> class.</summary>
+        /// <param name="hexadecimalInt16Lexer"></param>
+        /// <param name="leastSignificantInt32Lexer"></param>
+        public IPv6AddressLexer(
+            ILexer<HexadecimalInt16> hexadecimalInt16Lexer, 
+            ILexer<LeastSignificantInt32> leastSignificantInt32Lexer)
             : base("IPv6address")
         {
             Contract.Requires(hexadecimalInt16Lexer != null);
@@ -83,6 +90,13 @@
 
             element = default(IPv6Address);
             return false;
+        }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.hexadecimalInt16Lexer != null);
+            Contract.Invariant(this.leastSignificantInt32Lexer != null);
         }
 
         private IList<Element> ReadOptionalPieces(ITextScanner scanner, int count)
@@ -151,6 +165,153 @@
             return elements;
         }
 
+        private bool TryReadColon(ITextScanner scanner, out Element element)
+        {
+            if (scanner.EndOfInput)
+            {
+                element = default(Colon);
+                return false;
+            }
+
+            var context = scanner.GetContext();
+            if (!scanner.TryMatch(':'))
+            {
+                element = default(Colon);
+                return false;
+            }
+
+            element = new Colon(":", context);
+            return true;
+        }
+
+        private bool TryReadColons(ITextScanner scanner, out Colons element)
+        {
+            if (scanner.EndOfInput)
+            {
+                element = default(Colons);
+                return false;
+            }
+
+            var context = scanner.GetContext();
+            Element colon1, colon2;
+            if (!this.TryReadColon(scanner, out colon1))
+            {
+                element = default(Colons);
+                return false;
+            }
+
+            if (!this.TryReadColon(scanner, out colon2))
+            {
+                scanner.PutBack(colon1.Data);
+                element = default(Colons);
+                return false;
+            }
+
+            element = new Colons(colon1, colon2, context);
+            return true;
+        }
+
+        private bool TryReadEighthPass(ITextScanner scanner, out IPv6Address element)
+        {
+            var context = scanner.GetContext();
+            var optionalPieces = this.ReadOptionalPieces(scanner, 6);
+            Colons colons;
+            if (!this.TryReadColons(scanner, out colons))
+            {
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
+
+                element = default(IPv6Address);
+                return false;
+            }
+
+            HexadecimalInt16 lsbits;
+            if (!this.hexadecimalInt16Lexer.TryRead(scanner, out lsbits))
+            {
+                scanner.PutBack(colons.Data);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
+
+                element = default(IPv6Address);
+                return false;
+            }
+
+            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, lsbits), context);
+            return true;
+        }
+
+        private bool TryReadFifthPass(ITextScanner scanner, out IPv6Address element)
+        {
+            var context = scanner.GetContext();
+            var optionalPieces = this.ReadOptionalPieces(scanner, 3);
+            Colons colons;
+            if (!this.TryReadColons(scanner, out colons))
+            {
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
+
+                element = default(IPv6Address);
+                return false;
+            }
+
+            var bits = this.ReadRequiredPieces(scanner, 2);
+            if (bits == null)
+            {
+                scanner.PutBack(colons.Data);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
+
+                element = default(IPv6Address);
+                return false;
+            }
+
+            LeastSignificantInt32 lsbits;
+            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
+            {
+                for (int i = bits.Count - 1; i >= 0; i--)
+                {
+                    scanner.PutBack(bits[i].Data);
+                }
+
+                scanner.PutBack(colons.Data);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i1 = optionalPieces.Count - 1; i1 >= 0; i1--)
+                    {
+                        scanner.PutBack(optionalPieces[i1].Data);
+                    }
+                }
+
+                element = default(IPv6Address);
+                return false;
+            }
+
+            element = new IPv6Address(
+                string.Concat(string.Concat(optionalPieces), colons, string.Concat(bits), lsbits), 
+                context);
+            return true;
+        }
+
         private bool TryReadFirstPass(ITextScanner scanner, out IPv6Address element)
         {
             var context = scanner.GetContext();
@@ -174,6 +335,113 @@
             }
 
             element = new IPv6Address(string.Concat(string.Concat(bits), lsbits), context);
+            return true;
+        }
+
+        private bool TryReadFourthPass(ITextScanner scanner, out IPv6Address element)
+        {
+            var context = scanner.GetContext();
+            var optionalPieces = this.ReadOptionalPieces(scanner, 2);
+            Colons colons;
+            if (!this.TryReadColons(scanner, out colons))
+            {
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
+
+                element = default(IPv6Address);
+                return false;
+            }
+
+            var bits = this.ReadRequiredPieces(scanner, 3);
+            if (bits == null)
+            {
+                scanner.PutBack(colons.Data);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
+
+                element = default(IPv6Address);
+                return false;
+            }
+
+            LeastSignificantInt32 lsbits;
+            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
+            {
+                for (int i = bits.Count - 1; i >= 0; i--)
+                {
+                    scanner.PutBack(bits[i].Data);
+                }
+
+                scanner.PutBack(colons.Data);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i1 = optionalPieces.Count - 1; i1 >= 0; i1--)
+                    {
+                        scanner.PutBack(optionalPieces[i1].Data);
+                    }
+                }
+
+                element = default(IPv6Address);
+                return false;
+            }
+
+            element = new IPv6Address(
+                string.Concat(string.Concat(optionalPieces), colons, string.Concat(bits), lsbits), 
+                context);
+            return true;
+        }
+
+        private bool TryReadInt16AndSeparator(ITextScanner scanner, out Int16Colon element)
+        {
+            var context = scanner.GetContext();
+            HexadecimalInt16 int16;
+            if (!this.hexadecimalInt16Lexer.TryRead(scanner, out int16))
+            {
+                element = default(Int16Colon);
+                return false;
+            }
+
+            Element colon;
+            if (!this.TryReadColon(scanner, out colon))
+            {
+                scanner.PutBack(int16.Data);
+                element = default(Int16Colon);
+                return false;
+            }
+
+            element = new Int16Colon(int16, colon, context);
+            return true;
+        }
+
+        private bool TryReadNinthPass(ITextScanner scanner, out IPv6Address element)
+        {
+            var context = scanner.GetContext();
+            var optionalPieces = this.ReadOptionalPieces(scanner, 7);
+            Colons colons;
+            if (!this.TryReadColons(scanner, out colons))
+            {
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
+
+                element = default(IPv6Address);
+                return false;
+            }
+
+            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons), context);
             return true;
         }
 
@@ -212,10 +480,10 @@
             return true;
         }
 
-        private bool TryReadThirdPass(ITextScanner scanner, out IPv6Address element)
+        private bool TryReadSeventhPass(ITextScanner scanner, out IPv6Address element)
         {
             var context = scanner.GetContext();
-            var optionalPieces = this.ReadOptionalPieces(scanner, 1);
+            var optionalPieces = this.ReadOptionalPieces(scanner, 5);
             Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
@@ -226,21 +494,7 @@
                         scanner.PutBack(optionalPieces[i].Data);
                     }
                 }
-                element = default(IPv6Address);
-                return false;
-            }
 
-            var bits = this.ReadRequiredPieces(scanner, 4);
-            if (bits == null)
-            {
-                scanner.PutBack(colons.Data);
-                if (optionalPieces.Count != 0)
-                {
-                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
-                    {
-                        scanner.PutBack(optionalPieces[i].Data);
-                    }
-                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -248,48 +502,6 @@
             LeastSignificantInt32 lsbits;
             if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
             {
-                for (int i = bits.Count - 1; i >= 0; i--)
-                {
-                    scanner.PutBack(bits[i].Data);
-                }
-
-                scanner.PutBack(colons.Data);
-                if (optionalPieces.Count != 0)
-                {
-                    for (int i1 = optionalPieces.Count - 1; i1 >= 0; i1--)
-                    {
-                        scanner.PutBack(optionalPieces[i1].Data);
-                    }
-                }
-                element = default(IPv6Address);
-                return false;
-            }
-
-            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, string.Concat(bits), lsbits), context);
-            return true;
-        }
-
-        private bool TryReadFourthPass(ITextScanner scanner, out IPv6Address element)
-        {
-            var context = scanner.GetContext();
-            var optionalPieces = this.ReadOptionalPieces(scanner, 2);
-            Colons colons;
-            if (!this.TryReadColons(scanner, out colons))
-            {
-                if (optionalPieces.Count != 0)
-                {
-                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
-                    {
-                        scanner.PutBack(optionalPieces[i].Data);
-                    }
-                }
-                element = default(IPv6Address);
-                return false;
-            }
-
-            var bits = this.ReadRequiredPieces(scanner, 3);
-            if (bits == null)
-            {
                 scanner.PutBack(colons.Data);
                 if (optionalPieces.Count != 0)
                 {
@@ -298,88 +510,12 @@
                         scanner.PutBack(optionalPieces[i].Data);
                     }
                 }
+
                 element = default(IPv6Address);
                 return false;
             }
 
-            LeastSignificantInt32 lsbits;
-            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
-            {
-                for (int i = bits.Count - 1; i >= 0; i--)
-                {
-                    scanner.PutBack(bits[i].Data);
-                }
-
-                scanner.PutBack(colons.Data);
-                if (optionalPieces.Count != 0)
-                {
-                    for (int i1 = optionalPieces.Count - 1; i1 >= 0; i1--)
-                    {
-                        scanner.PutBack(optionalPieces[i1].Data);
-                    }
-                }
-                element = default(IPv6Address);
-                return false;
-            }
-
-            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, string.Concat(bits), lsbits), context);
-            return true;
-        }
-
-        private bool TryReadFifthPass(ITextScanner scanner, out IPv6Address element)
-        {
-            var context = scanner.GetContext();
-            var optionalPieces = this.ReadOptionalPieces(scanner, 3);
-            Colons colons;
-            if (!this.TryReadColons(scanner, out colons))
-            {
-                if (optionalPieces.Count != 0)
-                {
-                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
-                    {
-                        scanner.PutBack(optionalPieces[i].Data);
-                    }
-                }
-                element = default(IPv6Address);
-                return false;
-            }
-
-            var bits = this.ReadRequiredPieces(scanner, 2);
-            if (bits == null)
-            {
-                scanner.PutBack(colons.Data);
-                if (optionalPieces.Count != 0)
-                {
-                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
-                    {
-                        scanner.PutBack(optionalPieces[i].Data);
-                    }
-                }
-                element = default(IPv6Address);
-                return false;
-            }
-
-            LeastSignificantInt32 lsbits;
-            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
-            {
-                for (int i = bits.Count - 1; i >= 0; i--)
-                {
-                    scanner.PutBack(bits[i].Data);
-                }
-
-                scanner.PutBack(colons.Data);
-                if (optionalPieces.Count != 0)
-                {
-                    for (int i1 = optionalPieces.Count - 1; i1 >= 0; i1--)
-                    {
-                        scanner.PutBack(optionalPieces[i1].Data);
-                    }
-                }
-                element = default(IPv6Address);
-                return false;
-            }
-
-            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, string.Concat(bits), lsbits), context);
+            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, lsbits), context);
             return true;
         }
 
@@ -397,6 +533,7 @@
                         scanner.PutBack(optionalPieces[i].Data);
                     }
                 }
+
                 element = default(IPv6Address);
                 return false;
             }
@@ -412,6 +549,7 @@
                         scanner.PutBack(optionalPieces[i].Data);
                     }
                 }
+
                 element = default(IPv6Address);
                 return false;
             }
@@ -428,6 +566,7 @@
                         scanner.PutBack(optionalPieces[i].Data);
                     }
                 }
+
                 element = default(IPv6Address);
                 return false;
             }
@@ -436,10 +575,10 @@
             return true;
         }
 
-        private bool TryReadSeventhPass(ITextScanner scanner, out IPv6Address element)
+        private bool TryReadThirdPass(ITextScanner scanner, out IPv6Address element)
         {
             var context = scanner.GetContext();
-            var optionalPieces = this.ReadOptionalPieces(scanner, 5);
+            var optionalPieces = this.ReadOptionalPieces(scanner, 1);
             Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
@@ -450,6 +589,23 @@
                         scanner.PutBack(optionalPieces[i].Data);
                     }
                 }
+
+                element = default(IPv6Address);
+                return false;
+            }
+
+            var bits = this.ReadRequiredPieces(scanner, 4);
+            if (bits == null)
+            {
+                scanner.PutBack(colons.Data);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
+
                 element = default(IPv6Address);
                 return false;
             }
@@ -457,154 +613,28 @@
             LeastSignificantInt32 lsbits;
             if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
             {
+                for (int i = bits.Count - 1; i >= 0; i--)
+                {
+                    scanner.PutBack(bits[i].Data);
+                }
+
                 scanner.PutBack(colons.Data);
                 if (optionalPieces.Count != 0)
                 {
-                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    for (int i1 = optionalPieces.Count - 1; i1 >= 0; i1--)
                     {
-                        scanner.PutBack(optionalPieces[i].Data);
+                        scanner.PutBack(optionalPieces[i1].Data);
                     }
                 }
+
                 element = default(IPv6Address);
                 return false;
             }
 
-            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, lsbits), context);
+            element = new IPv6Address(
+                string.Concat(string.Concat(optionalPieces), colons, string.Concat(bits), lsbits), 
+                context);
             return true;
-        }
-
-        private bool TryReadEighthPass(ITextScanner scanner, out IPv6Address element)
-        {
-            var context = scanner.GetContext();
-            var optionalPieces = this.ReadOptionalPieces(scanner, 6);
-            Colons colons;
-            if (!this.TryReadColons(scanner, out colons))
-            {
-                if (optionalPieces.Count != 0)
-                {
-                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
-                    {
-                        scanner.PutBack(optionalPieces[i].Data);
-                    }
-                }
-                element = default(IPv6Address);
-                return false;
-            }
-
-            HexadecimalInt16 lsbits;
-            if (!this.hexadecimalInt16Lexer.TryRead(scanner, out lsbits))
-            {
-                scanner.PutBack(colons.Data);
-                if (optionalPieces.Count != 0)
-                {
-                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
-                    {
-                        scanner.PutBack(optionalPieces[i].Data);
-                    }
-                }
-                element = default(IPv6Address);
-                return false;
-            }
-
-            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, lsbits), context);
-            return true;
-        }
-
-        private bool TryReadNinthPass(ITextScanner scanner, out IPv6Address element)
-        {
-            var context = scanner.GetContext();
-            var optionalPieces = this.ReadOptionalPieces(scanner, 7);
-            Colons colons;
-            if (!this.TryReadColons(scanner, out colons))
-            {
-                if (optionalPieces.Count != 0)
-                {
-                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
-                    {
-                        scanner.PutBack(optionalPieces[i].Data);
-                    }
-                }
-                element = default(IPv6Address);
-                return false;
-            }
-
-            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons), context);
-            return true;
-        }
-
-        private bool TryReadInt16AndSeparator(ITextScanner scanner, out Int16Colon element)
-        {
-            var context = scanner.GetContext();
-            HexadecimalInt16 int16;
-            if (!this.hexadecimalInt16Lexer.TryRead(scanner, out int16))
-            {
-                element = default(Int16Colon);
-                return false;
-            }
-
-            Colon colon;
-            if (!this.TryReadColon(scanner, out colon))
-            {
-                scanner.PutBack(int16.Data);
-                element = default(Int16Colon);
-                return false;
-            }
-
-            element = new Int16Colon(int16, colon, context);
-            return true;
-        }
-
-        private bool TryReadColons(ITextScanner scanner, out Colons element)
-        {
-            if (scanner.EndOfInput)
-            {
-                element = default(Colons);
-                return false;
-            }
-
-            var context = scanner.GetContext();
-            Colon colon1, colon2;
-            if (!this.TryReadColon(scanner, out colon1))
-            {
-                element = default(Colons);
-                return false;
-            }
-
-            if (!this.TryReadColon(scanner, out colon2))
-            {
-                scanner.PutBack(colon1.Data);
-                element = default(Colons);
-                return false;
-            }
-
-            element = new Colons(colon1, colon2, context);
-            return true;
-        }
-
-        private bool TryReadColon(ITextScanner scanner, out Colon element)
-        {
-            if (scanner.EndOfInput)
-            {
-                element = default(Colon);
-                return false;
-            }
-
-            var context = scanner.GetContext();
-            if (!scanner.TryMatch(':'))
-            {
-                element = default(Colon);
-                return false;
-            }
-
-            element = new Colon(":", context);
-            return true;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.hexadecimalInt16Lexer != null);
-            Contract.Invariant(this.leastSignificantInt32Lexer != null);
         }
     }
 }
