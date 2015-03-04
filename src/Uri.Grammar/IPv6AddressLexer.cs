@@ -151,19 +151,6 @@
             return elements;
         }
 
-        private void PutBack(IList<Element> elements, ITextScanner scanner)
-        {
-            if (elements.Count == 0)
-            {
-                return;
-            }
-
-            for (int i = elements.Count - 1; i >= 0; i--)
-            {
-                scanner.PutBack(elements[i].Data);
-            }
-        }
-
         private bool TryReadFirstPass(ITextScanner scanner, out IPv6Address element)
         {
             var context = scanner.GetContext();
@@ -232,7 +219,13 @@
             Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -241,7 +234,13 @@
             if (bits == null)
             {
                 scanner.PutBack(colons.Data);
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -255,7 +254,13 @@
                 }
 
                 scanner.PutBack(colons.Data);
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i1 = optionalPieces.Count - 1; i1 >= 0; i1--)
+                    {
+                        scanner.PutBack(optionalPieces[i1].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -271,7 +276,13 @@
             Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -280,7 +291,13 @@
             if (bits == null)
             {
                 scanner.PutBack(colons.Data);
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -294,7 +311,13 @@
                 }
 
                 scanner.PutBack(colons.Data);
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i1 = optionalPieces.Count - 1; i1 >= 0; i1--)
+                    {
+                        scanner.PutBack(optionalPieces[i1].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -310,7 +333,13 @@
             Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -319,7 +348,13 @@
             if (bits == null)
             {
                 scanner.PutBack(colons.Data);
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -333,7 +368,13 @@
                 }
 
                 scanner.PutBack(colons.Data);
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i1 = optionalPieces.Count - 1; i1 >= 0; i1--)
+                    {
+                        scanner.PutBack(optionalPieces[i1].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -349,7 +390,13 @@
             Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -358,7 +405,13 @@
             if (!this.TryReadInt16AndSeparator(scanner, out bits))
             {
                 scanner.PutBack(colons.Data);
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -368,7 +421,13 @@
             {
                 scanner.PutBack(bits.Data);
                 scanner.PutBack(colons.Data);
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -384,7 +443,13 @@
             Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -393,7 +458,13 @@
             if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
             {
                 scanner.PutBack(colons.Data);
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -409,7 +480,13 @@
             Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -418,7 +495,13 @@
             if (!this.hexadecimalInt16Lexer.TryRead(scanner, out lsbits))
             {
                 scanner.PutBack(colons.Data);
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
@@ -434,7 +517,13 @@
             Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
-                this.PutBack(optionalPieces, scanner);
+                if (optionalPieces.Count != 0)
+                {
+                    for (int i = optionalPieces.Count - 1; i >= 0; i--)
+                    {
+                        scanner.PutBack(optionalPieces[i].Data);
+                    }
+                }
                 element = default(IPv6Address);
                 return false;
             }
