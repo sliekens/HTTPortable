@@ -2,15 +2,9 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-    using System.Linq;
 
     using Text.Scanning;
     using Int16Colon = Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>;
-    using Int16Sequence2 = Text.Scanning.Sequence<Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>, Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>>;
-    using Int16Sequence3 = Text.Scanning.Sequence<Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>, Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>, Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>>;
-    using Int16Sequence4 = Text.Scanning.Sequence<Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>, Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>, Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>, Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>>;
-    using Int16Sequence5 = Text.Scanning.Sequence<Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>, Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>, Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>, Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>, Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>>;
-    using Int16Sequence6 = Text.Scanning.Sequence<Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>, Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>, Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>, Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>, Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>, Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>>;
 
     public class IPv6AddressLexer : Lexer<IPv6Address>
     {
@@ -128,6 +122,33 @@
             return this.ReadOptionalPieces(scanner, count - 1);
         }
 
+        private IList<Int16Colon> ReadRequiredPieces(ITextScanner scanner, int count)
+        {
+            var elements = new List<Int16Colon>(count);
+            for (int i = 0; i < count; i++)
+            {
+                Int16Colon int16Colon;
+                if (this.TryReadInt16AndSeparator(scanner, out int16Colon))
+                {
+                    elements.Add(int16Colon);
+                }
+                else
+                {
+                    if (elements.Count != 0)
+                    {
+                        for (int j = elements.Count - 1; j >= 0; j--)
+                        {
+                            scanner.PutBack(elements[j].Data);
+                        }
+                    }
+
+                    return null;
+                }
+            }
+
+            return elements;
+        }
+
         private void PutBack(IList<Element> elements, ITextScanner scanner)
         {
             if (elements.Count == 0)
@@ -141,236 +162,29 @@
             }
         }
 
-        private bool ReadInt16Sequence(ITextScanner scanner, out Int16Sequence6 sequence)
-        {
-            var context = scanner.GetContext();
-            Int16Colon piece1;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece1))
-            {
-                sequence = default(Int16Sequence6);
-                return false;
-            }
-
-            Int16Colon piece2;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece2))
-            {
-                scanner.PutBack(piece1.Data);
-                sequence = default(Int16Sequence6);
-                return false;
-            }
-
-            Int16Colon piece3;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece3))
-            {
-                scanner.PutBack(piece2.Data);
-                scanner.PutBack(piece1.Data);
-                sequence = default(Int16Sequence6);
-                return false;
-            }
-
-            Int16Colon piece4;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece4))
-            {
-                scanner.PutBack(piece3.Data);
-                scanner.PutBack(piece2.Data);
-                scanner.PutBack(piece1.Data);
-                sequence = default(Int16Sequence6);
-                return false;
-            }
-
-            Int16Colon piece5;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece5))
-            {
-                scanner.PutBack(piece4.Data);
-                scanner.PutBack(piece3.Data);
-                scanner.PutBack(piece2.Data);
-                scanner.PutBack(piece1.Data);
-                sequence = default(Int16Sequence6);
-                return false;
-            }
-
-            Int16Colon piece6;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece6))
-            {
-                scanner.PutBack(piece5.Data);
-                scanner.PutBack(piece4.Data);
-                scanner.PutBack(piece3.Data);
-                scanner.PutBack(piece2.Data);
-                scanner.PutBack(piece1.Data);
-                sequence = default(Int16Sequence6);
-                return false;
-            }
-
-            sequence = new Int16Sequence6(piece1, piece2, piece3, piece4, piece5, piece6, context);
-            return true;
-        }
-
-        private bool ReadInt16Sequence(ITextScanner scanner, out Int16Sequence5 sequence)
-        {
-            var context = scanner.GetContext();
-            Int16Colon piece1;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece1))
-            {
-                sequence = default(Int16Sequence5);
-                return false;
-            }
-
-            Int16Colon piece2;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece2))
-            {
-                scanner.PutBack(piece1.Data);
-                sequence = default(Int16Sequence5);
-                return false;
-            }
-
-            Int16Colon piece3;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece3))
-            {
-                scanner.PutBack(piece2.Data);
-                scanner.PutBack(piece1.Data);
-                sequence = default(Int16Sequence5);
-                return false;
-            }
-
-            Int16Colon piece4;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece4))
-            {
-                scanner.PutBack(piece3.Data);
-                scanner.PutBack(piece2.Data);
-                scanner.PutBack(piece1.Data);
-                sequence = default(Int16Sequence5);
-                return false;
-            }
-
-            Int16Colon piece5;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece5))
-            {
-                scanner.PutBack(piece4.Data);
-                scanner.PutBack(piece3.Data);
-                scanner.PutBack(piece2.Data);
-                scanner.PutBack(piece1.Data);
-                sequence = default(Int16Sequence5);
-                return false;
-            }
-
-            sequence = new Int16Sequence5(piece1, piece2, piece3, piece4, piece5, context);
-            return true;
-        }
-
-        private bool ReadInt16Sequence(ITextScanner scanner, out Int16Sequence4 sequence)
-        {
-            var context = scanner.GetContext();
-            Int16Colon piece1;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece1))
-            {
-                sequence = default(Int16Sequence4);
-                return false;
-            }
-
-            Int16Colon piece2;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece2))
-            {
-                scanner.PutBack(piece1.Data);
-                sequence = default(Int16Sequence4);
-                return false;
-            }
-
-            Int16Colon piece3;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece3))
-            {
-                scanner.PutBack(piece2.Data);
-                scanner.PutBack(piece1.Data);
-                sequence = default(Int16Sequence4);
-                return false;
-            }
-
-            Int16Colon piece4;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece4))
-            {
-                scanner.PutBack(piece3.Data);
-                scanner.PutBack(piece2.Data);
-                scanner.PutBack(piece1.Data);
-                sequence = default(Int16Sequence4);
-                return false;
-            }
-
-            sequence = new Int16Sequence4(piece1, piece2, piece3, piece4, context);
-            return true;
-        }
-
-        private bool ReadInt16Sequence(ITextScanner scanner, out Int16Sequence3 sequence)
-        {
-            var context = scanner.GetContext();
-            Int16Colon piece1;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece1))
-            {
-                sequence = default(Int16Sequence3);
-                return false;
-            }
-
-            Int16Colon piece2;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece2))
-            {
-                scanner.PutBack(piece1.Data);
-                sequence = default(Int16Sequence3);
-                return false;
-            }
-
-            Int16Colon piece3;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece3))
-            {
-                scanner.PutBack(piece2.Data);
-                scanner.PutBack(piece1.Data);
-                sequence = default(Int16Sequence3);
-                return false;
-            }
-
-            sequence = new Int16Sequence3(piece1, piece2, piece3, context);
-            return true;
-        }
-
-        private bool ReadInt16Sequence(ITextScanner scanner, out Int16Sequence2 sequence)
-        {
-            var context = scanner.GetContext();
-            Int16Colon piece1;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece1))
-            {
-                sequence = default(Int16Sequence2);
-                return false;
-            }
-
-            Int16Colon piece2;
-            if (!this.TryReadInt16AndSeparator(scanner, out piece2))
-            {
-                scanner.PutBack(piece1.Data);
-                sequence = default(Int16Sequence2);
-                return false;
-            }
-
-            sequence = new Int16Sequence2(piece1, piece2, context);
-            return true;
-        }
-
         private bool TryReadFirstPass(ITextScanner scanner, out IPv6Address element)
         {
             var context = scanner.GetContext();
-
-            Int16Sequence6 bits;
-            if (!this.ReadInt16Sequence(scanner, out bits))
+            var bits = this.ReadRequiredPieces(scanner, 6);
+            if (bits == null)
             {
                 element = default(IPv6Address);
                 return false;
             }
 
-            LeastSignificantInt32 bits32;
-            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out bits32))
+            LeastSignificantInt32 lsbits;
+            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
             {
-                scanner.PutBack(bits.Data);
+                for (int i = bits.Count - 1; i >= 0; i--)
+                {
+                    scanner.PutBack(bits[i].Data);
+                }
+
                 element = default(IPv6Address);
                 return false;
             }
 
-            element = new IPv6Address(string.Concat(bits.Data, bits32.Data), context);
+            element = new IPv6Address(string.Concat(string.Concat(bits), lsbits), context);
             return true;
         }
 
@@ -384,8 +198,8 @@
                 return false;
             }
 
-            Int16Sequence5 bits;
-            if (!this.ReadInt16Sequence(scanner, out bits))
+            var bits = this.ReadRequiredPieces(scanner, 5);
+            if (bits == null)
             {
                 scanner.PutBack(colons.Data);
                 element = default(IPv6Address);
@@ -395,13 +209,17 @@
             LeastSignificantInt32 lsbits;
             if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
             {
-                scanner.PutBack(bits.Data);
+                for (int i = bits.Count - 1; i >= 0; i--)
+                {
+                    scanner.PutBack(bits[i].Data);
+                }
+
                 scanner.PutBack(colons.Data);
                 element = default(IPv6Address);
                 return false;
             }
 
-            element = new IPv6Address(string.Concat(colons, bits, lsbits), context);
+            element = new IPv6Address(string.Concat(colons, string.Concat(bits), lsbits), context);
             return true;
         }
 
@@ -417,8 +235,8 @@
                 return false;
             }
 
-            Int16Sequence4 bits;
-            if (!this.ReadInt16Sequence(scanner, out bits))
+            var bits = this.ReadRequiredPieces(scanner, 4);
+            if (bits == null)
             {
                 scanner.PutBack(colons.Data);
                 this.PutBack(optionalPieces, scanner);
@@ -429,14 +247,18 @@
             LeastSignificantInt32 lsbits;
             if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
             {
-                scanner.PutBack(bits.Data);
+                for (int i = bits.Count - 1; i >= 0; i--)
+                {
+                    scanner.PutBack(bits[i].Data);
+                }
+
                 scanner.PutBack(colons.Data);
                 this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
 
-            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, bits, lsbits), context);
+            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, string.Concat(bits), lsbits), context);
             return true;
         }
 
@@ -452,8 +274,8 @@
                 return false;
             }
 
-            Int16Sequence3 bits;
-            if (!this.ReadInt16Sequence(scanner, out bits))
+            var bits = this.ReadRequiredPieces(scanner, 3);
+            if (bits == null)
             {
                 scanner.PutBack(colons.Data);
                 this.PutBack(optionalPieces, scanner);
@@ -464,14 +286,18 @@
             LeastSignificantInt32 lsbits;
             if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
             {
-                scanner.PutBack(bits.Data);
+                for (int i = bits.Count - 1; i >= 0; i--)
+                {
+                    scanner.PutBack(bits[i].Data);
+                }
+
                 scanner.PutBack(colons.Data);
                 this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
 
-            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, bits, lsbits), context);
+            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, string.Concat(bits), lsbits), context);
             return true;
         }
 
@@ -487,8 +313,8 @@
                 return false;
             }
 
-            Int16Sequence2 bits;
-            if (!this.ReadInt16Sequence(scanner, out bits))
+            var bits = this.ReadRequiredPieces(scanner, 2);
+            if (bits == null)
             {
                 scanner.PutBack(colons.Data);
                 this.PutBack(optionalPieces, scanner);
@@ -499,14 +325,18 @@
             LeastSignificantInt32 lsbits;
             if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
             {
-                scanner.PutBack(bits.Data);
+                for (int i = bits.Count - 1; i >= 0; i--)
+                {
+                    scanner.PutBack(bits[i].Data);
+                }
+
                 scanner.PutBack(colons.Data);
                 this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
 
-            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, bits, lsbits), context);
+            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, string.Concat(bits), lsbits), context);
             return true;
         }
 
