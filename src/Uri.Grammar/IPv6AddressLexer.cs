@@ -5,6 +5,8 @@
 
     using Text.Scanning;
     using Int16Colon = Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>;
+    using Colon = Text.Scanning.Element;
+    using Colons = Text.Scanning.Sequence<Text.Scanning.Element, Text.Scanning.Element>;
 
     public class IPv6AddressLexer : Lexer<IPv6Address>
     {
@@ -191,7 +193,7 @@
         private bool TryReadSecondPass(ITextScanner scanner, out IPv6Address element)
         {
             var context = scanner.GetContext();
-            Sequence<Element, Element> colons;
+            Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
                 element = default(IPv6Address);
@@ -227,7 +229,7 @@
         {
             var context = scanner.GetContext();
             var optionalPieces = this.ReadOptionalPieces(scanner, 1);
-            Sequence<Element, Element> colons;
+            Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
                 this.PutBack(optionalPieces, scanner);
@@ -266,7 +268,7 @@
         {
             var context = scanner.GetContext();
             var optionalPieces = this.ReadOptionalPieces(scanner, 2);
-            Sequence<Element, Element> colons;
+            Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
                 this.PutBack(optionalPieces, scanner);
@@ -305,7 +307,7 @@
         {
             var context = scanner.GetContext();
             var optionalPieces = this.ReadOptionalPieces(scanner, 3);
-            Sequence<Element, Element> colons;
+            Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
                 this.PutBack(optionalPieces, scanner);
@@ -344,7 +346,7 @@
         {
             var context = scanner.GetContext();
             var optionalPieces = this.ReadOptionalPieces(scanner, 4);
-            Sequence<Element, Element> colons;
+            Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
                 this.PutBack(optionalPieces, scanner);
@@ -379,7 +381,7 @@
         {
             var context = scanner.GetContext();
             var optionalPieces = this.ReadOptionalPieces(scanner, 5);
-            Sequence<Element, Element> colons;
+            Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
                 this.PutBack(optionalPieces, scanner);
@@ -404,7 +406,7 @@
         {
             var context = scanner.GetContext();
             var optionalPieces = this.ReadOptionalPieces(scanner, 6);
-            Sequence<Element, Element> colons;
+            Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
                 this.PutBack(optionalPieces, scanner);
@@ -429,7 +431,7 @@
         {
             var context = scanner.GetContext();
             var optionalPieces = this.ReadOptionalPieces(scanner, 7);
-            Sequence<Element, Element> colons;
+            Colons colons;
             if (!this.TryReadColons(scanner, out colons))
             {
                 this.PutBack(optionalPieces, scanner);
@@ -451,7 +453,7 @@
                 return false;
             }
 
-            Element colon;
+            Colon colon;
             if (!this.TryReadColon(scanner, out colon))
             {
                 scanner.PutBack(int16.Data);
@@ -463,49 +465,49 @@
             return true;
         }
 
-        private bool TryReadColons(ITextScanner scanner, out Sequence<Element, Element> element)
+        private bool TryReadColons(ITextScanner scanner, out Colons element)
         {
             if (scanner.EndOfInput)
             {
-                element = default(Sequence<Element, Element>);
+                element = default(Colons);
                 return false;
             }
 
             var context = scanner.GetContext();
-            Element colon1, colon2;
+            Colon colon1, colon2;
             if (!this.TryReadColon(scanner, out colon1))
             {
-                element = default(Sequence<Element, Element>);
+                element = default(Colons);
                 return false;
             }
 
             if (!this.TryReadColon(scanner, out colon2))
             {
                 scanner.PutBack(colon1.Data);
-                element = default(Sequence<Element, Element>);
+                element = default(Colons);
                 return false;
             }
 
-            element = new Sequence<Element, Element>(colon1, colon2, context);
+            element = new Colons(colon1, colon2, context);
             return true;
         }
 
-        private bool TryReadColon(ITextScanner scanner, out Element element)
+        private bool TryReadColon(ITextScanner scanner, out Colon element)
         {
             if (scanner.EndOfInput)
             {
-                element = default(Element);
+                element = default(Colon);
                 return false;
             }
 
             var context = scanner.GetContext();
             if (!scanner.TryMatch(':'))
             {
-                element = default(Element);
+                element = default(Colon);
                 return false;
             }
 
-            element = new Element(":", context);
+            element = new Colon(":", context);
             return true;
         }
 
