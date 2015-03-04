@@ -89,66 +89,56 @@
             return false;
         }
 
-        private IList<Element> ReadOptionalInt16s(ITextScanner scanner, int count)
+        private IList<Element> ReadOptionalPieces(ITextScanner scanner, int count)
         {
-            var elements = new List<Element>(count + 1);
-            Sequence<Element, Element> colons;
-            for (int i = 0; i < count; i++)
+            if (count == 0)
             {
-                if (this.TryReadColons(scanner, out colons))
-                {
-                    elements.Add(colons);
-                    return elements;
-                }
+                return new List<Element>(0);
+            }
 
-                HexadecimalInt16 int16;
-                if (!this.hexadecimalInt16Lexer.TryRead(scanner, out int16))
-                {
-                    for (int j = elements.Count - 1; j >= 0; j--)
-                    {
-                        var element = elements[j];
-                        scanner.PutBack(element.Data);
-                    }
-
-                    return null;
-                }
-
-                if (this.TryReadColons(scanner, out colons))
-                {
-                    elements.Add(int16);
-                    elements.Add(colons);
-                    return elements;
-                }
-
-                scanner.PutBack(int16.Data);
+            var elements = new List<Element>((count * 2) - 1);
+            for (int i = 0, n = count - 1; i < n; i++)
+            {
                 Int16Colon int16Colon;
                 if (!this.TryReadInt16AndSeparator(scanner, out int16Colon))
                 {
-                    for (int j = elements.Count - 1; j >= 0; j--)
-                    {
-                        var element = elements[j];
-                        scanner.PutBack(element.Data);
-                    }
-
-                    return null;
+                    break;
                 }
 
                 elements.Add(int16Colon);
             }
 
-            if (this.TryReadColons(scanner, out colons))
+            HexadecimalInt16 int16;
+            if (this.hexadecimalInt16Lexer.TryRead(scanner, out int16))
             {
-                elements.Add(colons);
+                elements.Add(int16);
                 return elements;
             }
 
-            for (int j = elements.Count - 1; j >= 0; j--)
+            if (elements.Count == 0)
             {
-                var element = elements[j];
-                scanner.PutBack(element.Data);
+                return new List<Element>(0);
             }
 
-            return null;
+            for (int i = elements.Count - 1; i >= 0; i--)
+            {
+                scanner.PutBack(elements[i].Data);
+            }
+
+            return this.ReadOptionalPieces(scanner, count - 1);
+        }
+
+        private void PutBack(IList<Element> elements, ITextScanner scanner)
+        {
+            if (elements.Count == 0)
+            {
+                return;
+            }
+
+            for (int i = elements.Count - 1; i >= 0; i--)
+            {
+                scanner.PutBack(elements[i].Data);
+            }
         }
 
         private bool ReadInt16Sequence(ITextScanner scanner, out Int16Sequence6 sequence)
@@ -394,42 +384,35 @@
                 return false;
             }
 
-            Int16Sequence5 bits96;
-            if (!this.ReadInt16Sequence(scanner, out bits96))
+            Int16Sequence5 bits;
+            if (!this.ReadInt16Sequence(scanner, out bits))
             {
                 scanner.PutBack(colons.Data);
                 element = default(IPv6Address);
                 return false;
             }
 
-            LeastSignificantInt32 bits;
-            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out bits))
+            LeastSignificantInt32 lsbits;
+            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
             {
-                scanner.PutBack(bits96.Data);
+                scanner.PutBack(bits.Data);
                 scanner.PutBack(colons.Data);
                 element = default(IPv6Address);
                 return false;
             }
 
-            element = new IPv6Address(string.Concat(colons.Data, bits96.Data, bits.Data), context);
+            element = new IPv6Address(string.Concat(colons, bits, lsbits), context);
             return true;
         }
 
         private bool TryReadThirdPass(ITextScanner scanner, out IPv6Address element)
         {
             var context = scanner.GetContext();
-
-            HexadecimalInt16 int16;
-            this.hexadecimalInt16Lexer.TryRead(scanner, out int16);
-
+            var optionalPieces = this.ReadOptionalPieces(scanner, 1);
             Sequence<Element, Element> colons;
             if (!this.TryReadColons(scanner, out colons))
             {
-                if (int16 != null)
-                {
-                    scanner.PutBack(int16.Data);
-                }
-
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
@@ -438,48 +421,33 @@
             if (!this.ReadInt16Sequence(scanner, out bits))
             {
                 scanner.PutBack(colons.Data);
-                if (int16 != null)
-                {
-                    scanner.PutBack(int16.Data);
-                }
-
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
 
-            LeastSignificantInt32 bits32;
-            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out bits32))
+            LeastSignificantInt32 lsbits;
+            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
             {
                 scanner.PutBack(bits.Data);
                 scanner.PutBack(colons.Data);
-                if (int16 != null)
-                {
-                    scanner.PutBack(int16.Data);
-                }
-
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
 
-            if (int16 == null)
-            {
-                element = new IPv6Address(string.Concat(colons.Data, bits.Data, bits32.Data), context);
-            }
-            else
-            {
-                element = new IPv6Address(string.Concat(int16.Data, colons.Data, bits.Data, bits32.Data), context);
-            }
-
+            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, bits, lsbits), context);
             return true;
         }
 
         private bool TryReadFourthPass(ITextScanner scanner, out IPv6Address element)
         {
             var context = scanner.GetContext();
-
-            var optionals = this.ReadOptionalInt16s(scanner, 2);
-            if (optionals == null)
+            var optionalPieces = this.ReadOptionalPieces(scanner, 2);
+            Sequence<Element, Element> colons;
+            if (!this.TryReadColons(scanner, out colons))
             {
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
@@ -487,39 +455,34 @@
             Int16Sequence3 bits;
             if (!this.ReadInt16Sequence(scanner, out bits))
             {
-                for (int i = optionals.Count - 1; i >= 0; i--)
-                {
-                    scanner.PutBack(optionals[i].Data);
-                }
-
+                scanner.PutBack(colons.Data);
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
 
-            LeastSignificantInt32 bits32;
-            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out bits32))
+            LeastSignificantInt32 lsbits;
+            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
             {
                 scanner.PutBack(bits.Data);
-                for (int i = optionals.Count - 1; i >= 0; i--)
-                {
-                    scanner.PutBack(optionals[i].Data);
-                }
-
+                scanner.PutBack(colons.Data);
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
 
-            element = new IPv6Address(string.Concat(string.Concat(optionals.Select(o => o.Data)), bits.Data, bits32.Data), context);
+            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, bits, lsbits), context);
             return true;
         }
 
         private bool TryReadFifthPass(ITextScanner scanner, out IPv6Address element)
         {
             var context = scanner.GetContext();
-
-            var optionals = this.ReadOptionalInt16s(scanner, 3);
-            if (optionals == null)
+            var optionalPieces = this.ReadOptionalPieces(scanner, 3);
+            Sequence<Element, Element> colons;
+            if (!this.TryReadColons(scanner, out colons))
             {
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
@@ -527,39 +490,34 @@
             Int16Sequence2 bits;
             if (!this.ReadInt16Sequence(scanner, out bits))
             {
-                for (int i = optionals.Count - 1; i >= 0; i--)
-                {
-                    scanner.PutBack(optionals[i].Data);
-                }
-
+                scanner.PutBack(colons.Data);
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
 
-            LeastSignificantInt32 bits32;
-            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out bits32))
+            LeastSignificantInt32 lsbits;
+            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
             {
                 scanner.PutBack(bits.Data);
-                for (int i = optionals.Count - 1; i >= 0; i--)
-                {
-                    scanner.PutBack(optionals[i].Data);
-                }
-
+                scanner.PutBack(colons.Data);
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
 
-            element = new IPv6Address(string.Concat(string.Concat(optionals.Select(o => o.Data)), bits.Data, bits32.Data), context);
+            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, bits, lsbits), context);
             return true;
         }
 
         private bool TryReadSixthPass(ITextScanner scanner, out IPv6Address element)
         {
             var context = scanner.GetContext();
-
-            var optionals = this.ReadOptionalInt16s(scanner, 4);
-            if (optionals == null)
+            var optionalPieces = this.ReadOptionalPieces(scanner, 4);
+            Sequence<Element, Element> colons;
+            if (!this.TryReadColons(scanner, out colons))
             {
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
@@ -567,98 +525,89 @@
             Int16Colon bits;
             if (!this.TryReadInt16AndSeparator(scanner, out bits))
             {
-                for (int i = optionals.Count - 1; i >= 0; i--)
-                {
-                    scanner.PutBack(optionals[i].Data);
-                }
-
+                scanner.PutBack(colons.Data);
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
 
-            LeastSignificantInt32 bits32;
-            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out bits32))
+            LeastSignificantInt32 lsbits;
+            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
             {
                 scanner.PutBack(bits.Data);
-                for (int i = optionals.Count - 1; i >= 0; i--)
-                {
-                    scanner.PutBack(optionals[i].Data);
-                }
-
+                scanner.PutBack(colons.Data);
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
 
-            element = new IPv6Address(string.Concat(string.Concat(optionals.Select(o => o.Data)), bits.Data, bits32.Data), context);
+            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, bits, lsbits), context);
             return true;
         }
 
         private bool TryReadSeventhPass(ITextScanner scanner, out IPv6Address element)
         {
             var context = scanner.GetContext();
-
-            var optionals = this.ReadOptionalInt16s(scanner, 5);
-            if (optionals == null)
+            var optionalPieces = this.ReadOptionalPieces(scanner, 5);
+            Sequence<Element, Element> colons;
+            if (!this.TryReadColons(scanner, out colons))
             {
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
 
-            LeastSignificantInt32 bits32;
-            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out bits32))
+            LeastSignificantInt32 lsbits;
+            if (!this.leastSignificantInt32Lexer.TryRead(scanner, out lsbits))
             {
-                for (int i = optionals.Count - 1; i >= 0; i--)
-                {
-                    scanner.PutBack(optionals[i].Data);
-                }
-
+                scanner.PutBack(colons.Data);
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
 
-            element = new IPv6Address(string.Concat(string.Concat(optionals.Select(o => o.Data)), bits32.Data), context);
+            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, lsbits), context);
             return true;
         }
 
         private bool TryReadEighthPass(ITextScanner scanner, out IPv6Address element)
         {
             var context = scanner.GetContext();
-
-            var optionals = this.ReadOptionalInt16s(scanner, 6);
-            if (optionals == null)
+            var optionalPieces = this.ReadOptionalPieces(scanner, 6);
+            Sequence<Element, Element> colons;
+            if (!this.TryReadColons(scanner, out colons))
             {
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
 
-            HexadecimalInt16 bits;
-            if (!this.hexadecimalInt16Lexer.TryRead(scanner, out bits))
+            HexadecimalInt16 lsbits;
+            if (!this.hexadecimalInt16Lexer.TryRead(scanner, out lsbits))
             {
-                for (int i = optionals.Count - 1; i >= 0; i--)
-                {
-                    scanner.PutBack(optionals[i].Data);
-                }
-
+                scanner.PutBack(colons.Data);
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
 
-            element = new IPv6Address(string.Concat(string.Concat(optionals.Select(o => o.Data)), bits.Data), context);
+            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons, lsbits), context);
             return true;
         }
 
         private bool TryReadNinthPass(ITextScanner scanner, out IPv6Address element)
         {
             var context = scanner.GetContext();
-
-            var optionals = this.ReadOptionalInt16s(scanner, 7);
-            if (optionals == null)
+            var optionalPieces = this.ReadOptionalPieces(scanner, 7);
+            Sequence<Element, Element> colons;
+            if (!this.TryReadColons(scanner, out colons))
             {
+                this.PutBack(optionalPieces, scanner);
                 element = default(IPv6Address);
                 return false;
             }
 
-            element = new IPv6Address(string.Concat(optionals.Select(o => o.Data)), context);
+            element = new IPv6Address(string.Concat(string.Concat(optionalPieces), colons), context);
             return true;
         }
 
