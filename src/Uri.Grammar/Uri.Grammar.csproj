@@ -42,6 +42,8 @@
     <Compile Include="IPv4AddressLexer.cs" />
     <Compile Include="IPv6Address.cs" />
     <Compile Include="IPv6AddressLexer.cs" />
+    <Compile Include="IPvFuture.cs" />
+    <Compile Include="IPvFutureLexer.cs" />
     <Compile Include="LeastSignificantInt32.cs" />
     <Compile Include="LeastSignificantInt32Lexer.cs" />
     <Compile Include="Path.cs" />
