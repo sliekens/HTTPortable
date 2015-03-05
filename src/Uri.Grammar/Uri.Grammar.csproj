@@ -59,6 +59,8 @@
     <Compile Include="PathNoSchemeLexer.cs" />
     <Compile Include="PathRootless.cs" />
     <Compile Include="PathRootlessLexer.cs" />
+    <Compile Include="Port.cs" />
+    <Compile Include="PortLexer.cs" />
     <Compile Include="QueryLexer.cs" />
     <Compile Include="Query.cs" />
     <Compile Include="Fragment.cs" />
