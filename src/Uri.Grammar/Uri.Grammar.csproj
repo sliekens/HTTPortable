@@ -78,6 +78,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisteredName.cs" />
     <Compile Include="RegisteredNameLexer.cs" />
+    <Compile Include="RelativePart.cs" />
+    <Compile Include="RelativePartLexer.cs" />
     <Compile Include="ReservedLexer.cs" />
     <Compile Include="Reserved.cs" />
     <Compile Include="Scheme.cs" />
