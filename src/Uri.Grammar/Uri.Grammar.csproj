@@ -40,6 +40,8 @@
     <Compile Include="DecimalOctetLexer.cs" />
     <Compile Include="HexadecimalInt16.cs" />
     <Compile Include="HexadecimalInt16Lexer.cs" />
+    <Compile Include="HierarchicalPart.cs" />
+    <Compile Include="HierarchicalPartLexer.cs" />
     <Compile Include="Host.cs" />
     <Compile Include="HostLexer.cs" />
     <Compile Include="IPLiteral.cs" />
