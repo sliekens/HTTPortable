@@ -4,7 +4,7 @@
     using System.Diagnostics.Contracts;
 
     using Text.Scanning;
-    using UserInfoCharacter = Text.Scanning.Alternative<Uri.Grammar.Unreserved, Uri.Grammar.PercentEncoding, Uri.Grammar.SubcomponentsDelimiter, Text.Scanning.Element>;
+    using UserInfoCharacter = Text.Scanning.Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, Text.Scanning.Element>;
 
     public class UserInformationLexer : Lexer<UserInformation>
     {
