@@ -100,6 +100,8 @@
     <Compile Include="Unreserved.cs" />
     <Compile Include="Uri.cs" />
     <Compile Include="UriLexer.cs" />
+    <Compile Include="UriReference.cs" />
+    <Compile Include="UriReferenceLexer.cs" />
     <Compile Include="UserInformation.cs" />
     <Compile Include="UserInformationLexer.cs" />
   </ItemGroup>
