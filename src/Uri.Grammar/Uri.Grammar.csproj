@@ -80,6 +80,8 @@
     <Compile Include="RegisteredNameLexer.cs" />
     <Compile Include="RelativePart.cs" />
     <Compile Include="RelativePartLexer.cs" />
+    <Compile Include="RelativeReference.cs" />
+    <Compile Include="RelativeReferenceLexer.cs" />
     <Compile Include="ReservedLexer.cs" />
     <Compile Include="Reserved.cs" />
     <Compile Include="Scheme.cs" />
