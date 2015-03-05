@@ -36,9 +36,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="Text.Scanning, Version=1.0.72.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Text.Scanning, Version=1.0.75.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\src\packages\Text.Scanning.1.0.72-alpha1\lib\portable-net45+win+wpa81\Text.Scanning.dll</HintPath>
+      <HintPath>..\..\src\packages\Text.Scanning.1.0.75-alpha1\lib\portable-net45+win+wpa81\Text.Scanning.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>
