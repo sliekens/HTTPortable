@@ -88,6 +88,8 @@
     <Compile Include="SubcomponentsDelimiter.cs" />
     <Compile Include="UnreservedLexer.cs" />
     <Compile Include="Unreserved.cs" />
+    <Compile Include="UserInformation.cs" />
+    <Compile Include="UserInformationLexer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Text.Scanning">
