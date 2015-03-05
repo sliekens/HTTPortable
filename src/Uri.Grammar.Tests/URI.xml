@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RowTest>
+  <Row>
+    <Input>http://www.example.com/</Input>
+    <Expected>http://www.example.com/</Expected>
+  </Row>
+  <Row>
+    <Input>https://www.example.com/</Input>
+    <Expected>https://www.example.com/</Expected>
+  </Row>
+  <Row>
+    <Input>http://127.0.0.1</Input>
+    <Expected>http://127.0.0.1</Expected>
+  </Row>
+  <Row>
+    <Input>http://127.0.0.1:8080/</Input>
+    <Expected>http://127.0.0.1:8080/</Expected>
+  </Row>
+  <Row>
+    <Input>https://tools.ietf.org/html/rfc3986</Input>
+    <Expected>https://tools.ietf.org/html/rfc3986</Expected>
+  </Row>
+</RowTest>
