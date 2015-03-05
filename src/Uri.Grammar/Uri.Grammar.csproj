@@ -80,6 +80,8 @@
     <Compile Include="RegisteredNameLexer.cs" />
     <Compile Include="ReservedLexer.cs" />
     <Compile Include="Reserved.cs" />
+    <Compile Include="Scheme.cs" />
+    <Compile Include="SchemeLexer.cs" />
     <Compile Include="SegmentNonZeroNoColonsLexer.cs" />
     <Compile Include="SegmentNonZeroNoColons.cs" />
     <Compile Include="SegmentNonZeroLexer.cs" />
