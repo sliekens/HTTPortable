@@ -34,6 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Authority.cs" />
+    <Compile Include="AuthorityLexer.cs" />
     <Compile Include="DecimalOctet.cs" />
     <Compile Include="DecimalOctetLexer.cs" />
     <Compile Include="HexadecimalInt16.cs" />
