@@ -12,6 +12,11 @@
 
         private readonly ILexer<RegisteredName> registeredNameLexer;
 
+        public HostLexer()
+            : this(new IPLiteralLexer(), new IPv4AddressLexer(), new RegisteredNameLexer())
+        {
+        }
+
         public HostLexer(ILexer<IPLiteral> ipLiteralLexer, ILexer<IPv4Address> ipv4AddressLexer, ILexer<RegisteredName> registeredNameLexer)
             : base("host")
         {

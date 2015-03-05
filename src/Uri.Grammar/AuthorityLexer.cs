@@ -14,6 +14,11 @@
 
         private readonly ILexer<Port> portLexer;
 
+        public AuthorityLexer()
+            : this(new UserInformationLexer(), new HostLexer(), new PortLexer())
+        {
+        }
+
         public AuthorityLexer(ILexer<UserInformation> userInformationLexer, ILexer<Host> hostLexer, ILexer<Port> portLexer)
             : base("authority")
         {

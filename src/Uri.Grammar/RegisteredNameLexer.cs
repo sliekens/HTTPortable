@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
 
-    using Alternative = Text.Scanning.Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter>; 
+    using Alternative = Text.Scanning.Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter>;
 
     using Text.Scanning;
 
@@ -13,7 +13,12 @@
 
         private readonly ILexer<PercentEncoding> percentEncodingLexer;
 
-        private readonly ILexer<SubcomponentsDelimiter> subcomponentsDelimiterLexer; 
+        private readonly ILexer<SubcomponentsDelimiter> subcomponentsDelimiterLexer;
+
+        public RegisteredNameLexer()
+            : this(new UnreservedLexer(), new PercentEncodingLexer(), new SubcomponentsDelimiterLexer())
+        {
+        }
 
         public RegisteredNameLexer(ILexer<Unreserved> unreservedLexer, ILexer<PercentEncoding> percentEncodingLexer, ILexer<SubcomponentsDelimiter> subcomponentsDelimiterLexer)
             : base("reg-name")

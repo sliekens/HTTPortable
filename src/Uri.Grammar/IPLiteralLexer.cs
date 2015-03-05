@@ -8,7 +8,12 @@
     {
         private readonly ILexer<IPv6Address> ipv6AddressLexer;
 
-        private readonly ILexer<IPvFuture> ipvFutureLexer; 
+        private readonly ILexer<IPvFuture> ipvFutureLexer;
+
+        public IPLiteralLexer()
+            : this(new IPv6AddressLexer(), new IPvFutureLexer())
+        {
+        }
 
         public IPLiteralLexer(ILexer<IPv6Address> ipv6AddressLexer, ILexer<IPvFuture> ipvFutureLexer)
             : base("IP-literal")
