@@ -10,6 +10,11 @@
 
         private readonly ILexer<RelativeReference> relativeReferenceLexer;
 
+        public UriReferenceLexer()
+            : this(new UriLexer(), new RelativeReferenceLexer())
+        {
+        }
+
         public UriReferenceLexer(ILexer<Uri> uriLexer, ILexer<RelativeReference> relativeReferenceLexer)
             : base("URI-reference")
         {
