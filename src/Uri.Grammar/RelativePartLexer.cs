@@ -63,7 +63,7 @@
                 return true;
             }
 
-            element = new RelativePart(string.Empty, context);
+            element = new RelativePart(new PathEmpty(context), context);
             return true;
         }
 
@@ -100,7 +100,7 @@
                 return false;
             }
 
-            element = new RelativePart(string.Concat(slashes, authority, path), context);
+            element = new RelativePart(slashes, authority, path, context);
             return true;
         }
 
@@ -116,7 +116,7 @@
             PathAbsolute path;
             if (this.pathAbsoluteLexer.TryRead(scanner, out path))
             {
-                element = new RelativePart(path.Data, context);
+                element = new RelativePart(path, context);
                 return true;
             }
 
@@ -136,7 +136,7 @@
             PathNoScheme path;
             if (this.pathNoSchemeLexer.TryRead(scanner, out path))
             {
-                element = new RelativePart(path.Data, context);
+                element = new RelativePart(path, context);
                 return true;
             }
 
