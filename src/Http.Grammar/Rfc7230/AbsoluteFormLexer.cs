@@ -10,6 +10,11 @@
     {
         private readonly ILexer<AbsoluteUri> absoluteUriLexer;
 
+        public AbsoluteFormLexer()
+            : this(new AbsoluteUriLexer())
+        {
+        }
+
         public AbsoluteFormLexer(ILexer<AbsoluteUri> absoluteUriLexer)
             : base("absolute-form")
         {

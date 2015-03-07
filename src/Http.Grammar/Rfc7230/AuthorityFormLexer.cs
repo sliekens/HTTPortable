@@ -10,6 +10,11 @@
     {
         private readonly ILexer<Authority> authorityLexer;
 
+        public AuthorityFormLexer()
+            : this(new AuthorityLexer())
+        {
+        }
+
         public AuthorityFormLexer(ILexer<Authority> authorityLexer)
             : base("authority-form")
         {
