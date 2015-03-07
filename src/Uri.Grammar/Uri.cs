@@ -26,9 +26,9 @@
         /// <param name="schemeSeparator">The scheme separator.</param>
         /// <param name="hierarchicalPart">The scheme itself.</param>
         /// <param name="querySeparator">An optional query separator.</param>
-        /// <param name="query">An optional query.</param>
+        /// <param name="query">An optional query. If a query separator is specified, then the query is required.</param>
         /// <param name="fragmentSeparator">An optional fragment separator.</param>
-        /// <param name="fragment">An optional fragment.</param>
+        /// <param name="fragment">An optional fragment. If a fragment separator is specified, then the fragment is required.</param>
         /// <param name="context">The object that describes the context in which the text appears.</param>
         public Uri(Scheme scheme, Element schemeSeparator, HierarchicalPart hierarchicalPart, Element querySeparator, Query query, Element fragmentSeparator, Fragment fragment, ITextContext context)
             : base(string.Concat(scheme, schemeSeparator, hierarchicalPart, querySeparator, query, fragmentSeparator, fragment), context)
