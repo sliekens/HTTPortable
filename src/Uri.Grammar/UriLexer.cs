@@ -50,7 +50,7 @@
                 return false;
             }
 
-            if (!this.TryReadColon(scanner, out schemeSeparator))
+            if (!TryReadTerminal(scanner, ':', out schemeSeparator))
             {
                 scanner.PutBack(scheme.Data);
                 element = default(Uri);
@@ -91,25 +91,6 @@
             return true;
         }
 
-        private bool TryReadColon(ITextScanner scanner, out Element element)
-        {
-            if (scanner.EndOfInput)
-            {
-                element = default(Element);
-                return false;
-            }
-
-            var context = scanner.GetContext();
-            if (scanner.TryMatch(':'))
-            {
-                element = new Element(":", context);
-                return true;
-            }
-
-            element = default(Element);
-            return false;
-        }
-
         private bool TryReadQueryPart(ITextScanner scanner, out QueryPart element)
         {
             if (scanner.EndOfInput)
@@ -120,7 +101,7 @@
 
             var context = scanner.GetContext();
             Element questionMark;
-            if (!this.TryReadQuestionMark(scanner, out questionMark))
+            if (!TryReadTerminal(scanner, '?', out questionMark))
             {
                 element = default(QueryPart);
                 return false;
@@ -148,7 +129,7 @@
 
             var context = scanner.GetContext();
             Element numberSign;
-            if (!this.TryReadNumberSign(scanner, out numberSign))
+            if (!TryReadTerminal(scanner, '#', out numberSign))
             {
                 element = default(FragmentPart);
                 return false;
@@ -164,44 +145,6 @@
 
             element = new FragmentPart(numberSign, fragment, context);
             return true;
-        }
-
-        private bool TryReadQuestionMark(ITextScanner scanner, out Element element)
-        {
-            if (scanner.EndOfInput)
-            {
-                element = default(Element);
-                return false;
-            }
-
-            var context = scanner.GetContext();
-            if (scanner.TryMatch('?'))
-            {
-                element = new Element("?", context);
-                return true;
-            }
-
-            element = default(Element);
-            return false;
-        }
-
-        private bool TryReadNumberSign(ITextScanner scanner, out Element element)
-        {
-            if (scanner.EndOfInput)
-            {
-                element = default(Element);
-                return false;
-            }
-
-            var context = scanner.GetContext();
-            if (scanner.TryMatch('#'))
-            {
-                element = new Element("#", context);
-                return true;
-            }
-
-            element = default(Element);
-            return false;
         }
     }
 }
