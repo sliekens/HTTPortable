@@ -36,7 +36,7 @@
         }
 
         /// <summary>Gets the relative part of the scheme.</summary>
-        public RelativePart Part
+        public RelativePart RelativePart
         {
             get
             {
