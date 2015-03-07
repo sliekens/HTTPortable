@@ -39,6 +39,8 @@
     <Compile Include="Rfc7230\AbsoluteFormLexer.cs" />
     <Compile Include="Rfc7230\AbsolutePath.cs" />
     <Compile Include="Rfc7230\AbsolutePathLexer.cs" />
+    <Compile Include="Rfc7230\AsteriskForm.cs" />
+    <Compile Include="Rfc7230\AsteriskFormLexer.cs" />
     <Compile Include="Rfc7230\FieldContentLexer.cs" />
     <Compile Include="Rfc7230\FieldContent.cs" />
     <Compile Include="Rfc7230\FieldNameLexer.cs" />
