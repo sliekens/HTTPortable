@@ -93,6 +93,8 @@
     <Compile Include="Rfc7230\Token.cs" />
     <Compile Include="Rfc7230\TrailerPart.cs" />
     <Compile Include="Rfc7230\TrailerPartLexer.cs" />
+    <Compile Include="Rfc7230\TransferCoding.cs" />
+    <Compile Include="Rfc7230\TransferCodingLexer.cs" />
     <Compile Include="Rfc7230\TransferExtension.cs" />
     <Compile Include="Rfc7230\TransferExtensionLexer.cs" />
     <Compile Include="Rfc7230\TransferParameter.cs" />
@@ -101,18 +103,18 @@
     <Compile Include="Rfc7230\UriHostLexer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Text.Scanning">
-      <HintPath>..\packages\Text.Scanning.1.0.75-alpha1\lib\portable-net45+win+wpa81\Text.Scanning.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Uri.Grammar\Uri.Grammar.csproj">
       <Project>{CB82326F-14EE-43B4-A97C-3424F5E04861}</Project>
       <Name>Uri.Grammar</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Text.Scanning">
+      <HintPath>..\packages\Text.Scanning.1.0.77-alpha1\lib\portable-net45+win+wpa81\Text.Scanning.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
