@@ -93,6 +93,8 @@
     <Compile Include="Rfc7230\Token.cs" />
     <Compile Include="Rfc7230\TrailerPart.cs" />
     <Compile Include="Rfc7230\TrailerPartLexer.cs" />
+    <Compile Include="Rfc7230\TransferParameter.cs" />
+    <Compile Include="Rfc7230\TransferParameterLexer.cs" />
     <Compile Include="Rfc7230\UriHost.cs" />
     <Compile Include="Rfc7230\UriHostLexer.cs" />
   </ItemGroup>
