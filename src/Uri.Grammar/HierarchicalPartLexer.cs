@@ -61,7 +61,7 @@
                 return true;
             }
 
-            element = new HierarchicalPart(string.Empty, context);
+            element = new HierarchicalPart(new PathEmpty(context), context);
             return true;
         }
 
@@ -98,7 +98,7 @@
                 return false;
             }
 
-            element = new HierarchicalPart(string.Concat(slashes, authority, path), context);
+            element = new HierarchicalPart(slashes, authority, path, context);
             return true;
         }
 
@@ -114,7 +114,7 @@
             PathAbsolute path;
             if (this.pathAbsoluteLexer.TryRead(scanner, out path))
             {
-                element = new HierarchicalPart(path.Data, context);
+                element = new HierarchicalPart(path, context);
                 return true;
             }
 
@@ -134,7 +134,7 @@
             PathRootless path;
             if (this.pathRootlessLexer.TryRead(scanner, out path))
             {
-                element = new HierarchicalPart(path.Data, context);
+                element = new HierarchicalPart(path, context);
                 return true;
             }
 
