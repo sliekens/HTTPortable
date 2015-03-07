@@ -38,11 +38,20 @@
                 return false;
             }
 
+            UserInformation userInformation = default(UserInformation);
+            Element userInformationSeparator = default(Element);
+            Host host;
+            Element portSeparator = default(Element);
+            Port port = default(Port);
             var context = scanner.GetContext();
             UserInfo userInfo;
             var hasUserInfo = this.TryReadOptionalUserInformation(scanner, out userInfo);
+            if (hasUserInfo)
+            {
+                userInformation = userInfo.Element1;
+                userInformationSeparator = userInfo.Element2;
+            }
 
-            Host host;
             if (!this.hostLexer.TryRead(scanner, out host))
             {
                 if (hasUserInfo)
@@ -55,29 +64,14 @@
             }
 
             PortInfo portInfo;
-            this.TryReadOptionalPort(scanner, out portInfo);
+            if (this.TryReadOptionalPort(scanner, out portInfo))
+            {
+                portSeparator = portInfo.Element1;
+                port = portInfo.Element2;
+            }
 
-            element = new Authority(string.Concat(userInfo, host, portInfo), context);
+            element = new Authority(userInformation, userInformationSeparator, host, portSeparator, port, context);
             return true;
-        }
-
-        private bool TryReadCommercialAt(ITextScanner scanner, out Element element)
-        {
-            if (scanner.EndOfInput)
-            {
-                element = default(Element);
-                return false;
-            }
-
-            var context = scanner.GetContext();
-            if (scanner.TryMatch('@'))
-            {
-                element = new Element("@", context);
-                return true;
-            }
-
-            element = default(Element);
-            return false;
         }
 
         private bool TryReadOptionalUserInformation(ITextScanner scanner, out UserInfo element)
@@ -96,15 +90,15 @@
                 return false;
             }
 
-            Element commercialAt;
-            if (!this.TryReadCommercialAt(scanner, out commercialAt))
+            Element at;
+            if (!TryReadTerminal(scanner, '@', out at))
             {
                 scanner.PutBack(userInformation.Data);
                 element = default(UserInfo);
                 return false;
             }
 
-            element = new UserInfo(userInformation, commercialAt, context);
+            element = new UserInfo(userInformation, at, context);
             return true;
         }
 
@@ -118,7 +112,7 @@
 
             var context = scanner.GetContext();
             Element colon;
-            if (!this.TryReadColon(scanner, out colon))
+            if (!TryReadTerminal(scanner, ':', out colon))
             {
                 element = default(PortInfo);
                 return false;
@@ -134,25 +128,6 @@
 
             element = new PortInfo(colon, port, context);
             return true;
-        }
-
-        private bool TryReadColon(ITextScanner scanner, out Element element)
-        {
-            if (scanner.EndOfInput)
-            {
-                element = default(Element);
-                return false;
-            }
-
-            var context = scanner.GetContext();
-            if (scanner.TryMatch(':'))
-            {
-                element = new Element(":", context);
-                return true;
-            }
-
-            element = default(Element);
-            return false;
         }
 
         [ContractInvariantMethod]
