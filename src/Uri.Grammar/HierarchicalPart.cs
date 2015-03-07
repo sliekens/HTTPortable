@@ -18,7 +18,7 @@
         private readonly Element path;
 
         /// <summary>Initializes a new instance of the <see cref="HierarchicalPart"/> class.</summary>
-        /// <param name="slashes">The double slash that preceeds the authority component.</param>
+        /// <param name="slashes">The double slash that precedes the authority component.</param>
         /// <param name="authority">The authority component.</param>
         /// <param name="path">The path component.</param>
         /// <param name="context">The object that describes the context in which the text appears.</param>
