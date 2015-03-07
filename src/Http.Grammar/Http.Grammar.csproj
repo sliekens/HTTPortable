@@ -83,6 +83,8 @@
     <Compile Include="Rfc7230\TCharLexer.cs" />
     <Compile Include="Rfc7230\TokenLexer.cs" />
     <Compile Include="Rfc7230\Token.cs" />
+    <Compile Include="Rfc7230\TrailerPart.cs" />
+    <Compile Include="Rfc7230\TrailerPartLexer.cs" />
     <Compile Include="Rfc7230\UriHost.cs" />
     <Compile Include="Rfc7230\UriHostLexer.cs" />
   </ItemGroup>
