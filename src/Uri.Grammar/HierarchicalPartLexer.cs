@@ -75,7 +75,7 @@
 
             var context = scanner.GetContext();
             Element slashes;
-            if (!this.TryReadDoubleForwardSlash(scanner, out slashes))
+            if (!TryReadTerminal(scanner, "//", out slashes))
             {
                 element = default(HierarchicalPart);
                 return false;
@@ -139,53 +139,6 @@
             }
 
             element = default(HierarchicalPart);
-            return false;
-        }
-
-        private bool TryReadDoubleForwardSlash(ITextScanner scanner, out Element element)
-        {
-            if (scanner.EndOfInput)
-            {
-                element = default(Element);
-                return false;
-            }
-
-            var context = scanner.GetContext();
-            Element slash1;
-            if (!this.TryReadForwardSlash(scanner, out slash1))
-            {
-                element = default(Element);
-                return false;
-            }
-
-            Element slash2;
-            if (!this.TryReadForwardSlash(scanner, out slash2))
-            {
-                scanner.PutBack(slash1.Data);
-                element = default(Element);
-                return false;
-            }
-
-            element = new Element(string.Concat(slash1, slash2), context);
-            return true;
-        }
-
-        private bool TryReadForwardSlash(ITextScanner scanner, out Element element)
-        {
-            if (scanner.EndOfInput)
-            {
-                element = default(Element);
-                return false;
-            }
-
-            var context = scanner.GetContext();
-            if (scanner.TryMatch('/'))
-            {
-                element = new Element("/", context);
-                return true;
-            }
-
-            element = default(Element);
             return false;
         }
 
