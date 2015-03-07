@@ -31,14 +31,14 @@
             Uri uri;
             if (this.uriLexer.TryRead(scanner, out uri))
             {
-                element = new UriReference(uri.Data, context);
+                element = new UriReference(uri, context);
                 return true;
             }
 
             RelativeReference relativeReference;
             if (this.relativeReferenceLexer.TryRead(scanner, out relativeReference))
             {
-                element = new UriReference(relativeReference.Data, context);
+                element = new UriReference(relativeReference, context);
                 return true;
             }
 
