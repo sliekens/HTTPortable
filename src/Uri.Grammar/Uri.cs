@@ -80,5 +80,12 @@
                 return this.fragment;
             }
         }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.scheme != null);
+            Contract.Invariant(this.hierarchicalPart != null);
+        }
     }
 }
