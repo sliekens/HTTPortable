@@ -38,8 +38,12 @@
                 return false;
             }
 
-            var context = scanner.GetContext();
             RelativePart relativePart;
+            Element querySeparator = default(Element);
+            Query query = default(Query);
+            Element fragmentSeparator = default(Element);
+            Fragment fragment = default(Fragment);
+            var context = scanner.GetContext();
             if (!this.relativePartLexer.TryRead(scanner, out relativePart))
             {
                 element = default(RelativeReference);
@@ -47,12 +51,20 @@
             }
 
             QueryPart queryPart;
-            var hasQueryPart = this.TryReadQueryPart(scanner, out queryPart);
+            if (this.TryReadQueryPart(scanner, out queryPart))
+            {
+                querySeparator = queryPart.Element1;
+                query = queryPart.Element2;
+            }
 
             FragmentPart fragmentPart;
-            var hasFragmentPart = this.TryReadFragmentPart(scanner, out fragmentPart);
+            if (this.TryReadFragmentPart(scanner, out fragmentPart))
+            {
+                fragmentSeparator = fragmentPart.Element1;
+                fragment = fragmentPart.Element2;
+            }
 
-            element = new RelativeReference(string.Concat(relativePart, queryPart, fragmentPart), context);
+            element = new RelativeReference(relativePart, querySeparator, query, fragmentSeparator, fragment, context);
             return true;
         }
 
