@@ -1,5 +1,7 @@
 ﻿namespace Uri.Grammar
 {
+    using System.Diagnostics.Contracts;
+
     using Text.Scanning;
     using QueryPart = Text.Scanning.Sequence<Text.Scanning.Element, Query>;
     using FragmentPart = Text.Scanning.Sequence<Text.Scanning.Element, Fragment>;
@@ -22,6 +24,10 @@
         public UriLexer(ILexer<Scheme> schemeLexer, ILexer<HierarchicalPart> hierarchicalPartLexer, ILexer<Query> queryLexer, ILexer<Fragment> fragmentLexer)
             : base("URI")
         {
+            Contract.Requires(schemeLexer != null);
+            Contract.Requires(hierarchicalPartLexer != null);
+            Contract.Requires(queryLexer != null);
+            Contract.Requires(fragmentLexer != null);
             this.schemeLexer = schemeLexer;
             this.hierarchicalPartLexer = hierarchicalPartLexer;
             this.queryLexer = queryLexer;
@@ -145,6 +151,15 @@
 
             element = new FragmentPart(numberSign, fragment, context);
             return true;
+        }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.schemeLexer != null);
+            Contract.Invariant(this.hierarchicalPartLexer != null);
+            Contract.Invariant(this.queryLexer != null);
+            Contract.Invariant(this.fragmentLexer != null);
         }
     }
 }
