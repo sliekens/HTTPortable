@@ -6,31 +6,32 @@ namespace Http.Grammar.Rfc7230
 {
     public class RequestLineLexer : Lexer<RequestLine>
     {
-        private readonly ILexer<EndOfLine> crLfLexer;
+        private readonly ILexer<EndOfLine> endOfLineLexer;
         private readonly ILexer<HttpVersion> httpVersionLexer;
         private readonly ILexer<Method> methodLexer;
-        private readonly ILexer<Space> spLexer;
-        private readonly ILexer<Token> tokenLexer;
+        private readonly ILexer<Space> spaceLexer;
+
+        private readonly ILexer<RequestTarget> requestTargetLexer;
 
         public RequestLineLexer()
-            : this(new MethodLexer(), new SpaceLexer(), new TokenLexer(), new HttpVersionLexer(), new EndOfLineLexer())
+            : this(new MethodLexer(), new SpaceLexer(), new RequestTargetLexer(), new HttpVersionLexer(), new EndOfLineLexer())
         {
         }
 
-        public RequestLineLexer(ILexer<Method> methodLexer, ILexer<Space> spLexer, ILexer<Token> tokenLexer,
-            ILexer<HttpVersion> httpVersionLexer, ILexer<EndOfLine> crLfLexer)
+        public RequestLineLexer(ILexer<Method> methodLexer, ILexer<Space> spaceLexer, ILexer<RequestTarget> requestTargetLexer,
+            ILexer<HttpVersion> httpVersionLexer, ILexer<EndOfLine> endOfLineLexer)
             : base("request-line")
         {
             Contract.Requires(methodLexer != null);
-            Contract.Requires(spLexer != null);
-            Contract.Requires(tokenLexer != null);
+            Contract.Requires(spaceLexer != null);
+            Contract.Requires(requestTargetLexer != null);
             Contract.Requires(httpVersionLexer != null);
-            Contract.Requires(crLfLexer != null);
+            Contract.Requires(endOfLineLexer != null);
             this.methodLexer = methodLexer;
-            this.spLexer = spLexer;
-            this.tokenLexer = tokenLexer;
+            this.spaceLexer = spaceLexer;
+            this.requestTargetLexer = requestTargetLexer;
             this.httpVersionLexer = httpVersionLexer;
-            this.crLfLexer = crLfLexer;
+            this.endOfLineLexer = endOfLineLexer;
         }
 
         public override bool TryRead(ITextScanner scanner, out RequestLine element)
@@ -43,15 +44,14 @@ namespace Http.Grammar.Rfc7230
             }
 
             Space space1;
-            if (!spLexer.TryRead(scanner, out space1))
+            if (!this.spaceLexer.TryRead(scanner, out space1))
             {
                 scanner.PutBack(method.Data);
                 return Default(out element);
             }
 
-            // TODO: implement a URI parser
-            Token requestTarget;
-            if (!tokenLexer.TryRead(scanner, out requestTarget))
+            RequestTarget requestTarget;
+            if (!this.requestTargetLexer.TryRead(scanner, out requestTarget))
             {
                 scanner.PutBack(space1.Data);
                 scanner.PutBack(method.Data);
@@ -59,7 +59,7 @@ namespace Http.Grammar.Rfc7230
             }
 
             Space space2;
-            if (!spLexer.TryRead(scanner, out space2))
+            if (!this.spaceLexer.TryRead(scanner, out space2))
             {
                 scanner.PutBack(requestTarget.Data);
                 scanner.PutBack(space1.Data);
@@ -78,7 +78,7 @@ namespace Http.Grammar.Rfc7230
             }
 
             EndOfLine endOfLine;
-            if (!crLfLexer.TryRead(scanner, out endOfLine))
+            if (!this.endOfLineLexer.TryRead(scanner, out endOfLine))
             {
                 scanner.PutBack(httpVersion.Data);
                 scanner.PutBack(space2.Data);
@@ -95,11 +95,11 @@ namespace Http.Grammar.Rfc7230
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(methodLexer != null);
-            Contract.Invariant(spLexer != null);
-            Contract.Invariant(tokenLexer != null);
-            Contract.Invariant(httpVersionLexer != null);
-            Contract.Invariant(crLfLexer != null);
+            Contract.Invariant(this.methodLexer != null);
+            Contract.Invariant(this.spaceLexer != null);
+            Contract.Invariant(this.requestTargetLexer != null);
+            Contract.Invariant(this.httpVersionLexer != null);
+            Contract.Invariant(this.endOfLineLexer != null);
         }
     }
 }
