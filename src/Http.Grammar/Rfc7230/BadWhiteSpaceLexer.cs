@@ -8,6 +8,11 @@
     {
         private readonly ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer;
 
+        public BadWhiteSpaceLexer()
+            : this(new OptionalWhiteSpaceLexer())
+        {
+        }
+
         public BadWhiteSpaceLexer(ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer)
             : base("BWS")
         {
