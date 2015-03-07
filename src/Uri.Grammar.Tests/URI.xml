@@ -20,4 +20,12 @@
     <Input>https://tools.ietf.org/html/rfc3986</Input>
     <Expected>https://tools.ietf.org/html/rfc3986</Expected>
   </Row>
+  <Row>
+    <Input>foo://example.com:8042/over/there?name=ferret#nose</Input>
+    <Expected>foo://example.com:8042/over/there?name=ferret#nose</Expected>
+  </Row>
+  <Row>
+    <Input>urn:example:animal:ferret:nose</Input>
+    <Expected>urn:example:animal:ferret:nose</Expected>
+  </Row>
 </RowTest>
