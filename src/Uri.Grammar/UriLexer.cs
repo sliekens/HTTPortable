@@ -36,38 +36,58 @@
                 return false;
             }
 
-            var context = scanner.GetContext();
             Scheme scheme;
+            Element schemeSeparator;
+            HierarchicalPart hierarchicalPart;
+            Element querySeparator = default(Element);
+            Query query = default(Query);
+            Element fragmentSeparator = default(Element);
+            Fragment fragment = default(Fragment);
+            var context = scanner.GetContext();
             if (!this.schemeLexer.TryRead(scanner, out scheme))
             {
                 element = default(Uri);
                 return false;
             }
 
-            Element colon;
-            if (!this.TryReadColon(scanner, out colon))
+            if (!this.TryReadColon(scanner, out schemeSeparator))
             {
                 scanner.PutBack(scheme.Data);
                 element = default(Uri);
                 return false;
             }
 
-            HierarchicalPart hierarchicalPart;
             if (!this.hierarchicalPartLexer.TryRead(scanner, out hierarchicalPart))
             {
-                scanner.PutBack(colon.Data);
+                scanner.PutBack(schemeSeparator.Data);
                 scanner.PutBack(scheme.Data);
                 element = default(Uri);
                 return false;
             }
 
             QueryPart queryPart;
-            this.TryReadQueryPart(scanner, out queryPart);
+            if (this.TryReadQueryPart(scanner, out queryPart))
+            {
+                querySeparator = queryPart.Element1;
+                query = queryPart.Element2;
+            }
 
             FragmentPart fragmentPart;
-            this.TryReadFragmentPart(scanner, out fragmentPart);
+            if (this.TryReadFragmentPart(scanner, out fragmentPart))
+            {
+                fragmentSeparator = fragmentPart.Element1;
+                fragment = fragmentPart.Element2;
+            }
 
-            element = new Uri(string.Concat(scheme, colon, hierarchicalPart, queryPart, fragmentPart), context);
+            element = new Uri(
+                scheme,
+                schemeSeparator,
+                hierarchicalPart,
+                querySeparator,
+                query,
+                fragmentSeparator,
+                fragment,
+                context);
             return true;
         }
 
