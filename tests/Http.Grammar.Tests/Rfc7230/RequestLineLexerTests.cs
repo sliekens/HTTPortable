@@ -15,7 +15,7 @@ namespace Http.Grammar.Rfc7230
         [TestMethod]
         public void ReadRequestLine1()
         {
-            const string input = "GET /StevenLiekens/http-client HTTP/1.1";
+            const string input = "GET /StevenLiekens/http-client HTTP/1.1\r\n";
             var lexer = new RequestLineLexer();
             using (TextReader textReader = new StringReader(input))
             using (ITextScanner textScanner = new TextScanner(textReader))
