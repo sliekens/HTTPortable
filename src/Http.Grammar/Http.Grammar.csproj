@@ -65,6 +65,8 @@
     <Compile Include="Rfc7230\ObsoletedText.cs" />
     <Compile Include="Rfc7230\OptionalWhiteSpaceLexer.cs" />
     <Compile Include="Rfc7230\OptionalWhiteSpace.cs" />
+    <Compile Include="Rfc7230\OriginForm.cs" />
+    <Compile Include="Rfc7230\OriginFormLexer.cs" />
     <Compile Include="Rfc7230\ReasonPhraseLexer.cs" />
     <Compile Include="Rfc7230\ReasonPhrase.cs" />
     <Compile Include="Rfc7230\RequestLineLexer.cs" />
