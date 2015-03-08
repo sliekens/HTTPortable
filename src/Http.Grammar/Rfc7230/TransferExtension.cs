@@ -5,8 +5,9 @@
     using System.Diagnostics.Contracts;
     using System.Linq;
 
-    using Text.Scanning;
-    using ParameterPart = Text.Scanning.Sequence<OptionalWhiteSpace, Text.Scanning.Element, OptionalWhiteSpace, TransferParameter>;
+    using SLANG;
+
+    using ParameterPart = SLANG.Sequence<OptionalWhiteSpace, SLANG.Element, OptionalWhiteSpace, TransferParameter>;
 
     public class TransferExtension : Element
     {

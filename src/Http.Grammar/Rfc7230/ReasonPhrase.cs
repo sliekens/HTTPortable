@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using Text.Scanning;
-using Text.Scanning.Core;
+
+using SLANG.Core;
 
 namespace Http.Grammar.Rfc7230
 {
     using System.Linq;
+
+    using SLANG;
+    using SLANG.Core;
 
     public class ReasonPhrase : Element
     {

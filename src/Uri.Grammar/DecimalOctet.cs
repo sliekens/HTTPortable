@@ -2,8 +2,10 @@
 {
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
-    using Text.Scanning.Core;
+    using SLANG;
+    using SLANG.Core;
+
+
 
     public class DecimalOctet : Element
     {

@@ -5,9 +5,11 @@ namespace Http.Grammar.Rfc7230
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
-    using Text.Scanning.Core;
-    using QuotedElement = Text.Scanning.Alternative<QuotedText, QuotedPair>;
+    using SLANG;
+    using SLANG.Core;
+
+
+    using QuotedElement = SLANG.Alternative<QuotedText, QuotedPair>;
 
     public class QuotedStringLexer : Lexer<QuotedString>
     {

@@ -1,9 +1,11 @@
 ﻿using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Text.Scanning;
+
 
 namespace Http.Grammar.Rfc7230
 {
+    using SLANG;
+
     [TestClass]
     public class OptionalWhiteSpaceLexerTests
     {

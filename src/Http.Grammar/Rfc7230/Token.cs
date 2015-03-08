@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
+    using SLANG;
 
     public class Token : Element
     {

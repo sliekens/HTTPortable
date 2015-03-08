@@ -3,9 +3,11 @@
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
 
-    using Alternative = Text.Scanning.Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter>;
+    using SLANG;
 
-    using Text.Scanning;
+    using Alternative = SLANG.Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter>;
+
+    
 
     public class RegisteredNameLexer : Lexer<RegisteredName>
     {

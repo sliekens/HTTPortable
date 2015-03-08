@@ -1,8 +1,10 @@
 ﻿using System.Diagnostics.Contracts;
-using Text.Scanning;
+
 
 namespace Uri.Grammar
 {
+    using SLANG;
+
     public class PathCharacter : Element
     {
         public PathCharacter(Unreserved unreserved, ITextContext context)

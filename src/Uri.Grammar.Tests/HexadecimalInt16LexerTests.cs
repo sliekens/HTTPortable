@@ -5,7 +5,9 @@ namespace Uri.Grammar
 {
     using System.IO;
 
-    using Text.Scanning;
+    using SLANG;
+
+    
 
     [TestClass]
     public class HexadecimalInt16LexerTests

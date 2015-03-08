@@ -1,9 +1,12 @@
 ﻿using System.Diagnostics.Contracts;
-using Text.Scanning;
-using Text.Scanning.Core;
+
+using SLANG.Core;
 
 namespace Uri.Grammar
 {
+    using SLANG;
+    using SLANG.Core;
+
     public class PercentEncodingLexer : Lexer<PercentEncoding>
     {
         private readonly ILexer<HexadecimalDigit> hexDigLexer;

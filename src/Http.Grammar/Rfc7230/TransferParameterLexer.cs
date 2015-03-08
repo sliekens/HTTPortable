@@ -2,7 +2,9 @@
 {
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
+    using SLANG;
+
+    
 
     public class TransferParameterLexer : Lexer<TransferParameter>
     {

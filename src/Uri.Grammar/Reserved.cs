@@ -1,8 +1,10 @@
 ﻿using System.Diagnostics.Contracts;
-using Text.Scanning;
+
 
 namespace Uri.Grammar
 {
+    using SLANG;
+
     public class Reserved : Element
     {
         public Reserved(GenericDelimiter delimiter, ITextContext context)

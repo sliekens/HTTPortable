@@ -2,7 +2,9 @@
 {
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
+    using SLANG;
+
+    
 
     public class HierarchicalPartLexer : Lexer<HierarchicalPart>
     {

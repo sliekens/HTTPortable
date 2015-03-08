@@ -2,8 +2,10 @@
 {
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
-    using QueryPart = Text.Scanning.Sequence<Text.Scanning.Element, Query>;
+    using SLANG;
+
+    
+    using QueryPart = SLANG.Sequence<SLANG.Element, Query>;
 
     public class AbsoluteUriLexer : Lexer<AbsoluteUri>
     {

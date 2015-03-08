@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Text.Scanning;
+
 
 namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
+
+    using SLANG;
 
     public class FieldValue : Element
     {

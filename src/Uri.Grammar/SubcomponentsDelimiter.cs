@@ -1,8 +1,10 @@
 ﻿using System.Diagnostics.Contracts;
-using Text.Scanning;
+
 
 namespace Uri.Grammar
 {
+    using SLANG;
+
     public class SubcomponentsDelimiter : Element
     {
         public SubcomponentsDelimiter(char data, ITextContext context)

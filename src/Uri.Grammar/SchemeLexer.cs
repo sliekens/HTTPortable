@@ -3,10 +3,12 @@
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
-    using Text.Scanning.Core;
+    using SLANG;
+    using SLANG.Core;
 
-    using SchemeCharacter = Text.Scanning.Alternative<Text.Scanning.Core.Alpha, Text.Scanning.Core.Digit, Text.Scanning.Element>;
+
+
+    using SchemeCharacter = SLANG.Alternative<SLANG.Core.Alpha, SLANG.Core.Digit, SLANG.Element>;
 
     public class SchemeLexer : Lexer<Scheme>
     {

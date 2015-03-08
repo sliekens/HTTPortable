@@ -1,7 +1,9 @@
-﻿using Text.Scanning;
+﻿
 
 namespace Uri.Grammar
 {
+    using SLANG;
+
     public class GenericDelimiterLexer : Lexer<GenericDelimiter>
     {
         public GenericDelimiterLexer()

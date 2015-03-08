@@ -3,7 +3,9 @@
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
+    using SLANG;
+
+    
 
     public class SegmentNonZeroNoColonsLexer : Lexer<SegmentNonZeroNoColons>
     {

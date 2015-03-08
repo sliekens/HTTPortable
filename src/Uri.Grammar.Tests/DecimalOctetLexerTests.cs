@@ -4,7 +4,9 @@
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    using Text.Scanning;
+    using SLANG;
+
+    
 
     [TestClass]
     public class DecimalOctetLexerTests

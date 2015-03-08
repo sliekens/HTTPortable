@@ -1,11 +1,11 @@
-﻿using UserInfoCharacter = Text.Scanning.Alternative<Uri.Grammar.Unreserved, Uri.Grammar.PercentEncoding, Uri.Grammar.SubcomponentsDelimiter, Text.Scanning.Element>;
+﻿using UserInfoCharacter = SLANG.Alternative<Uri.Grammar.Unreserved, Uri.Grammar.PercentEncoding, Uri.Grammar.SubcomponentsDelimiter, SLANG.Element>;
 
 namespace Uri.Grammar
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
+    using SLANG;
 
     public class UserInformation : Element
     {

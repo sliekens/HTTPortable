@@ -3,10 +3,12 @@
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
-    using Text.Scanning.Core;
-    using IPvFutureCharacter = Text.Scanning.Alternative<Unreserved, SubcomponentsDelimiter, Text.Scanning.Element>;
-    using Colon = Text.Scanning.Element;
+    using SLANG;
+    using SLANG.Core;
+
+
+    using IPvFutureCharacter = SLANG.Alternative<Unreserved, SubcomponentsDelimiter, SLANG.Element>;
+    using Colon = SLANG.Element;
 
     public class IPvFutureLexer : Lexer<IPvFuture>
     {

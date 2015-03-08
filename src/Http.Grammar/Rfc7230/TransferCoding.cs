@@ -3,7 +3,7 @@
     using System;
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
+    using SLANG;
 
     public class TransferCoding : Element
     {

@@ -8,7 +8,9 @@ namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
+    using SLANG;
+
+    
 
     public class PathRootlessLexer : Lexer<PathRootless>
     {

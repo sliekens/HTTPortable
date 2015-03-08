@@ -2,9 +2,11 @@
 {
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
-    using QueryPart = Text.Scanning.Sequence<Text.Scanning.Element, Query>;
-    using FragmentPart = Text.Scanning.Sequence<Text.Scanning.Element, Fragment>;
+    using SLANG;
+
+    
+    using QueryPart = SLANG.Sequence<SLANG.Element, Query>;
+    using FragmentPart = SLANG.Sequence<SLANG.Element, Fragment>;
 
     public class RelativeReferenceLexer : Lexer<RelativeReference>
     {

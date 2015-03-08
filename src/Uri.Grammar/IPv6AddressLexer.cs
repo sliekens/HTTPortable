@@ -3,11 +3,13 @@
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
+    using SLANG;
 
-    using Colon = Text.Scanning.Element;
-    using Colons = Text.Scanning.Sequence<Text.Scanning.Element, Text.Scanning.Element>;
-    using Int16Colon = Text.Scanning.Sequence<HexadecimalInt16, Text.Scanning.Element>;
+    
+
+    using Colon = SLANG.Element;
+    using Colons = SLANG.Sequence<SLANG.Element, SLANG.Element>;
+    using Int16Colon = SLANG.Sequence<HexadecimalInt16, SLANG.Element>;
 
     public class IPv6AddressLexer : Lexer<IPv6Address>
     {

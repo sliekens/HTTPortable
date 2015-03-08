@@ -2,7 +2,9 @@
 {
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
+    using SLANG;
+
+    
 
     public class IPv4AddressLexer : Lexer<IPv4Address>
     {

@@ -1,6 +1,8 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
-    using Text.Scanning;
+    using SLANG;
+
+    
 
     public class AsteriskFormLexer : Lexer<AsteriskForm>
     {

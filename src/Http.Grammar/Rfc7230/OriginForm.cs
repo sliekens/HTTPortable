@@ -2,7 +2,7 @@
 {
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
+    using SLANG;
 
     using Uri.Grammar;
 

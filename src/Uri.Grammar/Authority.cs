@@ -3,7 +3,7 @@
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
+    using SLANG;
 
     /// <summary>Represents a URI's naming authority.</summary>
     public class Authority : Element

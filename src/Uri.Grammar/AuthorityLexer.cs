@@ -2,9 +2,11 @@
 {
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
-    using UserInfo = Text.Scanning.Sequence<UserInformation, Text.Scanning.Element>;
-    using PortInfo = Text.Scanning.Sequence<Text.Scanning.Element, Port>;
+    using SLANG;
+
+    
+    using UserInfo = SLANG.Sequence<UserInformation, SLANG.Element>;
+    using PortInfo = SLANG.Sequence<SLANG.Element, Port>;
 
     public class AuthorityLexer : Lexer<Authority>
     {

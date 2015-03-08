@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using Text.Scanning;
+
 
 namespace Http.Grammar.Rfc7230
 {
+    using SLANG;
+
     public class FieldContentLexer : Lexer<FieldContent>
     {
         private readonly ILexer<FieldVisibleCharacter> fieldVisibleCharacterLexer;

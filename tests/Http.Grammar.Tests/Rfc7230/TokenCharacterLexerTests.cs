@@ -1,10 +1,12 @@
 ﻿using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Text.Scanning;
+
 
 namespace Http.Grammar.Rfc7230
 {
+    using SLANG;
+
     [TestClass]
     public class TokenCharacterLexerTests
     {

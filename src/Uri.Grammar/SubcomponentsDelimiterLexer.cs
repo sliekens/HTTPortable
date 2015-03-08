@@ -1,8 +1,10 @@
-﻿using Text.Scanning;
+﻿
 
 namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
+
+    using SLANG;
 
     public class SubcomponentsDelimiterLexer : Lexer<SubcomponentsDelimiter>
     {

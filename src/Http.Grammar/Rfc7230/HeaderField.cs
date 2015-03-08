@@ -1,8 +1,10 @@
 ﻿using System.Diagnostics.Contracts;
-using Text.Scanning;
+
 
 namespace Http.Grammar.Rfc7230
 {
+    using SLANG;
+
     public class HeaderField : Element
     {
         private readonly FieldName fieldName;

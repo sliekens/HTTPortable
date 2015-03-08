@@ -1,7 +1,9 @@
-﻿using Text.Scanning;
+﻿
 
 namespace Http.Grammar.Rfc7230
 {
+    using SLANG;
+
     public class ObsoletedTextLexer : Lexer<ObsoletedText>
     {
         public ObsoletedTextLexer()

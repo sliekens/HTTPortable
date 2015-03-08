@@ -2,7 +2,7 @@
 {
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
+    using SLANG;
 
     public class IPv4Address : Element
     {

@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
+    using SLANG;
 
-    using SegmentPart = Text.Scanning.Sequence<Text.Scanning.Element, Uri.Grammar.Segment>;
+    using SegmentPart = SLANG.Sequence<SLANG.Element, Uri.Grammar.Segment>;
 
     public class AbsolutePath : Element
     {

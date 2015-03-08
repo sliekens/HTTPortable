@@ -3,7 +3,7 @@
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
+    using SLANG;
 
     /// <summary>Represents a URI scheme as a sequence of hierarchical components.</summary>
     public class HierarchicalPart : Element

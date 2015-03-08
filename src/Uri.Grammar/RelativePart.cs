@@ -3,7 +3,7 @@
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
+    using SLANG;
 
     public class RelativePart : Element
     {

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
-using Text.Scanning;
+
 
 namespace Http.Grammar.Rfc7230
 {
+    using SLANG;
+
     public class TokenLexer : Lexer<Token>
     {
         private readonly ILexer<TokenCharacter> tokenCharacterLexer;

@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using Text.Scanning;
+
 
 namespace Http.Grammar.Rfc7230
 {
-    using Text.Scanning.Core;
+    using SLANG;
+    using SLANG.Core;
+
+
 
     public class RequiredWhiteSpace : Element
     {

@@ -4,7 +4,7 @@
     using System.Diagnostics.Contracts;
     using System.Linq;
 
-    using Text.Scanning;
+    using SLANG;
 
     public class Fragment : Element
     {

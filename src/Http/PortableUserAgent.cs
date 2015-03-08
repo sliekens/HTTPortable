@@ -1,6 +1,4 @@
 ﻿using Http.Grammar.Rfc7230;
-using Text.Scanning;
-using Text.Scanning.Core;
 
 namespace Http
 {
@@ -10,6 +8,9 @@ namespace Http
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+
+    using SLANG;
+    using SLANG.Core;
 
     public class PortableUserAgent : IUserAgent
     {

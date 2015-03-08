@@ -1,8 +1,10 @@
 ﻿using System.Diagnostics.Contracts;
-using Text.Scanning;
+
 
 namespace Http.Grammar.Rfc7230
 {
+    using SLANG;
+
     public class FieldContent : Element
     {
         public FieldContent(FieldVisibleCharacter fieldVisibleCharacter, ITextContext context)

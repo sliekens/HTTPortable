@@ -1,9 +1,12 @@
 ﻿using System.Diagnostics.Contracts;
-using Text.Scanning;
-using Text.Scanning.Core;
+
+using SLANG.Core;
 
 namespace Http.Grammar.Rfc7230
 {
+    using SLANG;
+    using SLANG.Core;
+
     public class TokenCharacterLexer : Lexer<TokenCharacter>
     {
         private readonly ILexer<Alpha> alphaLexer;

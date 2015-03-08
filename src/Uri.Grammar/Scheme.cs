@@ -1,6 +1,6 @@
 ﻿namespace Uri.Grammar
 {
-    using Text.Scanning;
+    using SLANG;
 
     public class Scheme : Element
     {

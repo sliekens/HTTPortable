@@ -3,8 +3,10 @@
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
 
-    using Text.Scanning;
-    using UserInfoCharacter = Text.Scanning.Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, Text.Scanning.Element>;
+    using SLANG;
+
+    
+    using UserInfoCharacter = SLANG.Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, SLANG.Element>;
 
     public class UserInformationLexer : Lexer<UserInformation>
     {
