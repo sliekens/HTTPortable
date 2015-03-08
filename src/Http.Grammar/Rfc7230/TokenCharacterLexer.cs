@@ -4,17 +4,17 @@ using Text.Scanning.Core;
 
 namespace Http.Grammar.Rfc7230
 {
-    public class TCharLexer : Lexer<TChar>
+    public class TokenCharacterLexer : Lexer<TokenCharacter>
     {
         private readonly ILexer<Alpha> alphaLexer;
         private readonly ILexer<Digit> digitLexer;
 
-        public TCharLexer()
+        public TokenCharacterLexer()
             : this(new AlphaLexer(), new DigitLexer())
         {
         }
 
-        public TCharLexer(ILexer<Alpha> alphaLexer, ILexer<Digit> digitLexer)
+        public TokenCharacterLexer(ILexer<Alpha> alphaLexer, ILexer<Digit> digitLexer)
             : base("tchar")
         {
             Contract.Requires(alphaLexer != null);
@@ -23,11 +23,11 @@ namespace Http.Grammar.Rfc7230
             this.digitLexer = digitLexer;
         }
   
-        public override bool TryRead(ITextScanner scanner, out TChar element)
+        public override bool TryRead(ITextScanner scanner, out TokenCharacter element)
         {
             if (scanner.EndOfInput)
             {
-                element = default (TChar);
+                element = default (TokenCharacter);
                 return false;
             }
 
@@ -36,7 +36,7 @@ namespace Http.Grammar.Rfc7230
             {
                 if (scanner.TryMatch(c))
                 {
-                    element = new TChar(c, context);
+                    element = new TokenCharacter(c, context);
                     return true;
                 }
             }
@@ -44,18 +44,18 @@ namespace Http.Grammar.Rfc7230
             Digit digit;
             if (this.digitLexer.TryRead(scanner, out digit))
             {
-                element = new TChar(digit, context);
+                element = new TokenCharacter(digit, context);
                 return true;
             }
 
             Alpha alpha;
             if (this.alphaLexer.TryRead(scanner, out alpha))
             {
-                element = new TChar(alpha, context);
+                element = new TokenCharacter(alpha, context);
                 return true;
             }
 
-            element = default(TChar);
+            element = default(TokenCharacter);
             return false;
         }
 

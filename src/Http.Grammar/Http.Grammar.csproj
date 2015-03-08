@@ -87,8 +87,8 @@
     <Compile Include="Rfc7230\StatusCode.cs" />
     <Compile Include="Rfc7230\StatusLineLexer.cs" />
     <Compile Include="Rfc7230\StatusLine.cs" />
-    <Compile Include="Rfc7230\TChar.cs" />
-    <Compile Include="Rfc7230\TCharLexer.cs" />
+    <Compile Include="Rfc7230\TokenCharacter.cs" />
+    <Compile Include="Rfc7230\TokenCharacterLexer.cs" />
     <Compile Include="Rfc7230\TokenLexer.cs" />
     <Compile Include="Rfc7230\Token.cs" />
     <Compile Include="Rfc7230\TrailerPart.cs" />

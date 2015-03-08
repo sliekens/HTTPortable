@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using Text.Scanning;
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+
+    using Text.Scanning;
+
     public class Token : Element
     {
-        public Token(IList<TChar> tCharList, ITextContext context)
-            : base(string.Concat(tCharList.Select(tchar => tchar.Data)), context)
+        public Token(IList<TokenCharacter> tokenCharacters, ITextContext context)
+            : base(string.Concat(tokenCharacters), context)
         {
-            Contract.Requires(tCharList != null);
-            Contract.Requires(tCharList.Count > 0);
-            Contract.Requires(Contract.ForAll(tCharList, tchar => tchar != null));
+            Contract.Requires(tokenCharacters != null);
+            Contract.Requires(tokenCharacters.Count != 0);
+            Contract.Requires(Contract.ForAll(tokenCharacters, c => c != null));
         }
     }
 }

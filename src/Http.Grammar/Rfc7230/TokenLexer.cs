@@ -8,18 +8,18 @@ namespace Http.Grammar.Rfc7230
 {
     public class TokenLexer : Lexer<Token>
     {
-        private readonly ILexer<TChar> tCharLexer;
+        private readonly ILexer<TokenCharacter> tokenCharacterLexer;
 
         public TokenLexer()
-            : this(new TCharLexer())
+            : this(new TokenCharacterLexer())
         {
         }
 
-        public TokenLexer(ILexer<TChar> tCharLexer)
+        public TokenLexer(ILexer<TokenCharacter> tokenCharacterLexer)
             : base("token")
         {
-            Contract.Requires(tCharLexer != null);
-            this.tCharLexer = tCharLexer;
+            Contract.Requires(tokenCharacterLexer != null);
+            this.tokenCharacterLexer = tokenCharacterLexer;
         }
 
         public override bool TryRead(ITextScanner scanner, out Token token)
@@ -31,27 +31,27 @@ namespace Http.Grammar.Rfc7230
             }
 
             var context = scanner.GetContext();
-            TChar tChar;
-            if (!this.tCharLexer.TryRead(scanner, out tChar))
+            TokenCharacter tokenCharacter;
+            if (!this.tokenCharacterLexer.TryRead(scanner, out tokenCharacter))
             {
                 token = default(Token);
                 return false;
             }
 
-            List<TChar> list = new List<TChar> { tChar };
-            while (this.tCharLexer.TryRead(scanner, out tChar))
+            List<TokenCharacter> list = new List<TokenCharacter> { tokenCharacter };
+            while (this.tokenCharacterLexer.TryRead(scanner, out tokenCharacter))
             {
-                list.Add(tChar);
+                list.Add(tokenCharacter);
             }
 
-            token = new Token(new ReadOnlyCollection<TChar>(list), context);
+            token = new Token(new ReadOnlyCollection<TokenCharacter>(list), context);
             return true;
         }
 
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.tCharLexer != null);
+            Contract.Invariant(this.tokenCharacterLexer != null);
         }
 
     }
