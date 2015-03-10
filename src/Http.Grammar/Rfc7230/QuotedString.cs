@@ -26,6 +26,7 @@
             Contract.Requires(text != null);
             Contract.Requires(Contract.ForAll(text, alternative => alternative != null));
             Contract.Requires(closingDoubleQuote != null);
+            Contract.Requires(context != null);
             return new QuotedString(string.Concat(openingDoubleQuote, string.Concat(text), closingDoubleQuote), context);
         }
     }

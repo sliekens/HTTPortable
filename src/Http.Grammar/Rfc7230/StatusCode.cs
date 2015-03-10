@@ -1,7 +1,4 @@
-﻿
-using SLANG.Core;
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
 
@@ -16,6 +13,7 @@ namespace Http.Grammar.Rfc7230
             Contract.Requires(digit1 != null);
             Contract.Requires(digit2 != null);
             Contract.Requires(digit3 != null);
+            Contract.Requires(context != null);
         }
 
         public int ToInt()

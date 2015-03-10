@@ -1,8 +1,7 @@
-﻿using System.Diagnostics.Contracts;
-
-
+﻿
 namespace Http.Grammar.Rfc7230
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
 
     public class FieldContent : Element
@@ -11,6 +10,7 @@ namespace Http.Grammar.Rfc7230
             : base(fieldVisibleCharacter.Data, context)
         {
             Contract.Requires(fieldVisibleCharacter != null);
+            Contract.Requires(context != null);
         }
 
         public FieldContent(FieldVisibleCharacter fieldVisibleCharacterLeft, RequiredWhiteSpace requiredWhiteSpace, FieldVisibleCharacter fieldVisibleCharacterRight, ITextContext context)
@@ -19,6 +19,7 @@ namespace Http.Grammar.Rfc7230
             Contract.Requires(fieldVisibleCharacterLeft != null);
             Contract.Requires(requiredWhiteSpace != null);
             Contract.Requires(fieldVisibleCharacterRight != null);
+            Contract.Requires(context != null);
         }
     }
 }

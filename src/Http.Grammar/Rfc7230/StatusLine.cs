@@ -1,9 +1,6 @@
-﻿using System.Diagnostics.Contracts;
-
-using SLANG.Core;
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
     using SLANG.Core;
 
@@ -23,6 +20,7 @@ namespace Http.Grammar.Rfc7230
             Contract.Requires(space2 != null);
             Contract.Requires(reasonPhrase != null);
             Contract.Requires(endOfLine != null);
+            Contract.Requires(context != null);
             this.httpVersion = httpVersion;
             this.statusCode = statusCode;
             this.reasonPhrase = reasonPhrase;

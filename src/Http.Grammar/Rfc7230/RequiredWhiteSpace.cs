@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+    using System.Linq;
     using SLANG;
     using SLANG.Core;
 
@@ -18,6 +16,7 @@ namespace Http.Grammar.Rfc7230
             Contract.Requires(whiteSpace != null);
             Contract.Requires(whiteSpace.Count > 0);
             Contract.Requires(Contract.ForAll(whiteSpace, space => space != null));
+            Contract.Requires(context != null);
         }
     }
 }

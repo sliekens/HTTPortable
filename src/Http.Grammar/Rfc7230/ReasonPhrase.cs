@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-
-using SLANG.Core;
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.Linq;
 
     using SLANG;
@@ -16,6 +13,7 @@ namespace Http.Grammar.Rfc7230
             : base(string.Concat(elements.Select(element => element.Data)), context)
         {
             Contract.Requires(elements != null);
+            Contract.Requires(context != null);
         }
     }
 }

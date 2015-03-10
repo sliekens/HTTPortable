@@ -107,7 +107,6 @@ namespace Http.Grammar.Rfc7230
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(false);
             Contract.Invariant(this.doubleQuoteLexer != null);
             Contract.Invariant(this.quotedTextLexer != null);
             Contract.Invariant(this.quotedPairLexer != null);

@@ -1,9 +1,6 @@
-﻿using System.Diagnostics.Contracts;
-
-using SLANG.Core;
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
     using SLANG.Core;
 
@@ -14,6 +11,7 @@ namespace Http.Grammar.Rfc7230
         {
             Contract.Requires(endOfLine != null);
             Contract.Requires(requiredWhiteSpace != null);
+            Contract.Requires(context != null);
         }
     }
 }

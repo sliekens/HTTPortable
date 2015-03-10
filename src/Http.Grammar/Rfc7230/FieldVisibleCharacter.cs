@@ -1,9 +1,6 @@
-﻿using System.Diagnostics.Contracts;
-
-using SLANG.Core;
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
     using SLANG.Core;
 
@@ -13,12 +10,14 @@ namespace Http.Grammar.Rfc7230
             : base(visibleCharacter.Data, context)
         {
             Contract.Requires(visibleCharacter != null);
+            Contract.Requires(context != null);
         }
 
         public FieldVisibleCharacter(ObsoletedText obsoletedText, ITextContext context)
             : base(obsoletedText.Data, context)
         {
             Contract.Requires(obsoletedText != null);
+            Contract.Requires(context != null);
         }
     }
 }

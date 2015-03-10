@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.Contracts;
-
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
 
     public class ObsoletedText : Element
@@ -11,6 +9,7 @@ namespace Http.Grammar.Rfc7230
             : base(data, context)
         {
             Contract.Requires(data >= '\u0080' && data <= '\u00FF');
+            Contract.Requires(context != null);
         }
     }
 }

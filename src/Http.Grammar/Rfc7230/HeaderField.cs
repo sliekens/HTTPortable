@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.Contracts;
-
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
 
     public class HeaderField : Element
@@ -17,6 +15,7 @@ namespace Http.Grammar.Rfc7230
             Contract.Requires(optionalWhiteSpace1 != null);
             Contract.Requires(fieldValue != null);
             Contract.Requires(optionalWhiteSpace2 != null);
+            Contract.Requires(context != null);
             this.fieldName = fieldName;
             this.fieldValue = fieldValue;
         }

@@ -1,9 +1,6 @@
-﻿using System;
-
-using SLANG.Core;
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
 
@@ -22,6 +19,7 @@ namespace Http.Grammar.Rfc7230
             Contract.Requires(httpName != null);
             Contract.Requires(digit1 != null);
             Contract.Requires(digit2 != null);
+            Contract.Requires(context != null);
             this.httpName = httpName;
             this.digit1 = digit1;
             this.digit2 = digit2;

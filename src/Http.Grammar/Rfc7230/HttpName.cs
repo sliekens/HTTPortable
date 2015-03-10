@@ -1,7 +1,6 @@
-﻿
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
 
     public class HttpName : Element
@@ -9,6 +8,7 @@ namespace Http.Grammar.Rfc7230
         public HttpName(ITextContext context)
             : base("HTTP", context)
         {
+            Contract.Requires(context != null);
         }
     }
 }

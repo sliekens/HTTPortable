@@ -1,10 +1,6 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-
-using SLANG.Core;
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
     using SLANG.Core;
 
@@ -23,6 +19,7 @@ namespace Http.Grammar.Rfc7230
             Contract.Requires(sp2 != null);
             Contract.Requires(httpVersion != null);
             Contract.Requires(endOfLine != null);
+            Contract.Requires(context != null);
             this.method = method;
             this.requestTarget = requestTarget;
             this.httpVersion = httpVersion;

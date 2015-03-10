@@ -13,6 +13,7 @@
             Contract.Requires(tokenCharacters != null);
             Contract.Requires(tokenCharacters.Count != 0);
             Contract.Requires(Contract.ForAll(tokenCharacters, c => c != null));
+            Contract.Requires(context != null);
         }
     }
 }

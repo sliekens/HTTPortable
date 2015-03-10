@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.Contracts;
-
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
 
     public class Method : Element
@@ -11,6 +9,7 @@ namespace Http.Grammar.Rfc7230
             : base(token.Data, context)
         {
             Contract.Requires(token != null);
+            Contract.Requires(context != null);
         }
     }
 }
