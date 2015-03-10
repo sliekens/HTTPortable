@@ -16,8 +16,6 @@
 
         private readonly ILexer<PathNoScheme> pathNoSchemeLexer;
 
-        private readonly ILexer<PathEmpty> pathEmptyLexer;
-
         public RelativePartLexer()
             : this(new AuthorityLexer(), new PathAbsoluteOrEmptyLexer(), new PathAbsoluteLexer(), new PathNoSchemeLexer())
         {
