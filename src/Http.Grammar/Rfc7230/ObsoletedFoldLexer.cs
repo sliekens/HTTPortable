@@ -1,16 +1,12 @@
-﻿using System.Diagnostics.Contracts;
-
-using SLANG.Core;
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
     using SLANG.Core;
 
     public class ObsoletedFoldLexer : Lexer<ObsoletedFold>
     {
         private readonly ILexer<EndOfLine> endOfLineLexer;
-
         private readonly ILexer<RequiredWhiteSpace> requiredWhiteSpaceLexer;
 
         public ObsoletedFoldLexer()

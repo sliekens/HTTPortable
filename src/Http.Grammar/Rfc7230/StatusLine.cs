@@ -10,7 +10,7 @@
         private readonly ReasonPhrase reasonPhrase;
         private readonly StatusCode statusCode;
 
-        public StatusLine(HttpVersion httpVersion, Space space1, StatusCode statusCode, Space space2,
+        public StatusLine(HttpVersion httpVersion, Space space1, StatusCode statusCode, Space space2, 
             ReasonPhrase reasonPhrase, EndOfLine endOfLine, ITextContext context)
             : base(string.Concat(httpVersion, space1, statusCode, space2, reasonPhrase, endOfLine), context)
         {

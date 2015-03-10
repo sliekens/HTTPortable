@@ -7,8 +7,8 @@ namespace Http
     {
         private readonly IHeaderCollection headers;
         private readonly Version httpVersion;
-        private readonly int status;
         private readonly string reason;
+        private readonly int status;
 
         public ResponseMessage(Version httpVersion, int status, string reason)
             : this(httpVersion, status, new HeaderCollection(), reason)
@@ -39,6 +39,15 @@ namespace Http
         }
 
         /// <inheritdoc />
+        public Version HttpVersion
+        {
+            get
+            {
+                return this.httpVersion;
+            }
+        }
+
+        /// <inheritdoc />
         public string Reason
         {
             get
@@ -53,15 +62,6 @@ namespace Http
             get
             {
                 return this.status;
-            }
-        }
-
-        /// <inheritdoc />
-        public Version HttpVersion
-        {
-            get
-            {
-                return this.httpVersion;
             }
         }
 

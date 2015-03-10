@@ -1,27 +1,22 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
 
     public class RequestTargetLexer : Lexer<RequestTarget>
     {
-        private readonly ILexer<OriginForm> originFormLexer;
-
         private readonly ILexer<AbsoluteForm> absoluteFormLexer;
-
-        private readonly ILexer<AuthorityForm> authorityFormLexer;
-
         private readonly ILexer<AsteriskForm> asteriskFormLexer;
+        private readonly ILexer<AuthorityForm> authorityFormLexer;
+        private readonly ILexer<OriginForm> originFormLexer;
 
         public RequestTargetLexer()
             : this(new OriginFormLexer(), new AbsoluteFormLexer(), new AuthorityFormLexer(), new AsteriskFormLexer())
         {
         }
 
-        public RequestTargetLexer(ILexer<OriginForm> originFormLexer, ILexer<AbsoluteForm> absoluteFormLexer, ILexer<AuthorityForm> authorityFormLexer, ILexer<AsteriskForm> asteriskFormLexer)
+        public RequestTargetLexer(ILexer<OriginForm> originFormLexer, ILexer<AbsoluteForm> absoluteFormLexer, 
+            ILexer<AuthorityForm> authorityFormLexer, ILexer<AsteriskForm> asteriskFormLexer)
             : base("request-target")
         {
             Contract.Requires(originFormLexer != null);

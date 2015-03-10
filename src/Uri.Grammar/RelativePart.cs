@@ -2,16 +2,15 @@
 {
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-
     using SLANG;
 
     public class RelativePart : Element
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly bool isEmpty;
+        private readonly Authority authority;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly Authority authority;
+        private readonly bool isEmpty;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly Element path;
@@ -69,21 +68,21 @@
             this.isEmpty = true;
         }
 
-        /// <summary>Gets a value indicating whether the path is empty.</summary>
-        public bool IsEmpty
-        {
-            get
-            {
-                return this.isEmpty;
-            }
-        }
-
         /// <summary>Gets the authority. Governance of the name space defined by the remainder of the URI is delegated to the naming authority.</summary>
         public Authority Authority
         {
             get
             {
                 return this.authority;
+            }
+        }
+
+        /// <summary>Gets a value indicating whether the path is empty.</summary>
+        public bool IsEmpty
+        {
+            get
+            {
+                return this.isEmpty;
             }
         }
 

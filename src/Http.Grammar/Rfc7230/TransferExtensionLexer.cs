@@ -2,18 +2,13 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
     using ParameterPart = SLANG.Sequence<OptionalWhiteSpace, SLANG.Element, OptionalWhiteSpace, TransferParameter>;
 
     public class TransferExtensionLexer : Lexer<TransferExtension>
     {
-        private readonly ILexer<Token> tokenLexer;
-
         private readonly ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer;
-
+        private readonly ILexer<Token> tokenLexer;
         private readonly ILexer<TransferParameter> transferParameterLexer;
 
         public TransferExtensionLexer()
@@ -21,7 +16,8 @@
         {
         }
 
-        public TransferExtensionLexer(ILexer<Token> tokenLexer, ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer, ILexer<TransferParameter> transferParameterLexer)
+        public TransferExtensionLexer(ILexer<Token> tokenLexer, ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer, 
+            ILexer<TransferParameter> transferParameterLexer)
             : base("transfer-extension")
         {
             Contract.Requires(tokenLexer != null);
@@ -57,6 +53,14 @@
 
             element = new TransferExtension(extension, parameters, context);
             return true;
+        }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.tokenLexer != null);
+            Contract.Invariant(this.optionalWhiteSpaceLexer != null);
+            Contract.Invariant(this.transferParameterLexer != null);
         }
 
         private bool TryReadParameterPart(ITextScanner scanner, out ParameterPart element)
@@ -104,14 +108,6 @@
 
             element = new ParameterPart(optionalWhiteSpace1, semicolon, optionalWhiteSpace2, transferParameter, context);
             return true;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.tokenLexer != null);
-            Contract.Invariant(this.optionalWhiteSpaceLexer != null);
-            Contract.Invariant(this.transferParameterLexer != null);
         }
     }
 }

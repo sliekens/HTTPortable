@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Http.Tcp.WinRT
+﻿namespace Http.Tcp.WinRT
 {
+    using System;
     using System.Globalization;
     using System.Threading;
+    using System.Threading.Tasks;
     using Windows.Networking;
     using Windows.Networking.Sockets;
 

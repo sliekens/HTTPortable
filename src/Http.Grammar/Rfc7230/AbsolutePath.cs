@@ -2,9 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
     using SegmentPart = SLANG.Sequence<SLANG.Element, Uri.Grammar.Segment>;
 
     public class AbsolutePath : Element
@@ -13,7 +11,7 @@
             : base(string.Concat(segments), context)
         {
             Contract.Requires(segments != null);
-            Contract.Requires(Contract.ForAll(segments,
+            Contract.Requires(Contract.ForAll(segments, 
                 sequence =>
                 {
                     if (sequence == null)

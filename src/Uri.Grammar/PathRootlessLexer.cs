@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Uri.Grammar
+﻿namespace Uri.Grammar
 {
+    using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
 
     public class PathRootlessLexer : Lexer<PathRootless>
     {
-        private readonly ILexer<SegmentNonZero> segmentNonZeroLexer;
-
         private readonly ILexer<Segment> segmentLexer;
+        private readonly ILexer<SegmentNonZero> segmentNonZeroLexer;
 
         public PathRootlessLexer()
             : this(new SegmentNonZeroLexer(), new SegmentLexer())

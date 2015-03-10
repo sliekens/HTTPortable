@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-
-using SLANG.Core;
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using SLANG;
     using SLANG.Core;
 

@@ -2,17 +2,14 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
 
     public class PathAbsoluteOrEmptyLexer : Lexer<PathAbsoluteOrEmpty>
     {
         private readonly ILexer<Segment> segmentLexer;
 
         public PathAbsoluteOrEmptyLexer()
-            :this(new SegmentLexer())
+            : this(new SegmentLexer())
         {
         }
 

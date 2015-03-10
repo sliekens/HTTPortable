@@ -3,11 +3,8 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics.Contracts;
-
     using SLANG;
     using SLANG.Core;
-
-
 
     public class TrailerPart : Element
     {

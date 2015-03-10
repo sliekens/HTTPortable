@@ -2,13 +2,9 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
-
-    using SegmentPart = SLANG.Sequence<SLANG.Element, Uri.Grammar.Segment>;
     using Uri.Grammar;
+    using SegmentPart = SLANG.Sequence<SLANG.Element, Uri.Grammar.Segment>;
 
     public class AbsolutePathLexer : Lexer<AbsolutePath>
     {
@@ -52,6 +48,12 @@
             return true;
         }
 
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.segmentLexer != null);
+        }
+
         private bool TryReadSegmentPart(ITextScanner scanner, out SegmentPart element)
         {
             if (scanner.EndOfInput)
@@ -78,12 +80,6 @@
 
             element = new SegmentPart(slash, segment, context);
             return true;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.segmentLexer != null);
         }
     }
 }

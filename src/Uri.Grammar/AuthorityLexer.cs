@@ -1,27 +1,23 @@
 ﻿namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
-    using UserInfo = SLANG.Sequence<UserInformation, SLANG.Element>;
     using PortInfo = SLANG.Sequence<SLANG.Element, Port>;
+    using UserInfo = SLANG.Sequence<UserInformation, SLANG.Element>;
 
     public class AuthorityLexer : Lexer<Authority>
     {
-        private readonly ILexer<UserInformation> userInformationLexer;
-
         private readonly ILexer<Host> hostLexer;
-
         private readonly ILexer<Port> portLexer;
+        private readonly ILexer<UserInformation> userInformationLexer;
 
         public AuthorityLexer()
             : this(new UserInformationLexer(), new HostLexer(), new PortLexer())
         {
         }
 
-        public AuthorityLexer(ILexer<UserInformation> userInformationLexer, ILexer<Host> hostLexer, ILexer<Port> portLexer)
+        public AuthorityLexer(ILexer<UserInformation> userInformationLexer, ILexer<Host> hostLexer, 
+            ILexer<Port> portLexer)
             : base("authority")
         {
             Contract.Requires(userInformationLexer != null);
@@ -76,32 +72,13 @@
             return true;
         }
 
-        private bool TryReadOptionalUserInformation(ITextScanner scanner, out UserInfo element)
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
         {
-            if (scanner.EndOfInput)
-            {
-                element = default(UserInfo);
-                return false;
-            }
-
-            var context = scanner.GetContext();
-            UserInformation userInformation;
-            if (!this.userInformationLexer.TryRead(scanner, out userInformation))
-            {
-                element = default(UserInfo);
-                return false;
-            }
-
-            Element at;
-            if (!TryReadTerminal(scanner, '@', out at))
-            {
-                scanner.PutBack(userInformation.Data);
-                element = default(UserInfo);
-                return false;
-            }
-
-            element = new UserInfo(userInformation, at, context);
-            return true;
+            Contract.Invariant(false);
+            Contract.Invariant(this.userInformationLexer != null);
+            Contract.Invariant(this.hostLexer != null);
+            Contract.Invariant(this.portLexer != null);
         }
 
         private bool TryReadOptionalPort(ITextScanner scanner, out PortInfo element)
@@ -132,13 +109,32 @@
             return true;
         }
 
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
+        private bool TryReadOptionalUserInformation(ITextScanner scanner, out UserInfo element)
         {
-            Contract.Invariant(false);
-            Contract.Invariant(this.userInformationLexer != null);
-            Contract.Invariant(this.hostLexer != null);
-            Contract.Invariant(this.portLexer != null);
+            if (scanner.EndOfInput)
+            {
+                element = default(UserInfo);
+                return false;
+            }
+
+            var context = scanner.GetContext();
+            UserInformation userInformation;
+            if (!this.userInformationLexer.TryRead(scanner, out userInformation))
+            {
+                element = default(UserInfo);
+                return false;
+            }
+
+            Element at;
+            if (!TryReadTerminal(scanner, '@', out at))
+            {
+                scanner.PutBack(userInformation.Data);
+                element = default(UserInfo);
+                return false;
+            }
+
+            element = new UserInfo(userInformation, at, context);
+            return true;
         }
     }
 }

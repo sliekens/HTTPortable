@@ -1,14 +1,12 @@
 ﻿namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
 
     public class Path : Element
     {
-        private readonly bool isEmpty;
-
         private readonly bool isAbsolute;
+        private readonly bool isEmpty;
 
         public Path(PathAbsoluteOrEmpty path, ITextContext context)
             : base(path.Data, context)
@@ -55,19 +53,19 @@
             this.isAbsolute = false;
         }
 
-        public bool IsEmpty
-        {
-            get
-            {
-                return this.isEmpty;
-            }
-        }
-
         public bool IsAbsolute
         {
             get
             {
                 return this.isAbsolute;
+            }
+        }
+
+        public bool IsEmpty
+        {
+            get
+            {
+                return this.isEmpty;
             }
         }
     }

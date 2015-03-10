@@ -2,23 +2,20 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
 
     public class PathNoSchemeLexer : Lexer<PathNoScheme>
     {
-         private readonly ILexer<SegmentNonZeroNoColons> segmentNonZeroNoColonsLexer;
-
         private readonly ILexer<Segment> segmentLexer;
+        private readonly ILexer<SegmentNonZeroNoColons> segmentNonZeroNoColonsLexer;
 
         public PathNoSchemeLexer()
             : this(new SegmentNonZeroNoColonsLexer(), new SegmentLexer())
         {
         }
 
-        public PathNoSchemeLexer(ILexer<SegmentNonZeroNoColons> segmentNonZeroNoColonsLexer, ILexer<Segment> segmentLexer)
+        public PathNoSchemeLexer(ILexer<SegmentNonZeroNoColons> segmentNonZeroNoColonsLexer, 
+            ILexer<Segment> segmentLexer)
             : base("path-noscheme")
         {
             this.segmentNonZeroNoColonsLexer = segmentNonZeroNoColonsLexer;

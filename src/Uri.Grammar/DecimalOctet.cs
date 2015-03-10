@@ -1,11 +1,8 @@
 ﻿namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
     using SLANG.Core;
-
-
 
     public class DecimalOctet : Element
     {
@@ -41,7 +38,6 @@
             Contract.Requires(digit != null);
             Contract.Requires(context != null);
         }
-
 
         public DecimalOctet(string terminal1, char terminal2, ITextContext context)
             : base(string.Concat("25", char.ToString(terminal2)), context)

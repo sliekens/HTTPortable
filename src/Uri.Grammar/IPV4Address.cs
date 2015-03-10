@@ -1,20 +1,17 @@
 ﻿namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
 
     public class IPv4Address : Element
     {
         private readonly DecimalOctet octet1;
-
         private readonly DecimalOctet octet2;
-
         private readonly DecimalOctet octet3;
-
         private readonly DecimalOctet octet4;
 
-        public IPv4Address(DecimalOctet octet1, DecimalOctet octet2, DecimalOctet octet3, DecimalOctet octet4, ITextContext context)
+        public IPv4Address(DecimalOctet octet1, DecimalOctet octet2, DecimalOctet octet3, DecimalOctet octet4, 
+            ITextContext context)
             : base(string.Concat(octet1.Data, ".", octet2.Data, ".", octet3.Data, ".", octet4.Data), context)
         {
             Contract.Requires(octet1 != null);

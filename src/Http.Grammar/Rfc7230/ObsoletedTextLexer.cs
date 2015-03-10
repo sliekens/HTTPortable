@@ -1,6 +1,4 @@
-﻿
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
     using SLANG;
 

@@ -2,7 +2,6 @@
 {
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-
     using SLANG;
 
     public class UriReference : Element

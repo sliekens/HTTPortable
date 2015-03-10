@@ -1,8 +1,8 @@
-﻿using System.IO;
-using Windows.Networking.Sockets;
-
-namespace Http.Tcp.WinRT
+﻿namespace Http.Tcp.WinRT
 {
+    using System.IO;
+    using Windows.Networking.Sockets;
+
     public class UserAgent : PortableUserAgent
     {
         private readonly StreamSocket socket;

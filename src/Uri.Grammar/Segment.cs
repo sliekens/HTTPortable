@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Uri.Grammar
+﻿namespace Uri.Grammar
 {
+    using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
+    using System.Linq;
     using SLANG;
 
     public class Segment : Element

@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Linq;
-
     using SLANG;
 
     public class Query : Element
@@ -16,35 +15,35 @@
                 Contract.ForAll(
                     data, 
                     alternative =>
+                    {
+                        if (alternative == null)
                         {
-                            if (alternative == null)
-                            {
-                                return false;
-                            }
-
-                            var element = alternative.Element;
-                            if (element == null)
-                            {
-                                return false;
-                            }
-
-                            if (element is PathCharacter)
-                            {
-                                return true;
-                            }
-
-                            if (element.Data == "/")
-                            {
-                                return true;
-                            }
-
-                            if (element.Data == "?")
-                            {
-                                return true;
-                            }
-
                             return false;
-                        }));
+                        }
+
+                        var element = alternative.Element;
+                        if (element == null)
+                        {
+                            return false;
+                        }
+
+                        if (element is PathCharacter)
+                        {
+                            return true;
+                        }
+
+                        if (element.Data == "/")
+                        {
+                            return true;
+                        }
+
+                        if (element.Data == "?")
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    }));
         }
     }
 }

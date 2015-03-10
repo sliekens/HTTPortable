@@ -1,17 +1,12 @@
 ﻿namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
 
     public class HostLexer : Lexer<Host>
     {
         private readonly ILexer<IPLiteral> ipLiteralLexer;
-
         private readonly ILexer<IPv4Address> ipv4AddressLexer;
-
         private readonly ILexer<RegisteredName> registeredNameLexer;
 
         public HostLexer()
@@ -19,7 +14,8 @@
         {
         }
 
-        public HostLexer(ILexer<IPLiteral> ipLiteralLexer, ILexer<IPv4Address> ipv4AddressLexer, ILexer<RegisteredName> registeredNameLexer)
+        public HostLexer(ILexer<IPLiteral> ipLiteralLexer, ILexer<IPv4Address> ipv4AddressLexer, 
+            ILexer<RegisteredName> registeredNameLexer)
             : base("host")
         {
             Contract.Requires(ipLiteralLexer != null);

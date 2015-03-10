@@ -1,15 +1,11 @@
 ﻿namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
 
     public class IPLiteralLexer : Lexer<IPLiteral>
     {
         private readonly ILexer<IPv6Address> ipv6AddressLexer;
-
         private readonly ILexer<IPvFuture> ipvFutureLexer;
 
         public IPLiteralLexer()
@@ -57,7 +53,7 @@
                 element = new IPLiteral(openingBracket, ipv6Address, closingBracket, context);
                 return true;
             }
-            
+
             IPvFuture ipvFutureAddress;
             if (this.ipvFutureLexer.TryRead(scanner, out ipvFutureAddress))
             {
@@ -79,23 +75,11 @@
             return false;
         }
 
-        private bool TryReadOpeningBracket(ITextScanner scanner, out Element element)
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
         {
-            if (scanner == null)
-            {
-                element = default(Element);
-                return false;
-            }
-
-            var context = scanner.GetContext();
-            if (scanner.TryMatch('['))
-            {
-                element = new Element("[", context);
-                return true;
-            }
-
-            element = default(Element);
-            return false;
+            Contract.Invariant(this.ipv6AddressLexer != null);
+            Contract.Invariant(this.ipvFutureLexer != null);
         }
 
         private bool TryReadClosingBracket(ITextScanner scanner, out Element element)
@@ -117,11 +101,23 @@
             return false;
         }
 
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
+        private bool TryReadOpeningBracket(ITextScanner scanner, out Element element)
         {
-            Contract.Invariant(this.ipv6AddressLexer != null);
-            Contract.Invariant(this.ipvFutureLexer != null);
+            if (scanner == null)
+            {
+                element = default(Element);
+                return false;
+            }
+
+            var context = scanner.GetContext();
+            if (scanner.TryMatch('['))
+            {
+                element = new Element("[", context);
+                return true;
+            }
+
+            element = default(Element);
+            return false;
         }
     }
 }

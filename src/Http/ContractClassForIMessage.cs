@@ -11,7 +11,7 @@
             get
             {
                 Contract.Ensures(Contract.Result<IHeaderCollection>() != null);
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 

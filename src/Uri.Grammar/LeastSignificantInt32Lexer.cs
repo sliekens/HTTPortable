@@ -1,15 +1,11 @@
 ﻿namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
 
     public class LeastSignificantInt32Lexer : Lexer<LeastSignificantInt32>
     {
         private readonly ILexer<HexadecimalInt16> hexadecimalInt16Lexer;
-
         private readonly ILexer<IPv4Address> ipv4AddressLexer;
 
         public LeastSignificantInt32Lexer()
@@ -17,7 +13,8 @@
         {
         }
 
-        public LeastSignificantInt32Lexer(ILexer<HexadecimalInt16> hexadecimalInt16Lexer, ILexer<IPv4Address> ipv4AddressLexer)
+        public LeastSignificantInt32Lexer(ILexer<HexadecimalInt16> hexadecimalInt16Lexer, 
+            ILexer<IPv4Address> ipv4AddressLexer)
             : base("ls32")
         {
             Contract.Requires(hexadecimalInt16Lexer != null);
@@ -46,6 +43,13 @@
 
             element = default(LeastSignificantInt32);
             return false;
+        }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.hexadecimalInt16Lexer != null);
+            Contract.Invariant(this.ipv4AddressLexer != null);
         }
 
         private bool TryReadAsHexadecimal(ITextScanner scanner, out LeastSignificantInt32 element)
@@ -89,13 +93,6 @@
 
             element = default(LeastSignificantInt32);
             return false;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.hexadecimalInt16Lexer != null);
-            Contract.Invariant(this.ipv4AddressLexer != null);
         }
     }
 }

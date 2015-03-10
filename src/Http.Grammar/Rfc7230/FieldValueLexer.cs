@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using SLANG;
 
     public class FieldValueLexer : Lexer<FieldValue>
@@ -34,8 +32,9 @@ namespace Http.Grammar.Rfc7230
             }
 
             var context = scanner.GetContext();
-            IList<Alternative<FieldContent, ObsoletedFold>> elements = new List<Alternative<FieldContent, ObsoletedFold>>();
-            for (; ; )
+            IList<Alternative<FieldContent, ObsoletedFold>> elements =
+                new List<Alternative<FieldContent, ObsoletedFold>>();
+            for (;;)
             {
                 FieldContent fieldContent;
                 if (this.fieldContentLexer.TryRead(scanner, out fieldContent))
@@ -66,6 +65,5 @@ namespace Http.Grammar.Rfc7230
             Contract.Invariant(this.fieldContentLexer != null);
             Contract.Invariant(this.obsFoldLexer != null);
         }
-
     }
 }

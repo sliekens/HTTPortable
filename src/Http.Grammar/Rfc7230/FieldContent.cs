@@ -1,5 +1,4 @@
-﻿
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
     using SLANG;
@@ -13,8 +12,11 @@ namespace Http.Grammar.Rfc7230
             Contract.Requires(context != null);
         }
 
-        public FieldContent(FieldVisibleCharacter fieldVisibleCharacterLeft, RequiredWhiteSpace requiredWhiteSpace, FieldVisibleCharacter fieldVisibleCharacterRight, ITextContext context)
-            : base(string.Concat(fieldVisibleCharacterLeft.Data, requiredWhiteSpace.Data, fieldVisibleCharacterRight.Data), context)
+        public FieldContent(FieldVisibleCharacter fieldVisibleCharacterLeft, RequiredWhiteSpace requiredWhiteSpace, 
+            FieldVisibleCharacter fieldVisibleCharacterRight, ITextContext context)
+            : base(
+                string.Concat(fieldVisibleCharacterLeft.Data, requiredWhiteSpace.Data, fieldVisibleCharacterRight.Data), 
+                context)
         {
             Contract.Requires(fieldVisibleCharacterLeft != null);
             Contract.Requires(requiredWhiteSpace != null);

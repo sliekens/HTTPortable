@@ -1,6 +1,4 @@
-﻿using Http.Grammar.Rfc7230;
-
-namespace Http
+﻿namespace Http
 {
     using System;
     using System.IO;
@@ -8,17 +6,17 @@ namespace Http
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-
+    using Grammar.Rfc7230;
     using SLANG;
     using SLANG.Core;
 
     public class PortableUserAgent : IUserAgent
     {
-        /// <summary>Indicates whether this object has been disposed.</summary>
-        private bool disposed;
-
         private readonly Stream inputStream;
         private readonly Stream outputStream;
+
+        /// <summary>Indicates whether this object has been disposed.</summary>
+        private bool disposed;
 
         public PortableUserAgent(Stream stream)
             : this(stream, stream)
@@ -59,7 +57,7 @@ namespace Http
                     message = new ResponseMessage(httpVersion, status, reason);
                     var headerFieldLexer = new HeaderFieldLexer();
                     var crLfLexer = new EndOfLineLexer();
-                    for (; ; )
+                    for (;;)
                     {
                         HeaderField headerField;
                         if (headerFieldLexer.TryRead(scanner, out headerField))
@@ -103,7 +101,7 @@ namespace Http
             }
         }
 
-        public async Task SendAsync(IRequestMessage message, CancellationToken cancellationToken,
+        public async Task SendAsync(IRequestMessage message, CancellationToken cancellationToken, 
             OnRequestHeadersComplete callback = null)
         {
             if (this.disposed)
@@ -139,8 +137,8 @@ namespace Http
             // We can decouple requests and responses as long as we keep count of requests sent and responses received, so that we can bring requests/responses back together by the order in which they were received.
             // This pipelining stuff raises other questions
             // - How is pipelining implemented anyway?
-            //     - For all requests to the same host (e.g. 1 pipeline per host, unlimited requests per pipeline)?
-            //     - For limited batches of requests to the same host (e.g. multiple pipelines, max 10 requests per pipeline)?
+            // - For all requests to the same host (e.g. 1 pipeline per host, unlimited requests per pipeline)?
+            // - For limited batches of requests to the same host (e.g. multiple pipelines, max 10 requests per pipeline)?
             // - What if a single response takes a long time to complete? Does it block requests that were queued later on? I think that sending requests to the server is always fast, but the response for subsequent requests won't come back until after the slow response has completed.
             // -- Imagine pipelining a request for 2GB of binary data, and then another request for 2MB of text data. The text file, even though it's much lighter to process, will be stuck in the response pipeline until after the binary data has been received.
         }
@@ -172,17 +170,6 @@ namespace Http
             this.disposed = true;
         }
 
-        private static async Task WriteHeadersAsync(StreamWriter writer, IHeaderCollection headerCollection)
-        {
-            foreach (var header in headerCollection.Where(ShouldSendHeader).OrderBy(h => h.Name, StringComparer.Ordinal))
-            {
-                await writer.WriteAsync(header.Name).ConfigureAwait(false);
-                await writer.WriteAsync(": ").ConfigureAwait(false);
-                await writer.WriteAsync(header.First()).ConfigureAwait(false);
-                await writer.WriteLineAsync().ConfigureAwait(false);
-            }
-        }
-
         /// <summary>
         /// Gets a value indicating whether the given header should be included in a request.
         /// By default, headers should be included if they have one or more values.
@@ -195,6 +182,18 @@ namespace Http
         private static bool ShouldSendHeader(IHeader header)
         {
             return header.Required || header.Any();
+        }
+
+        private static async Task WriteHeadersAsync(StreamWriter writer, IHeaderCollection headerCollection)
+        {
+            foreach (var header in headerCollection.Where(ShouldSendHeader).OrderBy(h => h.Name, StringComparer.Ordinal)
+                )
+            {
+                await writer.WriteAsync(header.Name).ConfigureAwait(false);
+                await writer.WriteAsync(": ").ConfigureAwait(false);
+                await writer.WriteAsync(header.First()).ConfigureAwait(false);
+                await writer.WriteLineAsync().ConfigureAwait(false);
+            }
         }
 
         private static async Task WriteRequestLineAsync(StreamWriter writer, IRequestMessage message)

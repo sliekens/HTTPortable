@@ -6,8 +6,6 @@
     using SLANG;
     using SLANG.Core;
 
-
-
     public class RequiredWhiteSpace : Element
     {
         public RequiredWhiteSpace(IList<WhiteSpace> whiteSpace, ITextContext context)

@@ -2,11 +2,8 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
     using SLANG.Core;
-
-
 
     /// <summary>Represents a port number.</summary>
     public class Port : Element

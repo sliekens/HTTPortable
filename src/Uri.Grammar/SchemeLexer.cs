@@ -2,18 +2,13 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
     using SLANG.Core;
-
-
-
     using SchemeCharacter = SLANG.Alternative<SLANG.Core.Alpha, SLANG.Core.Digit, SLANG.Element>;
 
     public class SchemeLexer : Lexer<Scheme>
     {
         private readonly ILexer<Alpha> alphaLexer;
-
         private readonly ILexer<Digit> digitLexer;
 
         public SchemeLexer()
@@ -68,7 +63,8 @@
                     else
                     {
                         Element symbol;
-                        if (this.TryReadPlusSign(scanner, out symbol) || this.TryReadMinusSign(scanner, out symbol) || this.TryReadFullStop(scanner, out symbol))
+                        if (this.TryReadPlusSign(scanner, out symbol) || this.TryReadMinusSign(scanner, out symbol) ||
+                            this.TryReadFullStop(scanner, out symbol))
                         {
                             elements.Add(new SchemeCharacter(symbol, innerContext));
                         }
@@ -84,7 +80,14 @@
             return true;
         }
 
-        private bool TryReadPlusSign(ITextScanner scanner, out Element element)
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.alphaLexer != null);
+            Contract.Invariant(this.digitLexer != null);
+        }
+
+        private bool TryReadFullStop(ITextScanner scanner, out Element element)
         {
             if (scanner.EndOfInput)
             {
@@ -93,9 +96,9 @@
             }
 
             var context = scanner.GetContext();
-            if (scanner.TryMatch('+'))
+            if (scanner.TryMatch('.'))
             {
-                element = new Element("+", context);
+                element = new Element(".", context);
                 return true;
             }
 
@@ -122,7 +125,7 @@
             return false;
         }
 
-        private bool TryReadFullStop(ITextScanner scanner, out Element element)
+        private bool TryReadPlusSign(ITextScanner scanner, out Element element)
         {
             if (scanner.EndOfInput)
             {
@@ -131,21 +134,14 @@
             }
 
             var context = scanner.GetContext();
-            if (scanner.TryMatch('.'))
+            if (scanner.TryMatch('+'))
             {
-                element = new Element(".", context);
+                element = new Element("+", context);
                 return true;
             }
 
             element = default(Element);
             return false;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.alphaLexer != null);
-            Contract.Invariant(this.digitLexer != null);
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Http
+﻿namespace Http
 {
+    using System;
+    using System.Diagnostics.Contracts;
+    using System.IO;
+    using System.Text;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Implements a <see cref="T:System.IO.TextReader"/> that reads characters from a byte stream. This reader is suitable for reading text transfer protocols that only use characters in the US ASCII set (e.g. HTTP).
     /// Unlike its framework counterpart, this reader does not support multibyte character encodings. This reader also does not buffer the stream internally. The implication for streams that support seeking is that the reader and the underlying stream do not require manual synchronization after seeking.
@@ -18,14 +18,12 @@ namespace Http
     /// </remarks>
     public sealed class SimpleStreamReader : TextReader
     {
-        private readonly Stream stream;
-
-        private readonly long bufferSize;
-
-        private bool disposed;
-
         /// <summary>The default buffer size is 512KiB.</summary>
         public const long DefaultBufferSize = 524288;
+
+        private readonly long bufferSize;
+        private readonly Stream stream;
+        private bool disposed;
 
         /// <summary>Initializes a new instance of the <see cref="M:Http.SimpleStreamReader.#ctor(System.IO.Stream)"/> class with a specified <see cref="T:System.IO.Stream"/> and a default buffer size.</summary>
         /// <param name="stream">The <see cref="T:System.IO.Stream"/> to read.</param>
@@ -44,29 +42,6 @@ namespace Http
             Contract.Requires(bufferSize > 0);
             this.stream = stream;
             this.bufferSize = bufferSize;
-        }
-
-        /// <inheritdoc />
-        public override int Read()
-        {
-            if (this.disposed)
-            {
-                throw new ObjectDisposedException(this.GetType().Name);
-            }
-
-            try
-            {
-                // Return the next byte
-                return this.stream.ReadByte();
-            }
-            catch (NotSupportedException notSupportedException)
-            {
-                throw new IOException("An error occurred while reading from the underlying stream.", notSupportedException);
-            }
-            catch (ObjectDisposedException objectDisposedException)
-            {
-                throw new ObjectDisposedException("The underlying stream has already been closed.", objectDisposedException);
-            }
         }
 
         /// <inheritdoc />
@@ -91,11 +66,13 @@ namespace Http
             }
             catch (NotSupportedException notSupportedException)
             {
-                throw new IOException("An error occurred while reading from the underlying stream.", notSupportedException);
+                throw new IOException("An error occurred while reading from the underlying stream.", 
+                    notSupportedException);
             }
             catch (ObjectDisposedException objectDisposedException)
             {
-                throw new ObjectDisposedException("The underlying stream has already been closed.", objectDisposedException);
+                throw new ObjectDisposedException("The underlying stream has already been closed.", 
+                    objectDisposedException);
             }
 
             // Ensure that a byte was available
@@ -112,19 +89,47 @@ namespace Http
             catch (NotSupportedException notSupportedException)
             {
                 // This block is unreachable if the stream is implemented correctly, because CanSeek was true
-                throw new IOException("An error occurred while setting the position of the underlying stream.", notSupportedException);
+                throw new IOException("An error occurred while setting the position of the underlying stream.", 
+                    notSupportedException);
             }
             catch (IOException ioException)
             {
-                throw new IOException("An error occurred while setting the position of the underlying stream.", ioException);
+                throw new IOException("An error occurred while setting the position of the underlying stream.", 
+                    ioException);
             }
             catch (ObjectDisposedException objectDisposedException)
             {
-                throw new ObjectDisposedException("The underlying stream has already been closed.", objectDisposedException);
+                throw new ObjectDisposedException("The underlying stream has already been closed.", 
+                    objectDisposedException);
             }
 
             // Return the character
             return (char)octal;
+        }
+
+        /// <inheritdoc />
+        public override int Read()
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().Name);
+            }
+
+            try
+            {
+                // Return the next byte
+                return this.stream.ReadByte();
+            }
+            catch (NotSupportedException notSupportedException)
+            {
+                throw new IOException("An error occurred while reading from the underlying stream.", 
+                    notSupportedException);
+            }
+            catch (ObjectDisposedException objectDisposedException)
+            {
+                throw new ObjectDisposedException("The underlying stream has already been closed.", 
+                    objectDisposedException);
+            }
         }
 
         /// <inheritdoc />
@@ -156,7 +161,9 @@ namespace Http
             // Ensure that the buffer can hold the requested number of characters
             if (buffer.Length < (index + count))
             {
-                throw new ArgumentException("The buffer is too small to hold the requested number of characters starting at the given index", "buffer");
+                throw new ArgumentException(
+                    "The buffer is too small to hold the requested number of characters starting at the given index", 
+                    "buffer");
             }
 
             var bytes = new byte[count];
@@ -169,7 +176,8 @@ namespace Http
             }
             catch (NotSupportedException notSupportedException)
             {
-                throw new IOException("An error occurred while reading from the underlying stream.", notSupportedException);
+                throw new IOException("An error occurred while reading from the underlying stream.", 
+                    notSupportedException);
             }
             catch (IOException ioException)
             {
@@ -177,7 +185,8 @@ namespace Http
             }
             catch (ObjectDisposedException objectDisposedException)
             {
-                throw new ObjectDisposedException("The underlying stream has already been closed.", objectDisposedException);
+                throw new ObjectDisposedException("The underlying stream has already been closed.", 
+                    objectDisposedException);
             }
 
             return Encoding.UTF8.GetChars(bytes, 0, byteCount, buffer, index);
@@ -212,7 +221,9 @@ namespace Http
             // Ensure that the buffer can hold the requested number of characters
             if (buffer.Length < (index + count))
             {
-                throw new ArgumentException("The buffer is too small to hold the requested number of characters starting at the given index", "buffer");
+                throw new ArgumentException(
+                    "The buffer is too small to hold the requested number of characters starting at the given index", 
+                    "buffer");
             }
 
             var bytes = new byte[count];
@@ -225,7 +236,8 @@ namespace Http
             }
             catch (NotSupportedException notSupportedException)
             {
-                throw new IOException("An error occurred while reading from the underlying stream.", notSupportedException);
+                throw new IOException("An error occurred while reading from the underlying stream.", 
+                    notSupportedException);
             }
             catch (IOException ioException)
             {
@@ -233,10 +245,61 @@ namespace Http
             }
             catch (ObjectDisposedException objectDisposedException)
             {
-                throw new ObjectDisposedException("The underlying stream has already been closed.", objectDisposedException);
+                throw new ObjectDisposedException("The underlying stream has already been closed.", 
+                    objectDisposedException);
             }
 
             return Encoding.UTF8.GetChars(bytes, 0, byteCount, buffer, index);
+        }
+
+        /// <inheritdoc />
+        /// TODO: verify the correctness of this 'ReadBlock' implementation
+        public override int ReadBlock(char[] buffer, int index, int count)
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().Name);
+            }
+
+            var charCount = this.Read(buffer, index, count);
+            if (charCount == 0)
+            {
+                return 0;
+            }
+
+            count -= charCount;
+            if (count == 0)
+            {
+                return charCount;
+            }
+
+            index += charCount;
+            return charCount + this.ReadBlock(buffer, index, count);
+        }
+
+        /// <inheritdoc />
+        /// TODO: verify the correctness of this 'ReadBlockAsync' implementation
+        public override async Task<int> ReadBlockAsync(char[] buffer, int index, int count)
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().Name);
+            }
+
+            var charCount = await this.ReadAsync(buffer, index, count).ConfigureAwait(false);
+            if (charCount == 0)
+            {
+                return 0;
+            }
+
+            count -= charCount;
+            if (count == 0)
+            {
+                return charCount;
+            }
+
+            index += charCount;
+            return charCount + await this.ReadBlockAsync(buffer, index, count).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -318,7 +381,6 @@ namespace Http
                 {
                     encounteredCr = false;
                     lineBuffer.Append(c);
-
                 }
 
                 if (encounteredCr && encounteredLf)
@@ -370,56 +432,6 @@ namespace Http
 
                 return writer.ToString();
             }
-        }
-
-        /// <inheritdoc />
-        /// TODO: verify the correctness of this 'ReadBlock' implementation
-        public override int ReadBlock(char[] buffer, int index, int count)
-        {
-            if (this.disposed)
-            {
-                throw new ObjectDisposedException(this.GetType().Name);
-            }
-
-            var charCount = this.Read(buffer, index, count);
-            if (charCount == 0)
-            {
-                return 0;
-            }
-
-            count -= charCount;
-            if (count == 0)
-            {
-                return charCount;
-            }
-
-            index += charCount;
-            return charCount + this.ReadBlock(buffer, index, count);
-        }
-
-        /// <inheritdoc />
-        /// TODO: verify the correctness of this 'ReadBlockAsync' implementation
-        public override async Task<int> ReadBlockAsync(char[] buffer, int index, int count)
-        {
-            if (this.disposed)
-            {
-                throw new ObjectDisposedException(this.GetType().Name);
-            }
-
-            var charCount = await this.ReadAsync(buffer, index, count).ConfigureAwait(false);
-            if (charCount == 0)
-            {
-                return 0;
-            }
-
-            count -= charCount;
-            if (count == 0)
-            {
-                return charCount;
-            }
-
-            index += charCount;
-            return charCount + await this.ReadBlockAsync(buffer, index, count).ConfigureAwait(false);
         }
 
         /// <inheritdoc />

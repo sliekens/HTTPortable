@@ -1,28 +1,23 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
     using SLANG.Core;
-
-
 
     public class QuotedPairLexer : Lexer<QuotedPair>
     {
         private readonly ILexer<HorizontalTab> horizontalTabLexer;
-
-        private readonly ILexer<Space> spaceLexer;
-
-        private readonly ILexer<VisibleCharacter> visibleCharacterLexer;
-
         private readonly ILexer<ObsoletedText> obsoletedTextLexer;
+        private readonly ILexer<Space> spaceLexer;
+        private readonly ILexer<VisibleCharacter> visibleCharacterLexer;
 
         public QuotedPairLexer()
             : this(new HorizontalTabLexer(), new SpaceLexer(), new VisibleCharacterLexer(), new ObsoletedTextLexer())
         {
         }
 
-        public QuotedPairLexer(ILexer<HorizontalTab> horizontalTabLexer, ILexer<Space> spaceLexer, ILexer<VisibleCharacter> visibleCharacterLexer, ILexer<ObsoletedText> obsoletedTextLexer)
+        public QuotedPairLexer(ILexer<HorizontalTab> horizontalTabLexer, ILexer<Space> spaceLexer, 
+            ILexer<VisibleCharacter> visibleCharacterLexer, ILexer<ObsoletedText> obsoletedTextLexer)
             : base("quoted-pair")
         {
             Contract.Requires(horizontalTabLexer != null);

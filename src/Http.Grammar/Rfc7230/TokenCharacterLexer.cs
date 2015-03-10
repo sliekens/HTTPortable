@@ -1,9 +1,6 @@
-﻿using System.Diagnostics.Contracts;
-
-using SLANG.Core;
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
     using SLANG.Core;
 
@@ -25,7 +22,7 @@ namespace Http.Grammar.Rfc7230
             this.alphaLexer = alphaLexer;
             this.digitLexer = digitLexer;
         }
-  
+
         public override bool TryRead(ITextScanner scanner, out TokenCharacter element)
         {
             if (scanner.EndOfInput)

@@ -1,7 +1,6 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
 
     public class AsteriskForm : Element

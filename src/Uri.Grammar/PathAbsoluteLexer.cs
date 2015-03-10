@@ -1,10 +1,7 @@
 ﻿namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
 
     public class PathAbsoluteLexer : Lexer<PathAbsolute>
     {

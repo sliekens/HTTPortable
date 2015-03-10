@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
-
-namespace Http
+﻿namespace Http
 {
+    using System;
+    using System.Collections.ObjectModel;
+
     public sealed class HeaderCollection : KeyedCollection<string, IHeader>, IHeaderCollection
     {
         public HeaderCollection()

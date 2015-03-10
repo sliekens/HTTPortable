@@ -1,17 +1,16 @@
-﻿using System;
-using System.IO;
-
-namespace Http
+﻿namespace Http
 {
+    using System;
     using System.Diagnostics.Contracts;
+    using System.IO;
     using System.Threading;
 
     public class MessageBodyStream : Stream
     {
-        private readonly Stream messageBody;
         private readonly long contentLength;
-        private long position;
+        private readonly Stream messageBody;
         private bool disposed;
+        private long position;
 
         public MessageBodyStream(Stream messageBody, long contentLength)
         {
@@ -19,6 +18,56 @@ namespace Http
             Contract.Requires(messageBody.Length >= 0);
             this.messageBody = messageBody;
             this.contentLength = contentLength;
+        }
+
+        /// <inheritdoc />
+        public override bool CanRead
+        {
+            get
+            {
+                return this.messageBody.CanRead;
+            }
+        }
+
+        /// <inheritdoc />
+        public override bool CanSeek
+        {
+            get
+            {
+                return this.messageBody.CanSeek;
+            }
+        }
+
+        /// <inheritdoc />
+        public override bool CanWrite
+        {
+            get
+            {
+                return this.messageBody.CanWrite;
+            }
+        }
+
+        /// <inheritdoc />
+        public override long Length
+        {
+            get
+            {
+                return this.contentLength;
+            }
+        }
+
+        /// <inheritdoc />
+        public override long Position
+        {
+            get
+            {
+                return this.position;
+            }
+
+            set
+            {
+                this.position = value;
+            }
         }
 
         /// <inheritdoc />
@@ -169,7 +218,7 @@ namespace Http
                 throw new ObjectDisposedException(this.GetType().Name);
             }
 
-             if (buffer == null)
+            if (buffer == null)
             {
                 throw new ArgumentNullException("buffer", "Precondition: buffer != null");
             }
@@ -212,46 +261,6 @@ namespace Http
                 }
 
                 Interlocked.Add(ref this.position, count);
-            }
-        }
-
-        /// <inheritdoc />
-        public override bool CanRead
-        {
-            get { return this.messageBody.CanRead; }
-        }
-
-        /// <inheritdoc />
-        public override bool CanSeek
-        {
-            get { return this.messageBody.CanSeek; }
-        }
-
-        /// <inheritdoc />
-        public override bool CanWrite
-        {
-            get { return this.messageBody.CanWrite; }
-        }
-
-        /// <inheritdoc />
-        public override long Length
-        {
-            get
-            {
-                return this.contentLength;
-            }
-        }
-
-        /// <inheritdoc />
-        public override long Position
-        {
-            get
-            {
-                return this.position;
-            }
-            set
-            {
-                this.position = value;
             }
         }
 

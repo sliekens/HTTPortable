@@ -1,16 +1,12 @@
 ﻿namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
 
     public class UriReferenceLexer : Lexer<UriReference>
     {
-        private readonly ILexer<Uri> uriLexer;
-
         private readonly ILexer<RelativeReference> relativeReferenceLexer;
+        private readonly ILexer<Uri> uriLexer;
 
         public UriReferenceLexer()
             : this(new UriLexer(), new RelativeReferenceLexer())

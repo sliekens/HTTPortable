@@ -2,27 +2,23 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
     using Alternative = SLANG.Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter>;
 
-    
 
     public class RegisteredNameLexer : Lexer<RegisteredName>
     {
-        private readonly ILexer<Unreserved> unreservedLexer;
-
         private readonly ILexer<PercentEncoding> percentEncodingLexer;
-
         private readonly ILexer<SubcomponentsDelimiter> subcomponentsDelimiterLexer;
+        private readonly ILexer<Unreserved> unreservedLexer;
 
         public RegisteredNameLexer()
             : this(new UnreservedLexer(), new PercentEncodingLexer(), new SubcomponentsDelimiterLexer())
         {
         }
 
-        public RegisteredNameLexer(ILexer<Unreserved> unreservedLexer, ILexer<PercentEncoding> percentEncodingLexer, ILexer<SubcomponentsDelimiter> subcomponentsDelimiterLexer)
+        public RegisteredNameLexer(ILexer<Unreserved> unreservedLexer, ILexer<PercentEncoding> percentEncodingLexer, 
+            ILexer<SubcomponentsDelimiter> subcomponentsDelimiterLexer)
             : base("reg-name")
         {
             Contract.Requires(unreservedLexer != null);

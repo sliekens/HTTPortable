@@ -2,11 +2,8 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
     using SLANG.Core;
-
-
 
     public class QuotedString : Element
     {
@@ -20,7 +17,8 @@
         {
         }
 
-        public static QuotedString Create(DoubleQuote openingDoubleQuote, IList<Alternative<QuotedText, QuotedPair>> text, DoubleQuote closingDoubleQuote, ITextContext context)
+        public static QuotedString Create(DoubleQuote openingDoubleQuote, 
+            IList<Alternative<QuotedText, QuotedPair>> text, DoubleQuote closingDoubleQuote, ITextContext context)
         {
             Contract.Requires(openingDoubleQuote != null);
             Contract.Requires(text != null);

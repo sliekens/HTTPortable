@@ -1,22 +1,21 @@
-﻿using System.Diagnostics.Contracts;
-
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
 
     public class HeaderFieldLexer : Lexer<HeaderField>
     {
         private readonly ILexer<FieldName> fieldNameLexer;
-        private readonly ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer;
         private readonly ILexer<FieldValue> fieldValueLexer;
+        private readonly ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer;
 
         public HeaderFieldLexer()
             : this(new FieldNameLexer(), new OptionalWhiteSpaceLexer(), new FieldValueLexer())
         {
         }
 
-        public HeaderFieldLexer(ILexer<FieldName> fieldNameLexer, ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer, ILexer<FieldValue> fieldValueLexer)
+        public HeaderFieldLexer(ILexer<FieldName> fieldNameLexer, ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer, 
+            ILexer<FieldValue> fieldValueLexer)
             : base("header-field")
         {
             Contract.Requires(fieldNameLexer != null);

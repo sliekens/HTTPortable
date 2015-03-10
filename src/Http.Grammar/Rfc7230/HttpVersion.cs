@@ -3,15 +3,14 @@
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
-
     using SLANG;
     using SLANG.Core;
 
     public class HttpVersion : Element
     {
-        private readonly HttpName httpName;
         private readonly Digit digit1;
         private readonly Digit digit2;
+        private readonly HttpName httpName;
 
         public HttpVersion(HttpName httpName, Digit digit1, Digit digit2, ITextContext context)
             : base(string.Concat(httpName.Data, "/", digit1.Data, ".", digit2.Data), context)
@@ -23,14 +22,6 @@
             this.httpName = httpName;
             this.digit1 = digit1;
             this.digit2 = digit2;
-        }
-
-        public HttpName HttpName
-        {
-            get
-            {
-                return this.httpName;
-            }
         }
 
         public Digit Digit1
@@ -49,6 +40,14 @@
             }
         }
 
+        public HttpName HttpName
+        {
+            get
+            {
+                return this.httpName;
+            }
+        }
+
         public Version ToVersion()
         {
             var major = int.Parse(this.Digit1.Data);
@@ -57,7 +56,8 @@
         }
 
         [ContractInvariantMethod]
-        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", 
+            Justification = "Reviewed. Suppression is OK here.")]
         private void ObjectInvariant()
         {
             Contract.Invariant(this.httpName != null);

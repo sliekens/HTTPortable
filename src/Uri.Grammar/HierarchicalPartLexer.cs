@@ -1,27 +1,24 @@
 ﻿namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
 
     public class HierarchicalPartLexer : Lexer<HierarchicalPart>
     {
         private readonly ILexer<Authority> authorityLexer;
-
-        private readonly ILexer<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexer;
-
         private readonly ILexer<PathAbsolute> pathAbsoluteLexer;
-
+        private readonly ILexer<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexer;
         private readonly ILexer<PathRootless> pathRootlessLexer;
 
         public HierarchicalPartLexer()
-            : this(new AuthorityLexer(), new PathAbsoluteOrEmptyLexer(), new PathAbsoluteLexer(), new PathRootlessLexer())
+            : this(
+                new AuthorityLexer(), new PathAbsoluteOrEmptyLexer(), new PathAbsoluteLexer(), new PathRootlessLexer())
         {
         }
 
-        public HierarchicalPartLexer(ILexer<Authority> authorityLexer, ILexer<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexer, ILexer<PathAbsolute> pathAbsoluteLexer, ILexer<PathRootless> pathRootlessLexer)
+        public HierarchicalPartLexer(ILexer<Authority> authorityLexer, 
+            ILexer<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexer, ILexer<PathAbsolute> pathAbsoluteLexer, 
+            ILexer<PathRootless> pathRootlessLexer)
             : base("hier-part")
         {
             Contract.Requires(authorityLexer != null);
@@ -65,6 +62,15 @@
 
             element = new HierarchicalPart(new PathEmpty(context), context);
             return true;
+        }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.authorityLexer != null);
+            Contract.Invariant(this.pathAbsoluteOrEmptyLexer != null);
+            Contract.Invariant(this.pathAbsoluteLexer != null);
+            Contract.Invariant(this.pathRootlessLexer != null);
         }
 
         private bool TryRead1(ITextScanner scanner, out HierarchicalPart element)
@@ -142,15 +148,6 @@
 
             element = default(HierarchicalPart);
             return false;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.authorityLexer != null);
-            Contract.Invariant(this.pathAbsoluteOrEmptyLexer != null);
-            Contract.Invariant(this.pathAbsoluteLexer != null);
-            Contract.Invariant(this.pathRootlessLexer != null);
         }
     }
 }

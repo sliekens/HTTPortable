@@ -2,10 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
 
     public class SegmentNonZeroLexer : Lexer<SegmentNonZero>
     {
@@ -34,7 +31,7 @@
                 {
                     break;
                 }
-                
+
                 elements.Add(pathCharacter);
             }
 

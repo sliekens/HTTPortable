@@ -6,8 +6,6 @@
     using SLANG;
     using SLANG.Core;
 
-
-
     public class OptionalWhiteSpace : Element
     {
         public OptionalWhiteSpace(IList<WhiteSpace> data, ITextContext context)

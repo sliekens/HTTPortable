@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-
-using SLANG.Core;
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using SLANG;
     using SLANG.Core;
 
@@ -20,7 +17,8 @@ namespace Http.Grammar.Rfc7230
         {
         }
 
-        public ReasonPhraseLexer(ILexer<HorizontalTab> hTabLexer, ILexer<Space> SpaceLexer, ILexer<VisibleCharacter> vCharLexer,
+        public ReasonPhraseLexer(ILexer<HorizontalTab> hTabLexer, ILexer<Space> SpaceLexer, 
+            ILexer<VisibleCharacter> vCharLexer, 
             ILexer<ObsoletedText> obsTextLexer)
             : base("reason-phrase")
         {
@@ -47,19 +45,23 @@ namespace Http.Grammar.Rfc7230
                 ObsoletedText obsoletedText;
                 if (this.hTabLexer.TryRead(scanner, out horizontalTab))
                 {
-                    elements.Add(new Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>(horizontalTab, currentContext));
+                    elements.Add(new Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>(horizontalTab, 
+                        currentContext));
                 }
                 else if (this.SpaceLexer.TryRead(scanner, out space))
                 {
-                    elements.Add(new Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>(space, currentContext));
+                    elements.Add(new Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>(space, 
+                        currentContext));
                 }
                 else if (this.vCharLexer.TryRead(scanner, out visibleCharacter))
                 {
-                    elements.Add(new Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>(visibleCharacter, currentContext));
+                    elements.Add(new Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>(
+                        visibleCharacter, currentContext));
                 }
                 else if (this.obsTextLexer.TryRead(scanner, out obsoletedText))
                 {
-                    elements.Add(new Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>(obsoletedText, currentContext));
+                    elements.Add(new Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>(obsoletedText, 
+                        currentContext));
                 }
                 else
                 {

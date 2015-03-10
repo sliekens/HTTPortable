@@ -2,17 +2,13 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
     using SLANG.Core;
 
-
-
     public class TrailerPartLexer : Lexer<TrailerPart>
     {
-        private readonly ILexer<HeaderField> headerFieldLexer;
-
         private readonly ILexer<EndOfLine> endOfLineLexer;
+        private readonly ILexer<HeaderField> headerFieldLexer;
 
         public TrailerPartLexer(ILexer<HeaderField> headerFieldLexer, ILexer<EndOfLine> endOfLineLexer)
             : base("trailer-part")

@@ -1,15 +1,12 @@
-﻿
-using SLANG.Core;
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
     using SLANG;
     using SLANG.Core;
 
     public class HttpVersionLexer : Lexer<HttpVersion>
     {
-        private readonly ILexer<HttpName> httpNameLexer;
         private readonly ILexer<Digit> digitLexer;
+        private readonly ILexer<HttpName> httpNameLexer;
 
         public HttpVersionLexer()
             : this(new HttpNameLexer(), new DigitLexer())

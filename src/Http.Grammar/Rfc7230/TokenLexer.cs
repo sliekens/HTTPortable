@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
-
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics.Contracts;
     using SLANG;
 
     public class TokenLexer : Lexer<Token>
@@ -55,6 +52,5 @@ namespace Http.Grammar.Rfc7230
         {
             Contract.Invariant(this.tokenCharacterLexer != null);
         }
-
     }
 }

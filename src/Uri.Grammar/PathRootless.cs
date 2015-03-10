@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Uri.Grammar
+﻿namespace Uri.Grammar
 {
+    using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
+    using System.Linq;
     using SLANG;
 
     public class PathRootless : Element
     {
-        public PathRootless(SegmentNonZero startSegment, IList<Sequence<Element, Segment>> segments, ITextContext context)
+        public PathRootless(SegmentNonZero startSegment, IList<Sequence<Element, Segment>> segments, 
+            ITextContext context)
             : base(string.Concat(startSegment.Data, string.Concat(segments.Select(sequence => sequence.Data))), context)
         {
             Contract.Requires(startSegment != null);

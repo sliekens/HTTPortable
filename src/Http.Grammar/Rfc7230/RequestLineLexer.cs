@@ -1,9 +1,6 @@
-﻿using System.Diagnostics.Contracts;
-
-using SLANG.Core;
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
     using SLANG.Core;
 
@@ -12,16 +9,18 @@ namespace Http.Grammar.Rfc7230
         private readonly ILexer<EndOfLine> endOfLineLexer;
         private readonly ILexer<HttpVersion> httpVersionLexer;
         private readonly ILexer<Method> methodLexer;
+        private readonly ILexer<RequestTarget> requestTargetLexer;
         private readonly ILexer<Space> spaceLexer;
 
-        private readonly ILexer<RequestTarget> requestTargetLexer;
-
         public RequestLineLexer()
-            : this(new MethodLexer(), new SpaceLexer(), new RequestTargetLexer(), new HttpVersionLexer(), new EndOfLineLexer())
+            : this(
+                new MethodLexer(), new SpaceLexer(), new RequestTargetLexer(), new HttpVersionLexer(), 
+                new EndOfLineLexer())
         {
         }
 
-        public RequestLineLexer(ILexer<Method> methodLexer, ILexer<Space> spaceLexer, ILexer<RequestTarget> requestTargetLexer,
+        public RequestLineLexer(ILexer<Method> methodLexer, ILexer<Space> spaceLexer, 
+            ILexer<RequestTarget> requestTargetLexer, 
             ILexer<HttpVersion> httpVersionLexer, ILexer<EndOfLine> endOfLineLexer)
             : base("request-line")
         {

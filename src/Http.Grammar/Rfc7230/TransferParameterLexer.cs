@@ -1,25 +1,21 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
 
     public class TransferParameterLexer : Lexer<TransferParameter>
     {
-        private readonly ILexer<Token> tokenLexer;
-
         private readonly ILexer<BadWhiteSpace> badWhiteSpaceLexer;
-
         private readonly ILexer<QuotedString> quotedStringLexer;
+        private readonly ILexer<Token> tokenLexer;
 
         public TransferParameterLexer()
             : this(new TokenLexer(), new BadWhiteSpaceLexer(), new QuotedStringLexer())
         {
         }
 
-        public TransferParameterLexer(ILexer<Token> tokenLexer, ILexer<BadWhiteSpace> badWhiteSpaceLexer, ILexer<QuotedString> quotedStringLexer)
+        public TransferParameterLexer(ILexer<Token> tokenLexer, ILexer<BadWhiteSpace> badWhiteSpaceLexer, 
+            ILexer<QuotedString> quotedStringLexer)
             : base("transfer-parameter")
         {
             Contract.Requires(tokenLexer != null);

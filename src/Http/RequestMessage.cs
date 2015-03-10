@@ -1,19 +1,14 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-
-namespace Http
+﻿namespace Http
 {
+    using System;
     using System.Diagnostics.Contracts;
 
     public class RequestMessage : IRequestMessage
     {
         private readonly IHeaderCollection headers;
+        private readonly Version httpVersion;
         private readonly string method;
         private readonly string requestUri;
-        private readonly Version httpVersion;
 
         public RequestMessage(string method, string requestUri, Version httpVersion)
             : this(method, requestUri, httpVersion, new HeaderCollection())
@@ -43,6 +38,14 @@ namespace Http
             }
         }
 
+        public Version HttpVersion
+        {
+            get
+            {
+                return this.httpVersion;
+            }
+        }
+
         public string Method
         {
             get
@@ -59,14 +62,6 @@ namespace Http
             }
         }
 
-        public Version HttpVersion
-        {
-            get
-            {
-                return this.httpVersion;
-            }
-        }
-
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
@@ -75,6 +70,5 @@ namespace Http
             Contract.Invariant(this.httpVersion != null);
             Contract.Invariant(this.headers != null);
         }
-
     }
 }

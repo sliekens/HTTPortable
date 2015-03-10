@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.Contracts;
-
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
 
     public class FieldNameLexer : Lexer<FieldName>
@@ -46,6 +44,5 @@ namespace Http.Grammar.Rfc7230
         {
             Contract.Invariant(this.tokenLexer != null);
         }
-
     }
 }

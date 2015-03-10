@@ -1,13 +1,11 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
 
     public class TransferParameter : Element
     {
         private readonly Token name;
-
         private readonly Element value;
 
         public TransferParameter(Token name, Token value, ITextContext context)

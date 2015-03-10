@@ -1,15 +1,14 @@
-﻿using System;
-using System.IO;
-
-namespace Http
+﻿namespace Http
 {
+    using System;
+    using System.IO;
+
     public sealed class CircularBufferStream : Stream
     {
-        private int head;
         private readonly byte[] buffer;
         private readonly int size;
         private readonly Stream stream;
-        private int available;
+        private int head;
 
         public CircularBufferStream(Stream stream)
             : this(stream, short.MaxValue)
@@ -22,16 +21,10 @@ namespace Http
             this.buffer = new byte[bufferSize];
             this.size = bufferSize;
             this.head = 0;
-            this.available = 0;
+            this.Available = 0;
         }
 
-        public int Available
-        {
-            get
-            {
-                return available;
-            }
-        }
+        public int Available { get; private set; }
 
         public override bool CanRead
         {
@@ -87,6 +80,7 @@ namespace Http
             {
                 return this.stream.Position;
             }
+
             set
             {
                 this.stream.Position = value;
@@ -100,8 +94,8 @@ namespace Http
                 return;
             }
 
-            head = (head + Available) % size;
-            this.available = 0;
+            head = (head + Available)%size;
+            this.Available = 0;
         }
 
         /// <summary>Fills the buffer with up to the given number of bytes.</summary>
@@ -134,7 +128,7 @@ namespace Http
             while (hasRead < count)
             {
                 var maxRead = count - hasRead;
-                var start = (head + Available + hasRead) % size;
+                var start = (head + Available + hasRead)%size;
                 var pass = size - start;
                 if (pass > maxRead)
                 {
@@ -150,7 +144,7 @@ namespace Http
                 hasRead += read;
             }
 
-            this.available += hasRead;
+            this.Available += hasRead;
 
             // Return the number of buffered bytes
             return this.Available;
@@ -186,8 +180,8 @@ namespace Http
                 Buffer.BlockCopy(this.buffer, this.head, buffer, offset, pass);
                 hasRead += pass;
                 offset += pass;
-                this.available -= pass;
-                this.head = (this.head + pass) % this.size;
+                this.Available -= pass;
+                this.head = (this.head + pass)%this.size;
             }
 
             if (hasRead < count)
@@ -206,7 +200,7 @@ namespace Http
             }
 
             var b = buffer[head];
-            this.available--;
+            this.Available--;
             this.head += 1;
             if (this.head == size)
             {

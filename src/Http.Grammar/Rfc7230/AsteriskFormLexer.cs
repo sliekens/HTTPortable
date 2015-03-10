@@ -2,8 +2,6 @@
 {
     using SLANG;
 
-    
-
     public class AsteriskFormLexer : Lexer<AsteriskForm>
     {
         public AsteriskFormLexer()

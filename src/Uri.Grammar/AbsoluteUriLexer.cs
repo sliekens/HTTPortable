@@ -1,26 +1,22 @@
 ﻿namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
     using QueryPart = SLANG.Sequence<SLANG.Element, Query>;
 
     public class AbsoluteUriLexer : Lexer<AbsoluteUri>
     {
-        private readonly ILexer<Scheme> schemeLexer;
-
         private readonly ILexer<HierarchicalPart> hierarchicalPartLexer;
-
         private readonly ILexer<Query> queryLexer;
+        private readonly ILexer<Scheme> schemeLexer;
 
         public AbsoluteUriLexer()
             : this(new SchemeLexer(), new HierarchicalPartLexer(), new QueryLexer())
         {
         }
 
-        public AbsoluteUriLexer(ILexer<Scheme> schemeLexer, ILexer<HierarchicalPart> hierarchicalPartLexer, ILexer<Query> queryLexer)
+        public AbsoluteUriLexer(ILexer<Scheme> schemeLexer, ILexer<HierarchicalPart> hierarchicalPartLexer, 
+            ILexer<Query> queryLexer)
             : base("absolute-URI")
         {
             Contract.Requires(schemeLexer != null);
@@ -77,6 +73,14 @@
             return true;
         }
 
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.schemeLexer != null);
+            Contract.Invariant(this.hierarchicalPartLexer != null);
+            Contract.Invariant(this.queryLexer != null);
+        }
+
         private bool TryReadQueryPart(ITextScanner scanner, out QueryPart element)
         {
             if (scanner.EndOfInput)
@@ -103,14 +107,6 @@
 
             element = new QueryPart(questionMark, query, context);
             return true;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.schemeLexer != null);
-            Contract.Invariant(this.hierarchicalPartLexer != null);
-            Contract.Invariant(this.queryLexer != null);
         }
     }
 }

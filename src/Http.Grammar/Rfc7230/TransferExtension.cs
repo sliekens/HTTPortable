@@ -4,16 +4,13 @@
     using System.Collections.ObjectModel;
     using System.Diagnostics.Contracts;
     using System.Linq;
-
     using SLANG;
-
     using ParameterPart = SLANG.Sequence<OptionalWhiteSpace, SLANG.Element, OptionalWhiteSpace, TransferParameter>;
 
     public class TransferExtension : Element
     {
         private readonly Token extension;
-
-        private readonly IList<TransferParameter> parameters; 
+        private readonly IList<TransferParameter> parameters;
 
         public TransferExtension(Token extension, IList<ParameterPart> parameters, ITextContext context)
             : base(string.Concat(extension, string.Concat(parameters)), context)
@@ -23,7 +20,8 @@
             Contract.Requires(Contract.ForAll(parameters, sequence => sequence != null));
             Contract.Requires(context != null);
             this.extension = extension;
-            this.parameters = new ReadOnlyCollection<TransferParameter>(parameters.Select(sequence => sequence.Element4).ToList());
+            this.parameters =
+                new ReadOnlyCollection<TransferParameter>(parameters.Select(sequence => sequence.Element4).ToList());
         }
 
         public Token Extension

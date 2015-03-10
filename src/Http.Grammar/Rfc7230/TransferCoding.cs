@@ -2,7 +2,6 @@
 {
     using System;
     using System.Diagnostics.Contracts;
-
     using SLANG;
 
     public class TransferCoding : Element
@@ -12,9 +11,9 @@
         {
             Contract.Requires(terminal != null);
             Contract.Requires(string.Equals(terminal.Data, "chunked", StringComparison.OrdinalIgnoreCase)
-                || string.Equals(terminal.Data, "compress", StringComparison.OrdinalIgnoreCase)
-                || string.Equals(terminal.Data, "deflate", StringComparison.OrdinalIgnoreCase)
-                || string.Equals(terminal.Data, "gzip", StringComparison.OrdinalIgnoreCase));
+                              || string.Equals(terminal.Data, "compress", StringComparison.OrdinalIgnoreCase)
+                              || string.Equals(terminal.Data, "deflate", StringComparison.OrdinalIgnoreCase)
+                              || string.Equals(terminal.Data, "gzip", StringComparison.OrdinalIgnoreCase));
             Contract.Requires(context != null);
         }
 

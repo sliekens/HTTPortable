@@ -1,6 +1,4 @@
-﻿
-
-namespace Uri.Grammar
+﻿namespace Uri.Grammar
 {
     using SLANG;
 

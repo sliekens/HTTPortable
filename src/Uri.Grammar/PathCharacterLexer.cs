@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.Contracts;
-
-
-namespace Uri.Grammar
+﻿namespace Uri.Grammar
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
 
     public class PathCharacterLexer : Lexer<PathCharacter>
@@ -16,7 +14,7 @@ namespace Uri.Grammar
         {
         }
 
-        public PathCharacterLexer(ILexer<Unreserved> unreservedLexer, ILexer<PercentEncoding> pctEncodedLexer,
+        public PathCharacterLexer(ILexer<Unreserved> unreservedLexer, ILexer<PercentEncoding> pctEncodedLexer, 
             ILexer<SubcomponentsDelimiter> subDelimsLexer)
             : base("pchar")
         {

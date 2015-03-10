@@ -1,11 +1,8 @@
 ﻿namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
     using SLANG.Core;
-
-
 
     public class HexadecimalInt16Lexer : Lexer<HexadecimalInt16>
     {

@@ -2,26 +2,22 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
     using UserInfoCharacter = SLANG.Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, SLANG.Element>;
 
     public class UserInformationLexer : Lexer<UserInformation>
     {
-        private readonly ILexer<Unreserved> unreservedLexer;
-
         private readonly ILexer<PercentEncoding> percentEncodingLexer;
-
         private readonly ILexer<SubcomponentsDelimiter> subcomponentsDelimiterLexer;
+        private readonly ILexer<Unreserved> unreservedLexer;
 
         public UserInformationLexer()
             : this(new UnreservedLexer(), new PercentEncodingLexer(), new SubcomponentsDelimiterLexer())
         {
         }
 
-        public UserInformationLexer(ILexer<Unreserved> unreservedLexer, ILexer<PercentEncoding> percentEncodingLexer, ILexer<SubcomponentsDelimiter> subcomponentsDelimiterLexer)
+        public UserInformationLexer(ILexer<Unreserved> unreservedLexer, ILexer<PercentEncoding> percentEncodingLexer, 
+            ILexer<SubcomponentsDelimiter> subcomponentsDelimiterLexer)
             : base("userinfo")
         {
             Contract.Requires(unreservedLexer != null);
@@ -78,6 +74,14 @@
             return true;
         }
 
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.unreservedLexer != null);
+            Contract.Invariant(this.percentEncodingLexer != null);
+            Contract.Invariant(this.subcomponentsDelimiterLexer != null);
+        }
+
         private bool TryReadColon(ITextScanner scanner, out Element element)
         {
             if (scanner.EndOfInput)
@@ -95,14 +99,6 @@
 
             element = default(Element);
             return false;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.unreservedLexer != null);
-            Contract.Invariant(this.percentEncodingLexer != null);
-            Contract.Invariant(this.subcomponentsDelimiterLexer != null);
         }
     }
 }

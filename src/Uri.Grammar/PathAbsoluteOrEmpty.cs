@@ -3,14 +3,12 @@
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Linq;
-
     using SLANG;
 
     public class PathAbsoluteOrEmpty : Element
     {
-        private readonly bool isEmpty;
-
         private readonly bool isAbsolute;
+        private readonly bool isEmpty;
 
         public PathAbsoluteOrEmpty(IList<Sequence<Element, Segment>> path, ITextContext context)
             : base(string.Concat(path.Select(sequence => sequence.Data)), context)
@@ -28,19 +26,19 @@
             }
         }
 
-        public bool IsEmpty
-        {
-            get
-            {
-                return this.isEmpty;
-            }
-        }
-
         public bool IsAbsolute
         {
             get
             {
                 return this.isAbsolute;
+            }
+        }
+
+        public bool IsEmpty
+        {
+            get
+            {
+                return this.isEmpty;
             }
         }
     }

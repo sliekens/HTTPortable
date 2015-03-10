@@ -2,25 +2,21 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
 
     public class SegmentNonZeroNoColonsLexer : Lexer<SegmentNonZeroNoColons>
     {
-        private readonly ILexer<Unreserved> unreservedLexer;
-
         private readonly ILexer<PercentEncoding> percentEncodingLexer;
-
         private readonly ILexer<SubcomponentsDelimiter> subcomponentsLexer;
+        private readonly ILexer<Unreserved> unreservedLexer;
 
         public SegmentNonZeroNoColonsLexer()
             : this(new UnreservedLexer(), new PercentEncodingLexer(), new SubcomponentsDelimiterLexer())
         {
         }
 
-        public SegmentNonZeroNoColonsLexer(ILexer<Unreserved> unreservedLexer, ILexer<PercentEncoding> percentEncodingLexer, ILexer<SubcomponentsDelimiter> subcomponentsLexer)
+        public SegmentNonZeroNoColonsLexer(ILexer<Unreserved> unreservedLexer, 
+            ILexer<PercentEncoding> percentEncodingLexer, ILexer<SubcomponentsDelimiter> subcomponentsLexer)
             : base("segment-nz-nc")
         {
             Contract.Requires(unreservedLexer != null);
@@ -42,28 +38,36 @@
                 Unreserved unreserved;
                 if (this.unreservedLexer.TryRead(scanner, out unreserved))
                 {
-                    alternative = new Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, Element>(unreserved, innerContext);
+                    alternative =
+                        new Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, Element>(unreserved, 
+                            innerContext);
                 }
                 else
                 {
                     PercentEncoding percentEncoding;
                     if (this.percentEncodingLexer.TryRead(scanner, out percentEncoding))
                     {
-                        alternative = new Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, Element>(percentEncoding, innerContext);
+                        alternative =
+                            new Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, Element>(
+                                percentEncoding, innerContext);
                     }
                     else
                     {
                         SubcomponentsDelimiter subcomponentsDelimiter;
                         if (this.subcomponentsLexer.TryRead(scanner, out subcomponentsDelimiter))
                         {
-                            alternative = new Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, Element>(percentEncoding, innerContext);
+                            alternative =
+                                new Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, Element>(
+                                    percentEncoding, innerContext);
                         }
                         else
                         {
                             if (scanner.TryMatch('@'))
                             {
                                 var terminal = new Element('@', innerContext);
-                                alternative = new Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, Element>(terminal, innerContext);
+                                alternative =
+                                    new Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, Element>(
+                                        terminal, innerContext);
                             }
                             else
                             {

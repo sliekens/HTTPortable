@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.Contracts;
-
-
-namespace Uri.Grammar
+﻿namespace Uri.Grammar
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
 
     public class SubcomponentsDelimiter : Element

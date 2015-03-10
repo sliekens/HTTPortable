@@ -1,9 +1,6 @@
-﻿using System.Diagnostics.Contracts;
-
-using SLANG.Core;
-
-namespace Uri.Grammar
+﻿namespace Uri.Grammar
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
     using SLANG.Core;
 

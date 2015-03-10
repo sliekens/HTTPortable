@@ -1,27 +1,24 @@
 ﻿namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
 
     public class PathLexer : Lexer<Path>
     {
-        private readonly ILexer<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexer;
-
         private readonly ILexer<PathAbsolute> pathAbsoluteLexer;
-
+        private readonly ILexer<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexer;
         private readonly ILexer<PathNoScheme> pathNoSchemeLexer;
-
         private readonly ILexer<PathRootless> pathRootlessLexer;
 
         public PathLexer()
-            : this(new PathAbsoluteOrEmptyLexer(), new PathAbsoluteLexer(), new PathNoSchemeLexer(), new PathRootlessLexer())
+            : this(
+                new PathAbsoluteOrEmptyLexer(), new PathAbsoluteLexer(), new PathNoSchemeLexer(), 
+                new PathRootlessLexer())
         {
         }
 
-        public PathLexer(ILexer<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexer, ILexer<PathAbsolute> pathAbsoluteLexer, ILexer<PathNoScheme> pathNoSchemeLexer, ILexer<PathRootless> pathRootlessLexer)
+        public PathLexer(ILexer<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexer, ILexer<PathAbsolute> pathAbsoluteLexer, 
+            ILexer<PathNoScheme> pathNoSchemeLexer, ILexer<PathRootless> pathRootlessLexer)
             : base("path")
         {
             Contract.Requires(pathAbsoluteOrEmptyLexer != null);

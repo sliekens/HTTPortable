@@ -1,9 +1,7 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
     using Uri.Grammar;
 
     public class OriginForm : Element

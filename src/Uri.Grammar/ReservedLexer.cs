@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.Contracts;
-
-
-namespace Uri.Grammar
+﻿namespace Uri.Grammar
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
 
     public class ReservedLexer : Lexer<Reserved>
@@ -15,7 +13,8 @@ namespace Uri.Grammar
         {
         }
 
-        public ReservedLexer(ILexer<GenericDelimiter> genericDelimiterLexer, ILexer<SubcomponentsDelimiter> subcomponentsDelimiterLexer)
+        public ReservedLexer(ILexer<GenericDelimiter> genericDelimiterLexer, 
+            ILexer<SubcomponentsDelimiter> subcomponentsDelimiterLexer)
             : base("reserved")
         {
             Contract.Requires(genericDelimiterLexer != null);

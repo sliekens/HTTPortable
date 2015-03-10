@@ -1,17 +1,12 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
-
     using Uri.Grammar;
 
     public class OriginFormLexer : Lexer<OriginForm>
     {
         private readonly ILexer<AbsolutePath> absolutePathLexer;
-
         private readonly ILexer<Query> queryLexer;
 
         public OriginFormLexer()

@@ -2,11 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
-
     using Colon = SLANG.Element;
     using Colons = SLANG.Sequence<SLANG.Element, SLANG.Element>;
     using Int16Colon = SLANG.Sequence<HexadecimalInt16, SLANG.Element>;
@@ -14,7 +10,6 @@
     public class IPv6AddressLexer : Lexer<IPv6Address>
     {
         private readonly ILexer<HexadecimalInt16> hexadecimalInt16Lexer;
-
         private readonly ILexer<LeastSignificantInt32> leastSignificantInt32Lexer;
 
         /// <summary>Initializes a new instance of the <see cref="IPv6AddressLexer"/> class.</summary>
@@ -108,7 +103,7 @@
                 return new List<Element>(0);
             }
 
-            var elements = new List<Element>((count * 2) - 1);
+            var elements = new List<Element>((count*2) - 1);
             for (int i = 0, n = count - 1; i < n; i++)
             {
                 Int16Colon int16Colon;

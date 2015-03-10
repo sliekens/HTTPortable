@@ -2,10 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
 
     public class SegmentLexer : Lexer<Segment>
     {

@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
 
     public class Token : Element

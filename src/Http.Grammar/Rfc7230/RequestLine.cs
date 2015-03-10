@@ -6,12 +6,15 @@
 
     public class RequestLine : Element
     {
+        private readonly HttpVersion httpVersion;
         private readonly Method method;
         private readonly RequestTarget requestTarget;
-        private readonly HttpVersion httpVersion;
 
-        public RequestLine(Method method, Space sp1, RequestTarget requestTarget, Space sp2, HttpVersion httpVersion, EndOfLine endOfLine, ITextContext context)
-            : base(string.Concat(method.Data, sp1.Data, requestTarget.Data, sp2.Data, httpVersion.Data, endOfLine.Data), context)
+        public RequestLine(Method method, Space sp1, RequestTarget requestTarget, Space sp2, HttpVersion httpVersion, 
+            EndOfLine endOfLine, ITextContext context)
+            : base(
+                string.Concat(method.Data, sp1.Data, requestTarget.Data, sp2.Data, httpVersion.Data, endOfLine.Data), 
+                context)
         {
             Contract.Requires(method != null);
             Contract.Requires(sp1 != null);

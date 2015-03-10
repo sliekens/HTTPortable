@@ -1,30 +1,24 @@
-﻿using System;
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
     using SLANG.Core;
-
-
     using QuotedElement = SLANG.Alternative<QuotedText, QuotedPair>;
 
     public class QuotedStringLexer : Lexer<QuotedString>
     {
         private readonly ILexer<DoubleQuote> doubleQuoteLexer;
-
-        private readonly ILexer<QuotedText> quotedTextLexer;
-
         private readonly ILexer<QuotedPair> quotedPairLexer;
+        private readonly ILexer<QuotedText> quotedTextLexer;
 
         public QuotedStringLexer()
             : this(new DoubleQuoteLexer(), new QuotedTextLexer(), new QuotedPairLexer())
         {
         }
 
-        public QuotedStringLexer(ILexer<DoubleQuote> doubleQuoteLexer, ILexer<QuotedText> quotedTextLexer, ILexer<QuotedPair> quotedPairLexer)
+        public QuotedStringLexer(ILexer<DoubleQuote> doubleQuoteLexer, ILexer<QuotedText> quotedTextLexer, 
+            ILexer<QuotedPair> quotedPairLexer)
             : base("quoted-string")
         {
             Contract.Requires(doubleQuoteLexer != null);
@@ -53,7 +47,7 @@ namespace Http.Grammar.Rfc7230
 
             var quotedElements = new List<QuotedElement>();
             QuotedElement quotedElement;
-            while (this.TryReadQuotedElement(scanner ,out quotedElement))
+            while (this.TryReadQuotedElement(scanner, out quotedElement))
             {
                 quotedElements.Add(quotedElement);
             }
@@ -75,6 +69,14 @@ namespace Http.Grammar.Rfc7230
             scanner.PutBack(openingQuote.Data);
             element = default(QuotedString);
             return false;
+        }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.doubleQuoteLexer != null);
+            Contract.Invariant(this.quotedTextLexer != null);
+            Contract.Invariant(this.quotedPairLexer != null);
         }
 
         private bool TryReadQuotedElement(ITextScanner scanner, out QuotedElement element)
@@ -102,14 +104,6 @@ namespace Http.Grammar.Rfc7230
 
             element = default(QuotedElement);
             return false;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.doubleQuoteLexer != null);
-            Contract.Invariant(this.quotedTextLexer != null);
-            Contract.Invariant(this.quotedPairLexer != null);
         }
     }
 }

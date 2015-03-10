@@ -1,27 +1,23 @@
 ﻿namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
 
     public class RelativePartLexer : Lexer<RelativePart>
     {
         private readonly ILexer<Authority> authorityLexer;
-
-        private readonly ILexer<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexer;
-
         private readonly ILexer<PathAbsolute> pathAbsoluteLexer;
-
+        private readonly ILexer<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexer;
         private readonly ILexer<PathNoScheme> pathNoSchemeLexer;
 
         public RelativePartLexer()
-            : this(new AuthorityLexer(), new PathAbsoluteOrEmptyLexer(), new PathAbsoluteLexer(), new PathNoSchemeLexer())
+            : this(
+                new AuthorityLexer(), new PathAbsoluteOrEmptyLexer(), new PathAbsoluteLexer(), new PathNoSchemeLexer())
         {
         }
 
-        public RelativePartLexer(ILexer<Authority> authorityLexer, ILexer<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexer, ILexer<PathAbsolute> pathAbsoluteLexer, ILexer<PathNoScheme> pathNoSchemeLexer)
+        public RelativePartLexer(ILexer<Authority> authorityLexer, ILexer<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexer, 
+            ILexer<PathAbsolute> pathAbsoluteLexer, ILexer<PathNoScheme> pathNoSchemeLexer)
             : base("relative-part")
         {
             Contract.Requires(authorityLexer != null);
@@ -65,6 +61,15 @@
 
             element = new RelativePart(new PathEmpty(context), context);
             return true;
+        }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.authorityLexer != null);
+            Contract.Invariant(this.pathAbsoluteOrEmptyLexer != null);
+            Contract.Invariant(this.pathAbsoluteLexer != null);
+            Contract.Invariant(this.pathNoSchemeLexer != null);
         }
 
         private bool TryRead1(ITextScanner scanner, out RelativePart element)
@@ -142,15 +147,6 @@
 
             element = default(RelativePart);
             return false;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.authorityLexer != null);
-            Contract.Invariant(this.pathAbsoluteOrEmptyLexer != null);
-            Contract.Invariant(this.pathAbsoluteLexer != null);
-            Contract.Invariant(this.pathNoSchemeLexer != null);
         }
     }
 }

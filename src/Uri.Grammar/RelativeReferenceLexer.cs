@@ -1,27 +1,23 @@
 ﻿namespace Uri.Grammar
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
-
-    
-    using QueryPart = SLANG.Sequence<SLANG.Element, Query>;
     using FragmentPart = SLANG.Sequence<SLANG.Element, Fragment>;
+    using QueryPart = SLANG.Sequence<SLANG.Element, Query>;
 
     public class RelativeReferenceLexer : Lexer<RelativeReference>
     {
-        private readonly ILexer<RelativePart> relativePartLexer;
-
-        private readonly ILexer<Query> queryLexer;
-
         private readonly ILexer<Fragment> fragmentLexer;
+        private readonly ILexer<Query> queryLexer;
+        private readonly ILexer<RelativePart> relativePartLexer;
 
         public RelativeReferenceLexer()
             : this(new RelativePartLexer(), new QueryLexer(), new FragmentLexer())
         {
         }
 
-        public RelativeReferenceLexer(ILexer<RelativePart> relativePartLexer, ILexer<Query> queryLexer, ILexer<Fragment> fragmentLexer)
+        public RelativeReferenceLexer(ILexer<RelativePart> relativePartLexer, ILexer<Query> queryLexer, 
+            ILexer<Fragment> fragmentLexer)
             : base("relative-ref")
         {
             Contract.Requires(relativePartLexer != null);
@@ -70,33 +66,12 @@
             return true;
         }
 
-
-        private bool TryReadQueryPart(ITextScanner scanner, out QueryPart element)
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
         {
-            if (scanner.EndOfInput)
-            {
-                element = default(QueryPart);
-                return false;
-            }
-
-            var context = scanner.GetContext();
-            Element questionMark;
-            if (!TryReadTerminal(scanner, '?', out questionMark))
-            {
-                element = default(QueryPart);
-                return false;
-            }
-
-            Query query;
-            if (!this.queryLexer.TryRead(scanner, out query))
-            {
-                scanner.PutBack(questionMark.Data);
-                element = default(QueryPart);
-                return false;
-            }
-
-            element = new QueryPart(questionMark, query, context);
-            return true;
+            Contract.Invariant(this.relativePartLexer != null);
+            Contract.Invariant(this.queryLexer != null);
+            Contract.Invariant(this.fragmentLexer != null);
         }
 
         private bool TryReadFragmentPart(ITextScanner scanner, out FragmentPart element)
@@ -127,12 +102,32 @@
             return true;
         }
 
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
+        private bool TryReadQueryPart(ITextScanner scanner, out QueryPart element)
         {
-            Contract.Invariant(this.relativePartLexer != null);
-            Contract.Invariant(this.queryLexer != null);
-            Contract.Invariant(this.fragmentLexer != null);
+            if (scanner.EndOfInput)
+            {
+                element = default(QueryPart);
+                return false;
+            }
+
+            var context = scanner.GetContext();
+            Element questionMark;
+            if (!TryReadTerminal(scanner, '?', out questionMark))
+            {
+                element = default(QueryPart);
+                return false;
+            }
+
+            Query query;
+            if (!this.queryLexer.TryRead(scanner, out query))
+            {
+                scanner.PutBack(questionMark.Data);
+                element = default(QueryPart);
+                return false;
+            }
+
+            element = new QueryPart(questionMark, query, context);
+            return true;
         }
     }
 }

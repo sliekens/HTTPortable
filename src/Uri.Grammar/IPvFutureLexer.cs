@@ -2,28 +2,24 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-
     using SLANG;
     using SLANG.Core;
-
-
-    using IPvFutureCharacter = SLANG.Alternative<Unreserved, SubcomponentsDelimiter, SLANG.Element>;
     using Colon = SLANG.Element;
+    using IPvFutureCharacter = SLANG.Alternative<Unreserved, SubcomponentsDelimiter, SLANG.Element>;
 
     public class IPvFutureLexer : Lexer<IPvFuture>
     {
         private readonly ILexer<HexadecimalDigit> hexadecimalDigitLexer;
-
-        private readonly ILexer<Unreserved> unreservedLexer;
-
         private readonly ILexer<SubcomponentsDelimiter> subcomponentsDelimiterLexer;
+        private readonly ILexer<Unreserved> unreservedLexer;
 
         public IPvFutureLexer()
             : this(new HexadecimalDigitLexer(), new UnreservedLexer(), new SubcomponentsDelimiterLexer())
         {
         }
 
-        public IPvFutureLexer(ILexer<HexadecimalDigit> hexadecimalDigitLexer, ILexer<Unreserved> unreservedLexer, ILexer<SubcomponentsDelimiter> subcomponentsDelimiterLexer)
+        public IPvFutureLexer(ILexer<HexadecimalDigit> hexadecimalDigitLexer, ILexer<Unreserved> unreservedLexer, 
+            ILexer<SubcomponentsDelimiter> subcomponentsDelimiterLexer)
             : base("IPvFuture")
         {
             Contract.Requires(hexadecimalDigitLexer != null);
@@ -90,26 +86,12 @@
             return true;
         }
 
-        private bool TryReadLetterV(ITextScanner scanner, out Element v)
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
         {
-            if (scanner.EndOfInput)
-            {
-                v = default(Element);
-                return false;
-            }
-
-            var context = scanner.GetContext();
-            foreach (var c in new[] { 'v', 'V' })
-            {
-                if (scanner.TryMatch(c))
-                {
-                    v = new Element(c, context);
-                    return true;
-                }
-            }
-
-            v = default(Element);
-            return false;
+            Contract.Invariant(this.hexadecimalDigitLexer != null);
+            Contract.Invariant(this.unreservedLexer != null);
+            Contract.Invariant(this.subcomponentsDelimiterLexer != null);
         }
 
         private IList<HexadecimalDigit> ReadHexadecimalDigits(ITextScanner scanner)
@@ -124,6 +106,37 @@
             }
 
             return elements;
+        }
+
+        private IList<IPvFutureCharacter> ReadIPvFutureCharacters(ITextScanner scanner)
+        {
+            var elements = new List<IPvFutureCharacter>();
+            IPvFutureCharacter element;
+            while (this.TryReadIPvFutureCharacter(scanner, out element))
+            {
+                elements.Add(element);
+            }
+
+            return elements;
+        }
+
+        private bool TryReadColon(ITextScanner scanner, out Element colon)
+        {
+            if (scanner.EndOfInput)
+            {
+                colon = default(Colon);
+                return false;
+            }
+
+            var context = scanner.GetContext();
+            if (scanner.TryMatch(':'))
+            {
+                colon = new Colon(':', context);
+                return true;
+            }
+
+            colon = default(Colon);
+            return false;
         }
 
         private bool TryReadFullStop(ITextScanner scanner, out Element fullStop)
@@ -143,19 +156,6 @@
 
             fullStop = default(Element);
             return false;
-
-        }
-
-        private IList<IPvFutureCharacter> ReadIPvFutureCharacters(ITextScanner scanner)
-        {
-            var elements = new List<IPvFutureCharacter>();
-            IPvFutureCharacter element;
-            while (this.TryReadIPvFutureCharacter(scanner, out element))
-            {
-                elements.Add(element);
-            }
-
-            return elements;
         }
 
         private bool TryReadIPvFutureCharacter(ITextScanner scanner, out IPvFutureCharacter element)
@@ -181,7 +181,7 @@
                 return true;
             }
 
-            Colon colon;
+            Element colon;
             if (this.TryReadColon(scanner, out colon))
             {
                 element = new IPvFutureCharacter(colon, context);
@@ -192,31 +192,26 @@
             return false;
         }
 
-        private bool TryReadColon(ITextScanner scanner, out Colon colon)
+        private bool TryReadLetterV(ITextScanner scanner, out Element v)
         {
             if (scanner.EndOfInput)
             {
-                colon = default(Colon);
+                v = default(Element);
                 return false;
             }
 
             var context = scanner.GetContext();
-            if (scanner.TryMatch(':'))
+            foreach (var c in new[] { 'v', 'V' })
             {
-                colon = new Colon(':', context);
-                return true;
+                if (scanner.TryMatch(c))
+                {
+                    v = new Element(c, context);
+                    return true;
+                }
             }
 
-            colon = default(Colon);
+            v = default(Element);
             return false;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.hexadecimalDigitLexer != null);
-            Contract.Invariant(this.unreservedLexer != null);
-            Contract.Invariant(this.subcomponentsDelimiterLexer != null);
         }
     }
 }

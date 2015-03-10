@@ -1,9 +1,6 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-
-
-namespace Http.Grammar.Rfc7230
+﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Diagnostics.Contracts;
     using SLANG;
 
     public class FieldContentLexer : Lexer<FieldContent>
@@ -16,7 +13,8 @@ namespace Http.Grammar.Rfc7230
         {
         }
 
-        public FieldContentLexer(ILexer<FieldVisibleCharacter> fieldVisibleCharacterLexer, ILexer<RequiredWhiteSpace> requiredWhiteSpaceLexer)
+        public FieldContentLexer(ILexer<FieldVisibleCharacter> fieldVisibleCharacterLexer, 
+            ILexer<RequiredWhiteSpace> requiredWhiteSpaceLexer)
             : base("field-content")
         {
             Contract.Requires(fieldVisibleCharacterLexer != null);
@@ -47,7 +45,8 @@ namespace Http.Grammar.Rfc7230
                 FieldVisibleCharacter fieldVisibleCharacterRight;
                 if (this.fieldVisibleCharacterLexer.TryRead(scanner, out fieldVisibleCharacterRight))
                 {
-                    element = new FieldContent(fieldVisibleCharacterLeft, requiredWhiteSpace, fieldVisibleCharacterRight, context);
+                    element = new FieldContent(fieldVisibleCharacterLeft, requiredWhiteSpace, fieldVisibleCharacterRight, 
+                        context);
                     return true;
                 }
 
@@ -64,6 +63,5 @@ namespace Http.Grammar.Rfc7230
             Contract.Invariant(this.fieldVisibleCharacterLexer != null);
             Contract.Invariant(this.requiredWhiteSpaceLexer != null);
         }
-
     }
 }

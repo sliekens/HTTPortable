@@ -1,16 +1,12 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
-
     using SLANG;
     using SLANG.Core;
-
-
 
     public class QuotedTextLexer : Lexer<QuotedText>
     {
         private readonly ILexer<HorizontalTab> horizontalTabLexer;
-
         private readonly ILexer<Space> spaceLexer;
 
         public QuotedTextLexer()
