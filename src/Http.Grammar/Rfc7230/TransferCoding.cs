@@ -7,8 +7,6 @@
 
     public class TransferCoding : Element
     {
-        private readonly Element coding;
-
         public TransferCoding(Element terminal, ITextContext context)
             : base(terminal.Data, context)
         {
