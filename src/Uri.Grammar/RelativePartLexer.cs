@@ -151,7 +151,6 @@
             Contract.Invariant(this.pathAbsoluteOrEmptyLexer != null);
             Contract.Invariant(this.pathAbsoluteLexer != null);
             Contract.Invariant(this.pathNoSchemeLexer != null);
-            Contract.Invariant(this.pathEmptyLexer != null);
         }
     }
 }
