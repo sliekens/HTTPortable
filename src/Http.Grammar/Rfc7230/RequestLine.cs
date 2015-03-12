@@ -4,36 +4,18 @@
     using SLANG;
     using SLANG.Core;
 
-    public class RequestLine : Element
+    public class RequestLine : Sequence<Method, Space, RequestTarget, Space, HttpVersion, EndOfLine>
     {
-        private readonly HttpVersion httpVersion;
-        private readonly Method method;
-        private readonly RequestTarget requestTarget;
-
-        public RequestLine(Method method, Space sp1, RequestTarget requestTarget, Space sp2, HttpVersion httpVersion, 
-            EndOfLine endOfLine, ITextContext context)
-            : base(
-                string.Concat(method.Data, sp1.Data, requestTarget.Data, sp2.Data, httpVersion.Data, endOfLine.Data), 
-                context)
+        public RequestLine(Method element1, Space element2, RequestTarget element3, Space element4, HttpVersion element5, EndOfLine element6, ITextContext context)
+            : base(element1, element2, element3, element4, element5, element6, context)
         {
-            Contract.Requires(method != null);
-            Contract.Requires(sp1 != null);
-            Contract.Requires(requestTarget != null);
-            Contract.Requires(sp2 != null);
-            Contract.Requires(httpVersion != null);
-            Contract.Requires(endOfLine != null);
+            Contract.Requires(element1 != null);
+            Contract.Requires(element2 != null);
+            Contract.Requires(element3 != null);
+            Contract.Requires(element4 != null);
+            Contract.Requires(element5 != null);
+            Contract.Requires(element6 != null);
             Contract.Requires(context != null);
-            this.method = method;
-            this.requestTarget = requestTarget;
-            this.httpVersion = httpVersion;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.method != null);
-            Contract.Invariant(this.requestTarget != null);
-            Contract.Invariant(this.httpVersion != null);
         }
     }
 }
