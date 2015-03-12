@@ -2,18 +2,17 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-    using System.Linq;
     using SLANG;
     using SLANG.Core;
 
-    public class RequiredWhiteSpace : Element
+    public class RequiredWhiteSpace : Repetition<WhiteSpace>
     {
-        public RequiredWhiteSpace(IList<WhiteSpace> whiteSpace, ITextContext context)
-            : base(string.Concat(whiteSpace.Select(space => space.Data)), context)
+        public RequiredWhiteSpace(IList<WhiteSpace> elements, ITextContext context)
+            : base(elements, 1, context)
         {
-            Contract.Requires(whiteSpace != null);
-            Contract.Requires(whiteSpace.Count > 0);
-            Contract.Requires(Contract.ForAll(whiteSpace, space => space != null));
+            Contract.Requires(elements != null);
+            Contract.Requires(elements.Count != 0);
+            Contract.Requires(Contract.ForAll(elements, element => element != null));
             Contract.Requires(context != null);
         }
     }
