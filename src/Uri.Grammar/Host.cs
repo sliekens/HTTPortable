@@ -4,7 +4,7 @@
     using System.Diagnostics.Contracts;
     using SLANG;
 
-    public class Host : Element
+    public class Host : Alternative<IPLiteral, IPv4Address, RegisteredName>
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly bool isIPv4;
@@ -15,26 +15,26 @@
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly bool isRegisteredName;
 
-        public Host(IPLiteral ipLiteral, ITextContext context)
-            : base(ipLiteral.Data, context)
+        public Host(IPLiteral element, ITextContext context)
+            : base(element, context)
         {
-            Contract.Requires(ipLiteral != null);
+            Contract.Requires(element != null);
             Contract.Requires(context != null);
             this.isIPv6 = true;
         }
 
-        public Host(IPv4Address ipv4Address, ITextContext context)
-            : base(ipv4Address.Data, context)
+        public Host(IPv4Address element, ITextContext context)
+            : base(element, context)
         {
-            Contract.Requires(ipv4Address != null);
+            Contract.Requires(element != null);
             Contract.Requires(context != null);
             this.isIPv4 = true;
         }
 
-        public Host(RegisteredName registeredName, ITextContext context)
-            : base(registeredName.Data, context)
+        public Host(RegisteredName element, ITextContext context)
+            : base(element, context)
         {
-            Contract.Requires(registeredName != null);
+            Contract.Requires(element != null);
             Contract.Requires(context != null);
             this.isRegisteredName = true;
         }
