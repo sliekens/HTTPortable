@@ -128,7 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SLANG">
-      <HintPath>..\packages\SLANG.1.0.93-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+      <HintPath>..\packages\SLANG.1.0.94-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

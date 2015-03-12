@@ -108,6 +108,8 @@
     <Compile Include="Rfc7230\FieldVisibleCharacter.cs" />
     <Compile Include="Rfc7230\HeaderFieldLexer.cs" />
     <Compile Include="Rfc7230\HeaderField.cs" />
+    <Compile Include="Rfc7230\Host.cs" />
+    <Compile Include="Rfc7230\HostLexer.cs" />
     <Compile Include="Rfc7230\HttpNameLexer.cs" />
     <Compile Include="Rfc7230\HttpName.cs" />
     <Compile Include="Rfc7230\HttpVersionLexer.cs" />
@@ -152,7 +154,6 @@
     <Compile Include="Rfc7230\TransferExtensionLexer.cs" />
     <Compile Include="Rfc7230\TransferParameter.cs" />
     <Compile Include="Rfc7230\TransferParameterLexer.cs" />
-    <Compile Include="Rfc7230\UriHost.cs" />
     <Compile Include="Rfc7230\UriHostLexer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -163,7 +164,8 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SLANG">
-      <HintPath>..\packages\SLANG.1.0.93-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+      <HintPath>..\packages\SLANG.1.0.94-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>

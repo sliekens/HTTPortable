@@ -2,7 +2,6 @@
 {
     using System.Diagnostics.Contracts;
     using SLANG;
-    using Uri.Grammar;
     using UriHost = Uri.Grammar.Host;
 
     public class UriHostLexer : Lexer<UriHost>
@@ -10,7 +9,7 @@
         private readonly ILexer<UriHost> hostLexer;
 
         public UriHostLexer()
-            : this(new HostLexer())
+            : this(new global::Uri.Grammar.HostLexer())
         {
         }
 
