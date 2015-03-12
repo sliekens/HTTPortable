@@ -4,33 +4,33 @@
     using SLANG;
     using Uri.Grammar;
 
-    public class RequestTarget : Element
+    public class RequestTarget : Alternative<OriginForm, AbsoluteUri, Authority, AsteriskForm>
     {
-        public RequestTarget(OriginForm originForm, ITextContext context)
-            : base(originForm.Data, context)
+        public RequestTarget(OriginForm element, ITextContext context)
+            : base(element, context)
         {
-            Contract.Requires(originForm != null);
+            Contract.Requires(element != null);
             Contract.Requires(context != null);
         }
 
-        public RequestTarget(AbsoluteUri absoluteForm, ITextContext context)
-            : base(absoluteForm.Data, context)
+        public RequestTarget(AbsoluteUri element, ITextContext context)
+            : base(element, context)
         {
-            Contract.Requires(absoluteForm != null);
+            Contract.Requires(element != null);
             Contract.Requires(context != null);
         }
 
-        public RequestTarget(Authority authorityForm, ITextContext context)
-            : base(authorityForm.Data, context)
+        public RequestTarget(Authority element, ITextContext context)
+            : base(element, context)
         {
-            Contract.Requires(authorityForm != null);
+            Contract.Requires(element != null);
             Contract.Requires(context != null);
         }
 
-        public RequestTarget(AsteriskForm asteriskForm, ITextContext context)
-            : base(asteriskForm.Data, context)
+        public RequestTarget(AsteriskForm element, ITextContext context)
+            : base(element, context)
         {
-            Contract.Requires(asteriskForm != null);
+            Contract.Requires(element != null);
             Contract.Requires(context != null);
         }
     }
