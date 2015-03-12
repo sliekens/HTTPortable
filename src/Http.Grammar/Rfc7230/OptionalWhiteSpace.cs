@@ -2,16 +2,15 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-    using System.Linq;
     using SLANG;
     using SLANG.Core;
 
-    public class OptionalWhiteSpace : Element
+    public class OptionalWhiteSpace : Repetition<WhiteSpace>
     {
-        public OptionalWhiteSpace(IList<WhiteSpace> data, ITextContext context)
-            : base(string.Concat(data.Select(space => space.Data)), context)
+        public OptionalWhiteSpace(IList<WhiteSpace> elements, ITextContext context)
+            : base(elements, context)
         {
-            Contract.Requires(data != null);
+            Contract.Requires(elements != null);
             Contract.Requires(context != null);
         }
     }
