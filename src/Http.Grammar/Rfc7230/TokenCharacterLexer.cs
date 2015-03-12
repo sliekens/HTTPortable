@@ -27,16 +27,17 @@
         {
             if (scanner.EndOfInput)
             {
-                element = default (TokenCharacter);
+                element = default(TokenCharacter);
                 return false;
             }
 
             var context = scanner.GetContext();
-            foreach (var c in new[] { '!', '#', '$', '%', '&', '\'', '*', '+', '-', '.', '^', '_', '`', '|', '~' })
+            foreach (var c in new[] { "!", "#", "$", "%", "&", "'", "*", "+", "-", ".", "^", "_", "`", "|", "~" })
             {
-                if (scanner.TryMatch(c))
+                Element terminal;
+                if (TryReadTerminal(scanner, c, out terminal))
                 {
-                    element = new TokenCharacter(c, context);
+                    element = new TokenCharacter(terminal, context);
                     return true;
                 }
             }

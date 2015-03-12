@@ -4,28 +4,29 @@
     using SLANG;
     using SLANG.Core;
 
-    public class TokenCharacter : Element
+    public class TokenCharacter : Alternative<Element, Alpha, Digit>
     {
-        public TokenCharacter(char data, ITextContext context)
-            : base(data, context)
+        public TokenCharacter(Element element, ITextContext context)
+            : base(element, context)
         {
-            Contract.Requires(data == '!' || data == '#' || data == '$' || data == '%' || data == '&' || data == '\'' ||
-                              data == '*' || data == '+' || data == '-' || data == '.' || data == '^' || data == '_' ||
-                              data == '`' || data == '|' || data == '~');
+            Contract.Requires(element != null);
+            Contract.Requires(element.Data == "!" || element.Data == "#" || element.Data == "$" || element.Data == "%" || element.Data == "&" || element.Data == "'" ||
+                              element.Data == "*" || element.Data == "+" || element.Data == "-" || element.Data == "." || element.Data == "^" || element.Data == "_" ||
+                              element.Data == "`" || element.Data == "|" || element.Data == "~");
             Contract.Requires(context != null);
         }
 
-        public TokenCharacter(Digit digit, ITextContext context)
-            : base(digit.Data, context)
+        public TokenCharacter(Alpha element, ITextContext context)
+            : base(element, context)
         {
-            Contract.Requires(digit != null);
+            Contract.Requires(element != null);
             Contract.Requires(context != null);
         }
 
-        public TokenCharacter(Alpha alpha, ITextContext context)
-            : base(alpha.Data, context)
+        public TokenCharacter(Digit element, ITextContext context)
+            : base(element, context)
         {
-            Contract.Requires(alpha != null);
+            Contract.Requires(element != null);
             Contract.Requires(context != null);
         }
     }
