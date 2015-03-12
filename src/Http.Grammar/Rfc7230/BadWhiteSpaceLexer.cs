@@ -3,7 +3,7 @@
     using System.Diagnostics.Contracts;
     using SLANG;
 
-    public class BadWhiteSpaceLexer : Lexer<BadWhiteSpace>
+    public class BadWhiteSpaceLexer : Lexer<OptionalWhiteSpace>
     {
         private readonly ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer;
 
@@ -19,17 +19,14 @@
             this.optionalWhiteSpaceLexer = optionalWhiteSpaceLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out BadWhiteSpace element)
+        public override bool TryRead(ITextScanner scanner, out OptionalWhiteSpace element)
         {
-            var context = scanner.GetContext();
-            OptionalWhiteSpace optionalWhiteSpace;
-            if (this.optionalWhiteSpaceLexer.TryRead(scanner, out optionalWhiteSpace))
+            if (this.optionalWhiteSpaceLexer.TryRead(scanner, out element))
             {
-                element = new BadWhiteSpace(optionalWhiteSpace, context);
                 return true;
             }
 
-            element = default(BadWhiteSpace);
+            element = default(OptionalWhiteSpace);
             return false;
         }
 

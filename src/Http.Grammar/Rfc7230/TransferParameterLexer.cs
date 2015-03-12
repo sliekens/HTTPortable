@@ -2,6 +2,7 @@
 {
     using System.Diagnostics.Contracts;
     using SLANG;
+    using BadWhiteSpace = OptionalWhiteSpace;
 
     public class TransferParameterLexer : Lexer<TransferParameter>
     {
