@@ -18,7 +18,7 @@
             }
 
             var context = scanner.GetContext();
-            for (var c = '\u0080'; c <= '\u00FF'; c++)
+            for (var c = '\x80'; c <= '\xFF'; c++)
             {
                 if (scanner.TryMatch(c))
                 {

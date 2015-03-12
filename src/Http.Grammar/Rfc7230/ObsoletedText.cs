@@ -8,7 +8,7 @@
         public ObsoletedText(char data, ITextContext context)
             : base(data, context)
         {
-            Contract.Requires(data >= '\u0080' && data <= '\u00FF');
+            Contract.Requires(data >= '\x80' && data <= '\xFF');
             Contract.Requires(context != null);
         }
     }
