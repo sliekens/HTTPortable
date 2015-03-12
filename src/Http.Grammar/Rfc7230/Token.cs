@@ -4,14 +4,14 @@
     using System.Diagnostics.Contracts;
     using SLANG;
 
-    public class Token : Element
+    public class Token : Repetition<TokenCharacter>
     {
-        public Token(IList<TokenCharacter> tokenCharacters, ITextContext context)
-            : base(string.Concat(tokenCharacters), context)
+        public Token(IList<TokenCharacter> elements, ITextContext context)
+            : base(elements, 1, context)
         {
-            Contract.Requires(tokenCharacters != null);
-            Contract.Requires(tokenCharacters.Count != 0);
-            Contract.Requires(Contract.ForAll(tokenCharacters, c => c != null));
+            Contract.Requires(elements != null);
+            Contract.Requires(elements.Count != 0);
+            Contract.Requires(Contract.ForAll(elements, element => element != null));
             Contract.Requires(context != null);
         }
     }
