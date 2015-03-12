@@ -30,20 +30,20 @@
             }
 
             var context = scanner.GetContext();
+            var elements = new List<TokenCharacter>();
             TokenCharacter tokenCharacter;
-            if (!this.tokenCharacterLexer.TryRead(scanner, out tokenCharacter))
+            while (this.tokenCharacterLexer.TryRead(scanner, out tokenCharacter))
+            {
+                elements.Add(tokenCharacter);
+            }
+
+            if (elements.Count == 0)
             {
                 token = default(Token);
                 return false;
             }
 
-            List<TokenCharacter> list = new List<TokenCharacter> { tokenCharacter };
-            while (this.tokenCharacterLexer.TryRead(scanner, out tokenCharacter))
-            {
-                list.Add(tokenCharacter);
-            }
-
-            token = new Token(new ReadOnlyCollection<TokenCharacter>(list), context);
+            token = new Token(new ReadOnlyCollection<TokenCharacter>(elements), context);
             return true;
         }
 
