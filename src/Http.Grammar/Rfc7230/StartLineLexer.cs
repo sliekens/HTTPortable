@@ -8,6 +8,11 @@
         private readonly ILexer<RequestLine> requestLineLexer;
         private readonly ILexer<StatusLine> statusLineLexer;
 
+        public StartLineLexer()
+            : this(new RequestLineLexer(), new StatusLineLexer())
+        {
+        }
+
         public StartLineLexer(ILexer<RequestLine> requestLineLexer, ILexer<StatusLine> statusLineLexer)
             : base("start-line")
         {
