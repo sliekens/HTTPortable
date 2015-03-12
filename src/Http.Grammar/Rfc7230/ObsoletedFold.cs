@@ -4,13 +4,13 @@
     using SLANG;
     using SLANG.Core;
 
-    public class ObsoletedFold : Element
+    public class ObsoletedFold : Sequence<EndOfLine, RequiredWhiteSpace>
     {
-        public ObsoletedFold(EndOfLine endOfLine, RequiredWhiteSpace requiredWhiteSpace, ITextContext context)
-            : base(string.Concat(endOfLine.Data, requiredWhiteSpace.Data), context)
+        public ObsoletedFold(EndOfLine element1, RequiredWhiteSpace element2, ITextContext context)
+            : base(element1, element2, context)
         {
-            Contract.Requires(endOfLine != null);
-            Contract.Requires(requiredWhiteSpace != null);
+            Contract.Requires(element1 != null);
+            Contract.Requires(element2 != null);
             Contract.Requires(context != null);
         }
     }
