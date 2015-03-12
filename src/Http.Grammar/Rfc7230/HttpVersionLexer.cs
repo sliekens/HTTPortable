@@ -22,51 +22,59 @@
 
         public override bool TryRead(ITextScanner scanner, out HttpVersion element)
         {
-            HttpName httpName;
-            Digit digit1;
-            Digit digit2;
+            if (scanner.EndOfInput)
+            {
+                element = default(HttpVersion);
+                return false;
+            }
+
             var context = scanner.GetContext();
+            HttpName httpName;
             if (!this.httpNameLexer.TryRead(scanner, out httpName))
             {
                 element = default(HttpVersion);
                 return false;
             }
 
-            if (!scanner.TryMatch('/'))
+            Element slash;
+            if (!TryReadTerminal(scanner, '/', out slash))
             {
                 scanner.PutBack(httpName.Data);
                 element = default(HttpVersion);
                 return false;
             }
 
-            if (!this.digitLexer.TryRead(scanner, out digit1))
+            Digit versionMajor;
+            if (!this.digitLexer.TryRead(scanner, out versionMajor))
             {
-                scanner.PutBack('/');
+                scanner.PutBack(slash.Data);
                 scanner.PutBack(httpName.Data);
                 element = default(HttpVersion);
                 return false;
             }
 
-            if (!scanner.TryMatch('.'))
+            Element decimalSeparator;
+            if (!TryReadTerminal(scanner, '.', out decimalSeparator))
             {
-                scanner.PutBack(digit1.Data);
-                scanner.PutBack('/');
+                scanner.PutBack(versionMajor.Data);
+                scanner.PutBack(slash.Data);
                 scanner.PutBack(httpName.Data);
                 element = default(HttpVersion);
                 return false;
             }
 
-            if (!this.digitLexer.TryRead(scanner, out digit2))
+            Digit versionMinor;
+            if (!this.digitLexer.TryRead(scanner, out versionMinor))
             {
-                scanner.PutBack('.');
-                scanner.PutBack(digit1.Data);
-                scanner.PutBack('/');
+                scanner.PutBack(decimalSeparator.Data);
+                scanner.PutBack(versionMajor.Data);
+                scanner.PutBack(slash.Data);
                 scanner.PutBack(httpName.Data);
                 element = default(HttpVersion);
                 return false;
             }
 
-            element = new HttpVersion(httpName, digit1, digit2, context);
+            element = new HttpVersion(httpName, slash, versionMajor, decimalSeparator, versionMinor, context);
             return true;
         }
     }

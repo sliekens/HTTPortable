@@ -1,68 +1,28 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Diagnostics.Contracts;
     using SLANG;
     using SLANG.Core;
 
-    public class HttpVersion : Element
+    public class HttpVersion : Sequence<HttpName, Element, Digit, Element, Digit>
     {
-        private readonly Digit digit1;
-        private readonly Digit digit2;
-        private readonly HttpName httpName;
-
-        public HttpVersion(HttpName httpName, Digit digit1, Digit digit2, ITextContext context)
-            : base(string.Concat(httpName.Data, "/", digit1.Data, ".", digit2.Data), context)
+        public HttpVersion(HttpName element1, Element element2, Digit element3, Element element4, Digit element5, ITextContext context)
+            : base(element1, element2, element3, element4, element5, context)
         {
-            Contract.Requires(httpName != null);
-            Contract.Requires(digit1 != null);
-            Contract.Requires(digit2 != null);
+            Contract.Requires(element1 != null);
+            Contract.Requires(element2 != null);
+            Contract.Requires(element3 != null);
+            Contract.Requires(element4 != null);
+            Contract.Requires(element5 != null);
             Contract.Requires(context != null);
-            this.httpName = httpName;
-            this.digit1 = digit1;
-            this.digit2 = digit2;
-        }
-
-        public Digit Digit1
-        {
-            get
-            {
-                return this.digit1;
-            }
-        }
-
-        public Digit Digit2
-        {
-            get
-            {
-                return this.digit2;
-            }
-        }
-
-        public HttpName HttpName
-        {
-            get
-            {
-                return this.httpName;
-            }
         }
 
         public Version ToVersion()
         {
-            var major = int.Parse(this.Digit1.Data);
-            var minor = int.Parse(this.Digit2.Data);
+            var major = int.Parse(this.Element3.Data);
+            var minor = int.Parse(this.Element5.Data);
             return new Version(major, minor);
-        }
-
-        [ContractInvariantMethod]
-        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", 
-            Justification = "Reviewed. Suppression is OK here.")]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.httpName != null);
-            Contract.Invariant(this.digit1 != null);
-            Contract.Invariant(this.digit2 != null);
         }
     }
 }
