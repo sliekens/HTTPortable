@@ -4,14 +4,14 @@
     using SLANG;
     using SLANG.Core;
 
-    public class StatusCode : Element
+    public class StatusCode : Sequence<Digit, Digit, Digit>
     {
-        public StatusCode(Digit digit1, Digit digit2, Digit digit3, ITextContext context)
-            : base(string.Concat(digit1.Data, digit2.Data, digit3.Data), context)
+        public StatusCode(Digit element1, Digit element2, Digit element3, ITextContext context)
+            : base(element1, element2, element3, context)
         {
-            Contract.Requires(digit1 != null);
-            Contract.Requires(digit2 != null);
-            Contract.Requires(digit3 != null);
+            Contract.Requires(element1 != null);
+            Contract.Requires(element2 != null);
+            Contract.Requires(element3 != null);
             Contract.Requires(context != null);
         }
 
