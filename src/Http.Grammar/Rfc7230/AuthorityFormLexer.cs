@@ -4,7 +4,7 @@
     using SLANG;
     using Uri.Grammar;
 
-    public class AuthorityFormLexer : Lexer<AuthorityForm>
+    public class AuthorityFormLexer : Lexer<Authority>
     {
         private readonly ILexer<Authority> authorityLexer;
 
@@ -20,23 +20,20 @@
             this.authorityLexer = authorityLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out AuthorityForm element)
+        public override bool TryRead(ITextScanner scanner, out Authority element)
         {
             if (scanner.EndOfInput)
             {
-                element = default(AuthorityForm);
+                element = default(Authority);
                 return false;
             }
 
-            var context = scanner.GetContext();
-            Authority authority;
-            if (this.authorityLexer.TryRead(scanner, out authority))
+            if (this.authorityLexer.TryRead(scanner, out element))
             {
-                element = new AuthorityForm(authority, context);
                 return true;
             }
 
-            element = default(AuthorityForm);
+            element = default(Authority);
             return false;
         }
 

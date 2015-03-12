@@ -8,7 +8,7 @@
     {
         private readonly ILexer<AbsoluteUri> absoluteFormLexer;
         private readonly ILexer<AsteriskForm> asteriskFormLexer;
-        private readonly ILexer<AuthorityForm> authorityFormLexer;
+        private readonly ILexer<Authority> authorityFormLexer;
         private readonly ILexer<OriginForm> originFormLexer;
 
         public RequestTargetLexer()
@@ -17,7 +17,7 @@
         }
 
         public RequestTargetLexer(ILexer<OriginForm> originFormLexer, ILexer<AbsoluteUri> absoluteFormLexer, 
-            ILexer<AuthorityForm> authorityFormLexer, ILexer<AsteriskForm> asteriskFormLexer)
+            ILexer<Authority> authorityFormLexer, ILexer<AsteriskForm> asteriskFormLexer)
             : base("request-target")
         {
             Contract.Requires(originFormLexer != null);
@@ -53,7 +53,7 @@
                 return true;
             }
 
-            AuthorityForm authorityForm;
+            Authority authorityForm;
             if (this.authorityFormLexer.TryRead(scanner, out authorityForm))
             {
                 element = new RequestTarget(authorityForm, context);

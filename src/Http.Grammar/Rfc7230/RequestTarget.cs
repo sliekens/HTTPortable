@@ -20,7 +20,7 @@
             Contract.Requires(context != null);
         }
 
-        public RequestTarget(AuthorityForm authorityForm, ITextContext context)
+        public RequestTarget(Authority authorityForm, ITextContext context)
             : base(authorityForm.Data, context)
         {
             Contract.Requires(authorityForm != null);
