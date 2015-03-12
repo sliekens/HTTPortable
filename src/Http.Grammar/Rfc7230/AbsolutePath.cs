@@ -5,32 +5,13 @@
     using SLANG;
     using SegmentPart = SLANG.Sequence<SLANG.Element, Uri.Grammar.Segment>;
 
-    public class AbsolutePath : Element
+    public class AbsolutePath : Repetition<SegmentPart>
     {
-        public AbsolutePath(IList<SegmentPart> segments, ITextContext context)
-            : base(string.Concat(segments), context)
+        public AbsolutePath(IList<SegmentPart> elements, ITextContext context)
+            : base(elements, 1, context)
         {
-            Contract.Requires(segments != null);
-            Contract.Requires(Contract.ForAll(segments, 
-                sequence =>
-                {
-                    if (sequence == null)
-                    {
-                        return false;
-                    }
-
-                    if (sequence.Element1 == null || sequence.Element1.Data != "/")
-                    {
-                        return false;
-                    }
-
-                    if (sequence.Element2 == null)
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }));
+            Contract.Requires(elements != null);
+            Contract.Requires(Contract.ForAll(elements, element => element != null));
             Contract.Requires(context != null);
         }
     }
