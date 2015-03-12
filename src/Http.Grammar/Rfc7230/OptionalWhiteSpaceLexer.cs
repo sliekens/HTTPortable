@@ -23,12 +23,6 @@
 
         public override bool TryRead(ITextScanner scanner, out OptionalWhiteSpace element)
         {
-            if (scanner.EndOfInput)
-            {
-                element = default(OptionalWhiteSpace);
-                return false;
-            }
-
             var context = scanner.GetContext();
             WhiteSpace whiteSpace;
             IList<WhiteSpace> elements = new List<WhiteSpace>();
@@ -40,6 +34,7 @@
             element = new OptionalWhiteSpace(elements, context);
             return true;
         }
+
 
         [ContractInvariantMethod]
         private void ObjectInvariant()
