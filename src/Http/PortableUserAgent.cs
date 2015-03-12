@@ -51,9 +51,9 @@
                     scanner.Read();
                     var statusLineLexer = new StatusLineLexer();
                     var statusLine = statusLineLexer.Read(scanner);
-                    var httpVersion = statusLine.HttpVersion.ToVersion();
-                    var status = int.Parse(statusLine.StatusCode.Data);
-                    var reason = statusLine.ReasonPhrase.Data;
+                    var httpVersion = statusLine.Element1.ToVersion();
+                    var status = int.Parse(statusLine.Element3.Data);
+                    var reason = statusLine.Element5.Data;
                     message = new ResponseMessage(httpVersion, status, reason);
                     var headerFieldLexer = new HeaderFieldLexer();
                     var crLfLexer = new EndOfLineLexer();

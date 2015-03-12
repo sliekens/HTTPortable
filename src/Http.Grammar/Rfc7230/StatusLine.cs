@@ -4,58 +4,18 @@
     using SLANG;
     using SLANG.Core;
 
-    public class StatusLine : Element
+    public class StatusLine : Sequence<HttpVersion, Space, StatusCode, Space, ReasonPhrase, EndOfLine>
     {
-        private readonly HttpVersion httpVersion;
-        private readonly ReasonPhrase reasonPhrase;
-        private readonly StatusCode statusCode;
-
-        public StatusLine(HttpVersion httpVersion, Space space1, StatusCode statusCode, Space space2, 
-            ReasonPhrase reasonPhrase, EndOfLine endOfLine, ITextContext context)
-            : base(string.Concat(httpVersion, space1, statusCode, space2, reasonPhrase, endOfLine), context)
+        public StatusLine(HttpVersion element1, Space element2, StatusCode element3, Space element4, ReasonPhrase element5, EndOfLine element6, ITextContext context)
+            : base(element1, element2, element3, element4, element5, element6, context)
         {
-            Contract.Requires(httpVersion != null);
-            Contract.Requires(space1 != null);
-            Contract.Requires(statusCode != null);
-            Contract.Requires(space2 != null);
-            Contract.Requires(reasonPhrase != null);
-            Contract.Requires(endOfLine != null);
+            Contract.Requires(element1 != null);
+            Contract.Requires(element2 != null);
+            Contract.Requires(element3 != null);
+            Contract.Requires(element4 != null);
+            Contract.Requires(element5 != null);
+            Contract.Requires(element6 != null);
             Contract.Requires(context != null);
-            this.httpVersion = httpVersion;
-            this.statusCode = statusCode;
-            this.reasonPhrase = reasonPhrase;
-        }
-
-        public HttpVersion HttpVersion
-        {
-            get
-            {
-                return this.httpVersion;
-            }
-        }
-
-        public ReasonPhrase ReasonPhrase
-        {
-            get
-            {
-                return this.reasonPhrase;
-            }
-        }
-
-        public StatusCode StatusCode
-        {
-            get
-            {
-                return this.statusCode;
-            }
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.httpVersion != null);
-            Contract.Invariant(this.statusCode != null);
-            Contract.Invariant(this.reasonPhrase != null);
         }
     }
 }
