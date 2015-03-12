@@ -2,6 +2,7 @@
 {
     using System.Diagnostics.Contracts;
     using SLANG;
+    using Uri.Grammar;
 
     public class RequestTarget : Element
     {
@@ -12,7 +13,7 @@
             Contract.Requires(context != null);
         }
 
-        public RequestTarget(AbsoluteForm absoluteForm, ITextContext context)
+        public RequestTarget(AbsoluteUri absoluteForm, ITextContext context)
             : base(absoluteForm.Data, context)
         {
             Contract.Requires(absoluteForm != null);

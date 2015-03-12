@@ -2,10 +2,11 @@
 {
     using System.Diagnostics.Contracts;
     using SLANG;
+    using Uri.Grammar;
 
     public class RequestTargetLexer : Lexer<RequestTarget>
     {
-        private readonly ILexer<AbsoluteForm> absoluteFormLexer;
+        private readonly ILexer<AbsoluteUri> absoluteFormLexer;
         private readonly ILexer<AsteriskForm> asteriskFormLexer;
         private readonly ILexer<AuthorityForm> authorityFormLexer;
         private readonly ILexer<OriginForm> originFormLexer;
@@ -15,7 +16,7 @@
         {
         }
 
-        public RequestTargetLexer(ILexer<OriginForm> originFormLexer, ILexer<AbsoluteForm> absoluteFormLexer, 
+        public RequestTargetLexer(ILexer<OriginForm> originFormLexer, ILexer<AbsoluteUri> absoluteFormLexer, 
             ILexer<AuthorityForm> authorityFormLexer, ILexer<AsteriskForm> asteriskFormLexer)
             : base("request-target")
         {
@@ -45,7 +46,7 @@
                 return true;
             }
 
-            AbsoluteForm absoluteForm;
+            AbsoluteUri absoluteForm;
             if (this.absoluteFormLexer.TryRead(scanner, out absoluteForm))
             {
                 element = new RequestTarget(absoluteForm, context);

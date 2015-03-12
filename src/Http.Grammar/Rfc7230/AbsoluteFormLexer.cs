@@ -4,7 +4,7 @@
     using SLANG;
     using Uri.Grammar;
 
-    public class AbsoluteFormLexer : Lexer<AbsoluteForm>
+    public class AbsoluteFormLexer : Lexer<AbsoluteUri>
     {
         private readonly ILexer<AbsoluteUri> absoluteUriLexer;
 
@@ -20,23 +20,20 @@
             this.absoluteUriLexer = absoluteUriLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out AbsoluteForm element)
+        public override bool TryRead(ITextScanner scanner, out AbsoluteUri element)
         {
             if (scanner.EndOfInput)
             {
-                element = default(AbsoluteForm);
+                element = default(AbsoluteUri);
                 return false;
             }
 
-            var context = scanner.GetContext();
-            AbsoluteUri absoluteUri;
-            if (this.absoluteUriLexer.TryRead(scanner, out absoluteUri))
+            if (this.absoluteUriLexer.TryRead(scanner, out element))
             {
-                element = new AbsoluteForm(absoluteUri, context);
                 return true;
             }
 
-            element = default(AbsoluteForm);
+            element = default(AbsoluteUri);
             return false;
         }
 
