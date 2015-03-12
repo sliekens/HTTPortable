@@ -5,9 +5,10 @@
 
     public class HttpName : Element
     {
-        public HttpName(ITextContext context)
-            : base("HTTP", context)
+        public HttpName(Element element, ITextContext context)
+            : base(element.Data, context)
         {
+            Contract.Requires(element != null);
             Contract.Requires(context != null);
         }
     }

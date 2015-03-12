@@ -11,43 +11,21 @@
 
         public override bool TryRead(ITextScanner scanner, out HttpName element)
         {
+            if (scanner.EndOfInput)
+            {
+                element = default(HttpName);
+                return false;
+            }
+
             var context = scanner.GetContext();
-
-            // H
-            if (!scanner.TryMatch('\u0048'))
+            Element terminal;
+            if (TryReadTerminal(scanner, new[] { '\x48', '\x54', '\x54', '\x50' }, out terminal))
             {
-                element = default(HttpName);
-                return false;
+                element = new HttpName(terminal, context);
+                return true;
             }
 
-            // T
-            if (!scanner.TryMatch('\u0054'))
-            {
-                scanner.PutBack('\u0048');
-                element = default(HttpName);
-                return false;
-            }
-
-            // T
-            if (!scanner.TryMatch('\u0054'))
-            {
-                scanner.PutBack('\u0054');
-                scanner.PutBack('\u0048');
-                element = default(HttpName);
-                return false;
-            }
-
-            // P
-            if (!scanner.TryMatch('\u0050'))
-            {
-                scanner.PutBack('\u0054');
-                scanner.PutBack('\u0054');
-                scanner.PutBack('\u0048');
-                element = default(HttpName);
-                return false;
-            }
-
-            element = new HttpName(context);
+            element = default(HttpName);
             return true;
         }
     }
