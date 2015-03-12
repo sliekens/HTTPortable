@@ -97,6 +97,8 @@
     <Compile Include="Rfc7230\AuthorityForm.cs" />
     <Compile Include="Rfc7230\AuthorityFormLexer.cs" />
     <Compile Include="Rfc7230\BadWhiteSpaceLexer.cs" />
+    <Compile Include="Rfc7230\ContentLength.cs" />
+    <Compile Include="Rfc7230\ContentLengthLexer.cs" />
     <Compile Include="Rfc7230\FieldContentLexer.cs" />
     <Compile Include="Rfc7230\FieldContent.cs" />
     <Compile Include="Rfc7230\FieldNameLexer.cs" />
