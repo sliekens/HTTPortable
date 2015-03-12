@@ -35,38 +35,41 @@
             HorizontalTab horizontalTab;
             if (this.horizontalTabLexer.TryRead(scanner, out horizontalTab))
             {
-                element = QuotedText.Create1(horizontalTab, context);
+                element = new QuotedText(horizontalTab, context);
                 return true;
             }
 
             Space space;
             if (this.spaceLexer.TryRead(scanner, out space))
             {
-                element = QuotedText.Create2(space, context);
+                element = new QuotedText(space, context);
                 return true;
             }
 
-            char c = '!';
-            if (scanner.TryMatch(c))
+
+            Element exclamation;
+            if (TryReadTerminal(scanner, "!", out exclamation))
             {
-                element = QuotedText.Create3(c, context);
+                element = new QuotedText(exclamation, context);
                 return true;
             }
 
-            for (c = '\x0023'; c < '\x005B'; c++)
+            for (char c = '\x23'; c < '\x5B'; c++)
             {
-                if (scanner.TryMatch(c))
+                Element terminal;
+                if (TryReadTerminal(scanner, c, out terminal))
                 {
-                    element = QuotedText.Create4(c, context);
+                    element = new QuotedText(terminal, context);
                     return true;
                 }
             }
 
-            for (c = '\x005D'; c < '\x007E'; c++)
+            for (char c = '\x5D'; c < '\x7E'; c++)
             {
-                if (scanner.TryMatch(c))
+                Element terminal;
+                if (TryReadTerminal(scanner, c, out terminal))
                 {
-                    element = QuotedText.Create5(c, context);
+                    element = new QuotedText(terminal, context);
                     return true;
                 }
             }
