@@ -137,6 +137,8 @@
     <Compile Include="Rfc7230\RequestTargetLexer.cs" />
     <Compile Include="Rfc7230\RequiredWhiteSpaceLexer.cs" />
     <Compile Include="Rfc7230\RequiredWhiteSpace.cs" />
+    <Compile Include="Rfc7230\StartLine.cs" />
+    <Compile Include="Rfc7230\StartLineLexer.cs" />
     <Compile Include="Rfc7230\StatusCodeLexer.cs" />
     <Compile Include="Rfc7230\StatusCode.cs" />
     <Compile Include="Rfc7230\StatusLineLexer.cs" />
