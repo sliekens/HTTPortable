@@ -49,8 +49,14 @@
                 using (ITextScanner scanner = new TextScanner(reader))
                 {
                     scanner.Read();
-                    var statusLineLexer = new StatusLineLexer();
-                    var statusLine = statusLineLexer.Read(scanner);
+                    var startLineLexer = new StartLineLexer();
+                    var startLine = startLineLexer.Read(scanner);
+                    if (startLine.Element is RequestLine)
+                    {
+                        throw new NotImplementedException("Receiving requests is not implemented");
+                    }
+
+                    var statusLine = (StatusLine)startLine.Element;
                     var httpVersion = statusLine.Element1.ToVersion();
                     var status = int.Parse(statusLine.Element3.Data);
                     var reason = statusLine.Element5.Data;
