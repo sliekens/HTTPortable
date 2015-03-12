@@ -3,17 +3,18 @@
     using System.Diagnostics.Contracts;
     using SLANG;
     using Uri.Grammar;
+    using UriHost = Uri.Grammar.Host;
 
     public class UriHostLexer : Lexer<UriHost>
     {
-        private readonly ILexer<Host> hostLexer;
+        private readonly ILexer<UriHost> hostLexer;
 
         public UriHostLexer()
             : this(new HostLexer())
         {
         }
 
-        public UriHostLexer(ILexer<Host> hostLexer)
+        public UriHostLexer(ILexer<UriHost> hostLexer)
             : base("uri-host")
         {
             Contract.Requires(hostLexer != null);
@@ -28,11 +29,8 @@
                 return false;
             }
 
-            var context = scanner.GetContext();
-            Host host;
-            if (this.hostLexer.TryRead(scanner, out host))
+            if (this.hostLexer.TryRead(scanner, out element))
             {
-                element = new UriHost(host, context);
                 return true;
             }
 
