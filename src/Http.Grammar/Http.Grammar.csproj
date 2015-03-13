@@ -123,6 +123,7 @@
     <Compile Include="Rfc7230\OptionalWhiteSpace.cs" />
     <Compile Include="Rfc7230\OriginForm.cs" />
     <Compile Include="Rfc7230\OriginFormLexer.cs" />
+    <Compile Include="Rfc7230\PseudonymLexer.cs" />
     <Compile Include="Rfc7230\QuotedPair.cs" />
     <Compile Include="Rfc7230\QuotedPairLexer.cs" />
     <Compile Include="Rfc7230\QuotedString.cs" />
