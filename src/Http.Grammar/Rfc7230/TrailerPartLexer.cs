@@ -11,6 +11,11 @@
         private readonly ILexer<EndOfLine> endOfLineLexer;
         private readonly ILexer<HeaderField> headerFieldLexer;
 
+        public TrailerPartLexer()
+            : this(new HeaderFieldLexer(), new EndOfLineLexer())
+        {
+        }
+
         public TrailerPartLexer(ILexer<HeaderField> headerFieldLexer, ILexer<EndOfLine> endOfLineLexer)
             : base("trailer-part")
         {
