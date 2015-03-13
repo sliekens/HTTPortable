@@ -15,19 +15,7 @@
 
         public override bool TryRead(ITextScanner scanner, out Pseudonym element)
         {
-            if (scanner.EndOfInput)
-            {
-                element = default(Pseudonym);
-                return false;
-            }
-
-            if (this.tokenLexer.TryRead(scanner, out element))
-            {
-                return true;
-            }
-
-            element = default(Pseudonym);
-            return false;
+            return this.tokenLexer.TryRead(scanner, out element);
         }
     }
 }
