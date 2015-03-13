@@ -1,8 +1,10 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
+    using System;
     using System.Diagnostics.Contracts;
     using SLANG;
     using BadWhiteSpace = OptionalWhiteSpace;
+    using ParameterValue = SLANG.Alternative<Token, QuotedString>;
 
     public class TransferParameterLexer : Lexer<TransferParameter>
     {
@@ -15,7 +17,7 @@
         {
         }
 
-        public TransferParameterLexer(ILexer<Token> tokenLexer, ILexer<BadWhiteSpace> badWhiteSpaceLexer, 
+        public TransferParameterLexer(ILexer<Token> tokenLexer, ILexer<BadWhiteSpace> badWhiteSpaceLexer,
             ILexer<QuotedString> quotedStringLexer)
             : base("transfer-parameter")
         {
@@ -36,8 +38,8 @@
             }
 
             var context = scanner.GetContext();
-            Token name;
-            if (!this.tokenLexer.TryRead(scanner, out name))
+            Token parameterName;
+            if (!this.tokenLexer.TryRead(scanner, out parameterName))
             {
                 element = default(TransferParameter);
                 return false;
@@ -46,16 +48,16 @@
             BadWhiteSpace badWhiteSpace1;
             if (!this.badWhiteSpaceLexer.TryRead(scanner, out badWhiteSpace1))
             {
-                scanner.PutBack(name.Data);
+                scanner.PutBack(parameterName.Data);
                 element = default(TransferParameter);
                 return false;
             }
 
             Element equalsSign;
-            if (!TryReadTerminal(scanner, '=', out equalsSign))
+            if (!TryReadTerminal(scanner, "=", out equalsSign))
             {
                 scanner.PutBack(badWhiteSpace1.Data);
-                scanner.PutBack(name.Data);
+                scanner.PutBack(parameterName.Data);
                 element = default(TransferParameter);
                 return false;
             }
@@ -65,30 +67,50 @@
             {
                 scanner.PutBack(equalsSign.Data);
                 scanner.PutBack(badWhiteSpace1.Data);
-                scanner.PutBack(name.Data);
+                scanner.PutBack(parameterName.Data);
                 element = default(TransferParameter);
                 return false;
             }
 
-            Token value;
-            if (this.tokenLexer.TryRead(scanner, out value))
+            ParameterValue parameterValue;
+            if (!this.TryReadParameterValue(scanner, out parameterValue))
             {
-                element = new TransferParameter(name, value, context);
+                scanner.PutBack(badWhiteSpace2.Data);
+                scanner.PutBack(equalsSign.Data);
+                scanner.PutBack(badWhiteSpace1.Data);
+                scanner.PutBack(parameterName.Data);
+                element = default(TransferParameter);
+                return false;
+            }
+
+            element = new TransferParameter(parameterName, badWhiteSpace1, equalsSign, badWhiteSpace2, parameterValue, context);
+            return true;
+        }
+
+        private bool TryReadParameterValue(ITextScanner scanner, out ParameterValue element)
+        {
+            if (scanner.EndOfInput)
+            {
+                element = default(ParameterValue);
+                return false;
+            }
+
+            var context = scanner.GetContext();
+            Token token;
+            if (this.tokenLexer.TryRead(scanner, out token))
+            {
+                element = new ParameterValue(token, context);
                 return true;
             }
 
-            QuotedString quotedValue;
-            if (this.quotedStringLexer.TryRead(scanner, out quotedValue))
+            QuotedString quotedString;
+            if (this.quotedStringLexer.TryRead(scanner, out quotedString))
             {
-                element = new TransferParameter(name, quotedValue, context);
+                element = new ParameterValue(quotedString, context);
                 return true;
             }
 
-            scanner.PutBack(badWhiteSpace2.Data);
-            scanner.PutBack(equalsSign.Data);
-            scanner.PutBack(badWhiteSpace1.Data);
-            scanner.PutBack(name.Data);
-            element = default(TransferParameter);
+            element = default(ParameterValue);
             return false;
         }
 
