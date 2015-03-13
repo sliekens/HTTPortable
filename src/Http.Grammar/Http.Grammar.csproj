@@ -123,6 +123,8 @@
     <Compile Include="Rfc7230\OptionalWhiteSpace.cs" />
     <Compile Include="Rfc7230\OriginForm.cs" />
     <Compile Include="Rfc7230\OriginFormLexer.cs" />
+    <Compile Include="Rfc7230\PartialUri.cs" />
+    <Compile Include="Rfc7230\PartialUriLexer.cs" />
     <Compile Include="Rfc7230\Protocol.cs" />
     <Compile Include="Rfc7230\ProtocolLexer.cs" />
     <Compile Include="Rfc7230\ProtocolNameLexer.cs" />
