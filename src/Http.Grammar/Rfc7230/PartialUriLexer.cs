@@ -8,6 +8,11 @@
         private readonly ILexer<RelativePart> relativePartLexer;
         private readonly ILexer<Query> queryLexer;
 
+        public PartialUriLexer()
+            : this(new RelativePartLexer(), new QueryLexer())
+        {
+        }
+
         public PartialUriLexer(ILexer<RelativePart> relativePartLexer, ILexer<Query> queryLexer)
             : base("partial-URI")
         {
