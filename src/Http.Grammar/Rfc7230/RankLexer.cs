@@ -11,6 +11,11 @@
     {
         private readonly ILexer<Digit> digitLexer;
 
+        public RankLexer()
+            : this(new DigitLexer())
+        {
+        }
+
         public RankLexer(ILexer<Digit> digitLexer)
             : base("rank")
         {
