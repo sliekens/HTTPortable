@@ -1,26 +1,21 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
-    using System;
     using System.Diagnostics.Contracts;
     using SLANG;
 
-    public class TransferCoding : Element
+    public class TransferCoding : Alternative<Element, TransferExtension>
     {
-        public TransferCoding(Element terminal, ITextContext context)
-            : base(terminal.Data, context)
+        public TransferCoding(Element element, ITextContext context)
+            : base(element, context)
         {
-            Contract.Requires(terminal != null);
-            Contract.Requires(string.Equals(terminal.Data, "chunked", StringComparison.OrdinalIgnoreCase)
-                              || string.Equals(terminal.Data, "compress", StringComparison.OrdinalIgnoreCase)
-                              || string.Equals(terminal.Data, "deflate", StringComparison.OrdinalIgnoreCase)
-                              || string.Equals(terminal.Data, "gzip", StringComparison.OrdinalIgnoreCase));
+            Contract.Requires(element != null);
             Contract.Requires(context != null);
         }
 
-        public TransferCoding(TransferExtension extension, ITextContext context)
-            : base(extension.Data, context)
+        public TransferCoding(TransferExtension element, ITextContext context)
+            : base(element, context)
         {
-            Contract.Requires(extension != null);
+            Contract.Requires(element != null);
             Contract.Requires(context != null);
         }
     }
