@@ -168,6 +168,8 @@
     <Compile Include="Rfc7230\TransferExtensionLexer.cs" />
     <Compile Include="Rfc7230\TransferParameter.cs" />
     <Compile Include="Rfc7230\TransferParameterLexer.cs" />
+    <Compile Include="Rfc7230\Upgrade.cs" />
+    <Compile Include="Rfc7230\UpgradeLexer.cs" />
     <Compile Include="Rfc7230\UriHostLexer.cs" />
   </ItemGroup>
   <ItemGroup>
