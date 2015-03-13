@@ -7,6 +7,11 @@
     {
         private readonly ILexer<Token> tokenLexer;
 
+        public ProtocolVersionLexer()
+            : this(new TokenLexer())
+        {
+        }
+
         public ProtocolVersionLexer(ILexer<Token> tokenLexer)
             : base("protocol-version")
         {
