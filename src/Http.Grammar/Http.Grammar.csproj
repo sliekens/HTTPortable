@@ -129,6 +129,8 @@
     <Compile Include="Rfc7230\QuotedStringLexer.cs" />
     <Compile Include="Rfc7230\QuotedText.cs" />
     <Compile Include="Rfc7230\QuotedTextLexer.cs" />
+    <Compile Include="Rfc7230\Rank.cs" />
+    <Compile Include="Rfc7230\RankLexer.cs" />
     <Compile Include="Rfc7230\ReasonPhraseLexer.cs" />
     <Compile Include="Rfc7230\ReasonPhrase.cs" />
     <Compile Include="Rfc7230\RequestLineLexer.cs" />
