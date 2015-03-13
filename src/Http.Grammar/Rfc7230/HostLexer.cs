@@ -11,6 +11,11 @@
         private readonly ILexer<UriHost> uriHostLexer;
         private readonly ILexer<Port> portLexer;
 
+        public HostLexer()
+            : this(new global::Uri.Grammar.HostLexer(), new PortLexer())
+        {
+        }
+
         public HostLexer(ILexer<UriHost> uriHostLexer, ILexer<Port> portLexer)
             : base("Host")
         {
