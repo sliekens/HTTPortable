@@ -8,6 +8,11 @@
     {
         private readonly ILexer<Token> tokenLexer;
 
+        public ProtocolNameLexer()
+            : this(new TokenLexer())
+        {
+        }
+
         public ProtocolNameLexer(ILexer<Token> tokenLexer)
             : base("protocol-name")
         {
