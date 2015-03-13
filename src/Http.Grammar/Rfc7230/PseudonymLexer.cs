@@ -7,6 +7,11 @@
     {
         private readonly ILexer<Token> tokenLexer;
 
+        public PseudonymLexer()
+            : this(new TokenLexer())
+        {
+        }
+
         public PseudonymLexer(ILexer<Token> tokenLexer)
             : base("pseudonym")
         {
