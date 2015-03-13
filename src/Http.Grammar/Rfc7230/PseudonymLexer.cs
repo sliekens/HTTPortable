@@ -3,7 +3,7 @@
     using SLANG;
     using Pseudonym = Token;
 
-    class PseudonymLexer : Lexer<Pseudonym>
+    public class PseudonymLexer : Lexer<Pseudonym>
     {
         private readonly ILexer<Token> tokenLexer;
 
