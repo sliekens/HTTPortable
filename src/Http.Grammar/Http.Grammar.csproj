@@ -124,6 +124,7 @@
     <Compile Include="Rfc7230\OriginForm.cs" />
     <Compile Include="Rfc7230\OriginFormLexer.cs" />
     <Compile Include="Rfc7230\ProtocolNameLexer.cs" />
+    <Compile Include="Rfc7230\ProtocolVersionLexer.cs" />
     <Compile Include="Rfc7230\PseudonymLexer.cs" />
     <Compile Include="Rfc7230\QuotedPair.cs" />
     <Compile Include="Rfc7230\QuotedPairLexer.cs" />
