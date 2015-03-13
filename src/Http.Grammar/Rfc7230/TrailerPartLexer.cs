@@ -4,6 +4,7 @@
     using System.Diagnostics.Contracts;
     using SLANG;
     using SLANG.Core;
+    using HeaderLine = SLANG.Sequence<HeaderField, SLANG.Core.EndOfLine>;
 
     public class TrailerPartLexer : Lexer<TrailerPart>
     {
@@ -21,40 +22,44 @@
 
         public override bool TryRead(ITextScanner scanner, out TrailerPart element)
         {
+            var context = scanner.GetContext();
+            var elements = new List<HeaderLine>();
+            HeaderLine headerLine;
+            while (this.TryReadHeaderLine(scanner, out headerLine))
+            {
+                elements.Add(headerLine);
+            }
+
+            element = new TrailerPart(elements, context);
+            return true;
+        }
+
+        private bool TryReadHeaderLine(ITextScanner scanner, out HeaderLine element)
+        {
             if (scanner.EndOfInput)
             {
-                element = default(TrailerPart);
+                element = default(HeaderLine);
                 return false;
             }
 
             var context = scanner.GetContext();
-            var headerFields = new List<HeaderField>();
             HeaderField headerField;
-            while (this.headerFieldLexer.TryRead(scanner, out headerField))
+            if (!this.headerFieldLexer.TryRead(scanner, out headerField))
             {
-                headerFields.Add(headerField);
-            }
-
-            if (headerFields.Count == 0)
-            {
-                element = default(TrailerPart);
+                element = default(HeaderLine);
                 return false;
             }
 
             EndOfLine endOfLine;
-            if (this.endOfLineLexer.TryRead(scanner, out endOfLine))
+            if (!this.endOfLineLexer.TryRead(scanner, out endOfLine))
             {
-                element = new TrailerPart(headerFields, endOfLine, context);
-                return true;
+                scanner.PutBack(headerField.Data);
+                element = default(HeaderLine);
+                return false;
             }
 
-            for (int i = headerFields.Count - 1; i >= 0; i--)
-            {
-                scanner.PutBack(headerFields[i].Data);
-            }
-
-            element = default(TrailerPart);
-            return false;
+            element = new HeaderLine(headerField, endOfLine, context);
+            return true;
         }
 
         [ContractInvariantMethod]
