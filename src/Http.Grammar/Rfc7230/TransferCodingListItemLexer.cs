@@ -8,6 +8,11 @@
         private readonly ILexer<TransferCoding> transferCodingLexer;
         private readonly ILexer<TransferCodingRanking> transferCodingRankingLexer;
 
+        public TransferCodingListItemLexer()
+            : this(new TransferCodingLexer(), new TransferCodingRankingLexer())
+        {
+        }
+
         public TransferCodingListItemLexer(ILexer<TransferCoding> transferCodingLexer, ILexer<TransferCodingRanking> transferCodingRankingLexer)
             : base("t-codings")
         {
