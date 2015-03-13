@@ -95,6 +95,7 @@
     <Compile Include="Rfc7230\AsteriskFormLexer.cs" />
     <Compile Include="Rfc7230\AuthorityFormLexer.cs" />
     <Compile Include="Rfc7230\BadWhiteSpaceLexer.cs" />
+    <Compile Include="Rfc7230\ConnectionOptionLexer.cs" />
     <Compile Include="Rfc7230\ContentLength.cs" />
     <Compile Include="Rfc7230\ContentLengthLexer.cs" />
     <Compile Include="Rfc7230\FieldContentLexer.cs" />
