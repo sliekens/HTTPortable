@@ -8,6 +8,11 @@
         private readonly ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer;
         private readonly ILexer<Rank> rankLexer;
 
+        public TransferCodingRankingLexer()
+            : this(new OptionalWhiteSpaceLexer(), new RankLexer())
+        {
+        }
+
         public TransferCodingRankingLexer(ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer, ILexer<Rank> rankLexer)
             : base("t-ranking")
         {
