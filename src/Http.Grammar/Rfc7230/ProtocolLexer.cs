@@ -9,6 +9,11 @@
         private readonly ILexer<Token> protocolNameLexer;
         private readonly ILexer<Token> protocolVersionLexer;
 
+        public ProtocolLexer()
+            : this(new ProtocolNameLexer(), new ProtocolVersionLexer())
+        {
+        }
+
         public ProtocolLexer(ILexer<ProtocolName> protocolNameLexer, ILexer<ProtocolVersion> protocolVersionLexer)
             : base("protocol")
         {
