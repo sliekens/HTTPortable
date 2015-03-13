@@ -152,6 +152,8 @@
     <Compile Include="Rfc7230\TrailerPart.cs" />
     <Compile Include="Rfc7230\TrailerPartLexer.cs" />
     <Compile Include="Rfc7230\TransferCoding.cs" />
+    <Compile Include="Rfc7230\TransferCodingListItem.cs" />
+    <Compile Include="Rfc7230\TransferCodingListItemLexer.cs" />
     <Compile Include="Rfc7230\TransferCodingLexer.cs" />
     <Compile Include="Rfc7230\TransferCodingRanking.cs" />
     <Compile Include="Rfc7230\TransferCodingRankingLexer.cs" />
