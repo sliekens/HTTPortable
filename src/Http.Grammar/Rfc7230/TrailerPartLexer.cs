@@ -1,12 +1,13 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using SLANG;
     using SLANG.Core;
     using HeaderLine = SLANG.Sequence<HeaderField, SLANG.Core.EndOfLine>;
 
-    public class TrailerPartLexer : Lexer<TrailerPart>
+    public class TrailerPartLexer : RepetitionLexer<TrailerPart, Sequence<HeaderField, EndOfLine>>
     {
         private readonly ILexer<EndOfLine> endOfLineLexer;
         private readonly ILexer<HeaderField> headerFieldLexer;
@@ -17,7 +18,7 @@
         }
 
         public TrailerPartLexer(ILexer<HeaderField> headerFieldLexer, ILexer<EndOfLine> endOfLineLexer)
-            : base("trailer-part")
+            : base("trailer-part", 0, Int32.MaxValue)
         {
             Contract.Requires(headerFieldLexer != null);
             Contract.Requires(endOfLineLexer != null);
@@ -25,21 +26,12 @@
             this.endOfLineLexer = endOfLineLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out TrailerPart element)
+        protected override TrailerPart CreateInstance(IList<HeaderLine> elements, int lowerBound, int upperBound, ITextContext context)
         {
-            var context = scanner.GetContext();
-            var elements = new List<HeaderLine>();
-            HeaderLine headerLine;
-            while (this.TryReadHeaderLine(scanner, out headerLine))
-            {
-                elements.Add(headerLine);
-            }
-
-            element = new TrailerPart(elements, context);
-            return true;
+            return new TrailerPart(elements, context);
         }
 
-        private bool TryReadHeaderLine(ITextScanner scanner, out HeaderLine element)
+        protected override bool TryRead(ITextScanner scanner, int lowerBound, int upperBound, int current, out HeaderLine element)
         {
             if (scanner.EndOfInput)
             {
