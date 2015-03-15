@@ -1,10 +1,11 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
+    using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using SLANG;
     using SLANG.Core;
 
-    public class StatusCodeLexer : Lexer<StatusCode>
+    public class StatusCodeLexer : RepetitionLexer<StatusCode, Digit>
     {
         private readonly ILexer<Digit> digitLexer;
 
@@ -14,45 +15,20 @@
         }
 
         public StatusCodeLexer(ILexer<Digit> digitLexer)
-            : base("status-code")
+            : base("status-code", 3, 3)
         {
             Contract.Requires(digitLexer != null);
             this.digitLexer = digitLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out StatusCode element)
+        protected override StatusCode CreateInstance(IList<Digit> elements, int lowerBound, int upperBound, ITextContext context)
         {
-            if (scanner.EndOfInput)
-            {
-                element = default(StatusCode);
-                return false;
-            }
+            return new StatusCode(elements, context);
+        }
 
-            Digit digit1, digit2, digit3;
-            var context = scanner.GetContext();
-            if (!this.digitLexer.TryRead(scanner, out digit1))
-            {
-                element = default(StatusCode);
-                return false;
-            }
-
-            if (!this.digitLexer.TryRead(scanner, out digit2))
-            {
-                scanner.PutBack(digit1.Data);
-                element = default(StatusCode);
-                return false;
-            }
-
-            if (!this.digitLexer.TryRead(scanner, out digit3))
-            {
-                scanner.PutBack(digit2.Data);
-                scanner.PutBack(digit1.Data);
-                element = default(StatusCode);
-                return false;
-            }
-
-            element = new StatusCode(digit1, digit2, digit3, context);
-            return true;
+        protected override bool TryRead(ITextScanner scanner, out Digit element)
+        {
+            return this.digitLexer.TryRead(scanner, out element);
         }
 
         [ContractInvariantMethod]

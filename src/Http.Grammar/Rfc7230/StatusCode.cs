@@ -1,18 +1,14 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
-    using System.Diagnostics.Contracts;
+    using System.Collections.Generic;
     using SLANG;
     using SLANG.Core;
 
-    public class StatusCode : Sequence<Digit, Digit, Digit>
+    public class StatusCode : Repetition<Digit>
     {
-        public StatusCode(Digit element1, Digit element2, Digit element3, ITextContext context)
-            : base(element1, element2, element3, context)
+        public StatusCode(IList<Digit> elements, ITextContext context)
+            : base(elements, 3, 3, context)
         {
-            Contract.Requires(element1 != null);
-            Contract.Requires(element2 != null);
-            Contract.Requires(element3 != null);
-            Contract.Requires(context != null);
         }
 
         public int ToInt()
