@@ -4,7 +4,7 @@
     using SLANG;
     using SLANG.Core;
 
-    public class StatusLineLexer : Lexer<StatusLine>
+    public class StatusLineLexer : SequenceLexer<StatusLine, HttpVersion, Space, StatusCode, Space, ReasonPhrase, EndOfLine>
     {
         private readonly ILexer<EndOfLine> endOfLineLexer;
         private readonly ILexer<HttpVersion> httpVersionLexer;
@@ -14,13 +14,13 @@
 
         public StatusLineLexer()
             : this(
-                new HttpVersionLexer(), new SpaceLexer(), new StatusCodeLexer(), new ReasonPhraseLexer(), 
+                new HttpVersionLexer(), new SpaceLexer(), new StatusCodeLexer(), new ReasonPhraseLexer(),
                 new EndOfLineLexer())
         {
         }
 
-        public StatusLineLexer(ILexer<HttpVersion> httpVersionLexer, ILexer<Space> spaceLexer, 
-            ILexer<StatusCode> statusCodeLexer, ILexer<ReasonPhrase> reasonPhraseLexer, 
+        public StatusLineLexer(ILexer<HttpVersion> httpVersionLexer, ILexer<Space> spaceLexer,
+            ILexer<StatusCode> statusCodeLexer, ILexer<ReasonPhrase> reasonPhraseLexer,
             ILexer<EndOfLine> endOfLineLexer)
             : base("status-line")
         {
@@ -36,74 +36,46 @@
             this.endOfLineLexer = endOfLineLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out StatusLine element)
+        protected override StatusLine CreateInstance(
+            HttpVersion element1,
+            Space element2,
+            StatusCode element3,
+            Space element4,
+            ReasonPhrase element5,
+            EndOfLine element6,
+            ITextContext context)
         {
-            if (scanner.EndOfInput)
-            {
-                element = default(StatusLine);
-                return false;
-            }
+            return new StatusLine(element1, element2, element3, element4, element5, element6, context);
+        }
 
-            var context = scanner.GetContext();
-            HttpVersion httpVersion;
-            if (!this.httpVersionLexer.TryRead(scanner, out httpVersion))
-            {
-                element = default(StatusLine);
-                return false;
-            }
+        protected override bool TryRead1(ITextScanner scanner, out HttpVersion element)
+        {
+            return this.httpVersionLexer.TryRead(scanner, out element);
+        }
 
-            Space space1;
-            if (!this.spaceLexer.TryRead(scanner, out space1))
-            {
-                scanner.PutBack(httpVersion.Data);
-                element = default(StatusLine);
-                return false;
-            }
+        protected override bool TryRead2(ITextScanner scanner, out Space element)
+        {
+            return this.spaceLexer.TryRead(scanner, out element);
+        }
 
-            StatusCode statusCode;
-            if (!this.statusCodeLexer.TryRead(scanner, out statusCode))
-            {
-                scanner.PutBack(space1.Data);
-                scanner.PutBack(httpVersion.Data);
-                element = default(StatusLine);
-                return false;
-            }
+        protected override bool TryRead3(ITextScanner scanner, out StatusCode element)
+        {
+            return this.statusCodeLexer.TryRead(scanner, out element);
+        }
 
-            Space space2;
-            if (!this.spaceLexer.TryRead(scanner, out space2))
-            {
-                scanner.PutBack(statusCode.Data);
-                scanner.PutBack(space1.Data);
-                scanner.PutBack(httpVersion.Data);
-                element = default(StatusLine);
-                return false;
-            }
+        protected override bool TryRead4(ITextScanner scanner, out Space element)
+        {
+            return this.spaceLexer.TryRead(scanner, out element);
+        }
 
-            ReasonPhrase reasonPhrase;
-            if (!this.reasonPhraseLexer.TryRead(scanner, out reasonPhrase))
-            {
-                scanner.PutBack(space2.Data);
-                scanner.PutBack(statusCode.Data);
-                scanner.PutBack(space1.Data);
-                scanner.PutBack(httpVersion.Data);
-                element = default(StatusLine);
-                return false;
-            }
+        protected override bool TryRead5(ITextScanner scanner, out ReasonPhrase element)
+        {
+            return this.reasonPhraseLexer.TryRead(scanner, out element);
+        }
 
-            EndOfLine endOfLine;
-            if (!this.endOfLineLexer.TryRead(scanner, out endOfLine))
-            {
-                scanner.PutBack(reasonPhrase.Data);
-                scanner.PutBack(space2.Data);
-                scanner.PutBack(statusCode.Data);
-                scanner.PutBack(space1.Data);
-                scanner.PutBack(httpVersion.Data);
-                element = default(StatusLine);
-                return false;
-            }
-
-            element = new StatusLine(httpVersion, space1, statusCode, space2, reasonPhrase, endOfLine, context);
-            return true;
+        protected override bool TryRead6(ITextScanner scanner, out EndOfLine element)
+        {
+            return this.endOfLineLexer.TryRead(scanner, out element);
         }
 
         [ContractInvariantMethod]
