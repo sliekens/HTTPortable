@@ -5,7 +5,7 @@
     using SLANG;
     using SLANG.Core;
 
-    public class RequiredWhiteSpaceLexer : Lexer<RequiredWhiteSpace>
+    public class RequiredWhiteSpaceLexer : RepetitionLexer<RequiredWhiteSpace, WhiteSpace>
     {
         private readonly ILexer<WhiteSpace> whiteSpaceLexer;
 
@@ -15,36 +15,20 @@
         }
 
         public RequiredWhiteSpaceLexer(ILexer<WhiteSpace> whiteSpaceLexer)
-            : base("RWS")
+            : base("RWS", 1, int.MaxValue)
         {
             Contract.Requires(whiteSpaceLexer != null);
             this.whiteSpaceLexer = whiteSpaceLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out RequiredWhiteSpace element)
+        protected override RequiredWhiteSpace CreateInstance(IList<WhiteSpace> elements, int lowerBound, int upperBound, ITextContext context)
         {
-            if (scanner.EndOfInput)
-            {
-                element = default(RequiredWhiteSpace);
-                return false;
-            }
+            return new RequiredWhiteSpace(elements, context);
+        }
 
-            var context = scanner.GetContext();
-            WhiteSpace whiteSpace;
-            IList<WhiteSpace> elements = new List<WhiteSpace>();
-            while (this.whiteSpaceLexer.TryRead(scanner, out whiteSpace))
-            {
-                elements.Add(whiteSpace);
-            }
-
-            if (elements.Count == 0)
-            {
-                element = default(RequiredWhiteSpace);
-                return false;
-            }
-
-            element = new RequiredWhiteSpace(elements, context);
-            return true;
+        protected override bool TryReadOne(ITextScanner scanner, out WhiteSpace element)
+        {
+            return this.whiteSpaceLexer.TryRead(scanner, out element);
         }
 
         [ContractInvariantMethod]
