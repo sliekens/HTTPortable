@@ -8,6 +8,11 @@
         private readonly ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer;
         private readonly ILexer<Protocol> protocolLexer;
 
+        public UpgradeLexer()
+            : this(new OptionalWhiteSpaceLexer(), new ProtocolLexer())
+        {
+        }
+
         public UpgradeLexer(ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer, ILexer<Protocol> protocolLexer)
             : base("Upgrade")
         {
