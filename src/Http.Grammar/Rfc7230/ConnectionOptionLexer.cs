@@ -7,6 +7,11 @@
     {
         private readonly ILexer<Token> tokenLexer;
 
+        public ConnectionOptionLexer()
+            : this(new TokenLexer())
+        {
+        }
+
         public ConnectionOptionLexer(ILexer<Token> tokenLexer)
             : base("connection-option")
         {
