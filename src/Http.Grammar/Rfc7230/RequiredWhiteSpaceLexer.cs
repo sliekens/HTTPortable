@@ -26,7 +26,7 @@
             return new RequiredWhiteSpace(elements, context);
         }
 
-        protected override bool TryReadOne(ITextScanner scanner, out WhiteSpace element)
+        protected override bool TryRead(ITextScanner scanner, out WhiteSpace element)
         {
             return this.whiteSpaceLexer.TryRead(scanner, out element);
         }
