@@ -26,7 +26,7 @@
             return new StatusCode(elements, context);
         }
 
-        protected override bool TryRead(ITextScanner scanner, out Digit element)
+        protected override bool TryRead(ITextScanner scanner, int lowerBound, int upperBound, int current, out Digit element)
         {
             return this.digitLexer.TryRead(scanner, out element);
         }
