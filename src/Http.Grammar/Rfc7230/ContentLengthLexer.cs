@@ -5,7 +5,7 @@
     using SLANG;
     using SLANG.Core;
 
-    public class ContentLengthLexer : Lexer<ContentLength>
+    public class ContentLengthLexer : RepetitionLexer<ContentLength, Digit>
     {
         private readonly ILexer<Digit> digitLexer;
 
@@ -15,36 +15,20 @@
         }
 
         public ContentLengthLexer(ILexer<Digit> digitLexer)
-            : base("Content-Length")
+            : base("Content-Length", 1, int.MaxValue)
         {
             Contract.Requires(digitLexer != null);
             this.digitLexer = digitLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out ContentLength element)
+        protected override ContentLength CreateInstance(IList<Digit> elements, int lowerBound, int upperBound, ITextContext context)
         {
-            if (scanner.EndOfInput)
-            {
-                element = default(ContentLength);
-                return false;
-            }
+            return new ContentLength(elements, context);
+        }
 
-            var context = scanner.GetContext();
-            var elements = new List<Digit>();
-            Digit digit;
-            while (this.digitLexer.TryRead(scanner, out digit))
-            {
-                elements.Add(digit);
-            }
-
-            if (elements.Count == 0)
-            {
-                element = default(ContentLength);
-                return false;
-            }
-
-            element = new ContentLength(elements, context);
-            return true;
+        protected override bool TryRead(ITextScanner scanner, out Digit element)
+        {
+            return this.digitLexer.TryRead(scanner, out element);
         }
 
         [ContractInvariantMethod]
