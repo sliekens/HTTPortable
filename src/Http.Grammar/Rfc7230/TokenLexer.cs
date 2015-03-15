@@ -1,11 +1,10 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics.Contracts;
     using SLANG;
 
-    public class TokenLexer : Lexer<Token>
+    public class TokenLexer : RepetitionLexer<Token, TokenCharacter>
     {
         private readonly ILexer<TokenCharacter> tokenCharacterLexer;
 
@@ -15,36 +14,20 @@
         }
 
         public TokenLexer(ILexer<TokenCharacter> tokenCharacterLexer)
-            : base("token")
+            : base("token", 1, int.MaxValue)
         {
             Contract.Requires(tokenCharacterLexer != null);
             this.tokenCharacterLexer = tokenCharacterLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out Token token)
+        protected override Token CreateInstance(IList<TokenCharacter> elements, int lowerBound, int upperBound, ITextContext context)
         {
-            if (scanner.EndOfInput)
-            {
-                token = default(Token);
-                return false;
-            }
+            return new Token(elements, context);
+        }
 
-            var context = scanner.GetContext();
-            var elements = new List<TokenCharacter>();
-            TokenCharacter tokenCharacter;
-            while (this.tokenCharacterLexer.TryRead(scanner, out tokenCharacter))
-            {
-                elements.Add(tokenCharacter);
-            }
-
-            if (elements.Count == 0)
-            {
-                token = default(Token);
-                return false;
-            }
-
-            token = new Token(new ReadOnlyCollection<TokenCharacter>(elements), context);
-            return true;
+        protected override bool TryRead(ITextScanner scanner, int lowerBound, int upperBound, int current, out TokenCharacter element)
+        {
+            return this.tokenCharacterLexer.TryRead(scanner, out element);
         }
 
         [ContractInvariantMethod]
