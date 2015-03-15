@@ -3,16 +3,16 @@
     using System.Diagnostics.Contracts;
     using SLANG;
 
-    public class TransferCoding : Alternative<Element, TransferExtension>
+    public class TransferCodingListItem : Alternative<Element, Sequence<TransferCoding, Option<TransferCodingRanking>>>
     {
-        public TransferCoding(Element element, ITextContext context)
+        public TransferCodingListItem(Element element, ITextContext context)
             : base(element, context)
         {
             Contract.Requires(element != null);
             Contract.Requires(context != null);
         }
 
-        public TransferCoding(TransferExtension element, ITextContext context)
+        public TransferCodingListItem(Sequence<TransferCoding, Option<TransferCodingRanking>> element, ITextContext context)
             : base(element, context)
         {
             Contract.Requires(element != null);

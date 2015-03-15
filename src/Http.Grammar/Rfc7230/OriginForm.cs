@@ -1,17 +1,13 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
-    using System.Diagnostics.Contracts;
     using SLANG;
     using Uri.Grammar;
 
-    public class OriginForm : Element
+    public class OriginForm : Sequence<AbsolutePath, Option<Sequence<Element, Query>>>
     {
-        public OriginForm(AbsolutePath absolutePath, Element querySeparator, Query query, ITextContext context)
-            : base(string.Concat(absolutePath, querySeparator, query), context)
+        public OriginForm(AbsolutePath element1, Option<Sequence<Element, Query>> element2, ITextContext context)
+            : base(element1, element2, context)
         {
-            Contract.Requires(absolutePath != null);
-            Contract.Requires(querySeparator == null || (querySeparator.Data == "?" && query != null));
-            Contract.Requires(context != null);
         }
     }
 }

@@ -9,6 +9,11 @@
     {
         private readonly ILexer<Digit> digitLexer;
 
+        public ContentLengthLexer()
+            : this(new DigitLexer())
+        {
+        }
+
         public ContentLengthLexer(ILexer<Digit> digitLexer)
             : base("Content-Length")
         {

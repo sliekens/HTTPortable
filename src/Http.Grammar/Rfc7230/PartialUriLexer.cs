@@ -1,53 +1,50 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
-    using System.Diagnostics.Contracts;
     using SLANG;
     using Uri.Grammar;
 
-    public class OriginFormLexer : Lexer<OriginForm>
+    public class PartialUriLexer : Lexer<PartialUri>
     {
-        private readonly ILexer<AbsolutePath> absolutePathLexer;
+        private readonly ILexer<RelativePart> relativePartLexer;
         private readonly ILexer<Query> queryLexer;
 
-        public OriginFormLexer()
-            : this(new AbsolutePathLexer(), new QueryLexer())
+        public PartialUriLexer()
+            : this(new RelativePartLexer(), new QueryLexer())
         {
         }
 
-        public OriginFormLexer(ILexer<AbsolutePath> absolutePathLexer, ILexer<Query> queryLexer)
-            : base("origin-form")
+        public PartialUriLexer(ILexer<RelativePart> relativePartLexer, ILexer<Query> queryLexer)
+            : base("partial-URI")
         {
-            Contract.Requires(absolutePathLexer != null);
-            Contract.Requires(queryLexer != null);
-            this.absolutePathLexer = absolutePathLexer;
+            this.relativePartLexer = relativePartLexer;
             this.queryLexer = queryLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out OriginForm element)
+        public override bool TryRead(ITextScanner scanner, out PartialUri element)
         {
             if (scanner.EndOfInput)
             {
-                element = default(OriginForm);
+                element = default(PartialUri);
                 return false;
             }
 
             var context = scanner.GetContext();
-            AbsolutePath absolutePath;
-            if (!this.absolutePathLexer.TryRead(scanner, out absolutePath))
+            RelativePart relativePart;
+            if (!this.relativePartLexer.TryRead(scanner, out relativePart))
             {
-                element = default(OriginForm);
+                element = default(PartialUri);
                 return false;
             }
 
             Option<Sequence<Element, Query>> optionalQuery;
             if (!this.TryReadOptionalQuery(scanner, out optionalQuery))
             {
-                scanner.PutBack(absolutePath.Data);
-                element = default(OriginForm);
+                scanner.PutBack(relativePart.Data);
+                element = default(PartialUri);
                 return false;
             }
 
-            element = new OriginForm(absolutePath, optionalQuery, context);
+            element = new PartialUri(relativePart, optionalQuery, context);
             return true;
         }
 
@@ -93,13 +90,6 @@
 
             element = new Sequence<Element, Query>(separator, query, context);
             return true;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.absolutePathLexer != null);
-            Contract.Invariant(this.queryLexer != null);
         }
     }
 }

@@ -7,6 +7,11 @@
     {
         private readonly ILexer<TransferExtension> transferExtensionLexer;
 
+        public TransferCodingLexer()
+            : this(new TransferExtensionLexer())
+        {
+        }
+
         public TransferCodingLexer(ILexer<TransferExtension> transferExtensionLexer)
             : base("transfer-coding")
         {

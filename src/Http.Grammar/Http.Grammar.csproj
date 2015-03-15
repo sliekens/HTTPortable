@@ -95,6 +95,7 @@
     <Compile Include="Rfc7230\AsteriskFormLexer.cs" />
     <Compile Include="Rfc7230\AuthorityFormLexer.cs" />
     <Compile Include="Rfc7230\BadWhiteSpaceLexer.cs" />
+    <Compile Include="Rfc7230\ConnectionOptionLexer.cs" />
     <Compile Include="Rfc7230\ContentLength.cs" />
     <Compile Include="Rfc7230\ContentLengthLexer.cs" />
     <Compile Include="Rfc7230\FieldContentLexer.cs" />
@@ -123,12 +124,21 @@
     <Compile Include="Rfc7230\OptionalWhiteSpace.cs" />
     <Compile Include="Rfc7230\OriginForm.cs" />
     <Compile Include="Rfc7230\OriginFormLexer.cs" />
+    <Compile Include="Rfc7230\PartialUri.cs" />
+    <Compile Include="Rfc7230\PartialUriLexer.cs" />
+    <Compile Include="Rfc7230\Protocol.cs" />
+    <Compile Include="Rfc7230\ProtocolLexer.cs" />
+    <Compile Include="Rfc7230\ProtocolNameLexer.cs" />
+    <Compile Include="Rfc7230\ProtocolVersionLexer.cs" />
+    <Compile Include="Rfc7230\PseudonymLexer.cs" />
     <Compile Include="Rfc7230\QuotedPair.cs" />
     <Compile Include="Rfc7230\QuotedPairLexer.cs" />
     <Compile Include="Rfc7230\QuotedString.cs" />
     <Compile Include="Rfc7230\QuotedStringLexer.cs" />
     <Compile Include="Rfc7230\QuotedText.cs" />
     <Compile Include="Rfc7230\QuotedTextLexer.cs" />
+    <Compile Include="Rfc7230\Rank.cs" />
+    <Compile Include="Rfc7230\RankLexer.cs" />
     <Compile Include="Rfc7230\ReasonPhraseLexer.cs" />
     <Compile Include="Rfc7230\ReasonPhrase.cs" />
     <Compile Include="Rfc7230\RequestLineLexer.cs" />
@@ -150,11 +160,17 @@
     <Compile Include="Rfc7230\TrailerPart.cs" />
     <Compile Include="Rfc7230\TrailerPartLexer.cs" />
     <Compile Include="Rfc7230\TransferCoding.cs" />
+    <Compile Include="Rfc7230\TransferCodingListItem.cs" />
+    <Compile Include="Rfc7230\TransferCodingListItemLexer.cs" />
     <Compile Include="Rfc7230\TransferCodingLexer.cs" />
+    <Compile Include="Rfc7230\TransferCodingRanking.cs" />
+    <Compile Include="Rfc7230\TransferCodingRankingLexer.cs" />
     <Compile Include="Rfc7230\TransferExtension.cs" />
     <Compile Include="Rfc7230\TransferExtensionLexer.cs" />
     <Compile Include="Rfc7230\TransferParameter.cs" />
     <Compile Include="Rfc7230\TransferParameterLexer.cs" />
+    <Compile Include="Rfc7230\Upgrade.cs" />
+    <Compile Include="Rfc7230\UpgradeLexer.cs" />
     <Compile Include="Rfc7230\UriHostLexer.cs" />
   </ItemGroup>
   <ItemGroup>

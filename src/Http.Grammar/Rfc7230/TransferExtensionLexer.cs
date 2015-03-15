@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using SLANG;
+    using ParameterCollection = SLANG.Repetition<SLANG.Sequence<OptionalWhiteSpace, SLANG.Element, OptionalWhiteSpace, TransferParameter>>;
     using ParameterPart = SLANG.Sequence<OptionalWhiteSpace, SLANG.Element, OptionalWhiteSpace, TransferParameter>;
 
     public class TransferExtensionLexer : Lexer<TransferExtension>
@@ -44,14 +45,15 @@
                 return false;
             }
 
-            var parameters = new List<ParameterPart>();
-            ParameterPart parameter;
-            while (this.TryReadParameterPart(scanner, out parameter))
+            ParameterCollection parameterCollection;
+            if (!this.TryReadParameterCollection(scanner, out parameterCollection))
             {
-                parameters.Add(parameter);
+                scanner.PutBack(extension.Data);
+                element = default(TransferExtension);
+                return false;
             }
 
-            element = new TransferExtension(extension, parameters, context);
+            element = new TransferExtension(extension, parameterCollection, context);
             return true;
         }
 
@@ -61,6 +63,20 @@
             Contract.Invariant(this.tokenLexer != null);
             Contract.Invariant(this.optionalWhiteSpaceLexer != null);
             Contract.Invariant(this.transferParameterLexer != null);
+        }
+
+        private bool TryReadParameterCollection(ITextScanner scanner, out Repetition<ParameterPart> element)
+        {
+            var context = scanner.GetContext();
+            var elements = new List<ParameterPart>();
+            ParameterPart parameterPart;
+            while (this.TryReadParameterPart(scanner, out parameterPart))
+            {
+                elements.Add(parameterPart);
+            }
+
+            element = new Repetition<ParameterPart>(elements, context);
+            return true;
         }
 
         private bool TryReadParameterPart(ITextScanner scanner, out ParameterPart element)
