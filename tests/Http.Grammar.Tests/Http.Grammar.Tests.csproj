@@ -44,9 +44,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SLANG, Version=1.0.94.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\src\packages\SLANG.1.0.94-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+    <Reference Include="SLANG">
+      <HintPath>..\..\src\packages\SLANG.1.0.112-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
