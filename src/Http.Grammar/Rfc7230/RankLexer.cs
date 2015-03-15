@@ -7,7 +7,7 @@
     using LessThanMaximum = SLANG.Sequence<SLANG.Element, SLANG.Option<SLANG.Sequence<SLANG.Element, SLANG.Repetition<SLANG.Core.Digit>>>>;
     using Maximum = SLANG.Sequence<SLANG.Element, SLANG.Option<SLANG.Sequence<SLANG.Element, SLANG.Repetition<SLANG.Element>>>>;
 
-    public class RankLexer : Lexer<Rank>
+    public class RankLexer : AlternativeLexer<Rank, LessThanMaximum, Maximum>
     {
         private readonly ILexer<Digit> digitLexer;
 
@@ -23,34 +23,17 @@
             this.digitLexer = digitLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out Rank element)
+        protected override Rank CreateInstance1(LessThanMaximum element, ITextContext context)
         {
-            if (scanner.EndOfInput)
-            {
-                element = default(Rank);
-                return false;
-            }
-
-            var context = scanner.GetContext();
-            LessThanMaximum lessThanMaximum;
-            if (this.TryReadLessThanMaximum(scanner, out lessThanMaximum))
-            {
-                element = new Rank(lessThanMaximum, context);
-                return true;
-            }
-
-            Maximum maximum;
-            if (this.TryReadMaximum(scanner, out maximum))
-            {
-                element = new Rank(maximum, context);
-                return true;
-            }
-
-            element = default(Rank);
-            return false;
+            return new Rank(element, context);
         }
 
-        private bool TryReadLessThanMaximum(ITextScanner scanner, out LessThanMaximum element)
+        protected override Rank CreateInstance2(Maximum element, ITextContext context)
+        {
+            return new Rank(element, context);
+        }
+
+        protected override bool TryRead1(ITextScanner scanner, out LessThanMaximum element)
         {
             if (scanner.EndOfInput)
             {
@@ -59,27 +42,26 @@
             }
 
             var context = scanner.GetContext();
-            Element integer;
-            if (!TryReadTerminal(scanner, "0", out integer))
+            Element element1;
+            if (!TryReadTerminal(scanner, "0", out element1))
             {
                 element = default(LessThanMaximum);
                 return false;
             }
 
-            Option<Sequence<Element, Repetition<Digit>>> fractionalPart;
-            if (!this.TryReadOptionalSignificantFractionalPart(scanner, out fractionalPart))
+            Option<Sequence<Element, Repetition<Digit>>> element2;
+            if (!this.TryReadOptionalSignificantFractionalPart(scanner, out element2))
             {
-                scanner.PutBack(integer.Data);
+                scanner.PutBack(element1.Data);
                 element = default(LessThanMaximum);
                 return false;
             }
 
-            element = new LessThanMaximum(integer, fractionalPart, context);
+            element = new LessThanMaximum(element1, element2, context);
             return true;
         }
 
-
-        private bool TryReadMaximum(ITextScanner scanner, out Maximum element)
+        protected override bool TryRead2(ITextScanner scanner, out Maximum element)
         {
             if (scanner.EndOfInput)
             {
@@ -88,22 +70,22 @@
             }
 
             var context = scanner.GetContext();
-            Element integer;
-            if (!TryReadTerminal(scanner, "1", out integer))
+            Element element1;
+            if (!TryReadTerminal(scanner, "1", out element1))
             {
                 element = default(Maximum);
                 return false;
             }
 
-            Option<Sequence<Element, Repetition<Element>>> fractionalPart;
-            if (!this.TryReadOptionalInsignificantFractionalPart(scanner, out fractionalPart))
+            Option<Sequence<Element, Repetition<Element>>> element2;
+            if (!this.TryReadOptionalInsignificantFractionalPart(scanner, out element2))
             {
-                scanner.PutBack(integer.Data);
+                scanner.PutBack(element1.Data);
                 element = default(Maximum);
                 return false;
             }
 
-            element = new Maximum(integer, fractionalPart, context);
+            element = new Maximum(element1, element2, context);
             return true;
         }
 
@@ -148,22 +130,22 @@
             }
 
             var context = scanner.GetContext();
-            Element decimalSeparator;
-            if (!TryReadTerminal(scanner, ".", out decimalSeparator))
+            Element element1;
+            if (!TryReadTerminal(scanner, ".", out element1))
             {
                 element = default(Sequence<Element, Repetition<Digit>>);
                 return false;
             }
 
-            Repetition<Digit> significantDigits;
-            if (!this.TryReadSignificantDigits(scanner, out significantDigits))
+            Repetition<Digit> element2;
+            if (!this.TryReadSignificantDigits(scanner, out element2))
             {
-                scanner.PutBack(decimalSeparator.Data);
+                scanner.PutBack(element1.Data);
                 element = default(Sequence<Element, Repetition<Digit>>);
                 return false;
             }
 
-            element = new Sequence<Element, Repetition<Digit>>(decimalSeparator, significantDigits, context);
+            element = new Sequence<Element, Repetition<Digit>>(element1, element2, context);
             return true;
         }
 
@@ -176,22 +158,22 @@
             }
 
             var context = scanner.GetContext();
-            Element decimalSeparator;
-            if (!TryReadTerminal(scanner, ".", out decimalSeparator))
+            Element element1;
+            if (!TryReadTerminal(scanner, ".", out element1))
             {
                 element = default(Sequence<Element, Repetition<Element>>);
                 return false;
             }
 
-            Repetition<Element> insignificantDigits;
-            if (!this.TryReadInsignificantDigits(scanner, out insignificantDigits))
+            Repetition<Element> element2;
+            if (!this.TryReadInsignificantDigits(scanner, out element2))
             {
-                scanner.PutBack(decimalSeparator.Data);
+                scanner.PutBack(element1.Data);
                 element = default(Sequence<Element, Repetition<Element>>);
                 return false;
             }
 
-            element = new Sequence<Element, Repetition<Element>>(decimalSeparator, insignificantDigits, context);
+            element = new Sequence<Element, Repetition<Element>>(element1, element2, context);
             return true;
         }
 
