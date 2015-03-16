@@ -90,6 +90,8 @@
     <Compile Include="ElementList.cs" />
     <Compile Include="ElementList2.cs" />
     <Compile Include="ElementList2Lexer.cs" />
+    <Compile Include="ElementList3.cs" />
+    <Compile Include="ElementList3Lexer.cs" />
     <Compile Include="ElementListLexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rfc7230\AbsoluteFormLexer.cs" />
