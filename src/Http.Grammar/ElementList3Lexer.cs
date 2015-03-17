@@ -7,7 +7,8 @@
 
     using SLANG;
 
-    public abstract partial class ElementList3Lexer<T> : SequenceLexer<ElementList3<T>, Repetition<Sequence<Element, OptionalWhiteSpace>>, T, Repetition<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>>>
+    public abstract partial class ElementList3Lexer<TList, T> : SequenceLexer<TList, Repetition<Sequence<Element, OptionalWhiteSpace>>, T, Repetition<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>>>
+        where TList : ElementList3<T>
         where T : Element
     {
         private readonly ILexer<Repetition<Sequence<Element, OptionalWhiteSpace>>> element1Lexer;
@@ -33,11 +34,6 @@
             this.element3Lexer = element3Lexer;
         }
 
-        protected override ElementList3<T> CreateInstance(Repetition<Sequence<Element, OptionalWhiteSpace>> element1, T element2, Repetition<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>> element3, ITextContext context)
-        {
-            return new ElementList3<T>(element1, element2, element3, context);
-        }
-
         protected override bool TryRead1(ITextScanner scanner, out Repetition<Sequence<Element, OptionalWhiteSpace>> element)
         {
             return this.element1Lexer.TryRead(scanner, out element);
@@ -54,7 +50,7 @@
         }
     }
 
-    public partial class ElementList3Lexer<T>
+    public partial class ElementList3Lexer<TList, T>
     {
         public partial class Element1Lexer : RepetitionLexer<Repetition<Sequence<Element, OptionalWhiteSpace>>, Sequence<Element, OptionalWhiteSpace>>
         {
@@ -78,7 +74,7 @@
         }
     }
 
-    public partial class ElementList3Lexer<T>
+    public partial class ElementList3Lexer<TList, T>
     {
         public partial class Element1Lexer
         {
@@ -113,7 +109,7 @@
         }
     }
 
-    public partial class ElementList3Lexer<T>
+    public partial class ElementList3Lexer<TList, T>
     {
         public partial class Element1Lexer
         {
@@ -135,7 +131,7 @@
         }
     }
 
-    public partial class ElementList3Lexer<T>
+    public partial class ElementList3Lexer<TList, T>
     {
         public partial class Element3Lexer : RepetitionLexer<Repetition<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>>, Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>>
         {
@@ -159,7 +155,7 @@
         }
     }
 
-    public partial class ElementList3Lexer<T>
+    public partial class ElementList3Lexer<TList, T>
     {
         public partial class Element3Lexer
         {
@@ -202,7 +198,7 @@
         }
     }
 
-    public partial class ElementList3Lexer<T>
+    public partial class ElementList3Lexer<TList, T>
     {
         public partial class Element3Lexer
         {
@@ -224,7 +220,7 @@
         }
     }
 
-    public partial class ElementList3Lexer<T>
+    public partial class ElementList3Lexer<TList, T>
     {
         public partial class Element3Lexer
         {
@@ -260,7 +256,7 @@
         }
     }
 
-    public partial class ElementList3Lexer<T>
+    public partial class ElementList3Lexer<TList, T>
     {
         public partial class Element3Lexer
         {
