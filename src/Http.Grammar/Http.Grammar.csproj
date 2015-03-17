@@ -167,6 +167,7 @@
     <Compile Include="Rfc7230\StatusCode.cs" />
     <Compile Include="Rfc7230\StatusLineLexer.cs" />
     <Compile Include="Rfc7230\StatusLine.cs" />
+    <Compile Include="Rfc7230\TE.cs" />
     <Compile Include="Rfc7230\TokenCharacter.cs" />
     <Compile Include="Rfc7230\TokenCharacterLexer.cs" />
     <Compile Include="Rfc7230\TokenLexer.cs" />
