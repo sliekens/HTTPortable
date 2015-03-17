@@ -6,141 +6,137 @@
 
     using SLANG;
 
-    public abstract class ElementListLexer<TList, TElement> : Lexer<TList>
+    public abstract partial class ElementListLexer<TList, TElement> : SequenceLexer<TList, TElement, Repetition<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement>>>
         where TList : ElementList<TElement>
         where TElement : Element
     {
-        private readonly int lowerBound;
+        private readonly ILexer<TElement> element1Lexer;
+        private readonly ILexer<Repetition<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement>>> element2Lexer;
 
-        private readonly int upperBound;
-
-        private readonly ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer;
-
-        protected ElementListLexer(string ruleName, int lowerBound, int upperBound)
-            : this(ruleName, lowerBound, upperBound, new OptionalWhiteSpaceLexer())
+        protected ElementListLexer(string ruleName, ILexer<TElement> elementLexer)
+            : this(ruleName, elementLexer, new OptionalWhiteSpaceLexer())
         {
         }
 
-        protected ElementListLexer(string ruleName, int lowerBound, int upperBound, ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer)
+        protected ElementListLexer(string ruleName, ILexer<TElement> elementLexer, ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer)
+            : this(ruleName, elementLexer, new Element2Lexer(new Element2Lexer.ElementLexer(optionalWhiteSpaceLexer, new Element2Lexer.ElementLexer.Element2Lexer(), optionalWhiteSpaceLexer, elementLexer)))
+        {
+        }
+
+        protected ElementListLexer(string ruleName, ILexer<TElement> element1Lexer, ILexer<Repetition<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement>>> element2Lexer)
             : base(ruleName)
         {
-            this.lowerBound = lowerBound;
-            this.upperBound = upperBound;
-            this.optionalWhiteSpaceLexer = optionalWhiteSpaceLexer;
+            this.element1Lexer = element1Lexer;
+            this.element2Lexer = element2Lexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out TList element)
+        protected override bool TryRead1(ITextScanner scanner, out TElement element)
         {
-            if (scanner.EndOfInput)
-            {
-                element = default(TList);
-                return false;
-            }
-
-            var context = scanner.GetContext();
-            TElement element1;
-            if (!this.TryRead(scanner, this.lowerBound, this.upperBound, 0, out element1))
-            {
-                element = default(TList);
-                return false;
-            }
-
-            Repetition<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, Element>> element2;
-            if (!this.TryRead(scanner, out element2))
-            {
-                scanner.PutBack(element1.Data);
-                element = default(TList);
-                return false;
-            }
-
-            element = this.CreateInstance(element1, element2, context);
-            return true;
+            return this.element1Lexer.TryRead(scanner, out element);
         }
 
-        private bool TryRead(ITextScanner scanner, out Repetition<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, Element>> element)
+        protected override bool TryRead2(ITextScanner scanner, out Repetition<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement>> element)
         {
-            var context = scanner.GetContext();
-            var elements = new List<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, Element>>(this.lowerBound);
-            for (int i = 0; i < this.upperBound; i++)
+            return this.element2Lexer.TryRead(scanner, out element);
+        }
+    }
+
+    public abstract partial class ElementListLexer<TList, TElement>
+    {
+        public partial class Element2Lexer : RepetitionLexer<Repetition<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement>>, Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement>>
+        {
+            private readonly ILexer<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement>> elementLexer;
+
+            public Element2Lexer(ILexer<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement>> elementLexer)
+                : base("anonymous", 0, int.MaxValue)
             {
-                Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, Element> sequence;
-                if (this.TryRead(scanner, this.lowerBound, this.upperBound, i + 1, out sequence))
-                {
-                    elements.Add(sequence);
-                }
-                else
-                {
-                    break;
-                }
+                this.elementLexer = elementLexer;
             }
 
-            if (elements.Count < this.lowerBound)
+            protected override Repetition<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement>> CreateInstance(IList<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement>> elements, int lowerBound, int upperBound, ITextContext context)
             {
-                if (elements.Count != 0)
+                return new Repetition<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement>>(elements, context);
+            }
+
+            protected override bool TryRead(ITextScanner scanner, int lowerBound, int upperBound, int current, out Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement> element)
+            {
+                return this.elementLexer.TryRead(scanner, out element);
+            }
+        }
+    }
+
+    public abstract partial class ElementListLexer<TList, TElement>
+    {
+        public partial class Element2Lexer
+        {
+            public partial class ElementLexer : SequenceLexer<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement>, OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement>
+            {
+                private readonly ILexer<OptionalWhiteSpace> element1Lexer;
+                private readonly ILexer<Element> element2Lexer;
+                private readonly ILexer<OptionalWhiteSpace> element3Lexer;
+                private readonly ILexer<TElement> element4Lexer;
+
+                public ElementLexer(ILexer<OptionalWhiteSpace> element1Lexer, ILexer<Element> element2Lexer, ILexer<OptionalWhiteSpace> element3Lexer, ILexer<TElement> element4Lexer)
+                    : base("anonymous")
                 {
-                    for (int i = elements.Count - 1; i >= 0; i--)
+                    this.element1Lexer = element1Lexer;
+                    this.element2Lexer = element2Lexer;
+                    this.element3Lexer = element3Lexer;
+                    this.element4Lexer = element4Lexer;
+                }
+
+                protected override Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement> CreateInstance(
+                    OptionalWhiteSpace element1,
+                    Element element2,
+                    OptionalWhiteSpace element3,
+                    TElement element4,
+                    ITextContext context)
+                {
+                    return new Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement>(element1, element2, element3, element4, context);
+                }
+
+                protected override bool TryRead1(ITextScanner scanner, out OptionalWhiteSpace element)
+                {
+                    return this.element1Lexer.TryRead(scanner, out element);
+                }
+
+                protected override bool TryRead2(ITextScanner scanner, out Element element)
+                {
+                    return this.element2Lexer.TryRead(scanner, out element);
+                }
+
+                protected override bool TryRead3(ITextScanner scanner, out OptionalWhiteSpace element)
+                {
+                    return this.element3Lexer.TryRead(scanner, out element);
+                }
+
+                protected override bool TryRead4(ITextScanner scanner, out TElement element)
+                {
+                    return this.element4Lexer.TryRead(scanner, out element);
+                }
+            }
+        }
+    }
+
+    public abstract partial class ElementListLexer<TList, TElement>
+    {
+        public partial class Element2Lexer
+        {
+            public partial class ElementLexer
+            {
+                public class Element2Lexer : Lexer<Element>
+                {
+                    public Element2Lexer()
+                        : base("anonymous")
                     {
-                        scanner.PutBack(elements[i].Data);
+                    }
+
+                    public override bool TryRead(ITextScanner scanner, out Element element)
+                    {
+                        return TryReadTerminal(scanner, @",", out element);
                     }
                 }
-
-                element = default(Repetition<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, Element>>);
-                return false;
             }
-
-            element = new Repetition<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, Element>>(elements, this.lowerBound, this.upperBound, context);
-            return true;
         }
-
-        private bool TryRead(ITextScanner scanner, int lowerBound, int upperBound, int current, out Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, Element> element)
-        {
-            if (scanner.EndOfInput)
-            {
-                element = default(Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, Element>);
-                return false;
-            }
-
-            var context = scanner.GetContext();
-            OptionalWhiteSpace element1;
-            if (!this.optionalWhiteSpaceLexer.TryRead(scanner, out element1))
-            {
-                element = default(Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, Element>);
-                return false;
-            }
-
-            Element element2;
-            if (!TryReadTerminal(scanner, @",", out element2))
-            {
-                scanner.PutBack(element1.Data);
-                element = default(Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, Element>);
-                return false;
-            }
-
-            OptionalWhiteSpace element3;
-            if (!this.optionalWhiteSpaceLexer.TryRead(scanner, out element3))
-            {
-                scanner.PutBack(element2.Data);
-                scanner.PutBack(element1.Data);
-                element = default(Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, Element>);
-                return false;
-            }
-
-            TElement element4;
-            if (!this.TryRead(scanner, lowerBound, upperBound, current, out element4))
-            {
-                scanner.PutBack(element3.Data);
-                scanner.PutBack(element2.Data);
-                scanner.PutBack(element1.Data);
-                element = default(Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, Element>);
-                return false;
-            }
-
-            element = new Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, Element>(element1, element2, element3, element4, context);
-            return true;
-        }
-
-        protected abstract TList CreateInstance(TElement element1, Repetition<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, Element>> element2, ITextContext context);
-
-        protected abstract bool TryRead(ITextScanner scanner, int lowerBound, int upperBound, int current, out TElement element);
     }
 }
