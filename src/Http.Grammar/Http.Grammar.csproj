@@ -175,6 +175,8 @@
     <Compile Include="Rfc7230\TransferCodingLexer.cs" />
     <Compile Include="Rfc7230\TransferCodingRanking.cs" />
     <Compile Include="Rfc7230\TransferCodingRankingLexer.cs" />
+    <Compile Include="Rfc7230\TransferEncoding.cs" />
+    <Compile Include="Rfc7230\TransferEncodingLexer.cs" />
     <Compile Include="Rfc7230\TransferExtension.cs" />
     <Compile Include="Rfc7230\TransferExtensionLexer.cs" />
     <Compile Include="Rfc7230\TransferParameter.cs" />

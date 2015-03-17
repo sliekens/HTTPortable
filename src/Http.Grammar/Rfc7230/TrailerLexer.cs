@@ -4,18 +4,23 @@
 
     public class TrailerLexer : ElementList3Lexer<Trailer, FieldName>
     {
-        public TrailerLexer(string ruleName, ILexer<FieldName> elementLexer)
-            : base(ruleName, elementLexer)
+        public TrailerLexer()
+            : this(new FieldNameLexer())
         {
         }
 
-        public TrailerLexer(string ruleName, ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer, ILexer<FieldName> elementLexer)
-            : base(ruleName, optionalWhiteSpaceLexer, elementLexer)
+        public TrailerLexer(ILexer<FieldName> elementLexer)
+            : base("Trailer", elementLexer)
         {
         }
 
-        public TrailerLexer(string ruleName, ILexer<Repetition<Sequence<Element, OptionalWhiteSpace>>> element1Lexer, ILexer<FieldName> element2Lexer, ILexer<Repetition<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, FieldName>>>>> element3Lexer)
-            : base(ruleName, element1Lexer, element2Lexer, element3Lexer)
+        public TrailerLexer(ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer, ILexer<FieldName> elementLexer)
+            : base("Trailer", optionalWhiteSpaceLexer, elementLexer)
+        {
+        }
+
+        public TrailerLexer(ILexer<Repetition<Sequence<Element, OptionalWhiteSpace>>> element1Lexer, ILexer<FieldName> element2Lexer, ILexer<Repetition<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, FieldName>>>>> element3Lexer)
+            : base("Trailer", element1Lexer, element2Lexer, element3Lexer)
         {
         }
 
