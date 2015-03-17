@@ -36,7 +36,7 @@
         public void AllLexersShouldBePublic()
         {
             var allTypes = Assembly.GetTypes();
-            var elementTypes = allTypes.Where(type => typeof(Lexer<>).IsAssignableFrom(type)).ToList();
+            var elementTypes = allTypes.Where(type => typeof(Lexer<>).IsAssignableFrom(type) && !type.IsAbstract).ToList();
             foreach (var type in elementTypes)
             {
                 Assert.IsTrue(type.IsPublic, "typeof({0}).IsPublic", type.FullName);
