@@ -103,6 +103,7 @@
     <Compile Include="Rfc7230\BadWhiteSpaceLexer.cs" />
     <Compile Include="Rfc7230\Comment.cs" />
     <Compile Include="Rfc7230\CommentText.cs" />
+    <Compile Include="Rfc7230\CommentTextLexer.cs" />
     <Compile Include="Rfc7230\Connection.cs" />
     <Compile Include="Rfc7230\ConnectionLexer.cs" />
     <Compile Include="Rfc7230\ConnectionOptionLexer.cs" />
