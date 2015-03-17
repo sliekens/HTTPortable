@@ -165,6 +165,8 @@
     <Compile Include="Rfc7230\TokenCharacterLexer.cs" />
     <Compile Include="Rfc7230\TokenLexer.cs" />
     <Compile Include="Rfc7230\Token.cs" />
+    <Compile Include="Rfc7230\Trailer.cs" />
+    <Compile Include="Rfc7230\TrailerLexer.cs" />
     <Compile Include="Rfc7230\TrailerPart.cs" />
     <Compile Include="Rfc7230\TrailerPartLexer.cs" />
     <Compile Include="Rfc7230\TransferCoding.cs" />
