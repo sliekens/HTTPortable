@@ -149,6 +149,8 @@
     <Compile Include="Rfc7230\RankLexer.cs" />
     <Compile Include="Rfc7230\ReasonPhraseLexer.cs" />
     <Compile Include="Rfc7230\ReasonPhrase.cs" />
+    <Compile Include="Rfc7230\ReceivedProtocol.cs" />
+    <Compile Include="Rfc7230\ReceivedProtocolLexer.cs" />
     <Compile Include="Rfc7230\RequestLineLexer.cs" />
     <Compile Include="Rfc7230\RequestLine.cs" />
     <Compile Include="Rfc7230\RequestTarget.cs" />
