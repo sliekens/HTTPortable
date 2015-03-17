@@ -7,22 +7,20 @@
 
     using SLANG;
 
-    public abstract class ElementList2Lexer<TList, T> : Lexer<TList>
+    public abstract partial class ElementList2Lexer<TList, T> : Lexer<TList>
         where TList : ElementList2<T>
         where T : Element
     {
         private readonly ILexer<Sequence<Alternative<Element, T>, Repetition<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>>>> elementLexer;
 
-        public ElementList2Lexer(string ruleName, ILexer<T> elementLexer)
+        protected ElementList2Lexer(string ruleName, ILexer<T> elementLexer)
             : this(ruleName, new OptionalWhiteSpaceLexer(), elementLexer)
         {
-
         }
 
-        public ElementList2Lexer(string ruleName, ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer, ILexer<T> elementLexer)
+        protected ElementList2Lexer(string ruleName, ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer, ILexer<T> elementLexer)
             : this(ruleName, new ElementLexer(new ElementLexer.Element1Lexer(new ElementLexer.Element1Lexer.Element2Lexer(), elementLexer), new ElementLexer.Element2Lexer(new ElementLexer.Element2Lexer.ElementLexer(optionalWhiteSpaceLexer, new ElementLexer.Element2Lexer.ElementLexer.Element2Lexer(), new ElementLexer.Element2Lexer.ElementLexer.Element3Lexer(new ElementLexer.Element2Lexer.ElementLexer.Element3Lexer.ElementLexer(optionalWhiteSpaceLexer, elementLexer))))))
         {
-
         }
 
         protected ElementList2Lexer(string ruleName, ILexer<Sequence<Alternative<Element, T>, Repetition<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>>>> elementLexer)
@@ -30,8 +28,11 @@
         {
             this.elementLexer = elementLexer;
         }
+    }
 
-        public class ElementLexer : SequenceLexer<Sequence<Alternative<Element, T>, Repetition<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>>>, Alternative<Element, T>, Repetition<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>>>
+    public abstract partial class ElementList2Lexer<TList, T>
+    {
+        public partial class ElementLexer : SequenceLexer<Sequence<Alternative<Element, T>, Repetition<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>>>, Alternative<Element, T>, Repetition<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>>>
         {
             private readonly ILexer<Alternative<Element, T>> element1Lexer;
 
@@ -59,7 +60,14 @@
                 return this.element2Lexer.TryRead(scanner, out element);
             }
 
-            public class Element1Lexer : AlternativeLexer<Alternative<Element, T>, Element, T>
+        }
+    }
+
+    public abstract partial class ElementList2Lexer<TList, T>
+    {
+        public partial class ElementLexer
+        {
+            public partial class Element1Lexer : AlternativeLexer<Alternative<Element, T>, Element, T>
             {
                 private readonly ILexer<Element> element1Lexer;
 
@@ -91,7 +99,16 @@
                 {
                     return this.element2Lexer.TryRead(scanner, out element);
                 }
+            }
+        }
+    }
 
+    public abstract partial class ElementList2Lexer<TList, T>
+    {
+        public partial class ElementLexer
+        {
+            public partial class Element1Lexer
+            {
                 public class Element2Lexer : Lexer<Element>
                 {
                     public Element2Lexer()
@@ -105,8 +122,14 @@
                     }
                 }
             }
+        }
+    }
 
-            public class Element2Lexer : RepetitionLexer<Repetition<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>>, Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>>
+    public abstract partial class ElementList2Lexer<TList, T>
+    {
+        public partial class ElementLexer
+        {
+            public partial class Element2Lexer : RepetitionLexer<Repetition<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>>, Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>>
             {
                 private readonly ILexer<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>> elementLexer;
 
@@ -125,8 +148,17 @@
                 {
                     return this.elementLexer.TryRead(scanner, out element);
                 }
+            }
+        }
+    }
 
-                public class ElementLexer : SequenceLexer<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>, OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>
+    public abstract partial class ElementList2Lexer<TList, T>
+    {
+        public partial class ElementLexer
+        {
+            public partial class Element2Lexer
+            {
+                public partial class ElementLexer : SequenceLexer<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>, OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>
                 {
                     private readonly ILexer<OptionalWhiteSpace> element1Lexer;
                     private readonly ILexer<Element> element2Lexer;
@@ -159,7 +191,19 @@
                     {
                         return this.element3Lexer.TryRead(scanner, out element);
                     }
+                }
+            }
+        }
+    }
 
+    public abstract partial class ElementList2Lexer<TList, T>
+    {
+        public partial class ElementLexer
+        {
+            public partial class Element2Lexer
+            {
+                public partial class ElementLexer
+                {
                     public class Element2Lexer : Lexer<Element>
                     {
                         public Element2Lexer()
@@ -172,8 +216,20 @@
                             return TryReadTerminal(scanner, @",", out element);
                         }
                     }
+                }
+            }
+        }
+    }
 
-                    public class Element3Lexer : RepetitionLexer<Option<Sequence<OptionalWhiteSpace, T>>, Sequence<OptionalWhiteSpace, T>>
+    public abstract partial class ElementList2Lexer<TList, T>
+    {
+        public partial class ElementLexer
+        {
+            public partial class Element2Lexer
+            {
+                public partial class ElementLexer
+                {
+                    public partial class Element3Lexer : RepetitionLexer<Option<Sequence<OptionalWhiteSpace, T>>, Sequence<OptionalWhiteSpace, T>>
                     {
                         private readonly ILexer<Sequence<OptionalWhiteSpace, T>> elementLexer;
 
@@ -198,7 +254,22 @@
                         {
                             return this.elementLexer.TryRead(scanner, out element);
                         }
+                    }
+                }
+            }
+        }
+    }
 
+    public abstract partial class ElementList2Lexer<TList, T>
+    {
+        public partial class ElementLexer
+        {
+            public partial class Element2Lexer
+            {
+                public partial class ElementLexer
+                {
+                    public partial class Element3Lexer
+                    {
                         public class ElementLexer : SequenceLexer<Sequence<OptionalWhiteSpace, T>, OptionalWhiteSpace, T>
                         {
                             private readonly ILexer<OptionalWhiteSpace> element1Lexer;
