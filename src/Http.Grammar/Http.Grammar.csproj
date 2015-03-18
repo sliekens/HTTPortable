@@ -194,6 +194,7 @@
     <Compile Include="Rfc7230\UpgradeLexer.cs" />
     <Compile Include="Rfc7230\UriHostLexer.cs" />
     <Compile Include="Rfc7230\Via.cs" />
+    <Compile Include="Rfc7230\ViaLexer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Uri.Grammar\Uri.Grammar.csproj">
