@@ -12,6 +12,11 @@
 
         private readonly ILexer<CommentText.Element3> element3Lexer;
 
+        public CommentLexer()
+            : this(new Element1Lexer(), new Element2Lexer(new Element2Lexer.ElementLexer(new CommentTextLexer(), new QuotedPairLexer(), new CommentLexer())), new CommentTextLexer.Element3Lexer())
+        {
+        }
+
         public CommentLexer(
             ILexer<Comment.Element1> element1Lexer,
             ILexer<Repetition<Sequence<CommentText, QuotedPair, Comment>>> element2Lexer,
