@@ -19,6 +19,11 @@
 
         private readonly ILexer<ObsoletedText> element6Lexer;
 
+        public CommentTextLexer()
+            : this(new HorizontalTabLexer(), new SpaceLexer(), new Element3Lexer(), new Element4Lexer(), new Element5Lexer(), new ObsoletedTextLexer())
+        {
+        }
+
         public CommentTextLexer(ILexer<HorizontalTab> element1Lexer, ILexer<Space> element2Lexer, ILexer<CommentText.Element3> element3Lexer, ILexer<CommentText.Element4> element4Lexer, ILexer<CommentText.Element5> element5Lexer, ILexer<ObsoletedText> element6Lexer)
             : base("ctext")
         {
