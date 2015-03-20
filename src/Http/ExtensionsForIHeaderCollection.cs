@@ -1,7 +1,12 @@
 ﻿namespace Http
 {
     using System;
+    using System.Globalization;
+    using System.IO;
     using System.Linq;
+    using Grammar.Rfc7230;
+    using Headers;
+    using SLANG;
 
     /// <summary>Provides extension methods for the <see cref="T:Http.IHeaderCollection" /> interface.</summary>
     public static class ExtensionsForIHeaderCollection
@@ -18,13 +23,39 @@
         /// <returns><c>true</c> if the operation was successful; otherwise, <c>false</c>.</returns>
         public static bool TryGetContentLength(this IHeaderCollection instance, out long result)
         {
-            var header = instance.SingleOrDefault(h => string.Equals(h.Name, "Content-Length", StringComparison.Ordinal));
-            if (header != null && long.TryParse(header.FirstOrDefault(), out result))
+            foreach (var header in instance)
             {
-                return true;
+                if (!string.Equals(header.Name, ContentLengthHeader.FieldName, StringComparison.Ordinal))
+                {
+                    continue;
+                }
+
+                var value = header.SingleOrDefault();
+                if (value == null)
+                {
+                    result = default(long);
+                    return false; 
+                }
+
+                var lexer = new ContentLengthLexer();
+                using (TextReader reader = new StringReader(value))
+                using (ITextScanner scanner = new TextScanner(reader))
+                {
+                    scanner.Read();
+                    ContentLength element;
+                    if (!lexer.TryRead(scanner, out element))
+                    {
+                        continue;
+                    }
+
+                    if (long.TryParse(element.Data, NumberStyles.None, NumberFormatInfo.InvariantInfo, out result))
+                    {
+                        return true;
+                    }
+                }
             }
 
-            result = default (long);
+            result = default(long);
             return false;
         }
     }
