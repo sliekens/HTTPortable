@@ -4,13 +4,15 @@
 
     public class ContentLengthHeader : Header
     {
+        public const string FieldName = "Content-Length";
+
         public ContentLengthHeader()
-            : base("Content-Length")
+            : base(FieldName)
         {
         }
 
         public ContentLengthHeader(long contentLength)
-            : base("Content-Length")
+            : base(FieldName)
         {
             this.Add(contentLength.ToString(NumberFormatInfo.InvariantInfo));
         }
