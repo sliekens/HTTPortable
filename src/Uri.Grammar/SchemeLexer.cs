@@ -43,7 +43,7 @@
 
             var elements = new List<SchemeCharacter>
             {
-                new SchemeCharacter(alpha, context)
+                new SchemeCharacter(alpha, 1, context)
             };
 
             while (!scanner.EndOfInput)
@@ -51,14 +51,14 @@
                 var innerContext = scanner.GetContext();
                 if (this.alphaLexer.TryRead(scanner, out alpha))
                 {
-                    elements.Add(new SchemeCharacter(alpha, innerContext));
+                    elements.Add(new SchemeCharacter(alpha, 1, innerContext));
                 }
                 else
                 {
                     Digit digit;
                     if (this.digitLexer.TryRead(scanner, out digit))
                     {
-                        elements.Add(new SchemeCharacter(digit, innerContext));
+                        elements.Add(new SchemeCharacter(digit, 2, innerContext));
                     }
                     else
                     {
@@ -66,7 +66,7 @@
                         if (this.TryReadPlusSign(scanner, out symbol) || this.TryReadMinusSign(scanner, out symbol) ||
                             this.TryReadFullStop(scanner, out symbol))
                         {
-                            elements.Add(new SchemeCharacter(symbol, innerContext));
+                            elements.Add(new SchemeCharacter(symbol, 3, innerContext));
                         }
                         else
                         {

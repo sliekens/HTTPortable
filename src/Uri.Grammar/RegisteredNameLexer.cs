@@ -40,21 +40,21 @@
                 Unreserved unreserved;
                 if (this.unreservedLexer.TryRead(scanner, out unreserved))
                 {
-                    alternative = new Alternative(unreserved, innerContext);
+                    alternative = new Alternative(unreserved, 1, innerContext);
                 }
                 else
                 {
                     PercentEncoding percentEncoding;
                     if (this.percentEncodingLexer.TryRead(scanner, out percentEncoding))
                     {
-                        alternative = new Alternative(percentEncoding, innerContext);
+                        alternative = new Alternative(percentEncoding, 2, innerContext);
                     }
                     else
                     {
                         SubcomponentsDelimiter subcomponentsDelimiter;
                         if (this.subcomponentsDelimiterLexer.TryRead(scanner, out subcomponentsDelimiter))
                         {
-                            alternative = new Alternative(subcomponentsDelimiter, innerContext);
+                            alternative = new Alternative(subcomponentsDelimiter, 3, innerContext);
                         }
                         else
                         {

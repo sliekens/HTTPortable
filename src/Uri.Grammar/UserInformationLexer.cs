@@ -38,28 +38,28 @@
                 Unreserved unreserved;
                 if (this.unreservedLexer.TryRead(scanner, out unreserved))
                 {
-                    elements.Add(new UserInfoCharacter(unreserved, innerContext));
+                    elements.Add(new UserInfoCharacter(unreserved, 1, innerContext));
                 }
                 else
                 {
                     PercentEncoding percentEncoding;
                     if (this.percentEncodingLexer.TryRead(scanner, out percentEncoding))
                     {
-                        elements.Add(new UserInfoCharacter(percentEncoding, innerContext));
+                        elements.Add(new UserInfoCharacter(percentEncoding, 2, innerContext));
                     }
                     else
                     {
                         SubcomponentsDelimiter subcomponentsDelimiter;
                         if (this.subcomponentsDelimiterLexer.TryRead(scanner, out subcomponentsDelimiter))
                         {
-                            elements.Add(new UserInfoCharacter(subcomponentsDelimiter, innerContext));
+                            elements.Add(new UserInfoCharacter(subcomponentsDelimiter, 3, innerContext));
                         }
                         else
                         {
                             Element colon;
                             if (this.TryReadColon(scanner, out colon))
                             {
-                                elements.Add(new UserInfoCharacter(colon, innerContext));
+                                elements.Add(new UserInfoCharacter(colon, 4, innerContext));
                             }
                             else
                             {

@@ -82,12 +82,12 @@
 
                 protected override Alternative<Element, T> CreateInstance1(Element element, ITextContext context)
                 {
-                    return new Alternative<Element, T>(element, context);
+                    return new Alternative<Element, T>(element, 1, context);
                 }
 
                 protected override Alternative<Element, T> CreateInstance2(T element, ITextContext context)
                 {
-                    return new Alternative<Element, T>(element, context);
+                    return new Alternative<Element, T>(element, 2, context);
                 }
 
                 protected override bool TryRead1(ITextScanner scanner, out Element element)

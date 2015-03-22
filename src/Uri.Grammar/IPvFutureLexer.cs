@@ -170,21 +170,21 @@
             Unreserved unreserved;
             if (this.unreservedLexer.TryRead(scanner, out unreserved))
             {
-                element = new IPvFutureCharacter(unreserved, context);
+                element = new IPvFutureCharacter(unreserved, 1, context);
                 return true;
             }
 
             SubcomponentsDelimiter subcomponentsDelimiter;
             if (this.subcomponentsDelimiterLexer.TryRead(scanner, out subcomponentsDelimiter))
             {
-                element = new IPvFutureCharacter(subcomponentsDelimiter, context);
+                element = new IPvFutureCharacter(subcomponentsDelimiter, 2, context);
                 return true;
             }
 
             Element colon;
             if (this.TryReadColon(scanner, out colon))
             {
-                element = new IPvFutureCharacter(colon, context);
+                element = new IPvFutureCharacter(colon, 3, context);
                 return true;
             }
 

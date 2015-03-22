@@ -39,7 +39,7 @@
                 if (this.unreservedLexer.TryRead(scanner, out unreserved))
                 {
                     alternative =
-                        new Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, Element>(unreserved, 
+                        new Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, Element>(unreserved, 1,
                             innerContext);
                 }
                 else
@@ -49,7 +49,7 @@
                     {
                         alternative =
                             new Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, Element>(
-                                percentEncoding, innerContext);
+                                percentEncoding, 2, innerContext);
                     }
                     else
                     {
@@ -58,7 +58,7 @@
                         {
                             alternative =
                                 new Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, Element>(
-                                    percentEncoding, innerContext);
+                                    percentEncoding, 3, innerContext);
                         }
                         else
                         {
@@ -67,7 +67,7 @@
                                 var terminal = new Element('@', innerContext);
                                 alternative =
                                     new Alternative<Unreserved, PercentEncoding, SubcomponentsDelimiter, Element>(
-                                        terminal, innerContext);
+                                        terminal, 4, innerContext);
                             }
                             else
                             {

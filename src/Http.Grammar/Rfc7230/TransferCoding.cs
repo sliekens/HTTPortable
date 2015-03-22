@@ -6,14 +6,14 @@
     public class TransferCoding : Alternative<Element, TransferExtension>
     {
         public TransferCoding(Element element, ITextContext context)
-            : base(element, context)
+            : base(element, 1, context)
         {
             Contract.Requires(element != null);
             Contract.Requires(context != null);
         }
 
         public TransferCoding(TransferExtension element, ITextContext context)
-            : base(element, context)
+            : base(element, 2, context)
         {
             Contract.Requires(element != null);
             Contract.Requires(context != null);

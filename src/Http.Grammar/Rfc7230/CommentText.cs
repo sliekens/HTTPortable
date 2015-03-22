@@ -6,32 +6,32 @@
     public partial class CommentText : Alternative<HorizontalTab, Space, CommentText.Element3, CommentText.Element4, CommentText.Element5, ObsoletedText>
     {
         public CommentText(HorizontalTab element, ITextContext context)
-            : base(element, context)
+            : base(element, 1, context)
         {
         }
 
         public CommentText(Space element, ITextContext context)
-            : base(element, context)
+            : base(element, 2, context)
         {
         }
 
         public CommentText(Element3 element, ITextContext context)
-            : base(element, context)
+            : base(element, 3, context)
         {
         }
 
         public CommentText(Element4 element, ITextContext context)
-            : base(element, context)
+            : base(element, 4, context)
         {
         }
 
         public CommentText(Element5 element, ITextContext context)
-            : base(element, context)
+            : base(element, 5, context)
         {
         }
 
         public CommentText(ObsoletedText element, ITextContext context)
-            : base(element, context)
+            : base(element, 6, context)
         {
         }
     }

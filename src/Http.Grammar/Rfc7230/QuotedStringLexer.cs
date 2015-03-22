@@ -107,14 +107,14 @@
             QuotedText quotedText;
             if (this.quotedTextLexer.TryRead(scanner, out quotedText))
             {
-                element = new QuotedCharacter(quotedText, context);
+                element = new QuotedCharacter(quotedText, 1, context);
                 return true;
             }
 
             QuotedPair quotedPair;
             if (this.quotedPairLexer.TryRead(scanner, out quotedPair))
             {
-                element = new QuotedCharacter(quotedPair, context);
+                element = new QuotedCharacter(quotedPair, 2, context);
                 return true;
             }
 

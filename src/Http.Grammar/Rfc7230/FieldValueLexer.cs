@@ -39,14 +39,14 @@
                 FieldContent fieldContent;
                 if (this.fieldContentLexer.TryRead(scanner, out fieldContent))
                 {
-                    elements.Add(new Alternative<FieldContent, ObsoletedFold>(fieldContent, context));
+                    elements.Add(new Alternative<FieldContent, ObsoletedFold>(fieldContent, 1, context));
                 }
                 else
                 {
                     ObsoletedFold obsoletedFold;
                     if (this.obsFoldLexer.TryRead(scanner, out obsoletedFold))
                     {
-                        elements.Add(new Alternative<FieldContent, ObsoletedFold>(obsoletedFold, context));
+                        elements.Add(new Alternative<FieldContent, ObsoletedFold>(obsoletedFold, 2, context));
                     }
                     else
                     {

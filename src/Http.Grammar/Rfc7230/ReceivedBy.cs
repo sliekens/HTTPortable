@@ -9,12 +9,12 @@
     public class ReceivedBy : Alternative<Sequence<UriHost, Option<Sequence<Element, Port>>>, Pseudonym>
     {
         public ReceivedBy(Sequence<UriHost, Option<Sequence<Element, Port>>> element, ITextContext context)
-            : base(element, context)
+            : base(element, 1, context)
         {
         }
 
         public ReceivedBy(Pseudonym element, ITextContext context)
-            : base(element, context)
+            : base(element, 2, context)
         {
         }
     }

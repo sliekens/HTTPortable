@@ -16,7 +16,7 @@
         private readonly bool isRegisteredName;
 
         public Host(IPLiteral element, ITextContext context)
-            : base(element, context)
+            : base(element, 1, context)
         {
             Contract.Requires(element != null);
             Contract.Requires(context != null);
@@ -24,7 +24,7 @@
         }
 
         public Host(IPv4Address element, ITextContext context)
-            : base(element, context)
+            : base(element, 2, context)
         {
             Contract.Requires(element != null);
             Contract.Requires(context != null);
@@ -32,7 +32,7 @@
         }
 
         public Host(RegisteredName element, ITextContext context)
-            : base(element, context)
+            : base(element, 3, context)
         {
             Contract.Requires(element != null);
             Contract.Requires(context != null);

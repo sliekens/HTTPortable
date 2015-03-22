@@ -99,14 +99,14 @@
             Token token;
             if (this.tokenLexer.TryRead(scanner, out token))
             {
-                element = new ParameterValue(token, context);
+                element = new ParameterValue(token, 1, context);
                 return true;
             }
 
             QuotedString quotedString;
             if (this.quotedStringLexer.TryRead(scanner, out quotedString))
             {
-                element = new ParameterValue(quotedString, context);
+                element = new ParameterValue(quotedString, 2, context);
                 return true;
             }
 

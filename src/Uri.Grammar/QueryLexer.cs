@@ -30,17 +30,17 @@
                 PathCharacter pathCharacter;
                 if (this.pathCharacterLexer.TryRead(scanner, out pathCharacter))
                 {
-                    elements.Add(new Alternative<PathCharacter, Element>(pathCharacter, innerContext));
+                    elements.Add(new Alternative<PathCharacter, Element>(pathCharacter, 1, innerContext));
                 }
                 else if (!scanner.EndOfInput && scanner.TryMatch('/'))
                 {
                     var e = new Element('/', innerContext);
-                    elements.Add(new Alternative<PathCharacter, Element>(e, innerContext));
+                    elements.Add(new Alternative<PathCharacter, Element>(e, 2, innerContext));
                 }
                 else if (!scanner.EndOfInput && scanner.TryMatch('?'))
                 {
                     var e = new Element('?', innerContext);
-                    elements.Add(new Alternative<PathCharacter, Element>(e, innerContext));
+                    elements.Add(new Alternative<PathCharacter, Element>(e, 2, innerContext));
                 }
                 else
                 {

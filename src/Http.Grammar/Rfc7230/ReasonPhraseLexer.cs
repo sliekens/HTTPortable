@@ -46,22 +46,22 @@
                 if (this.hTabLexer.TryRead(scanner, out horizontalTab))
                 {
                     elements.Add(new Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>(horizontalTab, 
-                        currentContext));
+                        1, currentContext));
                 }
                 else if (this.SpaceLexer.TryRead(scanner, out space))
                 {
                     elements.Add(new Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>(space, 
-                        currentContext));
+                        2, currentContext));
                 }
                 else if (this.vCharLexer.TryRead(scanner, out visibleCharacter))
                 {
                     elements.Add(new Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>(
-                        visibleCharacter, currentContext));
+                        visibleCharacter, 3, currentContext));
                 }
                 else if (this.obsTextLexer.TryRead(scanner, out obsoletedText))
                 {
                     elements.Add(new Alternative<HorizontalTab, Space, VisibleCharacter, ObsoletedText>(obsoletedText, 
-                        currentContext));
+                        4, currentContext));
                 }
                 else
                 {

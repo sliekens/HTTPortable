@@ -6,14 +6,14 @@
     public class StartLine : Alternative<RequestLine, StatusLine>
     {
         public StartLine(RequestLine element, ITextContext context)
-            : base(element, context)
+            : base(element, 1, context)
         {
             Contract.Requires(element != null);
             Contract.Requires(context != null);
         }
 
         public StartLine(StatusLine element, ITextContext context)
-            : base(element, context)
+            : base(element, 2, context)
         {
             Contract.Requires(element != null);
             Contract.Requires(context != null);

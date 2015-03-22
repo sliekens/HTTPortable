@@ -6,14 +6,14 @@
     public class TransferCodingListItem : Alternative<Element, Sequence<TransferCoding, Option<TransferCodingRanking>>>
     {
         public TransferCodingListItem(Element element, ITextContext context)
-            : base(element, context)
+            : base(element, 1, context)
         {
             Contract.Requires(element != null);
             Contract.Requires(context != null);
         }
 
         public TransferCodingListItem(Sequence<TransferCoding, Option<TransferCodingRanking>> element, ITextContext context)
-            : base(element, context)
+            : base(element, 2, context)
         {
             Contract.Requires(element != null);
             Contract.Requires(context != null);

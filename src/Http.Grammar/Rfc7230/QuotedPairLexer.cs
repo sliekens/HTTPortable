@@ -71,28 +71,28 @@
             HorizontalTab horizontalTab;
             if (this.horizontalTabLexer.TryRead(scanner, out horizontalTab))
             {
-                element = new EscapedCharacter(horizontalTab, context);
+                element = new EscapedCharacter(horizontalTab, 1, context);
                 return true;
             }
 
             Space space;
             if (this.spaceLexer.TryRead(scanner, out space))
             {
-                element = new EscapedCharacter(space, context);
+                element = new EscapedCharacter(space, 2, context);
                 return true;
             }
 
             VisibleCharacter visibleCharacter;
             if (this.visibleCharacterLexer.TryRead(scanner, out visibleCharacter))
             {
-                element = new EscapedCharacter(visibleCharacter, context);
+                element = new EscapedCharacter(visibleCharacter, 3, context);
                 return true;
             }
 
             ObsoletedText obsoletedText;
             if (this.obsoletedTextLexer.TryRead(scanner, out obsoletedText))
             {
-                element = new EscapedCharacter(obsoletedText, context);
+                element = new EscapedCharacter(obsoletedText, 4, context);
                 return true;
             }
 
