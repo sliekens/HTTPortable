@@ -39,7 +39,6 @@
             private readonly ILexer<Repetition<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>>> element2Lexer;
 
             public ElementLexer(ILexer<Alternative<Element, T>> element1Lexer, ILexer<Repetition<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>>> element2Lexer)
-                : base("anonymous")
             {
                 this.element1Lexer = element1Lexer;
                 this.element2Lexer = element2Lexer;
@@ -74,7 +73,6 @@
                 private readonly ILexer<T> element2Lexer;
 
                 public Element1Lexer(ILexer<Element> element1Lexer, ILexer<T> element2Lexer)
-                    : base("anonymous")
                 {
                     this.element1Lexer = element1Lexer;
                     this.element2Lexer = element2Lexer;
@@ -111,11 +109,6 @@
             {
                 public class Element2Lexer : Lexer<Element>
                 {
-                    public Element2Lexer()
-                        : base("anonymous")
-                    {
-                    }
-
                     public override bool TryRead(ITextScanner scanner, out Element element)
                     {
                         return TryReadTerminal(scanner, @",", out element);
@@ -134,7 +127,7 @@
                 private readonly ILexer<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>> elementLexer;
 
                 public Element2Lexer(ILexer<Sequence<OptionalWhiteSpace, Element, Option<Sequence<OptionalWhiteSpace, T>>>> elementLexer)
-                    : base("anonymous", 0, int.MaxValue)
+                    : base(0, int.MaxValue)
                 {
                     this.elementLexer = elementLexer;
                 }
@@ -165,7 +158,6 @@
                     private readonly ILexer<Option<Sequence<OptionalWhiteSpace, T>>> element3Lexer;
 
                     public ElementLexer(ILexer<OptionalWhiteSpace> element1Lexer, ILexer<Element> element2Lexer, ILexer<Option<Sequence<OptionalWhiteSpace, T>>> element3Lexer)
-                        : base("anonymous")
                     {
                         this.element1Lexer = element1Lexer;
                         this.element2Lexer = element2Lexer;
@@ -206,11 +198,6 @@
                 {
                     public class Element2Lexer : Lexer<Element>
                     {
-                        public Element2Lexer()
-                            : base("anonymous")
-                        {
-                        }
-
                         public override bool TryRead(ITextScanner scanner, out Element element)
                         {
                             return TryReadTerminal(scanner, @",", out element);
@@ -234,7 +221,7 @@
                         private readonly ILexer<Sequence<OptionalWhiteSpace, T>> elementLexer;
 
                         public Element3Lexer(ILexer<Sequence<OptionalWhiteSpace, T>> elementLexer)
-                            : base("anonymous", 0, 1)
+                            : base(0, 1)
                         {
                             this.elementLexer = elementLexer;
                         }
@@ -277,7 +264,6 @@
                             private readonly ILexer<T> element2Lexer;
 
                             public ElementLexer(ILexer<OptionalWhiteSpace> element1Lexer, ILexer<T> element2Lexer)
-                                : base("anonymous")
                             {
                                 this.element1Lexer = element1Lexer;
                                 this.element2Lexer = element2Lexer;

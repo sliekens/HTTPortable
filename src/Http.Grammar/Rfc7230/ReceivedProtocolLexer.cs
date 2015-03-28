@@ -53,7 +53,6 @@
             private readonly ILexer<Sequence<ProtocolName, Element>> elementLexer;
 
             public Element1Lexer(ILexer<Sequence<ProtocolName, Element>> elementLexer)
-                : base("anonymous")
             {
                 this.elementLexer = elementLexer;
             }
@@ -87,7 +86,6 @@
                 private readonly ILexer<Element> element2Lexer;
 
                 public ElementLexer(ILexer<ProtocolName> element1Lexer, ILexer<Element> element2Lexer)
-                    : base("anonymous")
                 {
                     this.element1Lexer = element1Lexer;
                     this.element2Lexer = element2Lexer;
@@ -119,11 +117,6 @@
             {
                 public class Element2Lexer : Lexer<Element>
                 {
-                    public Element2Lexer()
-                        : base("anonymous")
-                    {
-                    }
-
                     public override bool TryRead(ITextScanner scanner, out Element element)
                     {
                         return TryReadTerminal(scanner, @"/", out element);

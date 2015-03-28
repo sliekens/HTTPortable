@@ -51,7 +51,6 @@
                 ILexer<ReceivedBy> element3Lexer,
                 ILexer<Via.Sequence.Option> element4Lexer
                 )
-                : base("anonymous")
             {
                 this.element1Lexer = element1Lexer;
                 this.element2Lexer = element2Lexer;
@@ -100,7 +99,6 @@
                 private readonly ILexer<Via.Sequence.Option.Sequence> elementLexer;
 
                 public OptionLexer(ILexer<Via.Sequence.Option.Sequence> elementLexer)
-                    : base("anonymous")
                 {
                     this.elementLexer = elementLexer;
                 }
@@ -137,7 +135,6 @@
                     private readonly ILexer<Comment> element2Lexer;
 
                     public SequenceLexer(ILexer<RequiredWhiteSpace> element1Lexer, ILexer<Comment> element2Lexer)
-                        : base("anonymous")
                     {
                         this.element1Lexer = element1Lexer;
                         this.element2Lexer = element2Lexer;

@@ -100,11 +100,6 @@
     {
         public class Element3Lexer : Lexer<CommentText.Element3>
         {
-            public Element3Lexer()
-                : base("anonymous")
-            {
-            }
-
             public override bool TryRead(ITextScanner scanner, out CommentText.Element3 element)
             {
                 if (scanner.EndOfInput)
@@ -134,11 +129,6 @@
     {
         public class Element4Lexer : Lexer<CommentText.Element4>
         {
-            public Element4Lexer()
-                : base("anonymous")
-            {
-            }
-
             public override bool TryRead(ITextScanner scanner, out CommentText.Element4 element)
             {
                 if (scanner.EndOfInput)
@@ -168,11 +158,6 @@
     {
         public class Element5Lexer : Lexer<CommentText.Element5>
         {
-            public Element5Lexer()
-                : base("anonymous")
-            {
-            }
-
             public override bool TryRead(ITextScanner scanner, out CommentText.Element5 element)
             {
                 if (scanner.EndOfInput)

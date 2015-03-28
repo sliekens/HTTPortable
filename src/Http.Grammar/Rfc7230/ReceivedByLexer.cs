@@ -63,7 +63,6 @@
             private readonly ILexer<Option<Sequence<Element, Port>>> element2Lexer;
 
             public Element1Lexer(ILexer<UriHost> element1Lexer, ILexer<Option<Sequence<Element, Port>>> element2Lexer)
-                : base("anonymous")
             {
                 this.element1Lexer = element1Lexer;
                 this.element2Lexer = element2Lexer;
@@ -95,7 +94,6 @@
                 private readonly ILexer<Sequence<Element, Port>> elementLexer;
 
                 public Element2Lexer(ILexer<Sequence<Element, Port>> elementLexer)
-                    : base("anonymous")
                 {
                     this.elementLexer = elementLexer;
                 }
@@ -132,7 +130,6 @@
                     private readonly ILexer<Port> element2Lexer;
 
                     public ElementLexer(ILexer<Element> element1Lexer, ILexer<Port> element2Lexer)
-                        : base("anonymous")
                     {
                         this.element1Lexer = element1Lexer;
                         this.element2Lexer = element2Lexer;
@@ -167,11 +164,6 @@
                 {
                     public class Element1Lexer : Lexer<Element>
                     {
-                        public Element1Lexer()
-                            : base("anonymous")
-                        {
-                        }
-
                         public override bool TryRead(ITextScanner scanner, out Element element)
                         {
                             return TryReadTerminal(scanner, @":", out element);

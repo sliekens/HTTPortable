@@ -48,7 +48,7 @@
             private readonly ILexer<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement>> elementLexer;
 
             public Element2Lexer(ILexer<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TElement>> elementLexer)
-                : base("anonymous", 0, int.MaxValue)
+                : base(0, int.MaxValue)
             {
                 this.elementLexer = elementLexer;
             }
@@ -77,7 +77,6 @@
                 private readonly ILexer<TElement> element4Lexer;
 
                 public ElementLexer(ILexer<OptionalWhiteSpace> element1Lexer, ILexer<Element> element2Lexer, ILexer<OptionalWhiteSpace> element3Lexer, ILexer<TElement> element4Lexer)
-                    : base("anonymous")
                 {
                     this.element1Lexer = element1Lexer;
                     this.element2Lexer = element2Lexer;
@@ -126,11 +125,6 @@
             {
                 public class Element2Lexer : Lexer<Element>
                 {
-                    public Element2Lexer()
-                        : base("anonymous")
-                    {
-                    }
-
                     public override bool TryRead(ITextScanner scanner, out Element element)
                     {
                         return TryReadTerminal(scanner, @",", out element);

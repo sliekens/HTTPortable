@@ -53,11 +53,6 @@
     {
         public class Element1Lexer : Lexer<Comment.Element1>
         {
-            public Element1Lexer()
-                : base("anonymous")
-            {
-            }
-
             public override bool TryRead(ITextScanner scanner, out Comment.Element1 element)
             {
                 var context = scanner.GetContext();
@@ -81,7 +76,7 @@
             private readonly ILexer<Sequence<CommentText, QuotedPair, Comment>> elementLexer;
 
             public Element2Lexer(ILexer<Sequence<CommentText, QuotedPair, Comment>> elementLexer)
-                : base("anonymous", 0, int.MaxValue)
+                : base(0, int.MaxValue)
             {
                 this.elementLexer = elementLexer;
             }
@@ -111,7 +106,6 @@
                 private readonly ILexer<Comment> element3Lexer;
 
                 public ElementLexer(ILexer<CommentText> element1Lexer, ILexer<QuotedPair> element2Lexer, ILexer<Comment> element3Lexer)
-                    : base("anonymous")
                 {
                     this.element1Lexer = element1Lexer;
                     this.element2Lexer = element2Lexer;
@@ -145,11 +139,6 @@
     {
         public class Element3Lexer : Lexer<Comment.Element1>
         {
-            public Element3Lexer()
-                : base("anonymous")
-            {
-            }
-
             public override bool TryRead(ITextScanner scanner, out Comment.Element1 element)
             {
                 var context = scanner.GetContext();
