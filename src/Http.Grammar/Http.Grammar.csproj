@@ -204,7 +204,8 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SLANG">
-      <HintPath>..\packages\SLANG.1.0.132-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+      <HintPath>..\packages\SLANG.1.0.137-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
