@@ -5,6 +5,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Http.Grammar.Rfc7230
 {
+    using System.Text;
+
     using SLANG;
 
     [TestClass]
@@ -18,8 +20,9 @@ namespace Http.Grammar.Rfc7230
             foreach (var c in input)
             {
                 var text = new string(c, 1);
-                using (TextReader textReader = new StringReader(text))
-                using (ITextScanner textScanner = new TextScanner(textReader))
+                using (var inputStream = new MemoryStream(Encoding.ASCII.GetBytes(text)))
+                using (var pushbackInputStream = new PushbackInputStream(inputStream))
+                using (ITextScanner textScanner = new TextScanner(pushbackInputStream))
                 {
                     textScanner.Read();
                     var output = lexer.Read(textScanner);
@@ -36,8 +39,9 @@ namespace Http.Grammar.Rfc7230
             foreach (char c in Enumerable.Range('a', 26))
             {
                 var text = new string(c, 1);
-                using (TextReader textReader = new StringReader(text))
-                using (ITextScanner textScanner = new TextScanner(textReader))
+                using (var inputStream = new MemoryStream(Encoding.ASCII.GetBytes(text)))
+                using (var pushbackInputStream = new PushbackInputStream(inputStream))
+                using (ITextScanner textScanner = new TextScanner(pushbackInputStream))
                 {
                     textScanner.Read();
                     var output = lexer.Read(textScanner);
@@ -54,8 +58,9 @@ namespace Http.Grammar.Rfc7230
             foreach (char c in new[] { '!', '#', '$', '%', '&', '\'', '*', '+', '-', '.', '^', '_', '`', '|', '~' })
             {
                 var text = new string(c, 1);
-                using (TextReader textReader = new StringReader(text))
-                using (ITextScanner textScanner = new TextScanner(textReader))
+                using (var inputStream = new MemoryStream(Encoding.ASCII.GetBytes(text)))
+                using (var pushbackInputStream = new PushbackInputStream(inputStream))
+                using (ITextScanner textScanner = new TextScanner(pushbackInputStream))
                 {
                     textScanner.Read();
                     var output = lexer.Read(textScanner);

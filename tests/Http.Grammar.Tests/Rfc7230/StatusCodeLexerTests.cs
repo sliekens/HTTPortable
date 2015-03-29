@@ -4,6 +4,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Http.Grammar.Rfc7230
 {
+    using System.Text;
+
     using SLANG;
 
     [TestClass]
@@ -13,8 +15,9 @@ namespace Http.Grammar.Rfc7230
         public void Read100()
         {
             var text = "100";
-            using (var reader = new StringReader(text))
-            using (ITextScanner scanner = new TextScanner(reader))
+            using (var inputStream = new MemoryStream(Encoding.ASCII.GetBytes(text)))
+            using (var pushbackInputStream = new PushbackInputStream(inputStream))
+            using (ITextScanner scanner = new TextScanner(pushbackInputStream))
             {
                 scanner.Read();
                 var lexer = new StatusCodeLexer();

@@ -4,6 +4,8 @@
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Text;
+
     using Grammar.Rfc7230;
     using Headers;
     using SLANG;
@@ -38,8 +40,9 @@
                 }
 
                 var lexer = new ContentLengthLexer();
-                using (TextReader reader = new StringReader(value))
-                using (ITextScanner scanner = new TextScanner(reader))
+                using (var inputStream = new MemoryStream(Encoding.UTF8.GetBytes(value)))
+                using (var pushbackInputStream = new PushbackInputStream(inputStream))
+                using (ITextScanner scanner = new TextScanner(pushbackInputStream))
                 {
                     scanner.Read();
                     ContentLength element;

@@ -1,6 +1,7 @@
 ﻿namespace Uri.Grammar
 {
     using System.IO;
+    using System.Text;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,6 +12,7 @@
     [TestClass]
     public class UriLexerTests
     {
+        public static MemoryStream ms { get; set; }
         public TestContext TestContext { get; set; }
 
         [TestMethod]
@@ -21,9 +23,11 @@
             var input = (string)dataRow["Input"];
             var expected = (string)dataRow["Expected"];
             var lexer = new UriLexer();
-            using (TextReader textReader = new StringReader(input))
-            using (ITextScanner scanner = new TextScanner(textReader))
+            using (var inputStream = new MemoryStream(Encoding.ASCII.GetBytes(input)))
+            using (var pushbackInputStream = new PushbackInputStream(inputStream))
+            using (ITextScanner scanner = new TextScanner(pushbackInputStream))
             {
+                ms = inputStream;
                 scanner.Read();
                 var element = lexer.Read(scanner);
                 Assert.IsNotNull(element);

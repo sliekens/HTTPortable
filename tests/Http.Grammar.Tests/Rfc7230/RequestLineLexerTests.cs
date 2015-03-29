@@ -19,8 +19,9 @@ namespace Http.Grammar.Rfc7230
         {
             const string input = "GET /StevenLiekens/http-client HTTP/1.1\r\n";
             var lexer = new RequestLineLexer();
-            using (TextReader textReader = new StringReader(input))
-            using (ITextScanner textScanner = new TextScanner(textReader))
+            using (var inputStream = new MemoryStream(Encoding.ASCII.GetBytes(input)))
+            using (var pushbackInputStream = new PushbackInputStream(inputStream))
+            using (ITextScanner textScanner = new TextScanner(pushbackInputStream))
             {
                 textScanner.Read();
                 var token = lexer.Read(textScanner);

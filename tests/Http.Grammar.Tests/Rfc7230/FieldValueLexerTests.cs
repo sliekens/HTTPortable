@@ -19,7 +19,9 @@ namespace Http.Grammar.Rfc7230
         {
             const string input = "application/x-javascript; charset=utf-8";
             var lexer = new FieldValueLexer();
-            using (ITextScanner scanner = new TextScanner(new StringReader(input)))
+            using (var inputStream = new MemoryStream(Encoding.ASCII.GetBytes(input)))
+            using (var pushbackInputStream = new PushbackInputStream(inputStream))
+            using (ITextScanner scanner = new TextScanner(pushbackInputStream))
             {
                 scanner.Read();
                 var token = lexer.Read(scanner);

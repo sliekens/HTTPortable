@@ -1,12 +1,13 @@
 ﻿namespace Uri.Grammar
 {
     using System.IO;
+    using System.Text;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using SLANG;
 
-    
+
 
     [TestClass]
     public class DecimalOctetLexerTests
@@ -18,8 +19,9 @@
             var row = TestContext.DataRow;
             var input = (string)row["Input"];
             var expected = (string)row["Expected"];
-            using (TextReader textReader = new StringReader(input))
-            using (ITextScanner textScanner = new TextScanner(textReader))
+            using (var inputStream = new MemoryStream(Encoding.ASCII.GetBytes(input)))
+            using (var pushbackInputStream = new PushbackInputStream(inputStream))
+            using (ITextScanner textScanner = new TextScanner(pushbackInputStream))
             {
                 textScanner.Read();
                 var lexer = new DecimalOctetLexer();

@@ -44,9 +44,9 @@
             }
 
             ResponseMessage message;
-            using (var reader = new SimpleStreamReader(this.inputStream))
+            using (var pushbackInputStream = new PushbackInputStream(this.inputStream))
             {
-                using (ITextScanner scanner = new TextScanner(reader))
+                using (ITextScanner scanner = new TextScanner(pushbackInputStream))
                 {
                     scanner.Read();
                     var startLineLexer = new StartLineLexer();

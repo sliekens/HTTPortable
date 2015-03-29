@@ -4,6 +4,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Http.Grammar.Rfc7230
 {
+    using System.Text;
+
     using SLANG;
 
     [TestClass]
@@ -14,7 +16,9 @@ namespace Http.Grammar.Rfc7230
         {
             const string input = "a";
             var lexer = new FieldContentLexer();
-            using (ITextScanner scanner = new TextScanner(new StringReader(input)))
+            using (var inputStream = new MemoryStream(Encoding.ASCII.GetBytes(input)))
+            using (var pushbackInputStream = new PushbackInputStream(inputStream))
+            using (ITextScanner scanner = new TextScanner(pushbackInputStream))
             {
                 scanner.Read();
                 var token = lexer.Read(scanner);
@@ -29,7 +33,9 @@ namespace Http.Grammar.Rfc7230
         {
             const string input = "a b";
             var lexer = new FieldContentLexer();
-            using (ITextScanner scanner = new TextScanner(new StringReader(input)))
+            using (var inputStream = new MemoryStream(Encoding.ASCII.GetBytes(input)))
+            using (var pushbackInputStream = new PushbackInputStream(inputStream))
+            using (ITextScanner scanner = new TextScanner(pushbackInputStream))
             {
                 scanner.Read();
                 var token = lexer.Read(scanner);
