@@ -25,11 +25,12 @@
             var elements = new List<T>();
             foreach (var sequence in this.Elements)
             {
-                var element = sequence.Element1 as T;
-                if (element != null)
+                var alternative = sequence.Element1;
+                if (alternative.Ordinal == 2)
                 {
-                    elements.Add(element);
+                    elements.Add((T)alternative.Element);
                 }
+
 
                 elements.AddRange(sequence.Element2.Elements.SelectMany(s => s.Element3.Elements).Select(o => o.Element2));
             }
