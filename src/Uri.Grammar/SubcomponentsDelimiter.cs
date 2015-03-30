@@ -1,24 +1,12 @@
 ﻿namespace Uri.Grammar
 {
-    using System.Diagnostics.Contracts;
     using SLANG;
 
-    public class SubcomponentsDelimiter : Element
+    public class SubcomponentsDelimiter : Alternative<Element, Element, Element, Element, Element, Element, Element, Element, Element, Element, Element>
     {
-        public SubcomponentsDelimiter(char data, ITextContext context)
-            : base(data, context)
+        public SubcomponentsDelimiter(Element element, int alternative, ITextContext context)
+            : base(element, alternative, context)
         {
-            Contract.Requires(data == '!'
-                              || data == '$'
-                              || data == '&'
-                              || data == '\''
-                              || data == '('
-                              || data == ')'
-                              || data == '*'
-                              || data == '+'
-                              || data == ','
-                              || data == ';'
-                              || data == '=');
         }
     }
 }
