@@ -102,6 +102,8 @@
     <Compile Include="Rfc7230\AuthorityFormLexer.cs" />
     <Compile Include="Rfc7230\BadWhiteSpaceLexer.cs" />
     <Compile Include="Rfc7230\ChunkExtensionNameLexer.cs" />
+    <Compile Include="Rfc7230\ChunkExtensionValue.cs" />
+    <Compile Include="Rfc7230\ChunkExtensionValueLexer.cs" />
     <Compile Include="Rfc7230\ChunkSize.cs" />
     <Compile Include="Rfc7230\ChunkSizeLexer.cs" />
     <Compile Include="Rfc7230\Comment.cs" />
