@@ -8,6 +8,11 @@
     {
         private readonly ILexer<Token> tokenLexer;
 
+        public ChunkExtensionNameLexer()
+            : this(new TokenLexer())
+        {
+        }
+
         public ChunkExtensionNameLexer(ILexer<Token> tokenLexer)
             : base("chunk-ext-name")
         {
