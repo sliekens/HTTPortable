@@ -1,20 +1,12 @@
 ﻿namespace Uri.Grammar
 {
-    using System.Diagnostics.Contracts;
     using SLANG;
 
-    public class GenericDelimiter : Element
+    public class GenericDelimiter : Alternative<Element, Element, Element, Element, Element, Element, Element>
     {
-        public GenericDelimiter(char data, ITextContext context)
-            : base(data, context)
+        public GenericDelimiter(Element element, int alternative, ITextContext context)
+            : base(element, alternative, context)
         {
-            Contract.Requires(data == ':'
-                              || data == '/'
-                              || data == '?'
-                              || data == '#'
-                              || data == '['
-                              || data == ']'
-                              || data == '@');
         }
     }
 }
