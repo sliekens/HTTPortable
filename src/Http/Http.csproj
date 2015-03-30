@@ -98,6 +98,7 @@
     <Compile Include="ContractClassForIMessage.cs" />
     <Compile Include="ExtensionsForIHeaderCollection.cs" />
     <Compile Include="Headers\ContentLengthHeader.cs" />
+    <Compile Include="Headers\TransferEncodingHeader.cs" />
     <Compile Include="IUserAgentFactory.cs" />
     <Compile Include="MessageBodyStream.cs" />
     <Compile Include="Header.cs" />
