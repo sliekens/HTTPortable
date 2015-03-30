@@ -36,7 +36,7 @@
                 if (value == null)
                 {
                     result = default(long);
-                    return false; 
+                    return false;
                 }
 
                 var lexer = new ContentLengthLexer();
@@ -59,6 +59,40 @@
             }
 
             result = default(long);
+            return false;
+        }
+
+
+        public static bool TryGetTransferEncoding(this IHeaderCollection instance, out TransferEncodingHeader result)
+        {
+            const string HeaderField = "Transfer-Encoding";
+            foreach (var header in instance)
+            {
+                if (!string.Equals(header.Name, HeaderField, StringComparison.Ordinal))
+                {
+                    continue;
+                }
+
+                var value = string.Join(",", header);
+                var lexer = new TransferEncodingLexer();
+                using (Stream inputStream = new MemoryStream(Encoding.UTF8.GetBytes(value)))
+                using (PushbackInputStream pushbackInputStream = new PushbackInputStream(inputStream))
+                using (ITextScanner scanner = new TextScanner(pushbackInputStream))
+                {
+                    scanner.Read();
+                    TransferEncoding element;
+                    if (!lexer.TryRead(scanner, out element))
+                    {
+                        break;
+                    }
+
+                    var elements = element.GetElements();
+                    result = new TransferEncodingHeader(elements.Select(coding => coding.Data).ToList());
+                    return true;
+                }
+            }
+
+            result = default(TransferEncodingHeader);
             return false;
         }
     }
