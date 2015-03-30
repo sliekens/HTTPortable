@@ -209,7 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SLANG">
-      <HintPath>..\packages\SLANG.1.0.142-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+      <HintPath>..\packages\SLANG.1.0.143-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
