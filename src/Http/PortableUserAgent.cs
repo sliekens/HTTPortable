@@ -1,12 +1,16 @@
 ﻿namespace Http
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using Grammar.Rfc7230;
+
+    using Http.Headers;
+
     using SLANG;
     using SLANG.Core;
 
@@ -87,6 +91,15 @@
                 if (!message.Headers.TryGetContentLength(out contentLength))
                 {
                     contentLength = 0;
+                }
+
+                TransferEncodingHeader transferEncoding;
+                if (message.Headers.TryGetTransferEncoding(out transferEncoding))
+                {
+                    if (transferEncoding.Contains("chunked"))
+                    {
+                        throw new NotImplementedException("Chunked messages are not implemented.");
+                    }
                 }
 
                 using (var messageBodyStream = new MessageBodyStream(pushbackInputStream, contentLength))
