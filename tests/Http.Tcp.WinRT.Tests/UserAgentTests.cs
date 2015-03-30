@@ -163,6 +163,16 @@ namespace Http.Tcp.WinRT
             Assert.AreEqual(content, dataContract.data);
         }
 
+        [TestMethod]
+        public async Task StreamChunked()
+        {
+            var request = new RequestMessage("GET", "http://httpbin.org/stream/100", Version.Parse("1.1"));
+            request.Headers.Add(new Header("Host") { "httpbin.org" });
+            request.Headers.Add(new Header("User-Agent") { "https://github.com/StevenLiekens/http-client" });
+            await this.userAgent.SendAsync(request, CancellationToken.None);
+            await this.userAgent.ReceiveAsync(CancellationToken.None);
+        }
+
         [TestCleanup]
         public void TestCleanup()
         {
