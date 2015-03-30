@@ -62,25 +62,24 @@
                     var reason = statusLine.Element5.Data;
                     message = new ResponseMessage(httpVersion, status, reason);
                     var headerFieldLexer = new HeaderFieldLexer();
-                    var crLfLexer = new EndOfLineLexer();
-                    for (;;)
+                    var endOfLineLexer = new EndOfLineLexer();
+
+                    HeaderField headerField;
+                    while (headerFieldLexer.TryRead(scanner, out headerField))
                     {
-                        HeaderField headerField;
-                        if (headerFieldLexer.TryRead(scanner, out headerField))
+                        endOfLineLexer.Read(scanner);
+                        message.Headers.Add(new Header(headerField.FieldName.Data)
                         {
-                            crLfLexer.Read(scanner);
-                            message.Headers.Add(new Header(headerField.FieldName.Data)
-                            {
-                                headerField.FieldValue.Data
-                            });
-                        }
-                        else
-                        {
-                            if (scanner.TryMatch('\r'))
-                            {
-                                break;
-                            }
-                        }
+                            headerField.FieldValue.Data
+                        });
+                    }
+
+                    endOfLineLexer.Read(scanner);
+
+                    // Unread the next character, which probably belongs to the message body
+                    if (scanner.NextCharacter.HasValue)
+                    {
+                        pushbackInputStream.UnreadByte(Convert.ToByte(scanner.NextCharacter.Value));
                     }
                 }
 
@@ -90,7 +89,7 @@
                     contentLength = 0;
                 }
 
-                using (var messageBodyStream = new MessageBodyStream(this.inputStream, contentLength))
+                using (var messageBodyStream = new MessageBodyStream(pushbackInputStream, contentLength))
                 {
                     // Invoke the callback (if specified) that will optionally consume the message body
                     if (callback != null)
@@ -107,7 +106,7 @@
             }
         }
 
-        public async Task SendAsync(IRequestMessage message, CancellationToken cancellationToken, 
+        public async Task SendAsync(IRequestMessage message, CancellationToken cancellationToken,
             OnRequestHeadersComplete callback = null)
         {
             if (this.disposed)
