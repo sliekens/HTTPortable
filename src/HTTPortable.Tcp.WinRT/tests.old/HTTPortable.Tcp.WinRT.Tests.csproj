@@ -9,8 +9,8 @@
     <ProjectGuid>{7DF32770-668D-421D-BCDC-87420ED083F6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Http.Tcp.WinRT</RootNamespace>
-    <AssemblyName>Http.Tcp.WinRT.Tests</AssemblyName>
+    <RootNamespace>HTTPortable.Tcp.WinRT</RootNamespace>
+    <AssemblyName>HTTPortable.Tcp.WinRT.Tests</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
     <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
@@ -121,6 +121,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="Http.Tcp.WinRT.Tests_TemporaryKey.pfx" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\UnitTestLogo.scale-100.png">
@@ -141,6 +142,22 @@
       <Project>{825feafb-0641-48ab-ac2f-72120a4b49b6}</Project>
       <Name>HTTPortable.Tcp.WinRT</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="HTTPortable">
+      <HintPath>..\..\..\packages\HTTPortable.0.0.0-dev\lib\portable-net45+win+wpa81\HTTPortable.dll</HintPath>
+    </Reference>
+    <Reference Include="HTTPortable.Grammar">
+      <HintPath>..\..\..\packages\HTTPortable.Grammar.0.0.0-dev\lib\portable-net45+win+wpa81\HTTPortable.Grammar.dll</HintPath>
+    </Reference>
+    <Reference Include="SLANG, Version=1.0.143.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\SLANG.1.0.143-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+    </Reference>
+    <Reference Include="Uri.Grammar, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Uri.Grammar.0.0.0-dev\lib\portable-net45+win+wpa81\Uri.Grammar.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>

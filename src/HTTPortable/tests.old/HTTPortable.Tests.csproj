@@ -6,8 +6,8 @@
     <ProjectGuid>{76AF2327-D29B-48ED-B5CF-009F3E2C35AF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Http</RootNamespace>
-    <AssemblyName>Http.Tests</AssemblyName>
+    <RootNamespace>HTTPortable</RootNamespace>
+    <AssemblyName>HTTPortable.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

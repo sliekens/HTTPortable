@@ -8,8 +8,8 @@
     <ProjectGuid>{825FEAFB-0641-48AB-AC2F-72120A4B49B6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Http.Tcp.WinRT</RootNamespace>
-    <AssemblyName>Http.Tcp.WinRT</AssemblyName>
+    <RootNamespace>HTTPortable.Tcp.WinRT</RootNamespace>
+    <AssemblyName>HTTPortable.Tcp.WinRT</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -96,6 +96,23 @@
   <ItemGroup>
     <TargetPlatform Include="Windows, Version=8.1" />
     <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="HTTPortable">
+      <HintPath>..\..\..\packages\HTTPortable.0.0.0-dev\lib\portable-net45+win+wpa81\HTTPortable.dll</HintPath>
+    </Reference>
+    <Reference Include="HTTPortable.Grammar">
+      <HintPath>..\..\..\packages\HTTPortable.Grammar.0.0.0-dev\lib\portable-net45+win+wpa81\HTTPortable.Grammar.dll</HintPath>
+    </Reference>
+    <Reference Include="SLANG">
+      <HintPath>..\..\..\packages\SLANG.1.0.143-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+    </Reference>
+    <Reference Include="Uri.Grammar">
+      <HintPath>..\..\..\packages\Uri.Grammar.0.0.0-dev\lib\portable-net45+win+wpa81\Uri.Grammar.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
