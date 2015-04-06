@@ -44,7 +44,13 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SLANG">
+      <HintPath>..\..\..\packages\SLANG.1.0.143-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="Uri.Grammar">
+      <HintPath>..\..\..\packages\Uri.Grammar.1.0.4-alpha1\lib\portable-net45+win+wpa81\Uri.Grammar.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -69,6 +75,15 @@
     <Compile Include="Rfc7230\TokenCharacterLexerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rfc7230\TokenLexerTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\src\HTTPortable.Grammar.csproj">
+      <Project>{2816fe01-4760-4718-9268-c55293181ded}</Project>
+      <Name>HTTPortable.Grammar</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

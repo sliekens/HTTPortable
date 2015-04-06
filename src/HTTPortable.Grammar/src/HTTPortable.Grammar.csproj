@@ -201,6 +201,17 @@
     <Compile Include="Rfc7230\Via.cs" />
     <Compile Include="Rfc7230\ViaLexer.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="SLANG">
+      <HintPath>..\..\..\packages\SLANG.1.0.143-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+    </Reference>
+    <Reference Include="Uri.Grammar">
+      <HintPath>..\..\..\packages\Uri.Grammar.1.0.4-alpha1\lib\portable-net45+win+wpa81\Uri.Grammar.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
