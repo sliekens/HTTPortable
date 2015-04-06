@@ -84,30 +84,13 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HTTPortable">
-      <HintPath>..\..\..\packages\HTTPortable.0.0.0-dev\lib\portable-net45+win+wpa81\HTTPortable.dll</HintPath>
-    </Reference>
-    <Reference Include="HTTPortable.Grammar">
-      <HintPath>..\..\..\packages\HTTPortable.Grammar.0.0.0-dev\lib\portable-net45+win+wpa81\HTTPortable.Grammar.dll</HintPath>
-    </Reference>
-    <Reference Include="SLANG, Version=1.0.143.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\SLANG.1.0.143-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Uri.Grammar, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Uri.Grammar.0.0.0-dev\lib\portable-net45+win+wpa81\Uri.Grammar.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UserAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserAgentFactory.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

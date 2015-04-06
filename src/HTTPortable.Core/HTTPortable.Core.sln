@@ -3,22 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{96351A8A-62C3-4BBF-A597-CE49D7304372}"
-	ProjectSection(SolutionItems) = preProject
-		Core.abnf = Core.abnf
-		LICENSE.txt = LICENSE.txt
-		..\README.md = ..\README.md
-		RFC3986.abnf = RFC3986.abnf
-		RFC7230.abnf = RFC7230.abnf
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1F16C091-B18C-44ED-911F-A6582257B4FE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D292E7A7-ECD8-4CD9-8BA8-200AD97F23F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTTPortable", "src\HTTPortable.csproj", "{D920B511-E7A9-487F-BDE3-4F4599C65AC7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTTPortable.Core", "src\HTTPortable.Core.csproj", "{D920B511-E7A9-487F-BDE3-4F4599C65AC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTTPortable.Tests", "tests.old\HTTPortable.Tests.csproj", "{76AF2327-D29B-48ED-B5CF-009F3E2C35AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTTPortable.Core.Tests", "tests.old\HTTPortable.Core.Tests.csproj", "{76AF2327-D29B-48ED-B5CF-009F3E2C35AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
