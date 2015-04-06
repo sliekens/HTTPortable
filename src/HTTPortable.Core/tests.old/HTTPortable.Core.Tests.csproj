@@ -46,7 +46,16 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HTTPortable.Grammar">
+      <HintPath>..\..\..\packages\HTTPortable.Grammar.1.0.5-alpha1\lib\portable-net45+win+wpa81\HTTPortable.Grammar.dll</HintPath>
+    </Reference>
+    <Reference Include="SLANG">
+      <HintPath>..\..\..\packages\SLANG.1.0.143-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="Uri.Grammar">
+      <HintPath>..\..\..\packages\Uri.Grammar.1.0.4-alpha1\lib\portable-net45+win+wpa81\Uri.Grammar.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -58,6 +67,15 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\src\HTTPortable.Core.csproj">
+      <Project>{d920b511-e7a9-487f-bde3-4f4599c65ac7}</Project>
+      <Name>HTTPortable.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
