@@ -121,6 +121,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="Http.Tcp.WinRT.Tests_TemporaryKey.pfx" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\UnitTestLogo.scale-100.png">
@@ -135,6 +136,26 @@
     <Content Include="Images\UnitTestStoreLogo.scale-100.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\src\HTTPortable.Tcp.WinRT.csproj">
+      <Project>{825feafb-0641-48ab-ac2f-72120a4b49b6}</Project>
+      <Name>HTTPortable.Tcp.WinRT</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="HTTPortable.Core">
+      <HintPath>..\..\..\packages\HTTPortable.Core.1.0.6-alpha1\lib\portable-net45+win+wpa81\HTTPortable.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="HTTPortable.Grammar">
+      <HintPath>..\..\..\packages\HTTPortable.Grammar.1.0.5-alpha1\lib\portable-net45+win+wpa81\HTTPortable.Grammar.dll</HintPath>
+    </Reference>
+    <Reference Include="SLANG">
+      <HintPath>..\..\..\packages\SLANG.1.0.143-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+    </Reference>
+    <Reference Include="Uri.Grammar">
+      <HintPath>..\..\..\packages\Uri.Grammar.1.0.4-alpha1\lib\portable-net45+win+wpa81\Uri.Grammar.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
