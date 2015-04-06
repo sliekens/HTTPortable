@@ -1,4 +1,7 @@
-﻿# About
+﻿#HTTPortable
+[![Build status](https://ci.appveyor.com/api/projects/status/76485w5o6npwh6bh?svg=true)](https://ci.appveyor.com/project/StevenLiekens/httportable)
+
+# About
 This library provides a low-level implementation of the HTTP protocol.
 
 This library is intended for users with advanced knowledge of HTTP as well as connection-oriented protocols in general.
