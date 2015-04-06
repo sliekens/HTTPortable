@@ -67,7 +67,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ReflectionTests.cs" />
     <Compile Include="Rfc7230\FieldContentLexerTests.cs" />
     <Compile Include="Rfc7230\FieldValueLexerTests.cs" />
     <Compile Include="Rfc7230\ObsoletedFoldLexerTests.cs" />
