@@ -1,0 +1,32 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Target Name="CoreBuild">
+        <PropertyGroup Condition=" '$(VirtualBuildTargets)' == '' ">
+            <VirtualBuildTargets>$(MSBuildProjectDefaultTargets)</VirtualBuildTargets>
+        </PropertyGroup>
+        <MSBuild Targets="$(VirtualBuildTargets)"
+                 Projects="@(Project)"
+                 Properties="VirtualBuildTargets=$(VirtualBuildTargets)" />
+    </Target>
+    
+    <Target Name="CoreClean">
+        <PropertyGroup Condition=" '$(VirtualCleanTargets)' == '' ">
+            <VirtualCleanTargets>Clean</VirtualCleanTargets>
+        </PropertyGroup>
+        
+        <MSBuild Targets="$(VirtualCleanTargets)"
+                 Projects="@(Project)"
+                 Properties="VirtualCleanTargets=$(VirtualCleanTargets)" />
+    </Target>
+    
+    <PropertyGroup>
+        <BuildDependsOn>CoreBuild;$(BuildDependsOn)</BuildDependsOn>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <CleanDependsOn>CoreClean;$(CleanDependsOn)</CleanDependsOn>
+    </PropertyGroup>
+    
+    <Target Name="Build" DependsOnTargets="$(BuildDependsOn)" />
+    <Target Name="Clean" DependsOnTargets="$(CleanDependsOn)" />
+    <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
+</Project>
