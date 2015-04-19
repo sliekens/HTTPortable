@@ -18,12 +18,23 @@
                  Properties="VirtualCleanTargets=$(VirtualCleanTargets)" />
     </Target>
     
+    <Target Name="CreatePackage">
+        <Exec Condition="Exists(%(Project.Nuspec))" Command="nuget.exe pack %(Project.FullPath)" />
+    </Target>
+    
     <PropertyGroup>
-        <BuildDependsOn>CoreBuild;$(BuildDependsOn)</BuildDependsOn>
+        <BuildDependsOn>
+        CoreBuild
+        ;CreatePackage
+        ;$(BuildDependsOn)
+        </BuildDependsOn>
     </PropertyGroup>
     
     <PropertyGroup>
-        <CleanDependsOn>CoreClean;$(CleanDependsOn)</CleanDependsOn>
+        <CleanDependsOn>
+        CoreClean
+        ;$(CleanDependsOn)
+        </CleanDependsOn>
     </PropertyGroup>
     
     <Target Name="Build" DependsOnTargets="$(BuildDependsOn)" />
