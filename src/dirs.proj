@@ -1,7 +1,9 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <Import Project="dir.props" />
     <ItemGroup>
-        <Project Include="*\src\*.csproj" />
+        <Project Include="*\src\*.csproj">
+            <Nuspec>$([System.IO.Path]::ChangeExtension('%(Project.FullPath)', '.nuspec'))</Nuspec>
+        </Project>
         <Project Include="*\tests\*.csproj" />
     </ItemGroup>
     <Import Project="..\dir.targets" />
