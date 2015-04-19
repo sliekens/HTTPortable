@@ -5,4 +5,7 @@
         <OutDir>$(BinDir)\</OutDir>
         <GenerateProjectSpecificOutputFolder>true</GenerateProjectSpecificOutputFolder>
     </PropertyGroup>
+    <PropertyGroup>
+        <NuGetToolPath Condition=" '$(NuGetToolPath)' == '' ">nuget.exe</NuGetToolPath>
+    </PropertyGroup>
 </Project>
