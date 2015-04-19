@@ -1,3 +1,8 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
-    <Target Name="Build" />
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <RootDir>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), build.proj))</RootDir>
+        <BinDir>$(RootDir)bin\</BinDir>
+        <OutDir>$(BinDir)\</OutDir>
+        <GenerateProjectSpecificOutputFolder>true</GenerateProjectSpecificOutputFolder>
+    </PropertyGroup>
 </Project>
