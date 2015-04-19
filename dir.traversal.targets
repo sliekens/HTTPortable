@@ -19,7 +19,14 @@
     </Target>
     
     <Target Name="CreatePackage">
-        <Exec Condition="Exists(%(Project.Nuspec))" Command="nuget.exe pack %(Project.FullPath)" />
+        <PropertyGroup>
+            <NuGetPackProperties>$(NuGetPackProperties);Configuration=$(Configuration)</NuGetPackProperties>
+            <NuGetPackProperties>$(NuGetPackProperties);Platform=$(Platform)</NuGetPackProperties>
+            <NuGetPackParameters>$(NuGetPackParameters) -Properties "$(NuGetPackProperties)"</NuGetPackParameters>
+            <NuGetPackParameters>$(NuGetPackParameters) -OutputDirectory "$(BinDir)packages"</NuGetPackParameters>
+        </PropertyGroup>
+        <MakeDir Directories="$(BinDir)packages" />
+        <Exec Condition="Exists(%(Project.Nuspec))" Command="$(NuGetToolPath) pack %(Project.FullPath) $(NuGetPackParameters)" />
     </Target>
     
     <PropertyGroup>
