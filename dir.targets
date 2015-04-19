@@ -1,3 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
- 
+    <Target Name="BeforeCoreBuild" />
+    <Target Name="AfterCoreBuild" />
+    <Target Name="BeforeCoreClean" />
+    <Target Name="AfterCoreClean" />
 </Project>

@@ -24,7 +24,9 @@
     
     <PropertyGroup>
         <BuildDependsOn>
-        CoreBuild
+        BeforeCoreBuild
+        ;CoreBuild
+        ;AfterCoreBuild
         ;CreatePackage
         ;$(BuildDependsOn)
         </BuildDependsOn>
@@ -32,7 +34,9 @@
     
     <PropertyGroup>
         <CleanDependsOn>
-        CoreClean
+        BeforeCoreClean
+        ;CoreClean
+        ;AfterCoreClean
         ;$(CleanDependsOn)
         </CleanDependsOn>
     </PropertyGroup>
