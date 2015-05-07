@@ -1,9 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <RootDir>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), build.proj))</RootDir>
-        <BinDir>$(RootDir)bin\</BinDir>
-        <OutDir>$(BinDir)\</OutDir>
-        <GenerateProjectSpecificOutputFolder>true</GenerateProjectSpecificOutputFolder>
+        <SolutionDir>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), build.proj))</SolutionDir>
     </PropertyGroup>
     <PropertyGroup>
         <NuGetToolPath Condition=" '$(NuGetToolPath)' == '' ">nuget.exe</NuGetToolPath>

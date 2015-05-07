@@ -1,6 +1,25 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Target Name="BeforeCoreBuild" />
-    <Target Name="AfterCoreBuild" />
-    <Target Name="BeforeCoreClean" />
-    <Target Name="AfterCoreClean" />
+	<PropertyGroup>
+		<BuildDependsOn>$(BuildDependsOn);CreatePackage</BuildDependsOn>
+	</PropertyGroup>
+  <Target Name="CreatePackage">
+	<ItemGroup>
+		<ProjectFile Include="$(MSBuildProjectFile)" />
+	</ItemGroup>
+    <PropertyGroup>
+      <NuGetPackProperties Condition=" '$(NuGetPackProperties)' != '' ">$(NuGetPackProperties);</NuGetPackProperties>
+      <NuGetPackProperties>$(NuGetPackProperties)Configuration=$(Configuration)</NuGetPackProperties>
+      <NuGetPackProperties>$(NuGetPackProperties);Platform=$(Platform)</NuGetPackProperties>
+      <NuGetPackProperties>$(NuGetPackProperties);TargetPath=$(TargetPath)</NuGetPackProperties>
+      <NuGetPackProperties>$(NuGetPackProperties);OutDir=$(OutDir)$(AssemblyName)$(TargetExt)</NuGetPackProperties>
+      <NuGetPackParameters>$(NuGetPackParameters) -Properties &quot;$(NuGetPackProperties)&quot;</NuGetPackParameters>
+      <NuGetPackParameters>$(NuGetPackParameters) -OutputDirectory &quot;$(OutDir.Trim('\\'))&quot;</NuGetPackParameters>
+    </PropertyGroup>
+    <Exec Command="$(NuGetToolPath) pack @(ProjectFile) $(NuGetPackParameters)" Condition="Exists('@(ProjectFile->'%(Filename).nuspec')')" />
+  </Target>
+  
+    <Target Name="BeforeRecursiveBuild" />
+    <Target Name="AfterRecursiveBuild" />
+    <Target Name="BeforeRecursiveClean" />
+    <Target Name="AfterRecursiveClean" />
 </Project>

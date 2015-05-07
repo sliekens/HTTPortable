@@ -1,54 +1,42 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Target Name="CoreBuild">
-        <PropertyGroup Condition=" '$(VirtualBuildTargets)' == '' ">
-            <VirtualBuildTargets>$(MSBuildProjectDefaultTargets)</VirtualBuildTargets>
-        </PropertyGroup>
-        <MSBuild Targets="$(VirtualBuildTargets)"
-                 Projects="@(Project)"
-                 Properties="VirtualBuildTargets=$(VirtualBuildTargets)" />
-    </Target>
-    
-    <Target Name="CoreClean">
-        <PropertyGroup Condition=" '$(VirtualCleanTargets)' == '' ">
-            <VirtualCleanTargets>Clean</VirtualCleanTargets>
-        </PropertyGroup>
-        
-        <MSBuild Targets="$(VirtualCleanTargets)"
-                 Projects="@(Project)"
-                 Properties="VirtualCleanTargets=$(VirtualCleanTargets)" />
-    </Target>
-    
-    <Target Name="CreatePackage">
-        <PropertyGroup>
-            <NuGetPackProperties>$(NuGetPackProperties);Configuration=$(Configuration)</NuGetPackProperties>
-            <NuGetPackProperties>$(NuGetPackProperties);Platform=$(Platform)</NuGetPackProperties>
-            <NuGetPackParameters>$(NuGetPackParameters) -Properties "$(NuGetPackProperties)"</NuGetPackParameters>
-            <NuGetPackParameters>$(NuGetPackParameters) -OutputDirectory "$(BinDir)packages"</NuGetPackParameters>
-        </PropertyGroup>
-        <MakeDir Directories="$(BinDir)packages" />
-        <Exec Condition="Exists(%(Project.Nuspec))" Command="$(NuGetToolPath) pack %(Project.FullPath) $(NuGetPackParameters)" />
-    </Target>
-    
-    <PropertyGroup>
-        <BuildDependsOn>
-        BeforeCoreBuild
-        ;CoreBuild
-        ;AfterCoreBuild
-        ;CreatePackage
-        ;$(BuildDependsOn)
-        </BuildDependsOn>
+  <Target Name="RecursiveBuild">
+    <PropertyGroup Condition=" '$(VirtualBuildTargets)' == '' ">
+      <VirtualBuildTargets>$(MSBuildProjectDefaultTargets)</VirtualBuildTargets>
     </PropertyGroup>
-    
-    <PropertyGroup>
-        <CleanDependsOn>
-        BeforeCoreClean
-        ;CoreClean
-        ;AfterCoreClean
-        ;$(CleanDependsOn)
-        </CleanDependsOn>
+    <MSBuild Targets="$(VirtualBuildTargets)"
+             Projects="@(Project)"
+             Properties="VirtualBuildTargets=$(VirtualBuildTargets)" />
+  </Target>
+
+  <Target Name="RecursiveClean">
+    <PropertyGroup Condition=" '$(VirtualCleanTargets)' == '' ">
+      <VirtualCleanTargets>Clean</VirtualCleanTargets>
     </PropertyGroup>
-    
-    <Target Name="Build" DependsOnTargets="$(BuildDependsOn)" />
-    <Target Name="Clean" DependsOnTargets="$(CleanDependsOn)" />
-    <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
+
+    <MSBuild Targets="$(VirtualCleanTargets)"
+             Projects="@(Project)"
+             Properties="VirtualCleanTargets=$(VirtualCleanTargets)" />
+  </Target>
+
+  <PropertyGroup>
+    <RecursiveBuildDependsOn>
+      BeforeRecursiveBuild
+      ;RecursiveBuild
+      ;AfterRecursiveBuild
+      ;$(RecursiveBuildDependsOn)
+    </RecursiveBuildDependsOn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RecursiveCleanDependsOn>
+      BeforeRecursiveClean
+      ;RecursiveClean
+      ;AfterRecursiveClean
+      ;$(RecursiveCleanDependsOn)
+    </RecursiveCleanDependsOn>
+  </PropertyGroup>
+
+  <Target Name="Build" DependsOnTargets="$(RecursiveBuildDependsOn)" />
+  <Target Name="Clean" DependsOnTargets="$(RecursiveCleanDependsOn)" />
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
 </Project>
