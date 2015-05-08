@@ -85,19 +85,22 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HTTPortable.Core">
-      <HintPath>..\..\..\packages\HTTPortable.Core.1.0.6-alpha1\lib\portable-net45+win+wpa81\HTTPortable.Core.dll</HintPath>
+    <Reference Include="HTTPortable.Core, Version=1.0.24.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\HTTPortable.Core.1.0.24-alpha1\lib\portable-net45+win+wpa81\HTTPortable.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="HTTPortable.Grammar">
-      <HintPath>..\..\..\packages\HTTPortable.Grammar.1.0.5-alpha1\lib\portable-net45+win+wpa81\HTTPortable.Grammar.dll</HintPath>
+    <Reference Include="HTTPortable.Grammar, Version=1.0.24.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\HTTPortable.Grammar.1.0.24-alpha1\lib\portable-net45+win+wpa81\HTTPortable.Grammar.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="SLANG">
       <HintPath>..\..\..\packages\SLANG.1.0.143-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Uri.Grammar">
-      <HintPath>..\..\..\packages\Uri.Grammar.1.0.4-alpha1\lib\portable-net45+win+wpa81\Uri.Grammar.dll</HintPath>
+    <Reference Include="Uri.Grammar, Version=1.0.24.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Uri.Grammar.1.0.24-alpha1\lib\portable-net45+win+wpa81\Uri.Grammar.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
