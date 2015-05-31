@@ -1,17 +1,12 @@
 ﻿namespace Uri.Grammar
 {
-    using System.Diagnostics.Contracts;
     using SLANG;
-    using SLANG.Core;
 
-    public class PercentEncoding : Element
+    public class PercentEncoding : Sequence
     {
-        public PercentEncoding(HexadecimalDigit hexadecimalDigit1, HexadecimalDigit hexadecimalDigit2, 
-            ITextContext context)
-            : base(string.Concat("%", hexadecimalDigit1.Data, hexadecimalDigit2.Data), context)
+        public PercentEncoding(Sequence sequence)
+            : base(sequence)
         {
-            Contract.Requires(hexadecimalDigit1 != null);
-            Contract.Requires(hexadecimalDigit2 != null);
         }
     }
 }
