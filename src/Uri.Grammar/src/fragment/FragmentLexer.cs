@@ -1,61 +1,34 @@
 ﻿namespace Uri.Grammar
 {
-    using System.Collections.Generic;
-    using System.Diagnostics.Contracts;
+    using System;
+
     using SLANG;
 
     public class FragmentLexer : Lexer<Fragment>
     {
-        private readonly ILexer<PathCharacter> pathCharacterLexer;
+        private readonly ILexer<Repetition> fragmentRepetitionLexer;
 
-        public FragmentLexer()
-            : this(new PathCharacterLexer())
+        public FragmentLexer(ILexer<Repetition> fragmentRepetitionLexer)
         {
-        }
+            if (fragmentRepetitionLexer == null)
+            {
+                throw new ArgumentNullException("fragmentRepetitionLexer", "Precondition: fragmentRepetitionLexer != null");
+            }
 
-        public FragmentLexer(ILexer<PathCharacter> pathCharacterLexer)
-            : base("fragment")
-        {
-            Contract.Requires(pathCharacterLexer != null);
-            this.pathCharacterLexer = pathCharacterLexer;
+            this.fragmentRepetitionLexer = fragmentRepetitionLexer;
         }
 
         public override bool TryRead(ITextScanner scanner, out Fragment element)
         {
-            var elements = new List<Alternative<PathCharacter, Element>>();
-            var context = scanner.GetContext();
-            while (!scanner.EndOfInput)
+            Repetition result;
+            if (this.fragmentRepetitionLexer.TryRead(scanner, out result))
             {
-                var innerContext = scanner.GetContext();
-                PathCharacter pathCharacter;
-                if (this.pathCharacterLexer.TryRead(scanner, out pathCharacter))
-                {
-                    elements.Add(new Alternative<PathCharacter, Element>(pathCharacter, 1, innerContext));
-                }
-                else if (!scanner.EndOfInput && scanner.TryMatch('/'))
-                {
-                    var e = new Element('/', innerContext);
-                    elements.Add(new Alternative<PathCharacter, Element>(e, 2, innerContext));
-                }
-                else if (!scanner.EndOfInput && scanner.TryMatch('?'))
-                {
-                    var e = new Element('?', innerContext);
-                    elements.Add(new Alternative<PathCharacter, Element>(e, 2, innerContext));
-                }
-                else
-                {
-                    break;
-                }
+                element = new Fragment(result);
+                return true;
             }
 
-            element = new Fragment(elements, context);
-            return true;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.pathCharacterLexer != null);
+            element = default(Fragment);
+            return false;
         }
     }
 }
