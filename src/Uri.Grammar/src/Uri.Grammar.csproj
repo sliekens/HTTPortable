@@ -92,6 +92,9 @@
     <Compile Include="gen-delims\GenericDelimiterAlternativeLexer.cs" />
     <Compile Include="gen-delims\GenericDelimiterLexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="reserved\Reserved.cs" />
+    <Compile Include="reserved\ReservedAlternativeLexer.cs" />
+    <Compile Include="reserved\ReservedLexer.cs" />
     <Compile Include="sub-delims\SubcomponentsDelimiter.cs">
       <SubType>Code</SubType>
     </Compile>
