@@ -88,82 +88,16 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AbsoluteUri.cs" />
-    <Compile Include="AbsoluteUriLexer.cs" />
-    <Compile Include="Authority.cs" />
-    <Compile Include="AuthorityLexer.cs" />
-    <Compile Include="DecimalOctet.cs" />
-    <Compile Include="DecimalOctetLexer.cs" />
-    <Compile Include="HexadecimalInt16.cs" />
-    <Compile Include="HexadecimalInt16Lexer.cs" />
-    <Compile Include="HierarchicalPart.cs" />
-    <Compile Include="HierarchicalPartLexer.cs" />
-    <Compile Include="Host.cs" />
-    <Compile Include="HostLexer.cs" />
-    <Compile Include="IPLiteral.cs" />
-    <Compile Include="IPLiteralLexer.cs" />
-    <Compile Include="IPv4Address.cs" />
-    <Compile Include="IPv4AddressLexer.cs" />
-    <Compile Include="IPv6Address.cs" />
-    <Compile Include="IPv6AddressLexer.cs" />
-    <Compile Include="IPvFuture.cs" />
-    <Compile Include="IPvFutureLexer.cs" />
-    <Compile Include="LeastSignificantInt32.cs" />
-    <Compile Include="LeastSignificantInt32Lexer.cs" />
-    <Compile Include="Path.cs" />
-    <Compile Include="PathAbsolute.cs" />
-    <Compile Include="PathAbsoluteOrEmpty.cs" />
-    <Compile Include="PathAbsoluteLexer.cs" />
-    <Compile Include="PathAbsoluteOrEmptyLexer.cs" />
-    <Compile Include="PathEmpty.cs" />
-    <Compile Include="PathLexer.cs" />
-    <Compile Include="PathNoScheme.cs" />
-    <Compile Include="PathNoSchemeLexer.cs" />
-    <Compile Include="PathRootless.cs" />
-    <Compile Include="PathRootlessLexer.cs" />
-    <Compile Include="Port.cs" />
-    <Compile Include="PortLexer.cs" />
-    <Compile Include="QueryLexer.cs" />
-    <Compile Include="Query.cs" />
-    <Compile Include="Fragment.cs" />
-    <Compile Include="FragmentLexer.cs" />
-    <Compile Include="GenericDelimiterLexer.cs" />
-    <Compile Include="GenericDelimiter.cs" />
-    <Compile Include="PathCharacterLexer.cs" />
-    <Compile Include="PathCharacter.cs" />
-    <Compile Include="PercentEncodingLexer.cs" />
-    <Compile Include="PercentEncoding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegisteredName.cs" />
-    <Compile Include="RegisteredNameLexer.cs" />
-    <Compile Include="RelativePart.cs" />
-    <Compile Include="RelativePartLexer.cs" />
-    <Compile Include="RelativeReference.cs" />
-    <Compile Include="RelativeReferenceLexer.cs" />
-    <Compile Include="ReservedLexer.cs" />
-    <Compile Include="Reserved.cs" />
-    <Compile Include="Scheme.cs" />
-    <Compile Include="SchemeLexer.cs" />
-    <Compile Include="SegmentNonZeroNoColonsLexer.cs" />
-    <Compile Include="SegmentNonZeroNoColons.cs" />
-    <Compile Include="SegmentNonZeroLexer.cs" />
-    <Compile Include="SegmentNonZero.cs" />
-    <Compile Include="Segment.cs" />
-    <Compile Include="SegmentLexer.cs" />
-    <Compile Include="SubcomponentsDelimiterLexer.cs" />
-    <Compile Include="SubcomponentsDelimiter.cs" />
-    <Compile Include="UnreservedLexer.cs" />
-    <Compile Include="Unreserved.cs" />
-    <Compile Include="Uri.cs" />
-    <Compile Include="UriLexer.cs" />
-    <Compile Include="UriReference.cs" />
-    <Compile Include="UriReferenceLexer.cs" />
-    <Compile Include="UserInformation.cs" />
-    <Compile Include="UserInformationLexer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="SLANG">
-      <HintPath>..\..\..\packages\SLANG.1.0.143-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SLANG, Version=1.0.179.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SLANG.1.0.179-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>

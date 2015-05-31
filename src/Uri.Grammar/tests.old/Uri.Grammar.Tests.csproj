@@ -44,9 +44,13 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SLANG, Version=1.0.143.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\SLANG.1.0.143-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SLANG, Version=1.0.179.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SLANG.1.0.179-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -64,44 +68,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DecimalOctetLexerTests.cs" />
-    <Compile Include="IPv6AddressLexerTests.cs" />
-    <Compile Include="UriLexerTests.cs" />
-    <Compile Include="LeastSignificantInt32LexerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IPv4AddressLexerTests.cs" />
-    <Compile Include="HexadecimalInt16LexerTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="IPv6address.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="URI.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ls32.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="h16.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="IPv4address.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="dec-octet.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\Uri.Grammar.csproj">
       <Project>{CB82326F-14EE-43B4-A97C-3424F5E04861}</Project>
       <Name>Uri.Grammar</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
