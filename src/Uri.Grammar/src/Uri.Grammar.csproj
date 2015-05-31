@@ -91,6 +91,9 @@
     <Compile Include="gen-delims\GenericDelimiter.cs" />
     <Compile Include="gen-delims\GenericDelimiterAlternativeLexer.cs" />
     <Compile Include="gen-delims\GenericDelimiterLexer.cs" />
+    <Compile Include="pchar\PathCharacter.cs" />
+    <Compile Include="pchar\PathCharacterAlternativeLexer.cs" />
+    <Compile Include="pchar\PathCharacterLexer.cs" />
     <Compile Include="pct-encoded\PercentEncoding.cs" />
     <Compile Include="pct-encoded\PercentEncodingSequenceLexer.cs" />
     <Compile Include="pct-encoded\PercentEncodingLexer.cs" />
