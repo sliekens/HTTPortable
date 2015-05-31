@@ -5,7 +5,7 @@
     public class ReservedAlternativeLexer : AlternativeLexer
     {
         /// <summary></summary>
-        /// <param name="lexers">gen-delims; sub-delims</param>
+        /// <param name="lexers">gen-delims / sub-delims</param>
         public ReservedAlternativeLexer(params ILexer[] lexers)
             : base(lexers)
         {
