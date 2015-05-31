@@ -11,12 +11,4 @@
         {
         }
     }
-
-    public class PercentEncoding1StringLexer : StringLexer
-    {
-        public PercentEncoding1StringLexer()
-            : base(@"%")
-        {
-        }
-    }
 }

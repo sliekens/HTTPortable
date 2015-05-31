@@ -11,20 +11,4 @@
         {
         }
     }
-
-    public class Fragment2StringLexer : StringLexer
-    {
-        public Fragment2StringLexer()
-            : base(@"/")
-        {
-        }
-    }
-
-    public class Fragment3StringLexer : StringLexer
-    {
-        public Fragment3StringLexer()
-            : base(@"?")
-        {
-        }
-    }
 }

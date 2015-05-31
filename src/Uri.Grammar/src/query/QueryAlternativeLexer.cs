@@ -11,20 +11,4 @@
         {
         }
     }
-
-    public class Query2StringLexer : StringLexer
-    {
-        public Query2StringLexer()
-            : base(@"/")
-        {
-        }
-    }
-
-    public class Query3StringLexer : StringLexer
-    {
-        public Query3StringLexer()
-            : base(@"?")
-        {
-        }
-    }
 }

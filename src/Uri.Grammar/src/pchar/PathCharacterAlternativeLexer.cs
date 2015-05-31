@@ -11,20 +11,4 @@
         {
         }
     }
-
-    public class PathCharacter3StringLexer : StringLexer
-    {
-        public PathCharacter3StringLexer()
-            : base(@":")
-        {
-        }
-    }
-
-    public class PathCharacter4StringLexer : StringLexer
-    {
-        public PathCharacter4StringLexer()
-            : base(@"@")
-        {
-        }
-    }
 }

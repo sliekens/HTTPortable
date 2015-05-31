@@ -122,7 +122,6 @@
     <Compile Include="sub-delims\SubcomponentsDelimiter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="sub-delims\SubcomponentsDelimiterStringLexers.cs" />
     <Compile Include="sub-delims\SubcomponentsDelimiterAlternativeLexer.cs" />
     <Compile Include="sub-delims\SubcomponentsDelimiterLexer.cs">
       <SubType>Code</SubType>
