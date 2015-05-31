@@ -109,6 +109,9 @@
     <Compile Include="reserved\Reserved.cs" />
     <Compile Include="reserved\ReservedAlternativeLexer.cs" />
     <Compile Include="reserved\ReservedLexer.cs" />
+    <Compile Include="segment-nz\SegmentNonZeroLength.cs" />
+    <Compile Include="segment-nz\SegmentNonZeroLengthLexer.cs" />
+    <Compile Include="segment-nz\SegmentNonZeroLengthRepetitionLexer.cs" />
     <Compile Include="segment\Segment.cs" />
     <Compile Include="segment\SegmentLexer.cs" />
     <Compile Include="segment\SegmentRepetitionLexer.cs" />
