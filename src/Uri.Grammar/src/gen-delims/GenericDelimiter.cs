@@ -2,10 +2,10 @@
 {
     using SLANG;
 
-    public class GenericDelimiter : Alternative<Element, Element, Element, Element, Element, Element, Element>
+    public class GenericDelimiter : Alternative
     {
-        public GenericDelimiter(Element element, int alternative, ITextContext context)
-            : base(element, alternative, context)
+        public GenericDelimiter(Element element)
+            : base(element)
         {
         }
     }
