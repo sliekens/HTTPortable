@@ -15,6 +15,9 @@
     public class SegmentLexerTests
     {
         [Theory]
+        [InlineData(@"")]
+        [InlineData(@"@")]
+        [InlineData(@":")]
         [InlineData(@":@")]
         [InlineData(@"@:")]
         public void Read_ShouldSucceed(string input)
