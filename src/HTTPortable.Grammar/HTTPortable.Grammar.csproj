@@ -203,11 +203,12 @@
     <Compile Include="Rfc7230\ViaLexer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="SLANG">
-      <HintPath>..\..\..\packages\SLANG.1.0.143-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+    <Reference Include="SLANG, Version=1.0.143.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SLANG.1.0.143-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Uri.Grammar, Version=1.0.24.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Uri.Grammar.1.0.24-alpha1\lib\portable-net45+win+wpa81\Uri.Grammar.dll</HintPath>
+      <HintPath>..\..\packages\Uri.Grammar.1.0.24-alpha1\lib\portable-net45+win+wpa81\Uri.Grammar.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
