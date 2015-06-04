@@ -109,8 +109,7 @@
     <Compile Include="reserved\ReservedLexerFactory.cs" />
     <Compile Include="segment-nz-nc\SegmentNonZeroLengthNoColons.cs" />
     <Compile Include="segment-nz-nc\SegmentNonZeroLengthNoColonsLexer.cs" />
-    <Compile Include="segment-nz-nc\SegmentNonZeroLengthNoColonsRepeatingAlternativeLexer.cs" />
-    <Compile Include="segment-nz-nc\SegmentNonZeroLengthNoColonsRepetitionLexer.cs" />
+    <Compile Include="segment-nz-nc\SegmentNonZeroLengthNoColonsLexerFactory.cs" />
     <Compile Include="segment-nz\SegmentNonZeroLength.cs" />
     <Compile Include="segment-nz\SegmentNonZeroLengthLexer.cs" />
     <Compile Include="segment-nz\SegmentNonZeroLengthLexerFactory.cs" />

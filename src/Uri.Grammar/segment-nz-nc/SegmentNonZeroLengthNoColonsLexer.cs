@@ -8,6 +8,10 @@
     {
         private readonly ILexer<Repetition> segmentNonZeroLengthNoColonsRepetitionLexer;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segmentNonZeroLengthNoColonsRepetitionLexer">1*( unreserved / pct-encoded / sub-delims / "@" )</param>
         public SegmentNonZeroLengthNoColonsLexer(ILexer<Repetition> segmentNonZeroLengthNoColonsRepetitionLexer)
         {
             if (segmentNonZeroLengthNoColonsRepetitionLexer == null)
