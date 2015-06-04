@@ -4,7 +4,7 @@
 
     public class Unreserved : Alternative
     {
-        public Unreserved(Element element)
+        public Unreserved(Alternative element)
             : base(element)
         {
         }

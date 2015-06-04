@@ -20,8 +20,8 @@
 
         public override bool TryRead(ITextScanner scanner, out Unreserved element)
         {
-            Element result;
-            if (this.unreservedAlternativeLexer.TryReadElement(scanner, out result))
+            Alternative result;
+            if (this.unreservedAlternativeLexer.TryRead(scanner, out result))
             {
                 element = new Unreserved(result);
                 return true;
