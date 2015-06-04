@@ -8,6 +8,10 @@
     {
         private readonly ILexer<Repetition> segmentRepetitionLexer;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="segmentRepetitionLexer">*pchar</param>
         public SegmentLexer(ILexer<Repetition> segmentRepetitionLexer)
         {
             if (segmentRepetitionLexer == null)
