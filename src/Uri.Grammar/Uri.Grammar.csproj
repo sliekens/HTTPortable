@@ -93,8 +93,8 @@
     <Compile Include="fragment\FragmentLexer.cs" />
     <Compile Include="fragment\FragmentRepetitionLexer.cs" />
     <Compile Include="gen-delims\GenericDelimiter.cs" />
-    <Compile Include="gen-delims\GenericDelimiterAlternativeLexer.cs" />
     <Compile Include="gen-delims\GenericDelimiterLexer.cs" />
+    <Compile Include="gen-delims\GenericDelimiterLexerFactory.cs" />
     <Compile Include="pchar\PathCharacter.cs" />
     <Compile Include="pchar\PathCharacterAlternativeLexer.cs" />
     <Compile Include="pchar\PathCharacterLexer.cs" />

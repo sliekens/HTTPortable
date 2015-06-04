@@ -4,7 +4,7 @@
 
     public class GenericDelimiter : Alternative
     {
-        public GenericDelimiter(Element element)
+        public GenericDelimiter(Alternative element)
             : base(element)
         {
         }

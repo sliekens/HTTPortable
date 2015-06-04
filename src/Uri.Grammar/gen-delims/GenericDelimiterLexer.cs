@@ -8,6 +8,10 @@
     {
         private readonly ILexer<Alternative> genericDelimiterAlternativeLexer;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="genericDelimiterAlternativeLexer">":" / "/" / "?" / "#" / "[" / "]" / "@"</param>
         public GenericDelimiterLexer(ILexer<Alternative> genericDelimiterAlternativeLexer)
             : base("gen-delims")
         {
@@ -21,8 +25,8 @@
 
         public override bool TryRead(ITextScanner scanner, out GenericDelimiter element)
         {
-            Element result;
-            if (this.genericDelimiterAlternativeLexer.TryReadElement(scanner, out result))
+            Alternative result;
+            if (this.genericDelimiterAlternativeLexer.TryRead(scanner, out result))
             {
                 element = new GenericDelimiter(result);
                 return true;
