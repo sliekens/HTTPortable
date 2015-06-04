@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="fragment\FragmentLexerTests.cs" />
     <Compile Include="gen-delims\GenericDelimiterLexerTests.cs" />
+    <Compile Include="path-empty\PathEmptyLexerTests.cs" />
     <Compile Include="pchar\PathCharacterLexerTests.cs" />
     <Compile Include="pct-encoded\PercentEncodingLexerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

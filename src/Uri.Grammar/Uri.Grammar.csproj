@@ -94,6 +94,9 @@
     <Compile Include="gen-delims\GenericDelimiter.cs" />
     <Compile Include="gen-delims\GenericDelimiterLexer.cs" />
     <Compile Include="gen-delims\GenericDelimiterLexerFactory.cs" />
+    <Compile Include="path-empty\PathEmpty.cs" />
+    <Compile Include="path-empty\PathEmptyLexer.cs" />
+    <Compile Include="path-empty\PathEmptyLexerFactory.cs" />
     <Compile Include="pchar\PathCharacter.cs" />
     <Compile Include="pchar\PathCharacterLexer.cs" />
     <Compile Include="pchar\PathCharacterLexerFactory.cs" />

@@ -1,14 +1,12 @@
 ﻿namespace Uri.Grammar
 {
-    using System.Diagnostics.Contracts;
     using SLANG;
 
-    public class PathEmpty : Element
+    public class PathEmpty : Repetition
     {
-        public PathEmpty(ITextContext context)
-            : base(string.Empty, context)
+        public PathEmpty(Repetition sequence)
+            : base(sequence)
         {
-            Contract.Requires(context != null);
         }
     }
 }
