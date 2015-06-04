@@ -116,7 +116,7 @@
     <Compile Include="segment-nz\SegmentNonZeroLengthRepetitionLexer.cs" />
     <Compile Include="segment\Segment.cs" />
     <Compile Include="segment\SegmentLexer.cs" />
-    <Compile Include="segment\SegmentRepetitionLexer.cs" />
+    <Compile Include="segment\SegmentLexerFactory.cs" />
     <Compile Include="sub-delims\SubcomponentsDelimiter.cs">
       <SubType>Code</SubType>
     </Compile>
