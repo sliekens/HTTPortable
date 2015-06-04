@@ -89,9 +89,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="fragment\Fragment.cs" />
-    <Compile Include="fragment\FragmentAlternativeLexer.cs" />
     <Compile Include="fragment\FragmentLexer.cs" />
-    <Compile Include="fragment\FragmentRepetitionLexer.cs" />
+    <Compile Include="fragment\FragmentLexerFactory.cs" />
     <Compile Include="gen-delims\GenericDelimiter.cs" />
     <Compile Include="gen-delims\GenericDelimiterLexer.cs" />
     <Compile Include="gen-delims\GenericDelimiterLexerFactory.cs" />
