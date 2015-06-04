@@ -8,6 +8,10 @@
     {
         private readonly ILexer<Alternative> reservedAlterativeLexer;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reservedAlterativeLexer">gen-delims / sub-delims</param>
         public ReservedLexer(ILexer<Alternative> reservedAlterativeLexer)
         {
             if (reservedAlterativeLexer == null)
@@ -20,8 +24,8 @@
 
         public override bool TryRead(ITextScanner scanner, out Reserved element)
         {
-            Element result;
-            if (this.reservedAlterativeLexer.TryReadElement(scanner, out result))
+            Alternative result;
+            if (this.reservedAlterativeLexer.TryRead(scanner, out result))
             {
                 element = new Reserved(result);
                 return true;

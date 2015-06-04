@@ -107,8 +107,8 @@
     <Compile Include="query\QueryLexer.cs" />
     <Compile Include="query\QueryRepetitionLexer.cs" />
     <Compile Include="reserved\Reserved.cs" />
-    <Compile Include="reserved\ReservedAlternativeLexer.cs" />
     <Compile Include="reserved\ReservedLexer.cs" />
+    <Compile Include="reserved\ReservedLexerFactory.cs" />
     <Compile Include="segment-nz-nc\SegmentNonZeroLengthNoColons.cs" />
     <Compile Include="segment-nz-nc\SegmentNonZeroLengthNoColonsLexer.cs" />
     <Compile Include="segment-nz-nc\SegmentNonZeroLengthNoColonsRepeatingAlternativeLexer.cs" />
