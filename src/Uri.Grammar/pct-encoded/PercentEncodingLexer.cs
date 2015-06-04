@@ -8,6 +8,10 @@
     {
         private readonly ILexer<Sequence> percentEncodingAlternativeLexer;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="percentEncodingAlternativeLexer">"%" HEXDIG HEXDIG</param>
         public PercentEncodingLexer(ILexer<Sequence> percentEncodingAlternativeLexer)
         {
             if (percentEncodingAlternativeLexer == null)

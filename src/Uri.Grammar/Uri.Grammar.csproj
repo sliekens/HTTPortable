@@ -99,8 +99,8 @@
     <Compile Include="pchar\PathCharacterAlternativeLexer.cs" />
     <Compile Include="pchar\PathCharacterLexer.cs" />
     <Compile Include="pct-encoded\PercentEncoding.cs" />
-    <Compile Include="pct-encoded\PercentEncodingSequenceLexer.cs" />
     <Compile Include="pct-encoded\PercentEncodingLexer.cs" />
+    <Compile Include="pct-encoded\PercentEncodingLexerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="query\Query.cs" />
     <Compile Include="query\QueryAlternativeLexer.cs" />
