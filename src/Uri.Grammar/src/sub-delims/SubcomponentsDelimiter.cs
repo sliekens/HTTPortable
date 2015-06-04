@@ -4,7 +4,7 @@
 
     public class SubcomponentsDelimiter : Alternative
     {
-        public SubcomponentsDelimiter(Element element)
+        public SubcomponentsDelimiter(Alternative element)
             : base(element)
         {
         }

@@ -125,6 +125,7 @@
     <Compile Include="sub-delims\SubcomponentsDelimiterLexer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="sub-delims\SubcomponentsDelimiterLexerFactory.cs" />
     <Compile Include="unreserved\Unreserved.cs" />
     <Compile Include="unreserved\UnreservedAlternativeLexer.cs" />
     <Compile Include="unreserved\UnreservedLexer.cs" />

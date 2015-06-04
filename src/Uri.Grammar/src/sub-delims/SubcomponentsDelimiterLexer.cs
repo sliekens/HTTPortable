@@ -21,8 +21,8 @@
 
         public override bool TryRead(ITextScanner scanner, out SubcomponentsDelimiter element)
         {
-            Element result;
-            if (this.subcomponentsDelimiterAlternativeLexer.TryReadElement(scanner, out result))
+            Alternative result;
+            if (this.subcomponentsDelimiterAlternativeLexer.TryRead(scanner, out result))
             {
                 element = new SubcomponentsDelimiter(result);
                 return true;
