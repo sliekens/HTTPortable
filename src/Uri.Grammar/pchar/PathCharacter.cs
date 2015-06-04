@@ -4,7 +4,7 @@
 
     public class PathCharacter : Alternative
     {
-        public PathCharacter(Element element)
+        public PathCharacter(Alternative element)
             : base(element)
         {
         }

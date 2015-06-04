@@ -8,6 +8,10 @@
     {
         private readonly ILexer<Alternative> pathCharacterAlternativeLexer;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pathCharacterAlternativeLexer">unreserved / pct-encoded / sub-delims / ":" / "@"</param>
         public PathCharacterLexer(ILexer<Alternative> pathCharacterAlternativeLexer)
         {
             if (pathCharacterAlternativeLexer == null)
@@ -20,8 +24,8 @@
 
         public override bool TryRead(ITextScanner scanner, out PathCharacter element)
         {
-            Element result;
-            if (this.pathCharacterAlternativeLexer.TryReadElement(scanner, out result))
+            Alternative result;
+            if (this.pathCharacterAlternativeLexer.TryRead(scanner, out result))
             {
                 element = new PathCharacter(result);
                 return true;
