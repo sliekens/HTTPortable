@@ -49,6 +49,7 @@
     <Compile Include="pchar\PathCharacterLexerTests.cs" />
     <Compile Include="pct-encoded\PercentEncodingLexerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="query\QueryLexerTests.cs" />
     <Compile Include="reserved\ReservedLexerTests.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="sub-delims\SubcomponentsDelimiterLexerTests.cs" />
