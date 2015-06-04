@@ -8,6 +8,10 @@
     {
         private readonly ILexer<Alternative> unreservedAlternativeLexer;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="unreservedAlternativeLexer">ALPHA / DIGIT / "-" / "." / "_" / "~"</param>
         public UnreservedLexer(ILexer<Alternative> unreservedAlternativeLexer)
         {
             if (unreservedAlternativeLexer == null)

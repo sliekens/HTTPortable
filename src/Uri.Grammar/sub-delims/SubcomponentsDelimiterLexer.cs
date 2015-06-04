@@ -8,6 +8,10 @@
     {
         private readonly ILexer<Alternative> subcomponentsDelimiterAlternativeLexer; 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="subcomponentsDelimiterAlternativeLexer">"!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="</param>
         public SubcomponentsDelimiterLexer(ILexer<Alternative> subcomponentsDelimiterAlternativeLexer)
             : base("sub-delims")
         {

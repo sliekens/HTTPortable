@@ -1,18 +1,8 @@
 ﻿namespace Uri.Grammar.unreserved
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     using SLANG;
     using SLANG.Core.ALPHA;
     using SLANG.Core.DIGIT;
-
-    using Uri.Grammar.gen_delims;
-    using Uri.Grammar.reserved;
-    using Uri.Grammar.sub_delims;
 
     using Xunit;
 
