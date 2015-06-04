@@ -122,7 +122,6 @@
     <Compile Include="sub-delims\SubcomponentsDelimiter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="sub-delims\SubcomponentsDelimiterAlternativeLexer.cs" />
     <Compile Include="sub-delims\SubcomponentsDelimiterLexer.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -135,13 +134,15 @@
       <HintPath>..\..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SLANG, Version=1.0.179.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\SLANG.1.0.179-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+    <Reference Include="SLANG">
+      <HintPath>..\..\..\packages\SLANG.1.0.265-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
