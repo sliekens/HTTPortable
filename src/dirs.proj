@@ -1,10 +1,10 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <Import Project="dir.props" />
     <ItemGroup>
-        <Project Include="*\src\*.csproj">
+        <Project Include="*\*.csproj" Exclude="*\*.Tests.csproj">
             <Nuspec>$([System.IO.Path]::ChangeExtension('%(Project.FullPath)', '.nuspec'))</Nuspec>
         </Project>
-        <Project Include="*\tests\*.csproj" />
+        <Project Include="*\*.Tests.csproj" />
     </ItemGroup>
     <Import Project="..\dir.targets" />
     <Import Project="..\dir.traversal.targets" />
