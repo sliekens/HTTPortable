@@ -1,56 +1,37 @@
 ﻿namespace Uri.Grammar
 {
-    using System.Diagnostics.Contracts;
+    using System;
+
     using SLANG;
 
     public class PathAbsoluteLexer : Lexer<PathAbsolute>
     {
-        private readonly ILexer<PathRootless> pathRootlessLexer;
+        private readonly ILexer<Sequence> innerLexer;
 
-        public PathAbsoluteLexer()
-            : this(new PathRootlessLexer())
+        /// <summary>
+        /// </summary>
+        /// <param name="innerLexer">"/" [ segment-nz *( "/" segment ) ]</param>
+        public PathAbsoluteLexer(ILexer<Sequence> innerLexer)
         {
-        }
+            if (innerLexer == null)
+            {
+                throw new ArgumentNullException("innerLexer");
+            }
 
-        public PathAbsoluteLexer(ILexer<PathRootless> pathRootlessLexer)
-            : base("path-absolute")
-        {
-            Contract.Requires(pathRootlessLexer != null);
-            this.pathRootlessLexer = pathRootlessLexer;
+            this.innerLexer = innerLexer;
         }
 
         public override bool TryRead(ITextScanner scanner, out PathAbsolute element)
         {
-            if (scanner.EndOfInput)
+            Sequence result;
+            if (this.innerLexer.TryRead(scanner, out result))
             {
-                element = default(PathAbsolute);
-                return false;
+                element = new PathAbsolute(result);
+                return true;
             }
 
-            var context = scanner.GetContext();
-            if (!scanner.TryMatch('/'))
-            {
-                element = default(PathAbsolute);
-                return false;
-            }
-
-            PathRootless path;
-            if (this.pathRootlessLexer.TryRead(scanner, out path))
-            {
-                element = new PathAbsolute(path, context);
-            }
-            else
-            {
-                element = new PathAbsolute(context);
-            }
-
-            return true;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.pathRootlessLexer != null);
+            element = default(PathAbsolute);
+            return false;
         }
     }
 }

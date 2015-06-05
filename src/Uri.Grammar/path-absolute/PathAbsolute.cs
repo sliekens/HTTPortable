@@ -1,21 +1,12 @@
 ﻿namespace Uri.Grammar
 {
-    using System.Diagnostics.Contracts;
     using SLANG;
 
-    public class PathAbsolute : Element
+    public class PathAbsolute : Sequence
     {
-        public PathAbsolute(ITextContext context)
-            : base("/", context)
+        public PathAbsolute(Sequence sequence)
+            : base(sequence)
         {
-            Contract.Requires(context != null);
-        }
-
-        public PathAbsolute(PathRootless path, ITextContext context)
-            : base(string.Concat("/", path.Data), context)
-        {
-            Contract.Requires(path != null);
-            Contract.Requires(context != null);
         }
     }
 }
