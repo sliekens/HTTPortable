@@ -122,6 +122,9 @@
     <Compile Include="query\QueryLexerFactory.cs" />
     <Compile Include="query\Query.cs" />
     <Compile Include="query\QueryLexer.cs" />
+    <Compile Include="reg-name\RegisteredName.cs" />
+    <Compile Include="reg-name\RegisteredNameLexer.cs" />
+    <Compile Include="reg-name\RegisteredNameLexerFactory.cs" />
     <Compile Include="reserved\Reserved.cs" />
     <Compile Include="reserved\ReservedLexer.cs" />
     <Compile Include="reserved\ReservedLexerFactory.cs" />
