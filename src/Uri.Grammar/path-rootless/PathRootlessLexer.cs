@@ -1,71 +1,38 @@
 ﻿namespace Uri.Grammar
 {
-    using System.Collections.Generic;
-    using System.Diagnostics.Contracts;
+    using System;
+
     using SLANG;
 
     public class PathRootlessLexer : Lexer<PathRootless>
     {
-        private readonly ILexer<Segment> segmentLexer;
-        private readonly ILexer<SegmentNonZero> segmentNonZeroLexer;
+        private readonly ILexer<Sequence> innerLexer;
 
-        public PathRootlessLexer()
-            : this(new SegmentNonZeroLexer(), new SegmentLexer())
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="innerLexer">segment-nz *( "/" segment )</param>
+        public PathRootlessLexer(ILexer<Sequence> innerLexer)
         {
-        }
+            if (innerLexer == null)
+            {
+                throw new ArgumentNullException("innerLexer");
+            }
 
-        public PathRootlessLexer(ILexer<SegmentNonZero> segmentNonZeroLexer, ILexer<Segment> segmentLexer)
-            : base("path-rootless")
-        {
-            this.segmentNonZeroLexer = segmentNonZeroLexer;
-            this.segmentLexer = segmentLexer;
+            this.innerLexer = innerLexer;
         }
 
         public override bool TryRead(ITextScanner scanner, out PathRootless element)
         {
-            if (scanner.EndOfInput)
+            Sequence result;
+            if (this.innerLexer.TryRead(scanner, out result))
             {
-                element = default(PathRootless);
-                return false;
+                element = new PathRootless(result);
+                return true;
             }
 
-            var context = scanner.GetContext();
-            SegmentNonZero segmentNonZero;
-            if (!this.segmentNonZeroLexer.TryRead(scanner, out segmentNonZero))
-            {
-                element = default(PathRootless);
-                return false;
-            }
-
-            var segments = new List<Sequence<Element, Segment>>();
-            var innerContext = scanner.GetContext();
-            while (!scanner.EndOfInput && scanner.TryMatch('/'))
-            {
-                var terminal = new Element('/', innerContext);
-                Segment segment;
-                if (this.segmentLexer.TryRead(scanner, out segment))
-                {
-                    var sequence = new Sequence<Element, Segment>(terminal, segment, innerContext);
-                    segments.Add(sequence);
-                }
-                else
-                {
-                    scanner.PutBack('/');
-                    break;
-                }
-
-                innerContext = scanner.GetContext();
-            }
-
-            element = new PathRootless(segmentNonZero, segments, context);
-            return true;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.segmentNonZeroLexer != null);
-            Contract.Invariant(this.segmentLexer != null);
+            element = default(PathRootless);
+            return false;
         }
     }
 }
