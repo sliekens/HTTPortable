@@ -1,105 +1,37 @@
 ﻿namespace Uri.Grammar
 {
-    using System.Diagnostics.Contracts;
+    using System;
+
     using SLANG;
 
     public class IPv4AddressLexer : Lexer<IPv4Address>
     {
-        private readonly ILexer<DecimalOctet> decimalOctetLexer;
+        private readonly ILexer<Sequence> innerLexer;
 
-        public IPv4AddressLexer()
-            : this(new DecimalOctetLexer())
+        /// <summary>
+        /// </summary>
+        /// <param name="innerLexer">dec-octet "." dec-octet "." dec-octet "." dec-octet</param>
+        public IPv4AddressLexer(ILexer<Sequence> innerLexer)
         {
-        }
+            if (innerLexer == null)
+            {
+                throw new ArgumentNullException("innerLexer");
+            }
 
-        public IPv4AddressLexer(ILexer<DecimalOctet> decimalOctetLexer)
-            : base("IPv4address")
-        {
-            Contract.Requires(decimalOctetLexer != null);
-            this.decimalOctetLexer = decimalOctetLexer;
+            this.innerLexer = innerLexer;
         }
 
         public override bool TryRead(ITextScanner scanner, out IPv4Address element)
         {
-            if (scanner.EndOfInput)
+            Sequence result;
+            if (this.innerLexer.TryRead(scanner, out result))
             {
-                element = default(IPv4Address);
-                return false;
+                element = new IPv4Address(result);
+                return true;
             }
 
-            var context = scanner.GetContext();
-            DecimalOctet octet1, octet2, octet3, octet4;
-            if (!this.decimalOctetLexer.TryRead(scanner, out octet1))
-            {
-                element = default(IPv4Address);
-                return false;
-            }
-
-            if (scanner.EndOfInput || !scanner.TryMatch('.'))
-            {
-                scanner.PutBack(octet1.Data);
-                element = default(IPv4Address);
-                return false;
-            }
-
-            if (!this.decimalOctetLexer.TryRead(scanner, out octet2))
-            {
-                scanner.PutBack('.');
-                scanner.PutBack(octet1.Data);
-                element = default(IPv4Address);
-                return false;
-            }
-
-            if (scanner.EndOfInput || !scanner.TryMatch('.'))
-            {
-                scanner.PutBack(octet2.Data);
-                scanner.PutBack('.');
-                scanner.PutBack(octet1.Data);
-                element = default(IPv4Address);
-                return false;
-            }
-
-            if (!this.decimalOctetLexer.TryRead(scanner, out octet3))
-            {
-                scanner.PutBack('.');
-                scanner.PutBack(octet2.Data);
-                scanner.PutBack('.');
-                scanner.PutBack(octet1.Data);
-                element = default(IPv4Address);
-                return false;
-            }
-
-            if (scanner.EndOfInput || !scanner.TryMatch('.'))
-            {
-                scanner.PutBack(octet3.Data);
-                scanner.PutBack('.');
-                scanner.PutBack(octet2.Data);
-                scanner.PutBack('.');
-                scanner.PutBack(octet1.Data);
-                element = default(IPv4Address);
-                return false;
-            }
-
-            if (!this.decimalOctetLexer.TryRead(scanner, out octet4))
-            {
-                scanner.PutBack('.');
-                scanner.PutBack(octet3.Data);
-                scanner.PutBack('.');
-                scanner.PutBack(octet2.Data);
-                scanner.PutBack('.');
-                scanner.PutBack(octet1.Data);
-                element = default(IPv4Address);
-                return false;
-            }
-
-            element = new IPv4Address(octet1, octet2, octet3, octet4, context);
-            return true;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.decimalOctetLexer != null);
+            element = default(IPv4Address);
+            return false;
         }
     }
 }
