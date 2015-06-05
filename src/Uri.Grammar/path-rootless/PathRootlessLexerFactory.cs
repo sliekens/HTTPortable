@@ -73,7 +73,7 @@
             var e = this.segmentNonZeroLengthLexerFactory.Create();
 
             // segment-nz *( "/" segment )
-            var f = this.sequenceLexerFactory.Create(d, e);
+            var f = this.sequenceLexerFactory.Create(e, d);
 
             // path-rootless
             return new PathRootlessLexer(f);
