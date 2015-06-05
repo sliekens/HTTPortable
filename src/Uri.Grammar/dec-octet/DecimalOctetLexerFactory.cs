@@ -104,7 +104,12 @@
             var l = this.sequenceLexerFactory.Create(k, d);
 
             // DIGIT / %x31-39 DIGIT / "1" 2DIGIT / "2" %x30-34 DIGIT / "25" %x30-35
-            var m = this.alternativeLexerFactory.Create(d, l, j, g, c);
+            //var m = this.alternativeLexerFactory.Create(d, l, j, g, c);
+
+            // MEMO: I reversed the rule, because the rule would never work with greedy matching
+
+            // "25" %x30-35 / "2" %x30-34 DIGIT / "1" 2DIGIT / %x31-39 DIGIT / DIGIT
+            var m = this.alternativeLexerFactory.Create(c, g, j, l, d);
 
             // dec-octet
             return new DecimalOctetLexer(m);
