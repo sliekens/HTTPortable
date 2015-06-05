@@ -88,6 +88,9 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="dec-octet\DecimalOctet.cs" />
+    <Compile Include="dec-octet\DecimalOctetLexer.cs" />
+    <Compile Include="dec-octet\DecimalOctetLexerFactory.cs" />
     <Compile Include="fragment\Fragment.cs" />
     <Compile Include="fragment\FragmentLexer.cs" />
     <Compile Include="fragment\FragmentLexerFactory.cs" />
