@@ -1,10 +1,6 @@
 ﻿namespace Uri.Grammar.gen_delims
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     using SLANG;
 
@@ -32,15 +28,22 @@
 
         public ILexer<GenericDelimiter> Create()
         {
-            var genericDelimiterAlternativeLexer = this.alternativeLexerFactory.Create(
-                this.stringLexerFactory.Create(@":"),
-                this.stringLexerFactory.Create(@"/"),
-                this.stringLexerFactory.Create(@"?"),
-                this.stringLexerFactory.Create(@"#"),
-                this.stringLexerFactory.Create(@"["),
-                this.stringLexerFactory.Create(@"]"),
-                this.stringLexerFactory.Create(@"@"));
-            return new GenericDelimiterLexer(genericDelimiterAlternativeLexer);
+            ILexer[] a =
+                {
+                    this.stringLexerFactory.Create(@":"),
+                    this.stringLexerFactory.Create(@"/"),
+                    this.stringLexerFactory.Create(@"?"),
+                    this.stringLexerFactory.Create(@"#"),
+                    this.stringLexerFactory.Create(@"["),
+                    this.stringLexerFactory.Create(@"]"),
+                    this.stringLexerFactory.Create(@"@")
+                };
+
+            // ":" / "/" / "?" / "#" / "[" / "]" / "@"
+            var b = this.alternativeLexerFactory.Create(a);
+
+            // gen-delims
+            return new GenericDelimiterLexer(b);
         }
     }
 }
