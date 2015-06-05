@@ -109,6 +109,9 @@
     <Compile Include="path-rootless\PathRootless.cs" />
     <Compile Include="path-rootless\PathRootlessLexer.cs" />
     <Compile Include="path-rootless\PathRootlessLexerFactory.cs" />
+    <Compile Include="path\Path.cs" />
+    <Compile Include="path\PathLexer.cs" />
+    <Compile Include="path\PathLexerFactory.cs" />
     <Compile Include="pchar\PathCharacter.cs" />
     <Compile Include="pchar\PathCharacterLexer.cs" />
     <Compile Include="pchar\PathCharacterLexerFactory.cs" />
