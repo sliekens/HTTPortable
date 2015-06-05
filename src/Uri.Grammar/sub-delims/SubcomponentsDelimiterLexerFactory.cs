@@ -10,7 +10,9 @@
 
         private readonly IStringLexerFactory stringLexerFactory;
 
-        public SubcomponentsDelimiterLexerFactory(IStringLexerFactory stringLexerFactory, IAlternativeLexerFactory alternativeLexerFactory)
+        public SubcomponentsDelimiterLexerFactory(
+            IStringLexerFactory stringLexerFactory,
+            IAlternativeLexerFactory alternativeLexerFactory)
         {
             if (stringLexerFactory == null)
             {
@@ -19,7 +21,9 @@
 
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException("alternativeLexerFactory", "Precondition: alternativeLexerFactory != null");
+                throw new ArgumentNullException(
+                    "alternativeLexerFactory",
+                    "Precondition: alternativeLexerFactory != null");
             }
 
             this.stringLexerFactory = stringLexerFactory;
@@ -28,19 +32,47 @@
 
         public ILexer<SubcomponentsDelimiter> Create()
         {
-            var alternativeLexer = this.alternativeLexerFactory.Create(
-                this.stringLexerFactory.Create(@"!"),
-                this.stringLexerFactory.Create(@"$"),
-                this.stringLexerFactory.Create(@"&"),
-                this.stringLexerFactory.Create(@"'"),
-                this.stringLexerFactory.Create(@"("),
-                this.stringLexerFactory.Create(@")"),
-                this.stringLexerFactory.Create(@"*"),
-                this.stringLexerFactory.Create(@"+"),
-                this.stringLexerFactory.Create(@","),
-                this.stringLexerFactory.Create(@";"),
-                this.stringLexerFactory.Create(@"="));
-            return new SubcomponentsDelimiterLexer(alternativeLexer);
+            ILexer[] a =
+                {
+                    // "!"
+                    this.stringLexerFactory.Create(@"!"),
+
+                    // "$"
+                    this.stringLexerFactory.Create(@"$"),
+
+                    // "&"
+                    this.stringLexerFactory.Create(@"&"),
+
+                    // "'"
+                    this.stringLexerFactory.Create(@"'"),
+
+                    // "("
+                    this.stringLexerFactory.Create(@"("),
+
+                    // ")"
+                    this.stringLexerFactory.Create(@")"),
+
+                    // "*"
+                    this.stringLexerFactory.Create(@"*"),
+
+                    // "+"
+                    this.stringLexerFactory.Create(@"+"),
+
+                    // ","
+                    this.stringLexerFactory.Create(@","),
+
+                    // ";"
+                    this.stringLexerFactory.Create(@";"),
+
+                    // "="
+                    this.stringLexerFactory.Create(@"=")
+                };
+
+            // "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="
+            var b = this.alternativeLexerFactory.Create(a);
+
+            // sub-delims
+            return new SubcomponentsDelimiterLexer(b);
         }
     }
 }
