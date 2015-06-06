@@ -103,6 +103,9 @@
     <Compile Include="IPv4address\IPV4Address.cs" />
     <Compile Include="IPv4address\IPV4AddressLexer.cs" />
     <Compile Include="IPv4address\IPV4AddressLexerFactory.cs" />
+    <Compile Include="ls32\LeastSignificantInt32.cs" />
+    <Compile Include="ls32\LeastSignificantInt32Lexer.cs" />
+    <Compile Include="ls32\LeastSignificantInt32LexerFactory.cs" />
     <Compile Include="path-abempty\PathAbsoluteOrEmpty.cs" />
     <Compile Include="path-abempty\PathAbsoluteOrEmptyLexer.cs" />
     <Compile Include="path-abempty\PathAbsoluteOrEmptyLexerFactory.cs" />
