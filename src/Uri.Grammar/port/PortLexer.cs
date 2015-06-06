@@ -1,44 +1,34 @@
 ﻿namespace Uri.Grammar
 {
-    using System.Collections.Generic;
-    using System.Diagnostics.Contracts;
+    using System;
+
     using SLANG;
-    using SLANG.Core;
 
     public class PortLexer : Lexer<Port>
     {
-        private readonly ILexer<Digit> digitLexer;
+        private readonly ILexer<Repetition> innerLexer;
 
-        public PortLexer()
-            : this(new DigitLexer())
+        public PortLexer(ILexer<Repetition> innerLexer)
         {
-        }
+            if (innerLexer == null)
+            {
+                throw new ArgumentNullException("innerLexer");
+            }
 
-        public PortLexer(ILexer<Digit> digitLexer)
-            : base("port")
-        {
-            Contract.Requires(digitLexer != null);
-            this.digitLexer = digitLexer;
+            this.innerLexer = innerLexer;
         }
 
         public override bool TryRead(ITextScanner scanner, out Port element)
         {
-            var context = scanner.GetContext();
-            var digits = new List<Digit>();
-            Digit digit;
-            while (this.digitLexer.TryRead(scanner, out digit))
+            Repetition result;
+            if (this.innerLexer.TryRead(scanner, out result))
             {
-                digits.Add(digit);
+                element = new Port(result);
+                return true;
             }
 
-            element = new Port(digits, context);
-            return true;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.digitLexer != null);
+            element = default(Port);
+            return false;
         }
     }
 }
