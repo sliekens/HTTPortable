@@ -11,6 +11,11 @@
         {
         }
 
+        public static explicit operator char(PercentEncoding instance)
+        {
+            return instance.ToChar();
+        }
+
         public char ToChar()
         {
             Debug.Assert(this.Values != null, "this.Values != null");
