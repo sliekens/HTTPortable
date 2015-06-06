@@ -158,6 +158,9 @@
     <Compile Include="reserved\Reserved.cs" />
     <Compile Include="reserved\ReservedLexer.cs" />
     <Compile Include="reserved\ReservedLexerFactory.cs" />
+    <Compile Include="scheme\Scheme.cs" />
+    <Compile Include="scheme\SchemeLexer.cs" />
+    <Compile Include="scheme\SchemeLexerFactory.cs" />
     <Compile Include="segment-nz-nc\SegmentNonZeroLengthNoColons.cs" />
     <Compile Include="segment-nz-nc\SegmentNonZeroLengthNoColonsLexer.cs" />
     <Compile Include="segment-nz-nc\SegmentNonZeroLengthNoColonsLexerFactory.cs" />

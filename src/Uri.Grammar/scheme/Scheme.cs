@@ -2,10 +2,10 @@
 {
     using SLANG;
 
-    public class Scheme : Element
+    public class Scheme : Sequence
     {
-        public Scheme(string data, ITextContext context)
-            : base(data, context)
+        public Scheme(Sequence sequence)
+            : base(sequence)
         {
         }
     }
