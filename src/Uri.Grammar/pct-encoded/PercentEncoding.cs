@@ -1,5 +1,7 @@
 ﻿namespace Uri.Grammar
 {
+    using System.Diagnostics;
+
     using SLANG;
 
     public class PercentEncoding : Sequence
@@ -7,6 +9,13 @@
         public PercentEncoding(Sequence sequence)
             : base(sequence)
         {
+        }
+
+        public char ToChar()
+        {
+            Debug.Assert(this.Values != null, "this.Values != null");
+            Debug.Assert(this.Values.Length == 3, "this.Values.Length == 3");
+            return (char)System.Convert.ToInt32(this.Values.Substring(1), 16);
         }
 
         public override string GetWellFormedText()
