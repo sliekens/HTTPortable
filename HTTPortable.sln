@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9B2D25CE-81EA-4020-B463-DB45A8AB0C65}"
 	ProjectSection(SolutionItems) = preProject
 		Core.abnf = Core.abnf
+		IPv6address = IPv6address
 		LICENSE = LICENSE
 		README.md = README.md
 		RFC3986.abnf = RFC3986.abnf
