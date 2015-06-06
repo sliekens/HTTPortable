@@ -195,9 +195,9 @@
     <Compile Include="URI-reference\UriReference.cs" />
     <Compile Include="URI-reference\UriReferenceLexer.cs" />
     <Compile Include="URI-reference\UriReferenceLexerFactory.cs" />
-    <Compile Include="URI\Uri.cs" />
-    <Compile Include="URI\UriLexer.cs" />
-    <Compile Include="URI\UriLexerFactory.cs" />
+    <Compile Include="URI\UniformResourceIdentifier.cs" />
+    <Compile Include="URI\UniformResourceIdentifierLexer.cs" />
+    <Compile Include="URI\UniformResourceIdentifierLexerFactory.cs" />
     <Compile Include="userinfo\UserInformation.cs" />
     <Compile Include="userinfo\UserInformationLexer.cs" />
     <Compile Include="userinfo\UserInformationLexerFactory.cs" />

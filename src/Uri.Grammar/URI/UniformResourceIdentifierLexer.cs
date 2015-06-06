@@ -4,11 +4,11 @@
 
     using SLANG;
 
-    public class UriLexer : Lexer<Uri>
+    public class UniformResourceIdentifierLexer : Lexer<UniformResourceIdentifier>
     {
         private readonly ILexer<Sequence> innerLexer;
 
-        public UriLexer(ILexer<Sequence> innerLexer)
+        public UniformResourceIdentifierLexer(ILexer<Sequence> innerLexer)
         {
             if (innerLexer == null)
             {
@@ -18,16 +18,16 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out Uri element)
+        public override bool TryRead(ITextScanner scanner, out UniformResourceIdentifier element)
         {
             Sequence result;
             if (this.innerLexer.TryRead(scanner, out result))
             {
-                element = new Uri(result);
+                element = new UniformResourceIdentifier(result);
                 return true;
             }
 
-            element = default(Uri);
+            element = default(UniformResourceIdentifier);
             return false;
         }
     }

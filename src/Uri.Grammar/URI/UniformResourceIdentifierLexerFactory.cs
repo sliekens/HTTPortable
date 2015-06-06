@@ -1,12 +1,10 @@
-﻿namespace Uri.Grammar.URI
+﻿namespace Uri.Grammar
 {
     using System;
 
     using SLANG;
 
-    using Uri = global::Uri.Grammar.Uri;
-
-    public class UriLexerFactory : ILexerFactory<Uri>
+    public class UniformResourceIdentifierLexerFactory : ILexerFactory<UniformResourceIdentifier>
     {
         private readonly ILexerFactory<Fragment> fragmentLexerFactory;
 
@@ -22,7 +20,7 @@
 
         private readonly IStringLexerFactory stringLexerFactory;
 
-        public UriLexerFactory(
+        public UniformResourceIdentifierLexerFactory(
             ISequenceLexerFactory sequenceLexerFactory,
             IOptionLexerFactory optionLexerFactory,
             IStringLexerFactory stringLexerFactory,
@@ -75,7 +73,7 @@
             this.fragmentLexerFactory = fragmentLexerFactory;
         }
 
-        public ILexer<Uri> Create()
+        public ILexer<UniformResourceIdentifier> Create()
         {
             var scheme = this.schemeLexerFactory.Create();
             var colon = this.stringLexerFactory.Create(@":");
@@ -89,7 +87,7 @@
             var fragmentPart = this.sequenceLexerFactory.Create(ht, fragment);
             var optFragment = this.optionLexerFactory.Create(fragmentPart);
             var innerLexer = this.sequenceLexerFactory.Create(scheme, colon, hierPart, optQuery, optFragment);
-            return new UriLexer(innerLexer);
+            return new UniformResourceIdentifierLexer(innerLexer);
         }
     }
 }

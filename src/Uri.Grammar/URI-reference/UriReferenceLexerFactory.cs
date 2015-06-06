@@ -4,19 +4,17 @@
 
     using SLANG;
 
-    using Uri = global::Uri.Grammar.Uri;
-
     public class UriReferenceLexerFactory : ILexerFactory<UriReference>
     {
         private readonly IAlternativeLexerFactory alternativeLexerFactory;
 
         private readonly ILexerFactory<RelativeReference> relativeReferenceLexerFactory;
 
-        private readonly ILexerFactory<Uri> uriLexerFactory;
+        private readonly ILexerFactory<UniformResourceIdentifier> uriLexerFactory;
 
         public UriReferenceLexerFactory(
             IAlternativeLexerFactory alternativeLexerFactory,
-            ILexerFactory<Uri> uriLexerFactory,
+            ILexerFactory<UniformResourceIdentifier> uriLexerFactory,
             ILexerFactory<RelativeReference> relativeReferenceLexerFactory)
         {
             if (alternativeLexerFactory == null)
