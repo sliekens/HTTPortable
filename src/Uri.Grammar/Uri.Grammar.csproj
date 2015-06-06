@@ -88,6 +88,9 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="absolute-URI\AbsoluteUri.cs" />
+    <Compile Include="absolute-URI\AbsoluteUriLexer.cs" />
+    <Compile Include="absolute-URI\AbsoluteUriLexerFactory.cs" />
     <Compile Include="authority\Authority.cs" />
     <Compile Include="authority\AuthorityLexer.cs" />
     <Compile Include="authority\AuthorityLexerFactory.cs" />
