@@ -106,6 +106,9 @@
     <Compile Include="IPv6address\IPv6Address.cs" />
     <Compile Include="IPv6address\IPv6AddressLexer.cs" />
     <Compile Include="IPv6address\IPv6AddressLexerFactory.cs" />
+    <Compile Include="IPvFuture\IPvFuture.cs" />
+    <Compile Include="IPvFuture\IPvFutureLexer.cs" />
+    <Compile Include="IPvFuture\IPvFutureLexerFactory.cs" />
     <Compile Include="ls32\LeastSignificantInt32.cs" />
     <Compile Include="ls32\LeastSignificantInt32Lexer.cs" />
     <Compile Include="ls32\LeastSignificantInt32LexerFactory.cs" />
