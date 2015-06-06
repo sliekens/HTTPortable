@@ -3,7 +3,7 @@
     using System;
 
     using SLANG;
-    using SLANG.Core.HEXDIG;
+    using SLANG.Core;
 
     public class PercentEncodingLexerFactory : ILexerFactory<PercentEncoding>
     {

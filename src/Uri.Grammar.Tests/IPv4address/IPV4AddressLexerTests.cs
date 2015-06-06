@@ -1,7 +1,7 @@
 ﻿namespace Uri.Grammar
 {
     using SLANG;
-    using SLANG.Core.DIGIT;
+    using SLANG.Core;
 
     using Xunit;
 

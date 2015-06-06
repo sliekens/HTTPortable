@@ -3,8 +3,7 @@
     using System;
 
     using SLANG;
-    using SLANG.Core.ALPHA;
-    using SLANG.Core.DIGIT;
+    using SLANG.Core;
 
     public class SchemeLexerFactory : ILexerFactory<Scheme>
     {

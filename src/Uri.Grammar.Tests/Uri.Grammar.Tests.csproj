@@ -68,7 +68,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="SLANG, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SLANG.1.0.285-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
+      <HintPath>..\..\packages\SLANG.1.0.287-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">

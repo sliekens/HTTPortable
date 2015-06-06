@@ -3,7 +3,7 @@
     using System;
 
     using SLANG;
-    using SLANG.Core.DIGIT;
+    using SLANG.Core;
 
     public class PortLexerFactory : ILexerFactory<Port>
     {
