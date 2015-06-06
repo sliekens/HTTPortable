@@ -1,13 +1,8 @@
-﻿namespace Uri.Grammar.IPv6address
+﻿namespace Uri.Grammar
 {
     using SLANG;
     using SLANG.Core.DIGIT;
     using SLANG.Core.HEXDIG;
-
-    using Uri.Grammar.dec_octet;
-    using Uri.Grammar.h16;
-    using Uri.Grammar.IPv4address;
-    using Uri.Grammar.ls32;
 
     using Xunit;
 

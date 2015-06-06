@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.relative_ref
+﻿namespace Uri.Grammar
 {
     using System;
 

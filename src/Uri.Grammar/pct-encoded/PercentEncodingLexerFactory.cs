@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.pct_encoded
+﻿namespace Uri.Grammar
 {
     using System;
 

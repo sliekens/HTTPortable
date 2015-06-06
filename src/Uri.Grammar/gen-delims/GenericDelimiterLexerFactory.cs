@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.gen_delims
+﻿namespace Uri.Grammar
 {
     using System;
 

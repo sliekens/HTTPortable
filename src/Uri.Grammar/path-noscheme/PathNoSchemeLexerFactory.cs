@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.path_noscheme
+﻿namespace Uri.Grammar
 {
     using System;
 

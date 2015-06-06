@@ -1,9 +1,6 @@
-﻿namespace Uri.Grammar.reserved
+﻿namespace Uri.Grammar
 {
     using SLANG;
-
-    using Uri.Grammar.gen_delims;
-    using Uri.Grammar.sub_delims;
 
     using Xunit;
 

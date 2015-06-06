@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.ls32
+﻿namespace Uri.Grammar
 {
     using System;
 

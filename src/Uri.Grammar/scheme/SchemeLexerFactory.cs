@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.scheme
+﻿namespace Uri.Grammar
 {
     using System;
 

@@ -1,30 +1,5 @@
-﻿namespace Uri.Grammar.URI
+﻿namespace Uri.Grammar
 {
-    using global::Uri.Grammar.authority;
-    using global::Uri.Grammar.dec_octet;
-    using global::Uri.Grammar.fragment;
-    using global::Uri.Grammar.h16;
-    using global::Uri.Grammar.hier_part;
-    using global::Uri.Grammar.host;
-    using global::Uri.Grammar.IPv4address;
-    using global::Uri.Grammar.IPv6address;
-    using global::Uri.Grammar.IP_literal;
-    using global::Uri.Grammar.ls32;
-    using global::Uri.Grammar.path_absolute;
-    using global::Uri.Grammar.path_empty;
-    using global::Uri.Grammar.path_rootless;
-    using global::Uri.Grammar.pchar;
-    using global::Uri.Grammar.pct_encoded;
-    using global::Uri.Grammar.port;
-    using global::Uri.Grammar.query;
-    using global::Uri.Grammar.reg_name;
-    using global::Uri.Grammar.scheme;
-    using global::Uri.Grammar.segment;
-    using global::Uri.Grammar.segment_nz;
-    using global::Uri.Grammar.sub_delims;
-    using global::Uri.Grammar.unreserved;
-    using global::Uri.Grammar.userinfo;
-
     using SLANG;
     using SLANG.Core.ALPHA;
     using SLANG.Core.DIGIT;

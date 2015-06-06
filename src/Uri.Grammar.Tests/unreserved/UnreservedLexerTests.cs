@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.unreserved
+﻿namespace Uri.Grammar
 {
     using SLANG;
     using SLANG.Core.ALPHA;

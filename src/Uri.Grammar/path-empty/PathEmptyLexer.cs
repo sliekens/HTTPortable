@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.path_empty
+﻿namespace Uri.Grammar
 {
     using System;
 

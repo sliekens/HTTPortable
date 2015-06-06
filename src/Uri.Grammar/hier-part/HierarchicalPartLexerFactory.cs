@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.hier_part
+﻿namespace Uri.Grammar
 {
     using System;
 

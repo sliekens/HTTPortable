@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.segment_nz
+﻿namespace Uri.Grammar
 {
     using System;
 

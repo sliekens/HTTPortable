@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.userinfo
+﻿namespace Uri.Grammar
 {
     using System;
 

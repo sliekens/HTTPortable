@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.path_rootless
+﻿namespace Uri.Grammar
 {
     using System;
 

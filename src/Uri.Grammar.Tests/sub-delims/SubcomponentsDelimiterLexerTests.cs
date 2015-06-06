@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.sub_delims
+﻿namespace Uri.Grammar
 {
     using SLANG;
 

@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.h16
+﻿namespace Uri.Grammar
 {
     using System;
 

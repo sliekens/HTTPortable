@@ -1,14 +1,9 @@
-﻿namespace Uri.Grammar.fragment
+﻿namespace Uri.Grammar
 {
     using SLANG;
     using SLANG.Core.ALPHA;
     using SLANG.Core.DIGIT;
     using SLANG.Core.HEXDIG;
-
-    using Uri.Grammar.pchar;
-    using Uri.Grammar.pct_encoded;
-    using Uri.Grammar.sub_delims;
-    using Uri.Grammar.unreserved;
 
     using Xunit;
 

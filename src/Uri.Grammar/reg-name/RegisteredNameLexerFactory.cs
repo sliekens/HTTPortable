@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.reg_name
+﻿namespace Uri.Grammar
 {
     using System;
 

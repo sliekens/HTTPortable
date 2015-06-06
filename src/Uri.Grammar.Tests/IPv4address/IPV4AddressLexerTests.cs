@@ -1,9 +1,7 @@
-﻿namespace Uri.Grammar.IPv4address
+﻿namespace Uri.Grammar
 {
     using SLANG;
     using SLANG.Core.DIGIT;
-
-    using Uri.Grammar.dec_octet;
 
     using Xunit;
 

@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.pchar
+﻿namespace Uri.Grammar
 {
     using System;
 

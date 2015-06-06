@@ -1,16 +1,8 @@
-﻿namespace Uri.Grammar.pct_encoded
+﻿namespace Uri.Grammar
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     using SLANG;
     using SLANG.Core.DIGIT;
     using SLANG.Core.HEXDIG;
-
-    using Uri.Grammar.gen_delims;
 
     using Xunit;
 

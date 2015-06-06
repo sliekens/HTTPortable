@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.dec_octet
+﻿namespace Uri.Grammar
 {
     using System;
 

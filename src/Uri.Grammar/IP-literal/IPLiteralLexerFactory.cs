@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.IP_literal
+﻿namespace Uri.Grammar
 {
     using System;
 

@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.IPv4address
+﻿namespace Uri.Grammar
 {
     using System;
 

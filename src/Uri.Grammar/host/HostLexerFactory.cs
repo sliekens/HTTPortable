@@ -1,4 +1,4 @@
-﻿namespace Uri.Grammar.host
+﻿namespace Uri.Grammar
 {
     using System;
 

@@ -1,6 +1,6 @@
 ﻿// ReSharper disable InconsistentNaming
 
-namespace Uri.Grammar.IPv6address
+namespace Uri.Grammar
 {
     using System;
 
