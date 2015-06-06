@@ -4,7 +4,7 @@
 
     using SLANG;
 
-    public class QueryLexerFactory : ILexerFactory<Fragment>
+    public class QueryLexerFactory : ILexerFactory<Query>
     {
         private readonly IAlternativeLexerFactory alternativeLexerFactory;
 
@@ -42,14 +42,14 @@
             this.stringLexerFactory = stringLexerFactory;
         }
 
-        public ILexer<Fragment> Create()
+        public ILexer<Query> Create()
         {
             var alternativeLexer = this.alternativeLexerFactory.Create(
                 this.pathCharacterLexerFactory.Create(),
                 this.stringLexerFactory.Create(@"/"),
                 this.stringLexerFactory.Create(@"?"));
             var fragmentRepetitionLexer = this.repetitionLexerFactory.Create(alternativeLexer, 0, int.MaxValue);
-            return new FragmentLexer(fragmentRepetitionLexer);
+            return new QueryLexer(fragmentRepetitionLexer);
         }
     }
 }
