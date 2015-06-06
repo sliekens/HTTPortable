@@ -88,6 +88,9 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="authority\Authority.cs" />
+    <Compile Include="authority\AuthorityLexer.cs" />
+    <Compile Include="authority\AuthorityLexerFactory.cs" />
     <Compile Include="dec-octet\DecimalOctet.cs" />
     <Compile Include="dec-octet\DecimalOctetLexer.cs" />
     <Compile Include="dec-octet\DecimalOctetLexerFactory.cs" />
