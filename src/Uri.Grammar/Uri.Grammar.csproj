@@ -100,6 +100,9 @@
     <Compile Include="h16\HexadecimalInt16.cs" />
     <Compile Include="h16\HexadecimalInt16Lexer.cs" />
     <Compile Include="h16\HexadecimalInt16LexerFactory.cs" />
+    <Compile Include="host\Host.cs" />
+    <Compile Include="host\HostLexer.cs" />
+    <Compile Include="host\HostLexerFactory.cs" />
     <Compile Include="IP-literal\IPLiteral.cs" />
     <Compile Include="IP-literal\IPLiteralLexer.cs" />
     <Compile Include="IP-literal\IPLiteralLexerFactory.cs" />
