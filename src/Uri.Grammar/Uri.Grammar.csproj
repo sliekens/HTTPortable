@@ -192,6 +192,9 @@
     <Compile Include="unreserved\Unreserved.cs" />
     <Compile Include="unreserved\UnreservedLexer.cs" />
     <Compile Include="unreserved\UnreservedLexerFactory.cs" />
+    <Compile Include="URI\Uri.cs" />
+    <Compile Include="URI\UriLexer.cs" />
+    <Compile Include="URI\UriLexerFactory.cs" />
     <Compile Include="userinfo\UserInformation.cs" />
     <Compile Include="userinfo\UserInformationLexer.cs" />
     <Compile Include="userinfo\UserInformationLexerFactory.cs" />
