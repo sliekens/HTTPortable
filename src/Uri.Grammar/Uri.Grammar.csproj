@@ -103,6 +103,9 @@
     <Compile Include="h16\HexadecimalInt16.cs" />
     <Compile Include="h16\HexadecimalInt16Lexer.cs" />
     <Compile Include="h16\HexadecimalInt16LexerFactory.cs" />
+    <Compile Include="hier-part\HierarchicalPart.cs" />
+    <Compile Include="hier-part\HierarchicalPartLexer.cs" />
+    <Compile Include="hier-part\HierarchicalPartLexerFactory.cs" />
     <Compile Include="host\Host.cs" />
     <Compile Include="host\HostLexer.cs" />
     <Compile Include="host\HostLexerFactory.cs" />
