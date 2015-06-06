@@ -13,7 +13,6 @@
         /// </summary>
         /// <param name="genericDelimiterAlternativeLexer">":" / "/" / "?" / "#" / "[" / "]" / "@"</param>
         public GenericDelimiterLexer(ILexer<Alternative> genericDelimiterAlternativeLexer)
-            : base("gen-delims")
         {
             if (genericDelimiterAlternativeLexer == null)
             {

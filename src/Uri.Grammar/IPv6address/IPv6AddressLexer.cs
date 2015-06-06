@@ -9,7 +9,6 @@
         private readonly ILexer<Alternative> innerLexer;
 
         public IPv6AddressLexer(ILexer<Alternative> innerLexer)
-            : base("IPv6address")
         {
             if (innerLexer == null)
             {

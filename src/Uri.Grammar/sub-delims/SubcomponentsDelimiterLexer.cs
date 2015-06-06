@@ -13,7 +13,6 @@
         /// </summary>
         /// <param name="subcomponentsDelimiterAlternativeLexer">"!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="</param>
         public SubcomponentsDelimiterLexer(ILexer<Alternative> subcomponentsDelimiterAlternativeLexer)
-            : base("sub-delims")
         {
             if (subcomponentsDelimiterAlternativeLexer == null)
             {
