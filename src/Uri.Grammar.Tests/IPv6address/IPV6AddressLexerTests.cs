@@ -113,7 +113,7 @@
                 scanner.Read();
                 var element = lexer.Read(scanner);
                 Assert.NotNull(element);
-                Assert.Equal(input, element.Data);
+                Assert.Equal(input, element.Values);
             }
         }
     }
