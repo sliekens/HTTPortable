@@ -155,6 +155,9 @@
     <Compile Include="reg-name\RegisteredName.cs" />
     <Compile Include="reg-name\RegisteredNameLexer.cs" />
     <Compile Include="reg-name\RegisteredNameLexerFactory.cs" />
+    <Compile Include="relative-part\RelativePart.cs" />
+    <Compile Include="relative-part\RelativePartLexer.cs" />
+    <Compile Include="relative-part\RelativePartLexerFactory.cs" />
     <Compile Include="reserved\Reserved.cs" />
     <Compile Include="reserved\ReservedLexer.cs" />
     <Compile Include="reserved\ReservedLexerFactory.cs" />
