@@ -158,6 +158,9 @@
     <Compile Include="relative-part\RelativePart.cs" />
     <Compile Include="relative-part\RelativePartLexer.cs" />
     <Compile Include="relative-part\RelativePartLexerFactory.cs" />
+    <Compile Include="relative-ref\RelativeReference.cs" />
+    <Compile Include="relative-ref\RelativeReferenceLexer.cs" />
+    <Compile Include="relative-ref\RelativeReferenceLexerFactory.cs" />
     <Compile Include="reserved\Reserved.cs" />
     <Compile Include="reserved\ReservedLexer.cs" />
     <Compile Include="reserved\ReservedLexerFactory.cs" />
