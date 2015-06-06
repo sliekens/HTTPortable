@@ -1,41 +1,12 @@
 ﻿namespace Uri.Grammar
 {
-    using System.Diagnostics.Contracts;
     using SLANG;
-    using SLANG.Core;
 
-    public class HexadecimalInt16 : Element
+    public class HexadecimalInt16 : Repetition
     {
-        public HexadecimalInt16(HexadecimalDigit digit, ITextContext context)
-            : base(digit.Data, context)
+        public HexadecimalInt16(Repetition sequence)
+            : base(sequence)
         {
-            Contract.Requires(digit != null);
-        }
-
-        public HexadecimalInt16(HexadecimalDigit digit1, HexadecimalDigit digit2, ITextContext context)
-            : base(string.Concat(digit1.Data, digit2.Data), context)
-        {
-            Contract.Requires(digit1 != null);
-            Contract.Requires(digit2 != null);
-        }
-
-        public HexadecimalInt16(HexadecimalDigit digit1, HexadecimalDigit digit2, HexadecimalDigit digit3, 
-            ITextContext context)
-            : base(string.Concat(digit1.Data, digit2.Data, digit3.Data), context)
-        {
-            Contract.Requires(digit1 != null);
-            Contract.Requires(digit2 != null);
-            Contract.Requires(digit3 != null);
-        }
-
-        public HexadecimalInt16(HexadecimalDigit digit1, HexadecimalDigit digit2, HexadecimalDigit digit3, 
-            HexadecimalDigit digit4, ITextContext context)
-            : base(string.Concat(digit1.Data, digit2.Data, digit3.Data, digit4.Data), context)
-        {
-            Contract.Requires(digit1 != null);
-            Contract.Requires(digit2 != null);
-            Contract.Requires(digit3 != null);
-            Contract.Requires(digit4 != null);
         }
     }
 }

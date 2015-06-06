@@ -97,6 +97,9 @@
     <Compile Include="gen-delims\GenericDelimiter.cs" />
     <Compile Include="gen-delims\GenericDelimiterLexer.cs" />
     <Compile Include="gen-delims\GenericDelimiterLexerFactory.cs" />
+    <Compile Include="h16\HexadecimalInt16.cs" />
+    <Compile Include="h16\HexadecimalInt16Lexer.cs" />
+    <Compile Include="h16\HexadecimalInt16LexerFactory.cs" />
     <Compile Include="IPv4address\IPV4Address.cs" />
     <Compile Include="IPv4address\IPV4AddressLexer.cs" />
     <Compile Include="IPv4address\IPV4AddressLexerFactory.cs" />
