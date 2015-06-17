@@ -2,7 +2,9 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+
     using SLANG;
+
     using ParameterCollection = SLANG.Repetition<SLANG.Sequence<OptionalWhiteSpace, SLANG.Element, OptionalWhiteSpace, TransferParameter>>;
     using ParameterPart = SLANG.Sequence<OptionalWhiteSpace, SLANG.Element, OptionalWhiteSpace, TransferParameter>;
 

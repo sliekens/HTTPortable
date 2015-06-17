@@ -1,6 +1,7 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
+
     using SLANG;
 
     public class TransferCodingRanking : Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, Element, Rank>

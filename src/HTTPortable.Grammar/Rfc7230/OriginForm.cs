@@ -1,6 +1,7 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using SLANG;
+
     using Uri.Grammar;
 
     public class OriginForm : Sequence<AbsolutePath, Option<Sequence<Element, Query>>>

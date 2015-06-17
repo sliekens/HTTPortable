@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+
     using SLANG;
 
     public class FieldValueLexer : Lexer<FieldValue>

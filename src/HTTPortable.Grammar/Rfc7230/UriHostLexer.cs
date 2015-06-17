@@ -1,7 +1,9 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
+
     using SLANG;
+
     using UriHost = Uri.Grammar.Host;
 
     public class UriHostLexer : Lexer<UriHost>
@@ -9,7 +11,7 @@
         private readonly ILexer<UriHost> hostLexer;
 
         public UriHostLexer()
-            : this(new global::Uri.Grammar.HostLexer())
+            : this(new Uri.Grammar.HostLexer())
         {
         }
 

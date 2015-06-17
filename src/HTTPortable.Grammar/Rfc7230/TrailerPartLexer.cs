@@ -3,11 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+
     using SLANG;
     using SLANG.Core;
+
     using HeaderLine = SLANG.Sequence<HeaderField, SLANG.Core.EndOfLine>;
 
-    public class TrailerPartLexer : RepetitionLexer<TrailerPart, Sequence<HeaderField, EndOfLine>>
+    public class TrailerPartLexer : RepetitionLexer<TrailerPart, HeaderLine>
     {
         private readonly ILexer<EndOfLine> endOfLineLexer;
         private readonly ILexer<HeaderField> headerFieldLexer;

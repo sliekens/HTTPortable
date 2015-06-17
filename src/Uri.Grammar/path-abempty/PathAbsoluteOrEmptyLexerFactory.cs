@@ -2,7 +2,8 @@ namespace Uri.Grammar
 {
     using System;
 
-    using SLANG;
+    using TextFx;
+    using TextFx.ABNF;
 
     public class PathAbsoluteOrEmptyLexerFactory : ILexerFactory<PathAbsoluteOrEmpty>
     {

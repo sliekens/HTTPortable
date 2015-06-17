@@ -2,7 +2,8 @@
 {
     using System;
 
-    using SLANG;
+    using TextFx;
+    using TextFx.ABNF;
 
     public class UniformResourceIdentifierLexerFactory : ILexerFactory<UniformResourceIdentifier>
     {

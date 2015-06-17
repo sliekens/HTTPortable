@@ -1,6 +1,7 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using SLANG;
+
     using Pseudonym = Token;
 
     public class PseudonymLexer : Lexer<Pseudonym>

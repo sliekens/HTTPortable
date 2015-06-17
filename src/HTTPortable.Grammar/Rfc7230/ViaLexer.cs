@@ -1,6 +1,5 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 

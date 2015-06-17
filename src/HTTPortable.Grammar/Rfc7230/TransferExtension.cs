@@ -1,7 +1,9 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
+
     using SLANG;
+
     using ParameterPart = SLANG.Sequence<OptionalWhiteSpace, SLANG.Element, OptionalWhiteSpace, TransferParameter>;
 
     public class TransferExtension : Sequence<Token, Repetition<Sequence<OptionalWhiteSpace, Element, OptionalWhiteSpace, TransferParameter>>>

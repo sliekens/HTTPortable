@@ -1,8 +1,11 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
+
     using SLANG;
+
     using Uri.Grammar;
+
     using UriHost = Uri.Grammar.Host;
 
     public class Host : Sequence<UriHost, Option<Sequence<Element, Port>>>

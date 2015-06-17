@@ -3,7 +3,8 @@
     using SLANG;
 
     using Uri.Grammar;
-    using UriHost = global::Uri.Grammar.Host;
+
+    using UriHost = Uri.Grammar.Host;
     using Pseudonym = Token;
 
     public class ReceivedBy : Alternative<Sequence<UriHost, Option<Sequence<Element, Port>>>, Pseudonym>

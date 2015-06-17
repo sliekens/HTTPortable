@@ -71,6 +71,14 @@
       <HintPath>..\..\packages\SLANG.1.0.287-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="TextFx, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\TextFx.2.0.0-CI58\lib\portable-net45+win+wpa81\TextFx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TextFx.ABNF, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\TextFx.ABNF.2.0.0-CI58\lib\portable-net45+win+wpa81\TextFx.ABNF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\xunit.abstractions.2.0.0\lib\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.abstractions.dll</HintPath>
       <Private>True</Private>

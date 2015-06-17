@@ -2,7 +2,9 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+
     using SLANG;
+
     using SegmentPart = SLANG.Sequence<SLANG.Element, Uri.Grammar.Segment>;
 
     public class AbsolutePath : Repetition<SegmentPart>

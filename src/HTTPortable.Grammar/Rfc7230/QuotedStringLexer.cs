@@ -2,8 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+
     using SLANG;
     using SLANG.Core;
+
     using QuotedCharacter = SLANG.Alternative<QuotedText, QuotedPair>;
     using QuotedElement = SLANG.Repetition<SLANG.Alternative<QuotedText, QuotedPair>>;
 

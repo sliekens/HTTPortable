@@ -1,6 +1,7 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using SLANG;
+
     using ProtocolVersion = Token;
 
     public class ProtocolVersionLexer : Lexer<ProtocolVersion>

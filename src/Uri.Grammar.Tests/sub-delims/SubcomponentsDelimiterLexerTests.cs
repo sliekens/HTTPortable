@@ -1,6 +1,7 @@
 ﻿namespace Uri.Grammar
 {
-    using SLANG;
+    using TextFx;
+    using TextFx.ABNF;
 
     using Xunit;
 
@@ -30,7 +31,7 @@
                 scanner.Read();
                 var element = lexer.Read(scanner);
                 Assert.NotNull(element);
-                Assert.Equal(input, element.Values);
+                Assert.Equal(input, element.Value);
             }
         }
     }

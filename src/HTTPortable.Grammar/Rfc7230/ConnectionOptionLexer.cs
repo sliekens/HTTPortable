@@ -1,6 +1,7 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using SLANG;
+
     using ConnectionOption = Token;
 
     public class ConnectionOptionLexer : Lexer<ConnectionOption>

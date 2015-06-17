@@ -4,7 +4,8 @@ namespace Uri.Grammar
 {
     using System;
 
-    using SLANG;
+    using TextFx;
+    using TextFx.ABNF;
 
     public class IPv6AddressLexerFactory : ILexerFactory<IPv6Address>
     {

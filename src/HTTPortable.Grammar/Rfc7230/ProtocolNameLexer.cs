@@ -1,7 +1,7 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
-
     using SLANG;
+
     using ProtocolName = Token;
 
     public class ProtocolNameLexer : Lexer<ProtocolName>

@@ -2,8 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+
     using SLANG;
     using SLANG.Core;
+
     using LessThanMaximum = SLANG.Sequence<SLANG.Element, SLANG.Option<SLANG.Sequence<SLANG.Element, SLANG.Repetition<SLANG.Core.Digit>>>>;
     using Maximum = SLANG.Sequence<SLANG.Element, SLANG.Option<SLANG.Sequence<SLANG.Element, SLANG.Repetition<SLANG.Element>>>>;
 

@@ -6,8 +6,9 @@
     using System.Linq;
     using System.Text;
 
-    using Grammar.Rfc7230;
-    using Headers;
+    using Http.Grammar.Rfc7230;
+    using Http.Headers;
+
     using SLANG;
 
     /// <summary>Provides extension methods for the <see cref="T:Http.IHeaderCollection" /> interface.</summary>

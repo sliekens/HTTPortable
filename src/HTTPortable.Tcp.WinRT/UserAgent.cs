@@ -1,6 +1,7 @@
 ﻿namespace Http.Tcp.WinRT
 {
     using System.IO;
+
     using Windows.Networking.Sockets;
 
     public class UserAgent : PortableUserAgent

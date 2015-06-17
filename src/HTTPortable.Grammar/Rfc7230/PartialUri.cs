@@ -1,6 +1,7 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using SLANG;
+
     using Uri.Grammar;
 
     public class PartialUri : Sequence<RelativePart, Option<Sequence<Element, Query>>>

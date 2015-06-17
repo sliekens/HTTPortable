@@ -1,8 +1,9 @@
 ﻿namespace Uri.Grammar
 {
+    using System;
     using System.Diagnostics;
 
-    using SLANG;
+    using TextFx.ABNF;
 
     public class PercentEncoding : Sequence
     {
@@ -18,9 +19,9 @@
 
         public char ToChar()
         {
-            Debug.Assert(this.Values != null, "this.Values != null");
-            Debug.Assert(this.Values.Length == 3, "this.Values.Length == 3");
-            return (char)System.Convert.ToInt32(this.Values.Substring(1), 16);
+            Debug.Assert(this.Value != null, "this.Value != null");
+            Debug.Assert(this.Value.Length == 3, "this.Value.Length == 3");
+            return (char)Convert.ToInt32(this.Value.Substring(1), 16);
         }
 
         public override string GetWellFormedText()

@@ -2,8 +2,9 @@
 {
     using System;
 
-    using SLANG;
-    using SLANG.Core;
+    using TextFx;
+    using TextFx.ABNF;
+    using TextFx.ABNF.Core;
 
     public class IPvFutureLexerFactory : ILexerFactory<IPvFuture>
     {

@@ -1,7 +1,5 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
-    using System;
-
     using SLANG;
     using SLANG.Core;
 

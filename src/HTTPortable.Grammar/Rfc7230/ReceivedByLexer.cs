@@ -7,7 +7,7 @@
 
     using Uri.Grammar;
 
-    using UriHost = global::Uri.Grammar.Host;
+    using UriHost = Uri.Grammar.Host;
     using Pseudonym = Token;
 
     public partial class ReceivedByLexer : AlternativeLexer<ReceivedBy, Sequence<UriHost, Option<Sequence<Element, Port>>>, Pseudonym>

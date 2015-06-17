@@ -1,7 +1,9 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
+
     using SLANG;
+
     using Uri.Grammar;
 
     public class RequestTarget : Alternative<OriginForm, AbsoluteUri, Authority, AsteriskForm>

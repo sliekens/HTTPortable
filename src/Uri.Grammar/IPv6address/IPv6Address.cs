@@ -1,6 +1,7 @@
 ﻿namespace Uri.Grammar
 {
-    using SLANG;
+    using TextFx;
+    using TextFx.ABNF;
 
     public class IPv6Address : Alternative
     {

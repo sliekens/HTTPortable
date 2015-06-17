@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+
     using SLANG;
     using SLANG.Core;
 

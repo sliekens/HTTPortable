@@ -1,8 +1,10 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
+
     using SLANG;
     using SLANG.Core;
+
     using EscapedCharacter = SLANG.Alternative<SLANG.Core.HorizontalTab, SLANG.Core.Space, SLANG.Core.VisibleCharacter, ObsoletedText>;
 
     public class QuotedPairLexer : Lexer<QuotedPair>

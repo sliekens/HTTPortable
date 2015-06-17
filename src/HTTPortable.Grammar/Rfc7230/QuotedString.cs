@@ -1,8 +1,10 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
+
     using SLANG;
     using SLANG.Core;
+
     using QuotedCharacter = SLANG.Alternative<QuotedText, QuotedPair>;
 
     public class QuotedString : Sequence<DoubleQuote, Repetition<QuotedCharacter>, DoubleQuote>

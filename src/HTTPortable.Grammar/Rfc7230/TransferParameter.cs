@@ -1,7 +1,9 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
     using System.Diagnostics.Contracts;
+
     using SLANG;
+
     using BadWhiteSpace = OptionalWhiteSpace;
 
     public class TransferParameter : Sequence<Token, BadWhiteSpace, Element, BadWhiteSpace, Alternative<Token, QuotedString>>

@@ -1,7 +1,8 @@
 ﻿namespace Uri.Grammar
 {
-    using SLANG;
-    using SLANG.Core;
+    using TextFx;
+    using TextFx.ABNF;
+    using TextFx.ABNF.Core;
 
     using Xunit;
 
@@ -107,12 +108,12 @@
                 hexadecimalInt16LexerFactory,
                 leastSignificantInt32LexerFactory);
             var lexer = factory.Create();
-            using (var scanner = new TextScanner(new PushbackInputStream(input.ToMemoryStream())))
+            using (var scanner = new BufferedTextScanner(new PushbackInputStream(input.ToMemoryStream())))
             {
                 scanner.Read();
                 var element = lexer.Read(scanner);
                 Assert.NotNull(element);
-                Assert.Equal(input, element.Values);
+                Assert.Equal(input, element.Value);
             }
         }
     }

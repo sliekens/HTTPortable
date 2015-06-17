@@ -2,8 +2,11 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+
     using SLANG;
+
     using Uri.Grammar;
+
     using SegmentPart = SLANG.Sequence<SLANG.Element, Uri.Grammar.Segment>;
 
     public class AbsolutePathLexer : Lexer<AbsolutePath>

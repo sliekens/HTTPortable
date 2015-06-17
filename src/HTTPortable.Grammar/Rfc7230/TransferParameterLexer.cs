@@ -1,8 +1,9 @@
 ﻿namespace Http.Grammar.Rfc7230
 {
-    using System;
     using System.Diagnostics.Contracts;
+
     using SLANG;
+
     using BadWhiteSpace = OptionalWhiteSpace;
     using ParameterValue = SLANG.Alternative<Token, QuotedString>;
 

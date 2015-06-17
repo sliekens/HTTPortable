@@ -1,6 +1,6 @@
 ﻿namespace Uri.Grammar
 {
-    using SLANG;
+    using TextFx.ABNF;
 
     public class IPvFuture : Sequence
     {
