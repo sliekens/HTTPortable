@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="OptionalDelimitedList.cs" />
+    <Compile Include="OptionalDelimitedListLexer.cs" />
+    <Compile Include="OptionalDelimitedListLexerFactory.cs" />
     <Compile Include="OWS\OptionalWhiteSpace.cs" />
     <Compile Include="OWS\OptionalWhiteSpaceLexer.cs" />
     <Compile Include="OWS\OptionalWhiteSpaceLexerFactory.cs" />
