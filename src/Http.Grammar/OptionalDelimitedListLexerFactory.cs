@@ -9,7 +9,7 @@
     {
         private readonly IAlternativeLexerFactory alternativeLexerFactory;
 
-        private readonly ILexerFactory<Element> listItemLexerFactory;
+        private readonly ILexer listItemLexer;
 
         private readonly ILexerFactory<OptionalWhiteSpace> optionalWhiteSpaceLexerFactory;
 
@@ -28,7 +28,7 @@
             IStringLexerFactory stringLexerFactory,
             ILexerFactory<OptionalWhiteSpace> optionalWhiteSpaceLexerFactory,
             IRepetitionLexerFactory repetitionLexerFactory,
-            ILexerFactory<Element> listItemLexerFactory)
+            ILexer listItemLexer)
         {
             if (optionLexerFactory == null)
             {
@@ -60,9 +60,9 @@
                 throw new ArgumentNullException("repetitionLexerFactory");
             }
 
-            if (listItemLexerFactory == null)
+            if (listItemLexer == null)
             {
-                throw new ArgumentNullException("listItemLexerFactory");
+                throw new ArgumentNullException("listItemLexer");
             }
 
             this.optionLexerFactory = optionLexerFactory;
@@ -71,14 +71,11 @@
             this.stringLexerFactory = stringLexerFactory;
             this.optionalWhiteSpaceLexerFactory = optionalWhiteSpaceLexerFactory;
             this.repetitionLexerFactory = repetitionLexerFactory;
-            this.listItemLexerFactory = listItemLexerFactory;
+            this.listItemLexer = listItemLexer;
         }
 
         public ILexer<OptionalDelimitedList> Create()
         {
-            // element
-            var element = this.listItemLexerFactory.Create();
-
             // ","
             var delim = this.stringLexerFactory.Create(@",");
 
@@ -89,12 +86,12 @@
             var innerLexer =
                 this.optionLexerFactory.Create(
                     this.sequenceLexerFactory.Create(
-                        this.alternativeLexerFactory.Create(delim, element),
+                        this.alternativeLexerFactory.Create(delim, this.listItemLexer),
                         this.repetitionLexerFactory.Create(
                             this.sequenceLexerFactory.Create(
                                 ows,
                                 delim,
-                                this.optionLexerFactory.Create(this.sequenceLexerFactory.Create(ows, element))),
+                                this.optionLexerFactory.Create(this.sequenceLexerFactory.Create(ows, this.listItemLexer))),
                             0,
                             int.MaxValue)));
             return new OptionalDelimitedListLexer(innerLexer);
