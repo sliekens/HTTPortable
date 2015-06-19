@@ -1,12 +1,11 @@
 ﻿namespace Uri.Grammar
 {
-    using TextFx;
     using TextFx.ABNF;
 
     public class Reserved : Alternative
     {
-        public Reserved(Element element)
-            : base(element)
+        public Reserved(Alternative alternative)
+            : base(alternative)
         {
         }
     }

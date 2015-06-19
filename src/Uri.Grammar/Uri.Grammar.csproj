@@ -203,18 +203,18 @@
     <Compile Include="userinfo\UserInformationLexerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Uri.Grammar.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="TextFx, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\TextFx.2.0.0-CI58\lib\portable-net45+win+wpa81\TextFx.dll</HintPath>
+      <HintPath>..\..\packages\TextFx.2.0.0-CI59\lib\portable-net45+win+wpa81\TextFx.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TextFx.ABNF, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\TextFx.ABNF.2.0.0-CI58\lib\portable-net45+win+wpa81\TextFx.ABNF.dll</HintPath>
+      <HintPath>..\..\packages\TextFx.ABNF.2.0.0-CI59\lib\portable-net45+win+wpa81\TextFx.ABNF.dll</HintPath>
       <Private>True</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="Uri.Grammar.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

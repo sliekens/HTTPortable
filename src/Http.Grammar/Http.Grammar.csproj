@@ -46,25 +46,24 @@
     <Compile Include="RequiredDelmitedListLexerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Uri.Grammar\Uri.Grammar.csproj">
+      <Project>{cb82326f-14ee-43b4-a97c-3424f5e04861}</Project>
+      <Name>Uri.Grammar</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="TextFx, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\TextFx.2.0.0-CI58\lib\portable-net45+win+wpa81\TextFx.dll</HintPath>
+      <HintPath>..\..\packages\TextFx.2.0.0-CI59\lib\portable-net45+win+wpa81\TextFx.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TextFx.ABNF, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\TextFx.ABNF.2.0.0-CI58\lib\portable-net45+win+wpa81\TextFx.ABNF.dll</HintPath>
+      <HintPath>..\..\packages\TextFx.ABNF.2.0.0-CI59\lib\portable-net45+win+wpa81\TextFx.ABNF.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Uri.Grammar\Uri.Grammar.csproj">
-      <Project>{cb82326f-14ee-43b4-a97c-3424f5e04861}</Project>
-      <Name>Uri.Grammar</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
