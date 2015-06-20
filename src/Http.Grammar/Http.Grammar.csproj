@@ -55,6 +55,9 @@
     <Compile Include="OWS\OptionalWhiteSpaceLexer.cs" />
     <Compile Include="OWS\OptionalWhiteSpaceLexerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="reason-phrase\ReasonPhrase.cs" />
+    <Compile Include="reason-phrase\ReasonPhraseLexer.cs" />
+    <Compile Include="reason-phrase\ReasonPhraseLexerFactory.cs" />
     <Compile Include="received-by\ReceivedBy.cs" />
     <Compile Include="received-by\ReceivedByLexer.cs" />
     <Compile Include="received-by\ReceivedByLexerFactory.cs" />
