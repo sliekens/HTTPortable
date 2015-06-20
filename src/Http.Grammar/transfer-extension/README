@@ -1,1 +1,1 @@
-﻿
+﻿transfer-extension = token *( OWS ";" OWS transfer-parameter )
