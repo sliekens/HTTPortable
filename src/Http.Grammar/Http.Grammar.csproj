@@ -67,6 +67,9 @@
     <Compile Include="token\Token.cs" />
     <Compile Include="token\TokenLexer.cs" />
     <Compile Include="token\TokenLexerFactory.cs" />
+    <Compile Include="transfer-coding\TransferCoding.cs" />
+    <Compile Include="transfer-coding\TransferCodingLexer.cs" />
+    <Compile Include="transfer-coding\TransferCodingLexerFactory.cs" />
     <Compile Include="transfer-extension\TransferExtension.cs" />
     <Compile Include="transfer-extension\TransferExtensionLexer.cs" />
     <Compile Include="transfer-extension\TransferExtensionLexerFactory.cs" />
