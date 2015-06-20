@@ -1,1 +1,1 @@
-﻿
+﻿field-content = field-vchar [ 1*( SP / HTAB ) field-vchar ]

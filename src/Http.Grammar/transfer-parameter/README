@@ -1,1 +1,1 @@
-﻿
+﻿transfer-parameter = token BWS "=" BWS ( token / quoted-string )

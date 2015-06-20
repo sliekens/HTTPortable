@@ -1,1 +1,1 @@
-﻿
+﻿Upgrade = *( "," OWS ) protocol *( OWS "," [ OWS protocol ] )

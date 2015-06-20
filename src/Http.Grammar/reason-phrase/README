@@ -1,1 +1,1 @@
-﻿
+﻿reason-phrase = *( HTAB / SP / VCHAR / obs-text )

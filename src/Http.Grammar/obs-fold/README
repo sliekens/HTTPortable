@@ -1,1 +1,1 @@
-﻿
+﻿obs-fold = CRLF 1*( SP / HTAB )

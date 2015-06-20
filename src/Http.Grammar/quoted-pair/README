@@ -1,1 +1,1 @@
-﻿
+﻿quoted-pair = "\" ( HTAB / SP / VCHAR / obs-text )

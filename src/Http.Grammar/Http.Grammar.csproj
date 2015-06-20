@@ -103,6 +103,7 @@
     <None Include="chunk-ext-val\README" />
     <None Include="chunk-ext\README" />
     <None Include="chunk-size\README" />
+    <None Include="chunked-body\README" />
     <None Include="chunk\README" />
     <None Include="comment\README" />
     <None Include="Connection\README" />

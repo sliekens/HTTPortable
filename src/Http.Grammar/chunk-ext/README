@@ -1,1 +1,1 @@
-﻿
+﻿chunk-ext = *( ";" chunk-ext-name [ "=" chunk-ext-val ] )

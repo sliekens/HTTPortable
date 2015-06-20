@@ -1,1 +1,1 @@
-﻿
+﻿Connection = *( "," OWS ) connection-option *( OWS "," [ OWS connection-option ] )

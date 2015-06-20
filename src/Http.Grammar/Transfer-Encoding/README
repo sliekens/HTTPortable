@@ -1,1 +1,1 @@
-﻿
+﻿Transfer-Encoding = *( "," OWS ) transfer-coding *( OWS "," [ OWS transfer-coding ] )

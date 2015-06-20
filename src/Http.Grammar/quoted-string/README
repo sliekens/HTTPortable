@@ -1,1 +1,1 @@
-﻿
+﻿quoted-string = DQUOTE *( qdtext / quoted-pair ) DQUOTE

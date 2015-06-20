@@ -1,1 +1,1 @@
-﻿
+﻿Trailer = *( "," OWS ) field-name *( OWS "," [ OWS field-name ] )

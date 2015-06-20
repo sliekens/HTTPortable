@@ -1,1 +1,1 @@
-﻿
+﻿status-line = HTTP-version SP status-code SP reason-phrase CRLF

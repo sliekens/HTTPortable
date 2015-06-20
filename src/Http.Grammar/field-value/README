@@ -1,1 +1,1 @@
-﻿
+﻿field-value = *( field-content / obs-fold )
