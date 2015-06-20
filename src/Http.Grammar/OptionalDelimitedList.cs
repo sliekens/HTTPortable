@@ -33,5 +33,10 @@
 
             return items;
         }
+
+        public override string GetWellFormedText()
+        {
+            return string.Join(", ", this.GetItems().Select(e => e.GetWellFormedText()));
+        }
     }
 }
