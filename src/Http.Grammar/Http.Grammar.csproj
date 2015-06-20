@@ -61,6 +61,9 @@
     <Compile Include="status-code\StatusCode.cs" />
     <Compile Include="status-code\StatusCodeLexer.cs" />
     <Compile Include="status-code\StatusCodeLexerFactory.cs" />
+    <Compile Include="tchar\TokenCharacter.cs" />
+    <Compile Include="tchar\TokenCharacterLexer.cs" />
+    <Compile Include="tchar\TokenCharacterLexerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Uri.Grammar\Uri.Grammar.csproj">
