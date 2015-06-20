@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="asterisk-form\AsteriskForm.cs" />
+    <Compile Include="asterisk-form\AsteriskFormLexer.cs" />
+    <Compile Include="asterisk-form\AsteriskFormLexerFactory.cs" />
     <Compile Include="authority-form\AuthorityForm.cs" />
     <Compile Include="authority-form\AuthorityFormLexer.cs" />
     <Compile Include="authority-form\AuthorityFormLexerFactory.cs" />
