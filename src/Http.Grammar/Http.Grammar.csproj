@@ -70,6 +70,9 @@
     <Compile Include="trailer-part\TrailerPart.cs" />
     <Compile Include="trailer-part\TrailerPartLexer.cs" />
     <Compile Include="trailer-part\TrailerPartLexerFactory.cs" />
+    <Compile Include="Trailer\Trailer.cs" />
+    <Compile Include="Trailer\TrailerLexer.cs" />
+    <Compile Include="Trailer\TrailerLexerFactory.cs" />
     <Compile Include="transfer-coding\TransferCoding.cs" />
     <Compile Include="transfer-coding\TransferCodingLexer.cs" />
     <Compile Include="transfer-coding\TransferCodingLexerFactory.cs" />
