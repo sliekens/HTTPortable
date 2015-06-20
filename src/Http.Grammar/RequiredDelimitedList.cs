@@ -8,6 +8,11 @@
 
     public class RequiredDelimitedList : Sequence
     {
+        public RequiredDelimitedList(RequiredDelimitedList delimitedList)
+            : base(delimitedList)
+        {
+        }
+
         public RequiredDelimitedList(Sequence sequence)
             : base(sequence)
         {
