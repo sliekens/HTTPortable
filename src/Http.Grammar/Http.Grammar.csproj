@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="authority-form\AuthorityForm.cs" />
+    <Compile Include="authority-form\AuthorityFormLexer.cs" />
+    <Compile Include="authority-form\AuthorityFormLexerFactory.cs" />
     <Compile Include="BWS\BadWhiteSpace.cs" />
     <Compile Include="BWS\BadWhiteSpaceLexer.cs" />
     <Compile Include="BWS\BadWhiteSpaceLexerFactory.cs" />
