@@ -8,5 +8,16 @@
             : base(repetition)
         {
         }
+
+        public override string GetWellFormedText()
+        {
+            var elements = this.Elements;
+            if (elements.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            return " ";
+        }
     }
 }
