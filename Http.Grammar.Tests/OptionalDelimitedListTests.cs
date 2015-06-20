@@ -50,8 +50,7 @@
                 alternativeLexerFactory,
                 stringLexerFactory,
                 optionalWhiteSpaceLexerFactory,
-                repetitionLexerFactory,
-                alternativeLexerFactory.Create(listItemLexer));
+                repetitionLexerFactory);
 
             var encoding = Encoding.GetEncoding("us-ascii");
             var bytes = encoding.GetBytes(input);
@@ -59,7 +58,7 @@
             using (var scanner = new TextScanner(ms, encoding))
             {
                 scanner.Read();
-                return lexerFactory.Create().Read(scanner);
+                return lexerFactory.Create(listItemLexer).Read(scanner);
             }
         }
     }

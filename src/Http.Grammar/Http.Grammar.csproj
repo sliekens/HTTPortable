@@ -43,6 +43,7 @@
     <Compile Include="HTTP-version\HttpVersion.cs" />
     <Compile Include="HTTP-version\HttpVersionLexer.cs" />
     <Compile Include="HTTP-version\HttpVersionLexerFactory.cs" />
+    <Compile Include="IOptionalDelimitedListLexerFactory.cs" />
     <Compile Include="OptionalDelimitedList.cs" />
     <Compile Include="OptionalDelimitedListLexer.cs" />
     <Compile Include="OptionalDelimitedListLexerFactory.cs" />
