@@ -55,6 +55,9 @@
     <Compile Include="OWS\OptionalWhiteSpaceLexer.cs" />
     <Compile Include="OWS\OptionalWhiteSpaceLexerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="qdtext\QuotedText.cs" />
+    <Compile Include="qdtext\QuotedTextLexer.cs" />
+    <Compile Include="qdtext\QuotedTextLexerFactory.cs" />
     <Compile Include="quoted-pair\QuotedPair.cs" />
     <Compile Include="quoted-pair\QuotedPairLexer.cs" />
     <Compile Include="quoted-pair\QuotedPairLexerFactory.cs" />
