@@ -48,6 +48,9 @@
     <Compile Include="HTTP-version\HttpVersionLexerFactory.cs" />
     <Compile Include="IOptionalDelimitedListLexerFactory.cs" />
     <Compile Include="IRequiredDelimitedListLexerFactory.cs" />
+    <Compile Include="obs-text\ObsoleteText.cs" />
+    <Compile Include="obs-text\ObsoleteTextLexer.cs" />
+    <Compile Include="obs-text\ObsoleteTextLexerFactory.cs" />
     <Compile Include="OptionalDelimitedList.cs" />
     <Compile Include="OptionalDelimitedListLexer.cs" />
     <Compile Include="OptionalDelimitedListLexerFactory.cs" />
