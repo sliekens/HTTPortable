@@ -88,9 +88,76 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="absolute-path\README" />
+    <None Include="asterisk-form\README" />
+    <None Include="authority-form\README" />
+    <None Include="BWS\README" />
+    <None Include="chunk-data\README" />
+    <None Include="chunk-ext-name\README" />
+    <None Include="chunk-ext-val\README" />
+    <None Include="chunk-ext\README" />
+    <None Include="chunk-size\README" />
+    <None Include="chunk\README" />
+    <None Include="comment\README" />
+    <None Include="Connection\README" />
+    <None Include="Content-Length\README" />
+    <None Include="connection-option\README" />
+    <None Include="ctext\README" />
+    <None Include="field-content\README" />
+    <None Include="field-name\README" />
+    <None Include="field-value\README" />
+    <None Include="field-vchar\README" />
+    <None Include="header-field\README" />
+    <None Include="HTTP-message\README" />
+    <None Include="HTTP-name\README" />
+    <None Include="http-URI\README" />
+    <None Include="HTTP-version\README" />
+    <None Include="https-URI\README" />
+    <None Include="last-chunk\README" />
+    <None Include="message-body\README" />
+    <None Include="method\README" />
+    <None Include="obs-fold\README" />
+    <None Include="obs-text\README" />
+    <None Include="origin-form\README" />
+    <None Include="OWS\README" />
     <None Include="packages.config" />
+    <None Include="partial-URI\README" />
+    <None Include="protocol-name\README" />
+    <None Include="protocol-version\README" />
+    <None Include="protocol\README" />
+    <None Include="pseudonym\README" />
+    <None Include="qdtext\README" />
+    <None Include="quoted-pair\README" />
+    <None Include="quoted-string\README" />
+    <None Include="rank\README" />
+    <None Include="reason-phrase\README" />
+    <None Include="received-by\README" />
+    <None Include="received-protocol\README" />
+    <None Include="request-line\README" />
+    <None Include="request-target\README" />
+    <None Include="RWS\README" />
+    <None Include="start-line\README" />
+    <None Include="status-code\README" />
+    <None Include="status-line\README" />
+    <None Include="t-codings\README" />
+    <None Include="t-ranking\README" />
+    <None Include="tchar\README" />
+    <None Include="Host\README" />
+    <None Include="token\README" />
+    <None Include="TE\README" />
+    <None Include="trailer-part\README" />
+    <None Include="transfer-coding\README" />
+    <None Include="Trailer\README" />
+    <None Include="transfer-extension\README" />
+    <None Include="transfer-parameter\README" />
+    <None Include="Transfer-Encoding\README" />
+    <None Include="Upgrade\README" />
+    <None Include="Via\README" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="absolute-form\README" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
