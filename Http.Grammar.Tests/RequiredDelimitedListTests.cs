@@ -44,13 +44,12 @@
             var horizontalTabLexerFactory = new HorizontalTabLexerFactory(caseInsensitiveTerminalLexerFactory);
             var whiteSpaceLexerFactory = new WhiteSpaceLexerFactory(spaceLexerFactory, horizontalTabLexerFactory, alternativeLexerFactory);
             var optionalWhiteSpaceLexerFactory = new OptionalWhiteSpaceLexerFactory(repetitionLexerFactory, whiteSpaceLexerFactory);
-            var lexerFactory = new RequiredDelmitedListLexerFactory(
+            var lexerFactory = new RequiredDelimitedListLexerFactory(
                 repetitionLexerFactory,
                 sequenceLexerFactory,
                 optionLexerFactory,
                 stringLexerFactory,
-                optionalWhiteSpaceLexerFactory,
-                listItemLexer);
+                optionalWhiteSpaceLexerFactory);
 
             var encoding = Encoding.GetEncoding("us-ascii");
             var bytes = encoding.GetBytes(input);
@@ -58,7 +57,7 @@
             using (var scanner = new TextScanner(ms, encoding))
             {
                 scanner.Read();
-                return lexerFactory.Create().Read(scanner);
+                return lexerFactory.Create(listItemLexer).Read(scanner);
             }
         }
     }
