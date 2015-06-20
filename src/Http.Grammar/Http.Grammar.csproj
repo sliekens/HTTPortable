@@ -54,6 +54,9 @@
     <Compile Include="OWS\OptionalWhiteSpace.cs" />
     <Compile Include="OWS\OptionalWhiteSpaceLexer.cs" />
     <Compile Include="OWS\OptionalWhiteSpaceLexerFactory.cs" />
+    <Compile Include="partial-URI\PartialUri.cs" />
+    <Compile Include="partial-URI\PartialUriLexer.cs" />
+    <Compile Include="partial-URI\PartialUriLexerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="protocol-name\ProtocolName.cs" />
     <Compile Include="protocol-name\ProtocolNameLexer.cs" />
