@@ -48,6 +48,9 @@
     <Compile Include="HTTP-version\HttpVersionLexerFactory.cs" />
     <Compile Include="IOptionalDelimitedListLexerFactory.cs" />
     <Compile Include="IRequiredDelimitedListLexerFactory.cs" />
+    <Compile Include="last-chunk\LastChunk.cs" />
+    <Compile Include="last-chunk\LastChunkLexer.cs" />
+    <Compile Include="last-chunk\LastChunkLexerFactory.cs" />
     <Compile Include="message-body\MessageBody.cs" />
     <Compile Include="message-body\MessageBodyLexer.cs" />
     <Compile Include="message-body\MessageBodyLexerFactory.cs" />
