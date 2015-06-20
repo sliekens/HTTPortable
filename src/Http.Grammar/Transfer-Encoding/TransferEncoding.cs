@@ -1,11 +1,9 @@
 ﻿namespace Http.Grammar
 {
-    using TextFx.ABNF;
-
-    public class TransferEncoding : Sequence
+    public class TransferEncoding : RequiredDelimitedList
     {
-        public TransferEncoding(Sequence sequence)
-            : base(sequence)
+        public TransferEncoding(RequiredDelimitedList list)
+            : base(list)
         {
         }
     }

@@ -1,11 +1,9 @@
 ﻿namespace Http.Grammar
 {
-    using TextFx.ABNF;
-
-    public class Trailer : Sequence
+    public class Trailer : RequiredDelimitedList
     {
-        public Trailer(Sequence sequence)
-            : base(sequence)
+        public Trailer(RequiredDelimitedList list)
+            : base(list)
         {
         }
     }

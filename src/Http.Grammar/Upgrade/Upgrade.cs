@@ -1,11 +1,9 @@
 ﻿namespace Http.Grammar
 {
-    using TextFx.ABNF;
-
-    public class Upgrade : Sequence
+    public class Upgrade : RequiredDelimitedList
     {
-        public Upgrade(Sequence sequence)
-            : base(sequence)
+        public Upgrade(RequiredDelimitedList list)
+            : base(list)
         {
         }
     }

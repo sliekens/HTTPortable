@@ -1,11 +1,9 @@
 ﻿namespace Http.Grammar
 {
-    using TextFx.ABNF;
-
-    public class Via : Sequence
+    public class Via : RequiredDelimitedList
     {
-        public Via(Sequence sequence)
-            : base(sequence)
+        public Via(RequiredDelimitedList list)
+            : base(list)
         {
         }
     }
