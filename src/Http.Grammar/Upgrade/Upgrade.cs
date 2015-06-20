@@ -2,8 +2,8 @@
 {
     public class Upgrade : RequiredDelimitedList
     {
-        public Upgrade(RequiredDelimitedList list)
-            : base(list)
+        public Upgrade(RequiredDelimitedList delimitedList)
+            : base(delimitedList)
         {
         }
     }

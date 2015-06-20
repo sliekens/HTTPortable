@@ -2,8 +2,8 @@
 {
     public class TransferEncoding : RequiredDelimitedList
     {
-        public TransferEncoding(RequiredDelimitedList list)
-            : base(list)
+        public TransferEncoding(RequiredDelimitedList delimitedList)
+            : base(delimitedList)
         {
         }
     }

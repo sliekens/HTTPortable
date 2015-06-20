@@ -2,8 +2,8 @@
 {
     public class Connection : RequiredDelimitedList
     {
-        public Connection(RequiredDelimitedList list)
-            : base(list)
+        public Connection(RequiredDelimitedList delimitedList)
+            : base(delimitedList)
         {
         }
     }
