@@ -37,6 +37,9 @@
     <Compile Include="BWS\BadWhiteSpace.cs" />
     <Compile Include="BWS\BadWhiteSpaceLexer.cs" />
     <Compile Include="BWS\BadWhiteSpaceLexerFactory.cs" />
+    <Compile Include="connection-option\ConnectionOption.cs" />
+    <Compile Include="connection-option\ConnectionOptionLexer.cs" />
+    <Compile Include="connection-option\ConnectionOptionLexerFactory.cs" />
     <Compile Include="Connection\Connection.cs" />
     <Compile Include="Connection\ConnectionLexer.cs" />
     <Compile Include="Connection\ConnectionLexerFactory.cs" />
