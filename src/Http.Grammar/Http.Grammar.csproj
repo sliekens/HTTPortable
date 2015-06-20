@@ -64,6 +64,9 @@
     <Compile Include="status-code\StatusCode.cs" />
     <Compile Include="status-code\StatusCodeLexer.cs" />
     <Compile Include="status-code\StatusCodeLexerFactory.cs" />
+    <Compile Include="status-line\StatusLine.cs" />
+    <Compile Include="status-line\StatusLineLexer.cs" />
+    <Compile Include="status-line\StatusLineLexerFactory.cs" />
     <Compile Include="t-codings\TransferCodingCollection.cs" />
     <Compile Include="t-codings\TransferCodingCollectionLexer.cs" />
     <Compile Include="t-codings\TransferCodingCollectionLexerFactory.cs" />
