@@ -8,6 +8,11 @@
 
     public class OptionalDelimitedList : Repetition
     {
+        public OptionalDelimitedList(OptionalDelimitedList delimitedList)
+            : base(delimitedList)
+        {
+        }
+
         public OptionalDelimitedList(Repetition repetition)
             : base(repetition)
         {
