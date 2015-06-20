@@ -55,6 +55,9 @@
     <Compile Include="OWS\OptionalWhiteSpaceLexer.cs" />
     <Compile Include="OWS\OptionalWhiteSpaceLexerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="received-protocol\ReceivedProtocol.cs" />
+    <Compile Include="received-protocol\ReceivedProtocolLexer.cs" />
+    <Compile Include="received-protocol\ReceivedProtocolLexerFactory.cs" />
     <Compile Include="request-line\RequestLine.cs" />
     <Compile Include="request-line\RequestLineLexer.cs" />
     <Compile Include="request-line\RequestLineLexerFactory.cs" />
