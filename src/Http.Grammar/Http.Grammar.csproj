@@ -70,6 +70,9 @@
     <Compile Include="transfer-coding\TransferCoding.cs" />
     <Compile Include="transfer-coding\TransferCodingLexer.cs" />
     <Compile Include="transfer-coding\TransferCodingLexerFactory.cs" />
+    <Compile Include="Transfer-Encoding\TransferEncoding.cs" />
+    <Compile Include="Transfer-Encoding\TransferEncodingLexer.cs" />
+    <Compile Include="Transfer-Encoding\TransferEncodingLexerFactory.cs" />
     <Compile Include="transfer-extension\TransferExtension.cs" />
     <Compile Include="transfer-extension\TransferExtensionLexer.cs" />
     <Compile Include="transfer-extension\TransferExtensionLexerFactory.cs" />
