@@ -61,6 +61,9 @@
     <Compile Include="RWS\RequiredWhiteSpace.cs" />
     <Compile Include="RWS\RequiredWhiteSpaceLexer.cs" />
     <Compile Include="RWS\RequiredWhiteSpaceLexerFactory.cs" />
+    <Compile Include="start-line\StartLine.cs" />
+    <Compile Include="start-line\StartLineLexer.cs" />
+    <Compile Include="start-line\StartLineLexerFactory.cs" />
     <Compile Include="status-code\StatusCode.cs" />
     <Compile Include="status-code\StatusCodeLexer.cs" />
     <Compile Include="status-code\StatusCodeLexerFactory.cs" />
