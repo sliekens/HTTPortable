@@ -76,6 +76,9 @@
     <Compile Include="transfer-parameter\TransferParameter.cs" />
     <Compile Include="transfer-parameter\TransferParameterLexer.cs" />
     <Compile Include="transfer-parameter\TransferParameterLexerFactory.cs" />
+    <Compile Include="Upgrade\Upgrade.cs" />
+    <Compile Include="Upgrade\UpgradeLexer.cs" />
+    <Compile Include="Upgrade\UpgradeLexerFactory.cs" />
     <Compile Include="Via\Via.cs" />
     <Compile Include="Via\ViaLexer.cs" />
     <Compile Include="Via\ViaLexerFactory.cs" />
