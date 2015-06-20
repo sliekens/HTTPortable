@@ -43,6 +43,9 @@
     <Compile Include="HTTP-name\HttpName.cs" />
     <Compile Include="HTTP-name\HttpNameLexer.cs" />
     <Compile Include="HTTP-name\HttpNameLexerFactory.cs" />
+    <Compile Include="http-URI\HttpUri.cs" />
+    <Compile Include="http-URI\HttpUriLexer.cs" />
+    <Compile Include="http-URI\HttpUriLexerFactory.cs" />
     <Compile Include="HTTP-version\HttpVersion.cs" />
     <Compile Include="HTTP-version\HttpVersionLexer.cs" />
     <Compile Include="HTTP-version\HttpVersionLexerFactory.cs" />
