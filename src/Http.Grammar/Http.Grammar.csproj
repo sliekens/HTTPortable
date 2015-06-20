@@ -51,6 +51,9 @@
     <Compile Include="OptionalDelimitedList.cs" />
     <Compile Include="OptionalDelimitedListLexer.cs" />
     <Compile Include="OptionalDelimitedListLexerFactory.cs" />
+    <Compile Include="origin-form\OriginForm.cs" />
+    <Compile Include="origin-form\OriginFormLexer.cs" />
+    <Compile Include="origin-form\OriginFormLexerFactory.cs" />
     <Compile Include="OWS\OptionalWhiteSpace.cs" />
     <Compile Include="OWS\OptionalWhiteSpaceLexer.cs" />
     <Compile Include="OWS\OptionalWhiteSpaceLexerFactory.cs" />
