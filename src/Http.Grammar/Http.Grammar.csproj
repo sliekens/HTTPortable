@@ -40,6 +40,9 @@
     <Compile Include="Connection\Connection.cs" />
     <Compile Include="Connection\ConnectionLexer.cs" />
     <Compile Include="Connection\ConnectionLexerFactory.cs" />
+    <Compile Include="header-field\HeaderField.cs" />
+    <Compile Include="header-field\HeaderFieldLexer.cs" />
+    <Compile Include="header-field\HeaderFieldLexerFactory.cs" />
     <Compile Include="Host\Host.cs" />
     <Compile Include="Host\HostLexer.cs" />
     <Compile Include="Host\HostLexerFactory.cs" />
