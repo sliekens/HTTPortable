@@ -64,6 +64,9 @@
     <Compile Include="tchar\TokenCharacter.cs" />
     <Compile Include="tchar\TokenCharacterLexer.cs" />
     <Compile Include="tchar\TokenCharacterLexerFactory.cs" />
+    <Compile Include="token\Token.cs" />
+    <Compile Include="token\TokenLexer.cs" />
+    <Compile Include="token\TokenLexerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Uri.Grammar\Uri.Grammar.csproj">
