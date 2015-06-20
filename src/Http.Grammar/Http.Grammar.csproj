@@ -46,6 +46,9 @@
     <Compile Include="HTTP-version\HttpVersion.cs" />
     <Compile Include="HTTP-version\HttpVersionLexer.cs" />
     <Compile Include="HTTP-version\HttpVersionLexerFactory.cs" />
+    <Compile Include="https-URI\HttpsUri.cs" />
+    <Compile Include="https-URI\HttpsUriLexer.cs" />
+    <Compile Include="https-URI\HttpsUriLexerFactory.cs" />
     <Compile Include="IOptionalDelimitedListLexerFactory.cs" />
     <Compile Include="IRequiredDelimitedListLexerFactory.cs" />
     <Compile Include="last-chunk\LastChunk.cs" />
