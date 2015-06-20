@@ -40,7 +40,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uri.Grammar.Tests", "src\Ur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Http.Grammar", "src\Http.Grammar\Http.Grammar.csproj", "{7D73A56E-999E-4773-A3E8-BCF5067CA72B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Http.Grammar.Tests", "Http.Grammar.Tests\Http.Grammar.Tests.csproj", "{517C9D42-6D35-4382-B051-F17788943BEA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Http.Grammar.Tests", "src\Http.Grammar.Tests\Http.Grammar.Tests.csproj", "{517C9D42-6D35-4382-B051-F17788943BEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
