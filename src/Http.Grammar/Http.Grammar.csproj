@@ -55,6 +55,9 @@
     <Compile Include="OWS\OptionalWhiteSpaceLexer.cs" />
     <Compile Include="OWS\OptionalWhiteSpaceLexerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="request-target\RequestTarget.cs" />
+    <Compile Include="request-target\RequestTargetLexer.cs" />
+    <Compile Include="request-target\RequestTargetLexerFactory.cs" />
     <Compile Include="RequiredDelimitedList.cs" />
     <Compile Include="RequiredDelimitedListLexer.cs" />
     <Compile Include="RequiredDelimitedListLexerFactory.cs" />
