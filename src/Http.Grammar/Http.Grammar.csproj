@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="absolute-form\AbsoluteForm.cs" />
+    <Compile Include="absolute-form\AbsoluteFormLexer.cs" />
+    <Compile Include="absolute-form\AbsoluteFormLexerFactory.cs" />
     <Compile Include="absolute-path\AbsolutePath.cs" />
     <Compile Include="absolute-path\AbsolutePathLexer.cs" />
     <Compile Include="absolute-path\AbsolutePathLexerFactory.cs" />
