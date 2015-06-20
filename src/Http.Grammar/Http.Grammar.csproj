@@ -55,6 +55,9 @@
     <Compile Include="OWS\OptionalWhiteSpaceLexer.cs" />
     <Compile Include="OWS\OptionalWhiteSpaceLexerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="received-by\ReceivedBy.cs" />
+    <Compile Include="received-by\ReceivedByLexer.cs" />
+    <Compile Include="received-by\ReceivedByLexerFactory.cs" />
     <Compile Include="received-protocol\ReceivedProtocol.cs" />
     <Compile Include="received-protocol\ReceivedProtocolLexer.cs" />
     <Compile Include="received-protocol\ReceivedProtocolLexerFactory.cs" />
