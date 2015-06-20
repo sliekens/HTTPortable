@@ -61,6 +61,9 @@
     <Compile Include="protocol-version\ProtocolVersion.cs" />
     <Compile Include="protocol-version\ProtocolVersionLexer.cs" />
     <Compile Include="protocol-version\ProtocolVersionLexerFactory.cs" />
+    <Compile Include="protocol\Protocol.cs" />
+    <Compile Include="protocol\ProtocolLexer.cs" />
+    <Compile Include="protocol\ProtocolLexerFactory.cs" />
     <Compile Include="pseudonym\Pseudonym.cs" />
     <Compile Include="pseudonym\PseudonymLexer.cs" />
     <Compile Include="pseudonym\PseudonymLexerFactory.cs" />
