@@ -43,6 +43,9 @@
     <Compile Include="chunk-ext-val\ChunkExtensionValue.cs" />
     <Compile Include="chunk-ext-val\ChunkExtensionValueLexer.cs" />
     <Compile Include="chunk-ext-val\ChunkExtensionValueLexerFactory.cs" />
+    <Compile Include="chunk-ext\ChunkExtension.cs" />
+    <Compile Include="chunk-ext\ChunkExtensionLexer.cs" />
+    <Compile Include="chunk-ext\ChunkExtensionLexerFactory.cs" />
     <Compile Include="chunk-size\ChunkSize.cs" />
     <Compile Include="chunk-size\ChunkSizeLexer.cs" />
     <Compile Include="chunk-size\ChunkSizeLexerFactory.cs" />
