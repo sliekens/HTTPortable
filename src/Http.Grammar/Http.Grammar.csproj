@@ -37,6 +37,9 @@
     <Compile Include="BWS\BadWhiteSpace.cs" />
     <Compile Include="BWS\BadWhiteSpaceLexer.cs" />
     <Compile Include="BWS\BadWhiteSpaceLexerFactory.cs" />
+    <Compile Include="chunk-ext-val\ChunkExtensionValue.cs" />
+    <Compile Include="chunk-ext-val\ChunkExtensionValueLexer.cs" />
+    <Compile Include="chunk-ext-val\ChunkExtensionValueLexerFactory.cs" />
     <Compile Include="chunk-size\ChunkSize.cs" />
     <Compile Include="chunk-size\ChunkSizeLexer.cs" />
     <Compile Include="chunk-size\ChunkSizeLexerFactory.cs" />
