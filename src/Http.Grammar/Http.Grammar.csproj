@@ -40,6 +40,9 @@
     <Compile Include="Connection\Connection.cs" />
     <Compile Include="Connection\ConnectionLexer.cs" />
     <Compile Include="Connection\ConnectionLexerFactory.cs" />
+    <Compile Include="field-content\FieldContent.cs" />
+    <Compile Include="field-content\FieldContentLexer.cs" />
+    <Compile Include="field-content\FieldContentLexerFactory.cs" />
     <Compile Include="field-name\FieldName.cs" />
     <Compile Include="field-name\FieldNameLexer.cs" />
     <Compile Include="field-name\FieldNameLexerFactory.cs" />
