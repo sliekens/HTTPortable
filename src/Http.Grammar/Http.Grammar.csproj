@@ -55,6 +55,9 @@
     <Compile Include="OWS\OptionalWhiteSpaceLexer.cs" />
     <Compile Include="OWS\OptionalWhiteSpaceLexerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="protocol-version\ProtocolVersion.cs" />
+    <Compile Include="protocol-version\ProtocolVersionLexer.cs" />
+    <Compile Include="protocol-version\ProtocolVersionLexerFactory.cs" />
     <Compile Include="pseudonym\Pseudonym.cs" />
     <Compile Include="pseudonym\PseudonymLexer.cs" />
     <Compile Include="pseudonym\PseudonymLexerFactory.cs" />
