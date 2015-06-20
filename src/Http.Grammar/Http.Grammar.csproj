@@ -40,6 +40,9 @@
     <Compile Include="Connection\Connection.cs" />
     <Compile Include="Connection\ConnectionLexer.cs" />
     <Compile Include="Connection\ConnectionLexerFactory.cs" />
+    <Compile Include="HTTP-message\HttpMessage.cs" />
+    <Compile Include="HTTP-message\HttpMessageLexer.cs" />
+    <Compile Include="HTTP-message\HttpMessageLexerFactory.cs" />
     <Compile Include="HTTP-name\HttpName.cs" />
     <Compile Include="HTTP-name\HttpNameLexer.cs" />
     <Compile Include="HTTP-name\HttpNameLexerFactory.cs" />
