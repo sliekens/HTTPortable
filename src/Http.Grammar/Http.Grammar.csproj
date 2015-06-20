@@ -55,6 +55,9 @@
     <Compile Include="OWS\OptionalWhiteSpaceLexer.cs" />
     <Compile Include="OWS\OptionalWhiteSpaceLexerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="quoted-string\QuotedString.cs" />
+    <Compile Include="quoted-string\QuotedStringLexer.cs" />
+    <Compile Include="quoted-string\QuotedStringLexerFactory.cs" />
     <Compile Include="rank\Rank.cs" />
     <Compile Include="rank\RankLexer.cs" />
     <Compile Include="rank\RankLexerFactory.cs" />
