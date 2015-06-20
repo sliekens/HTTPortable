@@ -56,6 +56,9 @@
     <Compile Include="RWS\RequiredWhiteSpace.cs" />
     <Compile Include="RWS\RequiredWhiteSpaceLexer.cs" />
     <Compile Include="RWS\RequiredWhiteSpaceLexerFactory.cs" />
+    <Compile Include="status-code\StatusCode.cs" />
+    <Compile Include="status-code\StatusCodeLexer.cs" />
+    <Compile Include="status-code\StatusCodeLexerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Uri.Grammar\Uri.Grammar.csproj">
