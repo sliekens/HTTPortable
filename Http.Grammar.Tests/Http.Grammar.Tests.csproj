@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="OptionalDelimitedListTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequiredDelimitedListTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="TextFx, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
