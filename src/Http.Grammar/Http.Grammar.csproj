@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="absolute-path\AbsolutePath.cs" />
+    <Compile Include="absolute-path\AbsolutePathLexer.cs" />
+    <Compile Include="absolute-path\AbsolutePathLexerFactory.cs" />
     <Compile Include="asterisk-form\AsteriskForm.cs" />
     <Compile Include="asterisk-form\AsteriskFormLexer.cs" />
     <Compile Include="asterisk-form\AsteriskFormLexerFactory.cs" />
