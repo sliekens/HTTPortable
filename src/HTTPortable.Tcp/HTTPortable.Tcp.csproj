@@ -85,24 +85,8 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HTTPortable.Core, Version=1.0.24.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\HTTPortable.Core.1.0.24-alpha1\lib\portable-net45+win+wpa81\HTTPortable.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="HTTPortable.Grammar, Version=1.0.24.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\HTTPortable.Grammar.1.0.24-alpha1\lib\portable-net45+win+wpa81\HTTPortable.Grammar.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SLANG, Version=1.0.143.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SLANG.1.0.143-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Uri.Grammar, Version=1.0.24.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Uri.Grammar.1.0.24-alpha1\lib\portable-net45+win+wpa81\Uri.Grammar.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UserAgent.cs" />
@@ -110,7 +94,10 @@
     <Compile Include="UserAgentFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\HTTPortable.Core\HTTPortable.Core.csproj">
+      <Project>{d920b511-e7a9-487f-bde3-4f4599c65ac7}</Project>
+      <Name>HTTPortable.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

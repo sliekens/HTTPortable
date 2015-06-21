@@ -7,11 +7,12 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Http.Grammar.Rfc7230;
+    using Http.Grammar;
     using Http.Headers;
 
-    using SLANG;
-    using SLANG.Core;
+    using TextFx;
+    using TextFx.ABNF;
+    using TextFx.ABNF.Core;
 
     public class PortableUserAgent : IUserAgent
     {
@@ -30,6 +31,18 @@
         {
             this.inputStream = inputStream;
             this.outputStream = outputStream;
+        }
+
+        private static readonly ILexer<EndOfLine> EndOfLineLexer; 
+
+        static PortableUserAgent()
+        {
+            var sequenceLexerFactory = new SequenceLexerFactory();
+            var caseInsensitiveTerminalLexerFactory = new CaseInsensitiveTerminalLexerFactory();
+            var carriageReturnLexerFactory = new CarriageReturnLexerFactory(caseInsensitiveTerminalLexerFactory);
+            var lineFeedLexerFactory = new LineFeedLexerFactory(caseInsensitiveTerminalLexerFactory);
+            var endOfLineLexerFactory = new EndOfLineLexerFactory(carriageReturnLexerFactory, lineFeedLexerFactory, sequenceLexerFactory);
+            EndOfLineLexer = endOfLineLexerFactory.Create();
         }
 
         /// <summary>This method calls <see cref="Dispose(bool)" />, specifying <c>true</c> to release all resources.</summary>
@@ -60,29 +73,34 @@
                     }
 
                     var statusLine = (StatusLine)startLine.Element;
-                    var httpVersion = statusLine.Element1.ToVersion();
-                    var status = int.Parse(statusLine.Element3.Data);
-                    var reason = statusLine.Element5.Data;
+                    var httpVersion = Version.Parse(statusLine.Elements[0].Value);
+                    var status = int.Parse(statusLine.Elements[3].Value);
+                    var reason = statusLine.Elements[5].Value;
                     message = new ResponseMessage(httpVersion, status, reason);
                     var headerFieldLexer = new HeaderFieldLexer();
-                    var endOfLineLexer = new EndOfLineLexer();
-
                     HeaderField headerField;
                     while (headerFieldLexer.TryRead(scanner, out headerField))
                     {
-                        endOfLineLexer.Read(scanner);
-                        message.Headers.Add(new Header(headerField.FieldName.Data)
+                        EndOfLineLexer.Read(scanner);
+                        message.Headers.Add(new Header(headerField.FieldName.Value)
                         {
-                            headerField.FieldValue.Data
+                            headerField.FieldValue.Value
                         });
                     }
 
-                    endOfLineLexer.Read(scanner);
+                    EndOfLineLexer.Read(scanner);
 
                     // Unread the next character, which probably belongs to the message body
                     if (scanner.NextCharacter.HasValue)
                     {
-                        pushbackInputStream.UnreadByte(Convert.ToByte(scanner.NextCharacter.Value));
+                        if (pushbackInputStream.CanSeek)
+                        {
+                            pushbackInputStream.Position -= 1;
+                        }
+                        else
+                        {
+                            pushbackInputStream.WriteByte(Convert.ToByte(scanner.NextCharacter.Value));
+                        }
                     }
                 }
 

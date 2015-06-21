@@ -6,10 +6,10 @@
     using System.Linq;
     using System.Text;
 
-    using Http.Grammar.Rfc7230;
+    using Http.Grammar;
     using Http.Headers;
 
-    using SLANG;
+    using TextFx;
 
     /// <summary>Provides extension methods for the <see cref="T:Http.IHeaderCollection" /> interface.</summary>
     public static class ExtensionsForIHeaderCollection
@@ -52,7 +52,7 @@
                         continue;
                     }
 
-                    if (long.TryParse(element.Data, NumberStyles.None, NumberFormatInfo.InvariantInfo, out result))
+                    if (long.TryParse(element.Value, NumberStyles.None, NumberFormatInfo.InvariantInfo, out result))
                     {
                         return true;
                     }
@@ -87,8 +87,8 @@
                         break;
                     }
 
-                    var elements = element.GetElements();
-                    result = new TransferEncodingHeader(elements.Select(coding => coding.Data).ToList());
+                    var elements = element.Elements;
+                    result = new TransferEncodingHeader(elements.Select(coding => coding.Value).ToList());
                     return true;
                 }
             }

@@ -122,16 +122,18 @@
     <Compile Include="ResponseMessage.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="HTTPortable.Grammar, Version=1.0.24.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\HTTPortable.Grammar.1.0.24-alpha1\lib\portable-net45+win+wpa81\HTTPortable.Grammar.dll</HintPath>
+    <ProjectReference Include="..\Http.Grammar\Http.Grammar.csproj">
+      <Project>{7D73A56E-999E-4773-A3E8-BCF5067CA72B}</Project>
+      <Name>Http.Grammar</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="TextFx, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\TextFx.2.0.0-CI60\lib\portable-net45+win+wpa81\TextFx.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SLANG, Version=1.0.143.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SLANG.1.0.143-alpha1\lib\portable-net45+win+wpa81\SLANG.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Uri.Grammar, Version=1.0.24.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Uri.Grammar.1.0.24-alpha1\lib\portable-net45+win+wpa81\Uri.Grammar.dll</HintPath>
+    <Reference Include="TextFx.ABNF, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\TextFx.ABNF.2.0.0-CI60\lib\portable-net45+win+wpa81\TextFx.ABNF.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
