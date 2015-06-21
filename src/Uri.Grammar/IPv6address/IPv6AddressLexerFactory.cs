@@ -94,7 +94,7 @@ namespace Uri.Grammar
             var h16c = this.sequenceLexerFactory.Create(h16, colon);
 
             // h16-2
-            var h16c2 = this.alternativeLexerFactory.Create(this.sequenceLexerFactory.Create(this.optionLexerFactory.Create(h16c), h16), h16);
+            var h16c2 = this.alternativeLexerFactory.Create(this.sequenceLexerFactory.Create(h16, colon, h16), h16);
 
             // h16-3
             var h16c3 =
