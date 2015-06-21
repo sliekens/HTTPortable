@@ -8,5 +8,10 @@
             : base(alternative)
         {
         }
+
+        public byte ToByte()
+        {
+            return byte.Parse(this.Value);
+        }
     }
 }
