@@ -8,5 +8,21 @@
             : base(sequence)
         {
         }
+
+        public FieldName FieldName
+        {
+            get
+            {
+                return (FieldName)this.Elements[0];
+            }
+        }
+
+        public FieldValue FieldValue
+        {
+            get
+            {
+                return (FieldValue)this.Elements[3];
+            }
+        }
     }
 }
