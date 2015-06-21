@@ -203,8 +203,43 @@
     <Compile Include="userinfo\UserInformationLexerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="authority\README" />
+    <None Include="dec-octet\README" />
+    <None Include="fragment\README" />
+    <None Include="gen-delims\README" />
+    <None Include="h16\README" />
+    <None Include="hier-part\README" />
+    <None Include="host\README" />
+    <None Include="IP-literal\README" />
+    <None Include="IPv4address\README" />
+    <None Include="IPv6address\README" />
+    <None Include="IPvFuture\README" />
+    <None Include="ls32\README" />
     <None Include="packages.config" />
+    <None Include="path-abempty\README" />
+    <None Include="path-absolute\README" />
+    <None Include="path-empty\README" />
+    <None Include="path-noscheme\README" />
+    <None Include="path-rootless\README" />
+    <None Include="path\README" />
+    <None Include="pchar\README" />
+    <None Include="pct-encoded\README" />
+    <None Include="port\README" />
+    <None Include="query\README" />
+    <None Include="reg-name\README" />
+    <None Include="relative-part\README" />
+    <None Include="relative-ref\README" />
+    <None Include="reserved\README" />
+    <None Include="scheme\README" />
+    <None Include="segment-nz-nc\README" />
+    <None Include="segment-nz\README" />
+    <None Include="segment\README" />
+    <None Include="sub-delims\README" />
+    <None Include="unreserved\README" />
+    <None Include="URI-reference\README" />
     <None Include="Uri.Grammar.nuspec" />
+    <None Include="URI\README" />
+    <None Include="userinfo\README" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="TextFx, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -215,6 +250,9 @@
       <HintPath>..\..\packages\TextFx.ABNF.2.0.0-CI60\lib\portable-net45+win+wpa81\TextFx.ABNF.dll</HintPath>
       <Private>True</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="absolute-URI\README" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

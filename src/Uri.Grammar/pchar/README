@@ -1,0 +1,1 @@
+﻿pchar = unreserved / pct-encoded / sub-delims / ":" / "@"

@@ -1,0 +1,1 @@
+﻿unreserved = ALPHA / DIGIT / "-" / "." / "_" / "~"

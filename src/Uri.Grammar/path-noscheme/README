@@ -1,0 +1,1 @@
+﻿path-noscheme = segment-nz-nc *( "/" segment )

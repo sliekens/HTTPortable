@@ -1,0 +1,1 @@
+﻿userinfo = *( unreserved / pct-encoded / sub-delims / ":" )

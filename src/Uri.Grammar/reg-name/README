@@ -1,0 +1,1 @@
+﻿reg-name = *( unreserved / pct-encoded / sub-delims )

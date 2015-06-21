@@ -1,10 +1,4 @@
-; Rule       : IPv6address
-; Replaces   : IPv6address (RFC 3986)
-; Reason     : the IPv6address rule in RFC 3986 requires more than 1 lookahead symbol
-; Example    : "1::" matches ( h16 ":" ), but it should instead match ( h16 "::" )
-; Rules used : h16 (RFC 3986), ls32 (RFC 3986)
-
-IPv6address = (                6( h16 ":" ) ls32 )
+﻿IPv6address = (                6( h16 ":" ) ls32 )
             / (           "::" 5( h16 ":" ) ls32 )
             / ( [   h16 ] "::" 4( h16 ":" ) ls32 )
             / ( [ h16-2 ] "::" 3( h16 ":" ) ls32 )
