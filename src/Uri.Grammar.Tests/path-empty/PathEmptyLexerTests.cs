@@ -2,7 +2,6 @@
 {
     using TextFx;
     using TextFx.ABNF;
-    using TextFx.ABNF.Core;
 
     using Xunit;
 
@@ -14,36 +13,7 @@
         {
             var caseInsensitiveTerminalLexerFactory = new CaseInsensitiveTerminalLexerFactory();
             var stringLexerFactory = new StringLexerFactory(caseInsensitiveTerminalLexerFactory);
-            var alternativeLexerFactory = new AlternativeLexerFactory();
-            var subcomponentsDelimiterLexerFactory = new SubcomponentsDelimiterLexerFactory(
-                stringLexerFactory,
-                alternativeLexerFactory);
-            var valueRangeLexerFactory = new ValueRangeLexerFactory();
-            var sequenceLexerFactory = new SequenceLexerFactory();
-            var digitLexerFactory = new DigitLexerFactory(valueRangeLexerFactory);
-            var hexadecimalDigitLexerFactory = new HexadecimalDigitLexerFactory(
-                digitLexerFactory,
-                stringLexerFactory,
-                alternativeLexerFactory);
-            var alphaLexerFactory = new AlphaLexerFactory(valueRangeLexerFactory, alternativeLexerFactory);
-            var percentEncodingLexerFactory = new PercentEncodingLexerFactory(
-                stringLexerFactory,
-                hexadecimalDigitLexerFactory,
-                sequenceLexerFactory);
-            var unreservedLexerFactory = new UnreservedLexerFactory(
-                alphaLexerFactory,
-                digitLexerFactory,
-                stringLexerFactory,
-                alternativeLexerFactory);
-
-            var pathCharacterLexerFactory = new PathCharacterLexerFactory(
-                unreservedLexerFactory,
-                percentEncodingLexerFactory,
-                subcomponentsDelimiterLexerFactory,
-                stringLexerFactory,
-                alternativeLexerFactory);
-            var repetitionLexerFactory = new RepetitionLexerFactory();
-            var factory = new PathEmptyLexerFactory(repetitionLexerFactory, pathCharacterLexerFactory);
+            var factory = new PathEmptyLexerFactory(stringLexerFactory);
             var lexer = factory.Create();
             using (var scanner = new TextScanner(new PushbackInputStream(input.ToMemoryStream())))
             {

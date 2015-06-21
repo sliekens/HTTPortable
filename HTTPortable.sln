@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		dec-octet.abnf = dec-octet.abnf
 		IPv6address.abnf = IPv6address.abnf
 		LICENSE = LICENSE
+		path-empty.abnf = path-empty.abnf
 		README.md = README.md
 		RFC3986.abnf = RFC3986.abnf
 		RFC7230.abnf = RFC7230.abnf

@@ -7,25 +7,26 @@
 
     public class PathEmptyLexer : Lexer<PathEmpty>
     {
-        private readonly ILexer<Repetition> repetitionLexer;
+        private readonly ILexer<TerminalString> innerLexer;
 
         /// <summary>
+        /// 
         /// </summary>
-        /// <param name="repetitionLexer">0*0( pchar )</param>
-        public PathEmptyLexer(ILexer<Repetition> repetitionLexer)
+        /// <param name="innerLexer">""</param>
+        public PathEmptyLexer(ILexer<TerminalString> innerLexer)
         {
-            if (repetitionLexer == null)
+            if (innerLexer == null)
             {
-                throw new ArgumentNullException("repetitionLexer", "Precondition: repetitionLexer != null");
+                throw new ArgumentNullException("innerLexer");
             }
 
-            this.repetitionLexer = repetitionLexer;
+            this.innerLexer = innerLexer;
         }
 
         public override bool TryRead(ITextScanner scanner, out PathEmpty element)
         {
-            Repetition result;
-            if (this.repetitionLexer.TryRead(scanner, out result))
+            TerminalString result;
+            if (this.innerLexer.TryRead(scanner, out result))
             {
                 element = new PathEmpty(result);
                 return true;

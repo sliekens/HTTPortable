@@ -7,31 +7,22 @@
 
     public class PathEmptyLexerFactory : ILexerFactory<PathEmpty>
     {
-        private readonly IRepetitionLexerFactory repetitionLexerFactory;
+        private readonly IStringLexerFactory stringLexerFactory;
 
-        private readonly ILexerFactory<PathCharacter> pathCharacterLexerFactory;
-
-        public PathEmptyLexerFactory(IRepetitionLexerFactory repetitionLexerFactory, ILexerFactory<PathCharacter> pathCharacterLexerFactory)
+        public PathEmptyLexerFactory(IStringLexerFactory stringLexerFactory)
         {
-            if (repetitionLexerFactory == null)
+            if (stringLexerFactory == null)
             {
-                throw new ArgumentNullException("repetitionLexerFactory", "Precondition: repetitionLexerFactory != null");
+                throw new ArgumentNullException("stringLexerFactory");
             }
 
-            if (pathCharacterLexerFactory == null)
-            {
-                throw new ArgumentNullException("pathCharacterLexerFactory", "Precondition: pathCharacterLexerFactory != null");
-            }
-
-            this.repetitionLexerFactory = repetitionLexerFactory;
-            this.pathCharacterLexerFactory = pathCharacterLexerFactory;
+            this.stringLexerFactory = stringLexerFactory;
         }
 
         public ILexer<PathEmpty> Create()
         {
-            var pathCharacterLexer = this.pathCharacterLexerFactory.Create();
-            var repetitionLexer = this.repetitionLexerFactory.Create(pathCharacterLexer, 0, 0);
-            return new PathEmptyLexer(repetitionLexer);
+            var innerLexer = this.stringLexerFactory.Create(string.Empty);
+            return new PathEmptyLexer(innerLexer);
         }
     }
 }

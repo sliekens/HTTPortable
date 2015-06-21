@@ -1,4 +1,4 @@
-﻿; Rule       : path-empty
+; Rule       : path-empty
 ; Replaces   : path-empty (RFC 3986)
 ; Reason     : the path-empty rule in RFC 3986 is not valid ABNF
 

@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class PathEmpty : Repetition
+    public class PathEmpty : TerminalString
     {
-        public PathEmpty(Repetition sequence)
-            : base(sequence)
+        public PathEmpty(TerminalString pathEmpty)
+            : base(pathEmpty)
         {
         }
     }

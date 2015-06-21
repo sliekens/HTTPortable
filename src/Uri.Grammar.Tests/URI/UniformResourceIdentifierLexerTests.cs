@@ -145,7 +145,7 @@
                 sequenceLexerFactory,
                 stringLexerFactory,
                 segmentLexerFactory);
-            var pathEmptyLexerFactory = new PathEmptyLexerFactory(repetitionLexerFactory, pathCharacterLexerFactory);
+            var pathEmptyLexerFactory = new PathEmptyLexerFactory(stringLexerFactory);
             var pathRootlessLexerFactory = new PathRootlessLexerFactory(
                 sequenceLexerFactory,
                 repetitionLexerFactory,
