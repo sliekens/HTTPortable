@@ -12,8 +12,13 @@
         {
         }
 
-        private delegate byte[] BytesFactory();
+        public override string GetWellFormedText()
+        {
+            return ConvertToIPv6Address(this.GetBytes());
+        }
 
+        private delegate byte[] BytesFactory();
+        
         public byte[] GetBytes()
         {
             var sequence = (Sequence)this.Element;
@@ -321,6 +326,64 @@
 
             var trailer = (HexadecimalInt16)sequence.Elements[1];
             ctx.LeftAlign.Add(trailer.GetBytes);
+        }
+
+        private static string ConvertToIPv6Address(byte[] bytes)
+        {
+            var segments = new int[8];
+            for (var i = 0; i < bytes.Length; i += 2)
+            {
+                segments[i / 2] = bytes[i] << 8 | bytes[i + 1];
+            }
+
+            Subset emptySegment = null;
+            var emptySegments = new List<Subset>();
+            for (var i = 0; i < segments.Length; i++)
+            {
+                if (segments[i] == ushort.MinValue)
+                {
+                    if (emptySegment == null)
+                    {
+                        emptySegment = new Subset { StartIndex = i };
+                    }
+
+                    emptySegment.Length += 1;
+                }
+                else
+                {
+                    if (emptySegment != null)
+                    {
+                        emptySegments.Add(emptySegment);
+                        emptySegment = null;
+                    }
+                }
+            }
+
+            if (emptySegment != null)
+            {
+                emptySegments.Add(emptySegment);
+            }
+
+            if (emptySegments.Count == 0)
+            {
+                return string.Join(":", segments.Select(FormatHex));
+            }
+
+            var collapse = emptySegments.OrderByDescending(s => s.Length).First();
+            var beforeCollapse = segments.TakeWhile((_, i) => i < collapse.StartIndex).Select(FormatHex);
+            var afterCollapse = segments.SkipWhile((_, i) => i < collapse.StartIndex + collapse.Length).Select(FormatHex);
+            return string.Join("::", string.Join(":", beforeCollapse), string.Join(":", afterCollapse));
+        }
+
+        private static string FormatHex(int value)
+        {
+            return string.Format("{0:x}", value);
+        }
+
+        private class Subset
+        {
+            public int StartIndex { get; set; }
+            public int Length { get; set; }
         }
 
         private class BytesFactoryContext
