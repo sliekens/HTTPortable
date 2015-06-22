@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     using TextFx.ABNF;
 
@@ -336,43 +337,75 @@
                 segments[i / 2] = bytes[i] << 8 | bytes[i + 1];
             }
 
-            Subset emptySegment = null;
-            var emptySegments = new List<Subset>();
+            Subset emptySubset = null;
+            var emptySubsets = new List<Subset>();
             for (var i = 0; i < segments.Length; i++)
             {
                 if (segments[i] == ushort.MinValue)
                 {
-                    if (emptySegment == null)
+                    if (emptySubset == null)
                     {
-                        emptySegment = new Subset { StartIndex = i };
+                        emptySubset = new Subset { StartIndex = i };
                     }
 
-                    emptySegment.Length += 1;
+                    emptySubset.Length += 1;
                 }
                 else
                 {
-                    if (emptySegment != null)
+                    if (emptySubset != null)
                     {
-                        emptySegments.Add(emptySegment);
-                        emptySegment = null;
+                        emptySubsets.Add(emptySubset);
+                        emptySubset = null;
                     }
                 }
             }
 
-            if (emptySegment != null)
+            if (emptySubset != null)
             {
-                emptySegments.Add(emptySegment);
+                emptySubsets.Add(emptySubset);
             }
 
-            if (emptySegments.Count == 0)
+            if (emptySubsets.Count == 0)
             {
                 return string.Join(":", segments.Select(FormatHex));
             }
 
-            var collapse = emptySegments.OrderByDescending(s => s.Length).First();
-            var beforeCollapse = segments.TakeWhile((_, i) => i < collapse.StartIndex).Select(FormatHex);
-            var afterCollapse = segments.SkipWhile((_, i) => i < collapse.StartIndex + collapse.Length).Select(FormatHex);
-            return string.Join("::", string.Join(":", beforeCollapse), string.Join(":", afterCollapse));
+            Subset collapse = emptySubsets[0];
+            if (emptySubsets.Count != 1)
+            {
+                for (var i = 1; i < emptySubsets.Count; i++)
+                {
+                    var subset = emptySubsets[i];
+                    if (subset.Length > collapse.Length)
+                    {
+                        collapse = subset;
+                    }
+                }
+            }
+
+            var buffer = new StringBuilder(capacity: 39);
+            for (var i = 0; i < collapse.StartIndex; i++)
+            {
+                buffer.AppendFormat("{0:x}:", segments[i]);
+            }
+
+            if (collapse.StartIndex == 0)
+            {
+                buffer.Append(':');
+            }
+
+            var collapseEndIndex = collapse.StartIndex + collapse.Length;
+            for (var i = collapseEndIndex; i < segments.Length; i++)
+            {
+                buffer.AppendFormat(":{0:x}", segments[i]);
+            }
+
+            if (collapseEndIndex == segments.Length)
+            {
+                buffer.Append(':');
+            }
+
+            return buffer.ToString();
         }
 
         private static string FormatHex(int value)
