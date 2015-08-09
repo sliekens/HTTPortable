@@ -58,7 +58,7 @@
             using (var scanner = new TextScanner(ms, encoding))
             {
                 scanner.Read();
-                return lexerFactory.Create(listItemLexer).Read(scanner);
+                return lexerFactory.Create(listItemLexer).Read(scanner, null);
             }
         }
     }

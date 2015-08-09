@@ -22,12 +22,18 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out StatusCode element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out StatusCode element)
         {
             Repetition result;
-            if (this.innerLexer.TryRead(scanner, out result))
+            if (this.innerLexer.TryRead(scanner, null, out result))
             {
                 element = new StatusCode(result);
+                if (previousElementOrNull != null)
+                {
+                    previousElementOrNull.NextElement = element;
+                    element.PreviousElement = previousElementOrNull;
+                }
+                
                 return true;
             }
 

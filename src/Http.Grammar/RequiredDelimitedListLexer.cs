@@ -19,12 +19,18 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out RequiredDelimitedList element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out RequiredDelimitedList element)
         {
             Sequence result;
-            if (this.innerLexer.TryRead(scanner, out result))
+            if (this.innerLexer.TryRead(scanner, null, out  result))
             {
                 element = new RequiredDelimitedList(result);
+                if (previousElementOrNull != null)
+                {
+                    previousElementOrNull.NextElement = element;
+                    element.PreviousElement = previousElementOrNull;
+                }
+
                 return true;
             }
 

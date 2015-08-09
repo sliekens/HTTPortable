@@ -4,7 +4,7 @@
 
     public class ConnectionLexer : Lexer<Connection>
     {
-        public override bool TryRead(ITextScanner scanner, out Connection element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out Connection element)
         {
             throw new System.NotImplementedException();
         }

@@ -6,7 +6,7 @@
 
     public class HeaderFieldLexer : Lexer<HeaderField>
     {
-        public override bool TryRead(ITextScanner scanner, out HeaderField element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out HeaderField element)
         {
             throw new NotImplementedException();
         }

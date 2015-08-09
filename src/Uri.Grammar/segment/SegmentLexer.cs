@@ -7,28 +7,34 @@
 
     public class SegmentLexer : Lexer<Segment>
     {
-        private readonly ILexer<Repetition> segmentRepetitionLexer;
+        private readonly ILexer<Repetition> innerLexer;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="segmentRepetitionLexer">*pchar</param>
-        public SegmentLexer(ILexer<Repetition> segmentRepetitionLexer)
+        /// <param name="innerLexer">*pchar</param>
+        public SegmentLexer(ILexer<Repetition> innerLexer)
         {
-            if (segmentRepetitionLexer == null)
+            if (innerLexer == null)
             {
-                throw new ArgumentNullException("segmentRepetitionLexer", "Precondition: segmentRepetitionLexer != null");
+                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
             }
 
-            this.segmentRepetitionLexer = segmentRepetitionLexer;
+            this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out Segment element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out Segment element)
         {
             Repetition result;
-            if (this.segmentRepetitionLexer.TryRead(scanner, out result))
+            if (this.innerLexer.TryRead(scanner, null, out result))
             {
                 element = new Segment(result);
+                if (previousElementOrNull != null)
+                {
+                    previousElementOrNull.NextElement = element;
+                    element.PreviousElement = previousElementOrNull;
+                }
+
                 return true;
             }
 

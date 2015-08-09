@@ -18,12 +18,18 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out BadWhiteSpace element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out BadWhiteSpace element)
         {
             OptionalWhiteSpace result;
-            if (this.innerLexer.TryRead(scanner, out result))
+            if (this.innerLexer.TryRead(scanner, null, out result))
             {
                 element = new BadWhiteSpace(result);
+                if (previousElementOrNull != null)
+                {
+                    previousElementOrNull.NextElement = element;
+                    element.PreviousElement = previousElementOrNull;
+                }
+
                 return true;
             }
 

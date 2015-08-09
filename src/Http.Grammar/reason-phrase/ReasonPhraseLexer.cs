@@ -6,7 +6,7 @@
 
     public class ReasonPhraseLexer : Lexer<ReasonPhrase>
     {
-        public override bool TryRead(ITextScanner scanner, out ReasonPhrase element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out ReasonPhrase element)
         {
             throw new NotImplementedException();
         }

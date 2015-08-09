@@ -7,28 +7,34 @@
 
     public class UnreservedLexer : Lexer<Unreserved>
     {
-        private readonly ILexer<Alternative> unreservedAlternativeLexer;
+        private readonly ILexer<Alternative> innerLexer;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="unreservedAlternativeLexer">ALPHA / DIGIT / "-" / "." / "_" / "~"</param>
-        public UnreservedLexer(ILexer<Alternative> unreservedAlternativeLexer)
+        /// <param name="innerLexer">ALPHA / DIGIT / "-" / "." / "_" / "~"</param>
+        public UnreservedLexer(ILexer<Alternative> innerLexer)
         {
-            if (unreservedAlternativeLexer == null)
+            if (innerLexer == null)
             {
-                throw new ArgumentNullException("unreservedAlternativeLexer", "Precondition: unreservedAlternativeLexer != null");
+                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
             }
 
-            this.unreservedAlternativeLexer = unreservedAlternativeLexer;
+            this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out Unreserved element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out Unreserved element)
         {
             Alternative result;
-            if (this.unreservedAlternativeLexer.TryRead(scanner, out result))
+            if (this.innerLexer.TryRead(scanner, null, out result))
             {
                 element = new Unreserved(result);
+                if (previousElementOrNull != null)
+                {
+                    previousElementOrNull.NextElement = element;
+                    element.PreviousElement = previousElementOrNull;
+                }
+
                 return true;
             }
 

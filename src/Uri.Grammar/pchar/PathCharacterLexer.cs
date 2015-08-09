@@ -7,28 +7,34 @@
 
     public class PathCharacterLexer : Lexer<PathCharacter>
     {
-        private readonly ILexer<Alternative> pathCharacterAlternativeLexer;
+        private readonly ILexer<Alternative> innerLexer;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="pathCharacterAlternativeLexer">unreserved / pct-encoded / sub-delims / ":" / "@"</param>
-        public PathCharacterLexer(ILexer<Alternative> pathCharacterAlternativeLexer)
+        /// <param name="innerLexer">unreserved / pct-encoded / sub-delims / ":" / "@"</param>
+        public PathCharacterLexer(ILexer<Alternative> innerLexer)
         {
-            if (pathCharacterAlternativeLexer == null)
+            if (innerLexer == null)
             {
-                throw new ArgumentNullException("pathCharacterAlternativeLexer", "Precondition: pathCharacterAlternativeLexer != null");
+                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
             }
 
-            this.pathCharacterAlternativeLexer = pathCharacterAlternativeLexer;
+            this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out PathCharacter element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out PathCharacter element)
         {
             Alternative result;
-            if (this.pathCharacterAlternativeLexer.TryRead(scanner, out result))
+            if (this.innerLexer.TryRead(scanner, null, out result))
             {
                 element = new PathCharacter(result);
+                if (previousElementOrNull != null)
+                {
+                    previousElementOrNull.NextElement = element;
+                    element.PreviousElement = previousElementOrNull;
+                }
+
                 return true;
             }
 

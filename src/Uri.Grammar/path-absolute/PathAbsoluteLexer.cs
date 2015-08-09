@@ -22,12 +22,18 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out PathAbsolute element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out PathAbsolute element)
         {
             Sequence result;
-            if (this.innerLexer.TryRead(scanner, out result))
+            if (this.innerLexer.TryRead(scanner, null, out result))
             {
                 element = new PathAbsolute(result);
+                if (previousElementOrNull != null)
+                {
+                    previousElementOrNull.NextElement = element;
+                    element.PreviousElement = previousElementOrNull;
+                }
+
                 return true;
             }
 

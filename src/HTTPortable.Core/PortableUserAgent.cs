@@ -66,29 +66,29 @@
                 {
                     scanner.Read();
                     var startLineLexer = new StartLineLexer();
-                    var startLine = startLineLexer.Read(scanner);
+                    var startLine = startLineLexer.Read(scanner, null);
                     if (startLine.Element is RequestLine)
                     {
                         throw new NotImplementedException("Receiving requests is not implemented");
                     }
 
                     var statusLine = (StatusLine)startLine.Element;
-                    var httpVersion = Version.Parse(statusLine.Elements[0].Value);
-                    var status = int.Parse(statusLine.Elements[3].Value);
-                    var reason = statusLine.Elements[5].Value;
+                    var httpVersion = Version.Parse(statusLine.Elements[0].Text);
+                    var status = int.Parse(statusLine.Elements[3].Text);
+                    var reason = statusLine.Elements[5].Text;
                     message = new ResponseMessage(httpVersion, status, reason);
                     var headerFieldLexer = new HeaderFieldLexer();
                     HeaderField headerField;
-                    while (headerFieldLexer.TryRead(scanner, out headerField))
+                    while (headerFieldLexer.TryRead(scanner, null, out headerField))
                     {
-                        EndOfLineLexer.Read(scanner);
-                        message.Headers.Add(new Header(headerField.FieldName.Value)
+                        EndOfLineLexer.Read(scanner, null);
+                        message.Headers.Add(new Header(headerField.FieldName.Text)
                         {
-                            headerField.FieldValue.Value
+                            headerField.FieldValue.Text
                         });
                     }
 
-                    EndOfLineLexer.Read(scanner);
+                    EndOfLineLexer.Read(scanner, null);
 
                     // Unread the next character, which probably belongs to the message body
                     if (scanner.NextCharacter.HasValue)

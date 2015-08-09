@@ -6,7 +6,7 @@
 
     public class CommentLexer : Lexer<Comment>
     {
-        public override bool TryRead(ITextScanner scanner, out Comment element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out Comment element)
         {
             throw new NotImplementedException();
         }

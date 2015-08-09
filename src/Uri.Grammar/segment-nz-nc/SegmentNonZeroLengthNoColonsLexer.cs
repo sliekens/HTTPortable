@@ -7,28 +7,34 @@
 
     public class SegmentNonZeroLengthNoColonsLexer : Lexer<SegmentNonZeroLengthNoColons>
     {
-        private readonly ILexer<Repetition> segmentNonZeroLengthNoColonsRepetitionLexer;
+        private readonly ILexer<Repetition> innerLexer;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="segmentNonZeroLengthNoColonsRepetitionLexer">1*( unreserved / pct-encoded / sub-delims / "@" )</param>
-        public SegmentNonZeroLengthNoColonsLexer(ILexer<Repetition> segmentNonZeroLengthNoColonsRepetitionLexer)
+        /// <param name="innerLexer">1*( unreserved / pct-encoded / sub-delims / "@" )</param>
+        public SegmentNonZeroLengthNoColonsLexer(ILexer<Repetition> innerLexer)
         {
-            if (segmentNonZeroLengthNoColonsRepetitionLexer == null)
+            if (innerLexer == null)
             {
-                throw new ArgumentNullException("segmentNonZeroLengthNoColonsRepetitionLexer", "Precondition: segmentNonZeroLengthNoColonsRepetitionLexer != null");
+                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
             }
 
-            this.segmentNonZeroLengthNoColonsRepetitionLexer = segmentNonZeroLengthNoColonsRepetitionLexer;
+            this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out SegmentNonZeroLengthNoColons element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out SegmentNonZeroLengthNoColons element)
         {
             Repetition result;
-            if (this.segmentNonZeroLengthNoColonsRepetitionLexer.TryRead(scanner, out result))
+            if (this.innerLexer.TryRead(scanner, null, out result))
             {
                 element = new SegmentNonZeroLengthNoColons(result);
+                if (previousElementOrNull != null)
+                {
+                    previousElementOrNull.NextElement = element;
+                    element.PreviousElement = previousElementOrNull;
+                }
+
                 return true;
             }
 

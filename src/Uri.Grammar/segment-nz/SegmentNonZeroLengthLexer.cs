@@ -7,26 +7,32 @@
 
     public class SegmentNonZeroLengthLexer : Lexer<SegmentNonZeroLength>
     {
-        private readonly ILexer<Repetition> segmentNonZeroLengthRepetitionLexer;
+        private readonly ILexer<Repetition> innerLexer;
 
         /// <summary></summary>
-        /// <param name="segmentNonZeroLengthRepetitionLexer">1*pchar</param>
-        public SegmentNonZeroLengthLexer(ILexer<Repetition> segmentNonZeroLengthRepetitionLexer)
+        /// <param name="innerLexer">1*pchar</param>
+        public SegmentNonZeroLengthLexer(ILexer<Repetition> innerLexer)
         {
-            if (segmentNonZeroLengthRepetitionLexer == null)
+            if (innerLexer == null)
             {
-                throw new ArgumentNullException("segmentNonZeroLengthRepetitionLexer", "Precondition: segmentNonZeroLengthRepetitionLexer != null");
+                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
             }
 
-            this.segmentNonZeroLengthRepetitionLexer = segmentNonZeroLengthRepetitionLexer;
+            this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out SegmentNonZeroLength element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out SegmentNonZeroLength element)
         {
             Repetition result;
-            if (this.segmentNonZeroLengthRepetitionLexer.TryRead(scanner, out result))
+            if (this.innerLexer.TryRead(scanner, null, out result))
             {
                 element = new SegmentNonZeroLength(result);
+                if (previousElementOrNull != null)
+                {
+                    previousElementOrNull.NextElement = element;
+                    element.PreviousElement = previousElementOrNull;
+                }
+
                 return true;
             }
 

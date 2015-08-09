@@ -13,7 +13,7 @@
 
         public int ToInt()
         {
-            return Convert.ToInt32(this.Value);
+            return Convert.ToInt32(this.Text);
         }
     }
 }

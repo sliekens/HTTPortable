@@ -87,6 +87,16 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="TextFx, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\TextFx.2.0.0-CI73\lib\portable-net45+win+wpa81\TextFx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TextFx.ABNF, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\TextFx.ABNF.2.0.0-CI73\lib\portable-net45+win+wpa81\TextFx.ABNF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UserAgent.cs" />
@@ -98,6 +108,9 @@
       <Project>{d920b511-e7a9-487f-bde3-4f4599c65ac7}</Project>
       <Name>HTTPortable.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

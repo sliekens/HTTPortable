@@ -7,28 +7,34 @@
 
     public class ReservedLexer : Lexer<Reserved>
     {
-        private readonly ILexer<Alternative> reservedAlterativeLexer;
+        private readonly ILexer<Alternative> innerLexer;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="reservedAlterativeLexer">gen-delims / sub-delims</param>
-        public ReservedLexer(ILexer<Alternative> reservedAlterativeLexer)
+        /// <param name="innerLexer">gen-delims / sub-delims</param>
+        public ReservedLexer(ILexer<Alternative> innerLexer)
         {
-            if (reservedAlterativeLexer == null)
+            if (innerLexer == null)
             {
-                throw new ArgumentNullException("reservedAlterativeLexer", "Precondition: reservedAlterativeLexer != null");
+                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
             }
 
-            this.reservedAlterativeLexer = reservedAlterativeLexer;
+            this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out Reserved element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out Reserved element)
         {
             Alternative result;
-            if (this.reservedAlterativeLexer.TryRead(scanner, out result))
+            if (this.innerLexer.TryRead(scanner, null, out result))
             {
                 element = new Reserved(result);
+                if (previousElementOrNull != null)
+                {
+                    previousElementOrNull.NextElement = element;
+                    element.PreviousElement = previousElementOrNull;
+                }
+
                 return true;
             }
 

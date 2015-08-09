@@ -6,7 +6,7 @@
 
     public class AsteriskFormLexer : Lexer<AsteriskForm>
     {
-        public override bool TryRead(ITextScanner scanner, out AsteriskForm element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out AsteriskForm element)
         {
             throw new NotImplementedException();
         }

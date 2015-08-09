@@ -19,12 +19,18 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out Host element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out Host element)
         {
             Alternative result;
-            if (this.innerLexer.TryRead(scanner, out result))
+            if (this.innerLexer.TryRead(scanner, null, out result))
             {
                 element = new Host(result);
+                if (previousElementOrNull != null)
+                {
+                    previousElementOrNull.NextElement = element;
+                    element.PreviousElement = previousElementOrNull;
+                }
+
                 return true;
             }
 

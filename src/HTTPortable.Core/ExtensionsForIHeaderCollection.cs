@@ -47,12 +47,12 @@
                 {
                     scanner.Read();
                     ContentLength element;
-                    if (!lexer.TryRead(scanner, out element))
+                    if (!lexer.TryRead(scanner, null, out element))
                     {
                         continue;
                     }
 
-                    if (long.TryParse(element.Value, NumberStyles.None, NumberFormatInfo.InvariantInfo, out result))
+                    if (long.TryParse(element.Text, NumberStyles.None, NumberFormatInfo.InvariantInfo, out result))
                     {
                         return true;
                     }
@@ -82,13 +82,13 @@
                 {
                     scanner.Read();
                     TransferEncoding element;
-                    if (!lexer.TryRead(scanner, out element))
+                    if (!lexer.TryRead(scanner, null, out element))
                     {
                         break;
                     }
 
                     var elements = element.Elements;
-                    result = new TransferEncodingHeader(elements.Select(coding => coding.Value).ToList());
+                    result = new TransferEncodingHeader(elements.Select(coding => coding.Text).ToList());
                     return true;
                 }
             }

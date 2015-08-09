@@ -4,7 +4,7 @@ namespace Http.Grammar
 
     public class TransferCodingCollectionLexer : Lexer<TransferCodingCollection>
     {
-        public override bool TryRead(ITextScanner scanner, out TransferCodingCollection element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out TransferCodingCollection element)
         {
             throw new System.NotImplementedException();
         }

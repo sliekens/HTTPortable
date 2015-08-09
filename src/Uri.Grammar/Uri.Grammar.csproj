@@ -242,17 +242,17 @@
     <None Include="userinfo\README" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="TextFx, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\TextFx.2.0.0-CI60\lib\portable-net45+win+wpa81\TextFx.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="TextFx.ABNF, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\TextFx.ABNF.2.0.0-CI60\lib\portable-net45+win+wpa81\TextFx.ABNF.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <None Include="absolute-URI\README" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="absolute-URI\README" />
+    <Reference Include="TextFx">
+      <HintPath>..\..\packages\TextFx.2.0.0-CI73\lib\portable-net45+win+wpa81\TextFx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TextFx.ABNF">
+      <HintPath>..\..\packages\TextFx.ABNF.2.0.0-CI73\lib\portable-net45+win+wpa81\TextFx.ABNF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

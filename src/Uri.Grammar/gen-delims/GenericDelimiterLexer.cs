@@ -7,28 +7,34 @@
 
     public class GenericDelimiterLexer : Lexer<GenericDelimiter>
     {
-        private readonly ILexer<Alternative> genericDelimiterAlternativeLexer;
+        private readonly ILexer<Alternative> innerLexer;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="genericDelimiterAlternativeLexer">":" / "/" / "?" / "#" / "[" / "]" / "@"</param>
-        public GenericDelimiterLexer(ILexer<Alternative> genericDelimiterAlternativeLexer)
+        /// <param name="innerLexer">":" / "/" / "?" / "#" / "[" / "]" / "@"</param>
+        public GenericDelimiterLexer(ILexer<Alternative> innerLexer)
         {
-            if (genericDelimiterAlternativeLexer == null)
+            if (innerLexer == null)
             {
-                throw new ArgumentNullException("genericDelimiterAlternativeLexer", "Precondition: genericDelimiterAlternativeLexer != null");
+                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
             }
 
-            this.genericDelimiterAlternativeLexer = genericDelimiterAlternativeLexer;
+            this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out GenericDelimiter element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out GenericDelimiter element)
         {
             Alternative result;
-            if (this.genericDelimiterAlternativeLexer.TryRead(scanner, out result))
+            if (this.innerLexer.TryRead(scanner, null, out result))
             {
                 element = new GenericDelimiter(result);
+                if (previousElementOrNull != null)
+                {
+                    previousElementOrNull.NextElement = element;
+                    element.PreviousElement = previousElementOrNull;
+                }
+
                 return true;
             }
 

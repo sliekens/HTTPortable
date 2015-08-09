@@ -6,7 +6,7 @@
 
     public class FieldValueLexer : Lexer<FieldValue>
     {
-        public override bool TryRead(ITextScanner scanner, out FieldValue element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out FieldValue element)
         {
             throw new NotImplementedException();
         }

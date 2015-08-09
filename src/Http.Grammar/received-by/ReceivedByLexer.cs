@@ -4,7 +4,7 @@
 
     public class ReceivedByLexer : Lexer<ReceivedBy>
     {
-        public override bool TryRead(ITextScanner scanner, out ReceivedBy element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out ReceivedBy element)
         {
             throw new System.NotImplementedException();
         }

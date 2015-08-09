@@ -11,7 +11,7 @@
 
         public byte ToByte()
         {
-            return byte.Parse(this.Value);
+            return byte.Parse(this.Text);
         }
     }
 }

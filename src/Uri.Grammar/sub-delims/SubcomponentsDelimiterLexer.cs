@@ -7,28 +7,34 @@
 
     public class SubcomponentsDelimiterLexer : Lexer<SubcomponentsDelimiter>
     {
-        private readonly ILexer<Alternative> subcomponentsDelimiterAlternativeLexer; 
+        private readonly ILexer<Alternative> innerLexer; 
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="subcomponentsDelimiterAlternativeLexer">"!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="</param>
-        public SubcomponentsDelimiterLexer(ILexer<Alternative> subcomponentsDelimiterAlternativeLexer)
+        /// <param name="innerLexer">"!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="</param>
+        public SubcomponentsDelimiterLexer(ILexer<Alternative> innerLexer)
         {
-            if (subcomponentsDelimiterAlternativeLexer == null)
+            if (innerLexer == null)
             {
-                throw new ArgumentNullException("subcomponentsDelimiterAlternativeLexer", "Precondition: subcomponentsDelimiterAlternativeLexer != null");
+                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
             }
 
-            this.subcomponentsDelimiterAlternativeLexer = subcomponentsDelimiterAlternativeLexer;
+            this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out SubcomponentsDelimiter element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out SubcomponentsDelimiter element)
         {
             Alternative result;
-            if (this.subcomponentsDelimiterAlternativeLexer.TryRead(scanner, out result))
+            if (this.innerLexer.TryRead(scanner, null, out result))
             {
                 element = new SubcomponentsDelimiter(result);
+                if (previousElementOrNull != null)
+                {
+                    previousElementOrNull.NextElement = element;
+                    element.PreviousElement = previousElementOrNull;
+                }
+
                 return true;
             }
 

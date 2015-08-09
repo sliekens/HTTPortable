@@ -7,24 +7,30 @@
 
     public class QueryLexer : Lexer<Query>
     {
-        private readonly ILexer<Repetition> queryRepetitionLexer;
+        private readonly ILexer<Repetition> innerLexer;
 
-        public QueryLexer(ILexer<Repetition> queryRepetitionLexer)
+        public QueryLexer(ILexer<Repetition> innerLexer)
         {
-            if (queryRepetitionLexer == null)
+            if (innerLexer == null)
             {
-                throw new ArgumentNullException("queryRepetitionLexer", "Precondition: queryRepetitionLexer != null");
+                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
             }
 
-            this.queryRepetitionLexer = queryRepetitionLexer;
+            this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out Query element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out Query element)
         {
             Repetition result;
-            if (this.queryRepetitionLexer.TryRead(scanner, out result))
+            if (this.innerLexer.TryRead(scanner, null, out result))
             {
                 element = new Query(result);
+                if (previousElementOrNull != null)
+                {
+                    previousElementOrNull.NextElement = element;
+                    element.PreviousElement = previousElementOrNull;
+                }
+
                 return true;
             }
 

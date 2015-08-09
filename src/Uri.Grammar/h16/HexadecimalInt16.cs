@@ -15,7 +15,7 @@
         {
             var bytes = new byte[2];
             int ix = 1;
-            var hex = this.Value;
+            var hex = this.Text;
             for (int i = hex.Length; i > 0 && ix >= 0; i -= 2, ix--)
             {
                 int subLength = i == 1 ? 1 : 2;

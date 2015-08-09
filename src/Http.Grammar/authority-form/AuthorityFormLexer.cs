@@ -6,7 +6,7 @@
 
     public class AuthorityFormLexer : Lexer<AuthorityForm>
     {
-        public override bool TryRead(ITextScanner scanner, out AuthorityForm element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out AuthorityForm element)
         {
             throw new NotImplementedException();
         }

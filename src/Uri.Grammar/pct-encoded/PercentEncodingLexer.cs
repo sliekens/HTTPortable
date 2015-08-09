@@ -7,28 +7,34 @@
 
     public class PercentEncodingLexer : Lexer<PercentEncoding>
     {
-        private readonly ILexer<Sequence> percentEncodingAlternativeLexer;
+        private readonly ILexer<Sequence> innerLexer;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="percentEncodingAlternativeLexer">"%" HEXDIG HEXDIG</param>
-        public PercentEncodingLexer(ILexer<Sequence> percentEncodingAlternativeLexer)
+        /// <param name="innerLexer">"%" HEXDIG HEXDIG</param>
+        public PercentEncodingLexer(ILexer<Sequence> innerLexer)
         {
-            if (percentEncodingAlternativeLexer == null)
+            if (innerLexer == null)
             {
-                throw new ArgumentNullException("percentEncodingAlternativeLexer", "Precondition: percentEncodingAlternativeLexer != null");
+                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
             }
 
-            this.percentEncodingAlternativeLexer = percentEncodingAlternativeLexer;
+            this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, out PercentEncoding element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out PercentEncoding element)
         {
             Sequence result;
-            if (this.percentEncodingAlternativeLexer.TryRead(scanner, out result))
+            if (this.innerLexer.TryRead(scanner, null, out result))
             {
                 element = new PercentEncoding(result);
+                if (previousElementOrNull != null)
+                {
+                    previousElementOrNull.NextElement = element;
+                    element.PreviousElement = previousElementOrNull;
+                }
+
                 return true;
             }
 

@@ -4,7 +4,7 @@
 
     public class TransferExtensionLexer : Lexer<TransferExtension>
     {
-        public override bool TryRead(ITextScanner scanner, out TransferExtension element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out TransferExtension element)
         {
             throw new System.NotImplementedException();
         }

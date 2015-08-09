@@ -111,9 +111,9 @@
             using (var scanner = new BufferedTextScanner(new PushbackInputStream(input.ToMemoryStream())))
             {
                 scanner.Read();
-                var element = lexer.Read(scanner);
+                var element = lexer.Read(scanner, null);
                 Assert.NotNull(element);
-                Assert.Equal(input, element.Value);
+                Assert.Equal(input, element.Text);
             }
         }
     }

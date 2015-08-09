@@ -6,7 +6,7 @@
 
     public class ProtocolNameLexer : Lexer<ProtocolName>
     {
-        public override bool TryRead(ITextScanner scanner, out ProtocolName element)
+        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out ProtocolName element)
         {
             throw new NotImplementedException();
         }
