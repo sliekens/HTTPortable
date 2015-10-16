@@ -50,11 +50,7 @@
                 optionLexerFactory,
                 stringLexerFactory,
                 optionalWhiteSpaceLexerFactory);
-
-            var encoding = Encoding.GetEncoding("us-ascii");
-            var bytes = encoding.GetBytes(input);
-            using (var ms = new MemoryStream(bytes))
-            using (var scanner = new TextScanner(ms, encoding))
+            using (var scanner = new TextScanner(new StringTextSource(input)))
             {
                 scanner.Read();
                 return lexerFactory.Create(listItemLexer).Read(scanner, null);

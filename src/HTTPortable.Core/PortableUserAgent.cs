@@ -62,7 +62,7 @@
             ResponseMessage message;
             using (var pushbackInputStream = new PushbackInputStream(this.inputStream))
             {
-                using (ITextScanner scanner = new TextScanner(pushbackInputStream))
+                using (ITextScanner scanner = new TextScanner(new StreamTextSource(pushbackInputStream, Encoding.UTF8)))
                 {
                     scanner.Read();
                     var startLineLexer = new StartLineLexer();

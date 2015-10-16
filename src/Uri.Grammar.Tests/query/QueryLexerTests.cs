@@ -30,7 +30,7 @@
             var repetitionLexerFactory = new RepetitionLexerFactory();
             var factory = new QueryLexerFactory(alternativeLexerFactory, pathCharacterLexerFactory, repetitionLexerFactory, stringLexerFactory);
             var lexer = factory.Create();
-            using (var scanner = new TextScanner(new PushbackInputStream(input.ToMemoryStream())))
+            using (var scanner = new TextScanner(new StringTextSource(input)))
             {
                 scanner.Read();
                 var element = lexer.Read(scanner, null);

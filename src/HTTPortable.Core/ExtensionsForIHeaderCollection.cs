@@ -41,9 +41,7 @@
                 }
 
                 var lexer = new ContentLengthLexer();
-                using (var inputStream = new MemoryStream(Encoding.UTF8.GetBytes(value)))
-                using (var pushbackInputStream = new PushbackInputStream(inputStream))
-                using (ITextScanner scanner = new TextScanner(pushbackInputStream))
+                using (ITextScanner scanner = new TextScanner(new StringTextSource(value)))
                 {
                     scanner.Read();
                     ContentLength element;
@@ -76,9 +74,7 @@
 
                 var value = string.Join(",", header);
                 var lexer = new TransferEncodingLexer();
-                using (Stream inputStream = new MemoryStream(Encoding.UTF8.GetBytes(value)))
-                using (PushbackInputStream pushbackInputStream = new PushbackInputStream(inputStream))
-                using (ITextScanner scanner = new TextScanner(pushbackInputStream))
+                using (ITextScanner scanner = new TextScanner(new StringTextSource(value)))
                 {
                     scanner.Read();
                     TransferEncoding element;

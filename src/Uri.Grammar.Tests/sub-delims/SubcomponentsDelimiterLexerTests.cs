@@ -26,7 +26,7 @@
             var alternativeLexerFactory = new AlternativeLexerFactory();
             var factory = new SubcomponentsDelimiterLexerFactory(stringLexerFactory, alternativeLexerFactory);
             var lexer = factory.Create();
-            using (var scanner = new TextScanner(new PushbackInputStream(input.ToMemoryStream())))
+            using (var scanner = new TextScanner(new StringTextSource(input)))
             {
                 scanner.Read();
                 var element = lexer.Read(scanner, null);
