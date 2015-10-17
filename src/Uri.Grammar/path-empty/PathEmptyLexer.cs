@@ -7,13 +7,13 @@
 
     public class PathEmptyLexer : Lexer<PathEmpty>
     {
-        private readonly ILexer<TerminalString> innerLexer;
+        private readonly ILexer<Terminal> innerLexer;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="innerLexer">""</param>
-        public PathEmptyLexer(ILexer<TerminalString> innerLexer)
+        public PathEmptyLexer(ILexer<Terminal> innerLexer)
         {
             if (innerLexer == null)
             {
@@ -25,7 +25,7 @@
 
         public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out PathEmpty element)
         {
-            TerminalString result;
+            Terminal result;
             if (this.innerLexer.TryRead(scanner, null, out result))
             {
                 element = new PathEmpty(result);

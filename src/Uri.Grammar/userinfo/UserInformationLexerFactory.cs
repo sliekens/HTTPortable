@@ -13,7 +13,7 @@
 
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         private readonly ILexerFactory<SubcomponentsDelimiter> subcomponentsDelimiterLexerFactory;
 
@@ -22,7 +22,7 @@
         public UserInformationLexerFactory(
             IRepetitionLexerFactory repetitionLexerFactory,
             IAlternativeLexerFactory alternativeLexerFactory,
-            IStringLexerFactory stringLexerFactory,
+            ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<Unreserved> unreservedLexerFactory,
             ILexerFactory<PercentEncoding> percentEncodingLexerFactory,
             ILexerFactory<SubcomponentsDelimiter> subcomponentsDelimiterLexerFactory)
@@ -37,9 +37,9 @@
                 throw new ArgumentNullException("alternativeLexerFactory");
             }
 
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexerFactory");
+                throw new ArgumentNullException("terminalLexerFactory");
             }
 
             if (unreservedLexerFactory == null)
@@ -59,7 +59,7 @@
 
             this.repetitionLexerFactory = repetitionLexerFactory;
             this.alternativeLexerFactory = alternativeLexerFactory;
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
             this.unreservedLexerFactory = unreservedLexerFactory;
             this.percentEncodingLexerFactory = percentEncodingLexerFactory;
             this.subcomponentsDelimiterLexerFactory = subcomponentsDelimiterLexerFactory;
@@ -70,7 +70,7 @@
             var unreserved = this.unreservedLexerFactory.Create();
             var pctEncoding = this.percentEncodingLexerFactory.Create();
             var subDelims = this.subcomponentsDelimiterLexerFactory.Create();
-            var colon = this.stringLexerFactory.Create(@":");
+            var colon = this.terminalLexerFactory.Create(@":");
             var alt = this.alternativeLexerFactory.Create(unreserved, pctEncoding, subDelims, colon);
             var innerLexer = this.repetitionLexerFactory.Create(alt, 0, int.MaxValue);
             return new UserInformationLexer(innerLexer);

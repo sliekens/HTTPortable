@@ -16,23 +16,21 @@
         public void Read_ShouldSucceed(string input)
         {
             var caseInsensitiveTerminalLexerFactory = new CaseInsensitiveTerminalLexerFactory();
-            var stringLexerFactory = new StringLexerFactory(caseInsensitiveTerminalLexerFactory);
             var alternativeLexerFactory = new AlternativeLexerFactory();
-            var subcomponentsDelimiterLexerFactory = new SubcomponentsDelimiterLexerFactory(stringLexerFactory, alternativeLexerFactory);
+            var subcomponentsDelimiterLexerFactory = new SubcomponentsDelimiterLexerFactory(caseInsensitiveTerminalLexerFactory, alternativeLexerFactory);
             var valueRangeLexerFactory = new ValueRangeLexerFactory();
             var sequenceLexerFactory = new SequenceLexerFactory();
             var digitLexerFactory = new DigitLexerFactory(valueRangeLexerFactory);
-            var hexadecimalDigitLexerFactory = new HexadecimalDigitLexerFactory(digitLexerFactory, stringLexerFactory, alternativeLexerFactory);
+            var hexadecimalDigitLexerFactory = new HexadecimalDigitLexerFactory(digitLexerFactory, caseInsensitiveTerminalLexerFactory, alternativeLexerFactory);
             var alphaLexerFactory = new AlphaLexerFactory(valueRangeLexerFactory, alternativeLexerFactory);
-            var percentEncodingLexerFactory = new PercentEncodingLexerFactory(stringLexerFactory, hexadecimalDigitLexerFactory, sequenceLexerFactory);
-            var unreservedLexerFactory = new UnreservedLexerFactory(alphaLexerFactory, digitLexerFactory, stringLexerFactory, alternativeLexerFactory);
-            var pathCharacterLexerFactory = new PathCharacterLexerFactory(unreservedLexerFactory, percentEncodingLexerFactory, subcomponentsDelimiterLexerFactory, stringLexerFactory, alternativeLexerFactory);
+            var percentEncodingLexerFactory = new PercentEncodingLexerFactory(caseInsensitiveTerminalLexerFactory, hexadecimalDigitLexerFactory, sequenceLexerFactory);
+            var unreservedLexerFactory = new UnreservedLexerFactory(alphaLexerFactory, digitLexerFactory, caseInsensitiveTerminalLexerFactory, alternativeLexerFactory);
+            var pathCharacterLexerFactory = new PathCharacterLexerFactory(unreservedLexerFactory, percentEncodingLexerFactory, subcomponentsDelimiterLexerFactory, caseInsensitiveTerminalLexerFactory, alternativeLexerFactory);
             var repetitionLexerFactory = new RepetitionLexerFactory();
-            var factory = new QueryLexerFactory(alternativeLexerFactory, pathCharacterLexerFactory, repetitionLexerFactory, stringLexerFactory);
+            var factory = new QueryLexerFactory(alternativeLexerFactory, pathCharacterLexerFactory, repetitionLexerFactory, caseInsensitiveTerminalLexerFactory);
             var lexer = factory.Create();
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                scanner.Read();
                 var element = lexer.Read(scanner, null);
                 Assert.NotNull(element);
                 Assert.Equal(input, element.Text);

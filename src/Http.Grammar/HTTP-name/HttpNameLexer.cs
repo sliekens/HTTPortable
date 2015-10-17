@@ -7,12 +7,12 @@
 
     public class HttpNameLexer : Lexer<HttpName>
     {
-        private readonly ILexer<TerminalString> innerLexer;
+        private readonly ILexer<Terminal> innerLexer;
 
         /// <summary>
         /// </summary>
         /// <param name="innerLexer">%x48.54.54.50</param>
-        public HttpNameLexer(ILexer<TerminalString> innerLexer)
+        public HttpNameLexer(ILexer<Terminal> innerLexer)
         {
             if (innerLexer == null)
             {
@@ -24,7 +24,7 @@
 
         public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out HttpName element)
         {
-            TerminalString result;
+            Terminal result;
             if (this.innerLexer.TryRead(scanner, null, out result))
             {
                 element = new HttpName(result);

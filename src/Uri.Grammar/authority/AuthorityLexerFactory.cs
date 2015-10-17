@@ -15,7 +15,7 @@
 
         private readonly ISequenceLexerFactory sequenceLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         private readonly ILexerFactory<UserInformation> userInformationLexerFactory;
 
@@ -23,7 +23,7 @@
             IOptionLexerFactory optionLexerFactory,
             ISequenceLexerFactory sequenceLexerFactory,
             ILexerFactory<UserInformation> userInformationLexerFactory,
-            IStringLexerFactory stringLexerFactory,
+            ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<Host> hostLexerFactory,
             ILexerFactory<Port> portLexerFactory)
         {
@@ -42,9 +42,9 @@
                 throw new ArgumentNullException("userInformationLexerFactory");
             }
 
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexerFactory");
+                throw new ArgumentNullException("terminalLexerFactory");
             }
 
             if (hostLexerFactory == null)
@@ -59,7 +59,7 @@
 
             this.optionLexerFactory = optionLexerFactory;
             this.userInformationLexerFactory = userInformationLexerFactory;
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
             this.hostLexerFactory = hostLexerFactory;
             this.portLexerFactory = portLexerFactory;
             this.sequenceLexerFactory = sequenceLexerFactory;
@@ -68,11 +68,11 @@
         public ILexer<Authority> Create()
         {
             var userinfo = this.userInformationLexerFactory.Create();
-            var at = this.stringLexerFactory.Create(@"@");
+            var at = this.terminalLexerFactory.Create(@"@");
             var userinfoseq = this.sequenceLexerFactory.Create(userinfo, at);
             var optuserinfo = this.optionLexerFactory.Create(userinfoseq);
             var host = this.hostLexerFactory.Create();
-            var colon = this.stringLexerFactory.Create(@":");
+            var colon = this.terminalLexerFactory.Create(@":");
             var port = this.portLexerFactory.Create();
             var portseq = this.sequenceLexerFactory.Create(colon, port);
             var optport = this.optionLexerFactory.Create(portseq);

@@ -17,19 +17,19 @@
 
         private readonly ISequenceLexerFactory sequenceLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public PathAbsoluteLexerFactory(
-            IStringLexerFactory stringLexerFactory,
+            ITerminalLexerFactory terminalLexerFactory,
             IOptionLexerFactory optionLexerFactory,
             ISequenceLexerFactory sequenceLexerFactory,
             RepetitionLexerFactory repetitionLexerFactory,
             ILexerFactory<Segment> segmentLexerFactory,
             ILexerFactory<SegmentNonZeroLength> segmentNonZeroLengthLexerFactory)
         {
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexerFactory");
+                throw new ArgumentNullException("terminalLexerFactory");
             }
 
             if (optionLexerFactory == null)
@@ -57,7 +57,7 @@
                 throw new ArgumentNullException("segmentNonZeroLengthLexerFactory");
             }
 
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
             this.optionLexerFactory = optionLexerFactory;
             this.sequenceLexerFactory = sequenceLexerFactory;
             this.repetitionLexerFactory = repetitionLexerFactory;
@@ -68,7 +68,7 @@
         public ILexer<PathAbsolute> Create()
         {
             // "/"
-            var a = this.stringLexerFactory.Create(@"/");
+            var a = this.terminalLexerFactory.Create(@"/");
 
             // segment
             var b = this.segmentLexerFactory.Create();

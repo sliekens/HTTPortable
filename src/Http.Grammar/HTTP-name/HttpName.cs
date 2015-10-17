@@ -1,10 +1,11 @@
 ﻿namespace Http.Grammar
 {
+    using TextFx;
     using TextFx.ABNF;
 
-    public class HttpName : TerminalString
+    public class HttpName : Terminal
     {
-        public HttpName(TerminalString element)
+        public HttpName(Terminal element)
             : base(element)
         {
         }

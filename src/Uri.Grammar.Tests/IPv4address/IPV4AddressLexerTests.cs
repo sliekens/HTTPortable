@@ -29,26 +29,24 @@
             var caseInsensitiveTerminalLexerFactory = new CaseInsensitiveTerminalLexerFactory();
 
             var sequenceLexerFactory = new SequenceLexerFactory();
-            var stringLexerFactory = new StringLexerFactory(caseInsensitiveTerminalLexerFactory);
             var valueRangeLexerFactory = new ValueRangeLexerFactory();
             var alternativeLexerFactory = new AlternativeLexerFactory();
             var repetitionLexerFactory = new RepetitionLexerFactory();
             var digitLexerFactory = new DigitLexerFactory(valueRangeLexerFactory);
             var decimalOctetLexerFactory = new DecimalOctetLexerFactory(
                 valueRangeLexerFactory,
-                stringLexerFactory,
+                caseInsensitiveTerminalLexerFactory,
                 alternativeLexerFactory,
                 repetitionLexerFactory,
                 digitLexerFactory,
                 sequenceLexerFactory);
             var factory = new IPV4AddressLexerFactory(
                 sequenceLexerFactory,
-                stringLexerFactory,
+                caseInsensitiveTerminalLexerFactory,
                 decimalOctetLexerFactory);
             var lexer = factory.Create();
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                scanner.Read();
                 var element = lexer.Read(scanner, null);
                 Assert.NotNull(element);
                 Assert.Equal(input, element.Text);

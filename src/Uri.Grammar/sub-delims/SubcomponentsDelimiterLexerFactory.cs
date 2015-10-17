@@ -9,13 +9,13 @@
     {
         private readonly IAlternativeLexerFactory alternativeLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public SubcomponentsDelimiterLexerFactory(
-            IStringLexerFactory stringLexerFactory,
+            ITerminalLexerFactory terminalLexerFactory,
             IAlternativeLexerFactory alternativeLexerFactory)
         {
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
                 throw new ArgumentNullException("stringLexerFactory", "Precondition: stringLexerFactory != null");
             }
@@ -27,7 +27,7 @@
                     "Precondition: alternativeLexerFactory != null");
             }
 
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
             this.alternativeLexerFactory = alternativeLexerFactory;
         }
 
@@ -36,37 +36,37 @@
             ILexer[] a =
                 {
                     // "!"
-                    this.stringLexerFactory.Create(@"!"),
+                    this.terminalLexerFactory.Create(@"!"),
 
                     // "$"
-                    this.stringLexerFactory.Create(@"$"),
+                    this.terminalLexerFactory.Create(@"$"),
 
                     // "&"
-                    this.stringLexerFactory.Create(@"&"),
+                    this.terminalLexerFactory.Create(@"&"),
 
                     // "'"
-                    this.stringLexerFactory.Create(@"'"),
+                    this.terminalLexerFactory.Create(@"'"),
 
                     // "("
-                    this.stringLexerFactory.Create(@"("),
+                    this.terminalLexerFactory.Create(@"("),
 
                     // ")"
-                    this.stringLexerFactory.Create(@")"),
+                    this.terminalLexerFactory.Create(@")"),
 
                     // "*"
-                    this.stringLexerFactory.Create(@"*"),
+                    this.terminalLexerFactory.Create(@"*"),
 
                     // "+"
-                    this.stringLexerFactory.Create(@"+"),
+                    this.terminalLexerFactory.Create(@"+"),
 
                     // ","
-                    this.stringLexerFactory.Create(@","),
+                    this.terminalLexerFactory.Create(@","),
 
                     // ";"
-                    this.stringLexerFactory.Create(@";"),
+                    this.terminalLexerFactory.Create(@";"),
 
                     // "="
-                    this.stringLexerFactory.Create(@"=")
+                    this.terminalLexerFactory.Create(@"=")
                 };
 
             // "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="

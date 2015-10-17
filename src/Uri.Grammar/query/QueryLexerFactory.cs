@@ -13,9 +13,9 @@
 
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
-        public QueryLexerFactory(IAlternativeLexerFactory alternativeLexerFactory, ILexerFactory<PathCharacter> pathCharacterLexerFactory, IRepetitionLexerFactory repetitionLexerFactory, IStringLexerFactory stringLexerFactory)
+        public QueryLexerFactory(IAlternativeLexerFactory alternativeLexerFactory, ILexerFactory<PathCharacter> pathCharacterLexerFactory, IRepetitionLexerFactory repetitionLexerFactory, ITerminalLexerFactory terminalLexerFactory)
         {
             if (alternativeLexerFactory == null)
             {
@@ -32,7 +32,7 @@
                 throw new ArgumentNullException("repetitionLexerFactory", "Precondition: repetitionLexerFactory != null");
             }
 
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
                 throw new ArgumentNullException("stringLexerFactory", "Precondition: stringLexerFactory != null");
             }
@@ -40,15 +40,15 @@
             this.alternativeLexerFactory = alternativeLexerFactory;
             this.pathCharacterLexerFactory = pathCharacterLexerFactory;
             this.repetitionLexerFactory = repetitionLexerFactory;
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
         }
 
         public ILexer<Query> Create()
         {
             var alternativeLexer = this.alternativeLexerFactory.Create(
                 this.pathCharacterLexerFactory.Create(),
-                this.stringLexerFactory.Create(@"/"),
-                this.stringLexerFactory.Create(@"?"));
+                this.terminalLexerFactory.Create(@"/"),
+                this.terminalLexerFactory.Create(@"?"));
             var fragmentRepetitionLexer = this.repetitionLexerFactory.Create(alternativeLexer, 0, int.MaxValue);
             return new QueryLexer(fragmentRepetitionLexer);
         }

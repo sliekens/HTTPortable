@@ -69,14 +69,13 @@
             var caseInsensitiveTerminalLexerFactory = new CaseInsensitiveTerminalLexerFactory();
 
             var sequenceLexerFactory = new SequenceLexerFactory();
-            var stringLexerFactory = new StringLexerFactory(caseInsensitiveTerminalLexerFactory);
             var valueRangeLexerFactory = new ValueRangeLexerFactory();
             var alternativeLexerFactory = new AlternativeLexerFactory();
             var repetitionLexerFactory = new RepetitionLexerFactory();
             var digitLexerFactory = new DigitLexerFactory(valueRangeLexerFactory);
             var decimalOctetLexerFactory = new DecimalOctetLexerFactory(
                 valueRangeLexerFactory,
-                stringLexerFactory,
+                caseInsensitiveTerminalLexerFactory,
                 alternativeLexerFactory,
                 repetitionLexerFactory,
                 digitLexerFactory,
@@ -84,25 +83,25 @@
             var optionLexerFactory = new OptionLexerFactory();
             var hexadecimalDigitLexerFactory = new HexadecimalDigitLexerFactory(
                 digitLexerFactory,
-                stringLexerFactory,
+                caseInsensitiveTerminalLexerFactory,
                 alternativeLexerFactory);
             var hexadecimalInt16LexerFactory = new HexadecimalInt16LexerFactory(
                 repetitionLexerFactory,
                 hexadecimalDigitLexerFactory);
             var ipv4AddressLexerFactory = new IPV4AddressLexerFactory(
                 sequenceLexerFactory,
-                stringLexerFactory,
+                caseInsensitiveTerminalLexerFactory,
                 decimalOctetLexerFactory);
             var leastSignificantInt32LexerFactory = new LeastSignificantInt32LexerFactory(
                 alternativeLexerFactory,
                 sequenceLexerFactory,
-                stringLexerFactory,
+                caseInsensitiveTerminalLexerFactory,
                 hexadecimalInt16LexerFactory,
                 ipv4AddressLexerFactory);
             var factory = new IPv6AddressLexerFactory(
                 alternativeLexerFactory,
                 sequenceLexerFactory,
-                stringLexerFactory,
+                caseInsensitiveTerminalLexerFactory,
                 repetitionLexerFactory,
                 optionLexerFactory,
                 hexadecimalInt16LexerFactory,
@@ -110,7 +109,6 @@
             var lexer = factory.Create();
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                scanner.Read();
                 var element = lexer.Read(scanner, null);
                 Assert.NotNull(element);
                 Assert.Equal(input, element.Text);

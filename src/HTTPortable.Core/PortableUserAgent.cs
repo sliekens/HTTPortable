@@ -64,7 +64,6 @@
             {
                 using (ITextScanner scanner = new TextScanner(new StreamTextSource(pushbackInputStream, Encoding.UTF8)))
                 {
-                    scanner.Read();
                     var startLineLexer = new StartLineLexer();
                     var startLine = startLineLexer.Read(scanner, null);
                     if (startLine.Element is RequestLine)
@@ -89,19 +88,6 @@
                     }
 
                     EndOfLineLexer.Read(scanner, null);
-
-                    // Unread the next character, which probably belongs to the message body
-                    if (scanner.NextCharacter.HasValue)
-                    {
-                        if (pushbackInputStream.CanSeek)
-                        {
-                            pushbackInputStream.Position -= 1;
-                        }
-                        else
-                        {
-                            pushbackInputStream.WriteByte(Convert.ToByte(scanner.NextCharacter.Value));
-                        }
-                    }
                 }
 
                 long contentLength;

@@ -13,7 +13,7 @@
 
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         private readonly ILexerFactory<SubcomponentsDelimiter> subcomponentsDelimiterLexerFactory;
 
@@ -25,7 +25,7 @@
             ILexerFactory<Unreserved> unreservedLexerFactory,
             ILexerFactory<PercentEncoding> percentEncodingLexerFactory,
             ILexerFactory<SubcomponentsDelimiter> subcomponentsDelimiterLexerFactory,
-            IStringLexerFactory stringLexerFactory)
+            ITerminalLexerFactory terminalLexerFactory)
         {
             if (repetitionLexerFactory == null)
             {
@@ -62,7 +62,7 @@
                     "Precondition: subcomponentsDelimiterLexerFactory != null");
             }
 
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
                 throw new ArgumentNullException("stringLexerFactory", "Precondition: stringLexerFactory != null");
             }
@@ -72,7 +72,7 @@
             this.unreservedLexerFactory = unreservedLexerFactory;
             this.percentEncodingLexerFactory = percentEncodingLexerFactory;
             this.subcomponentsDelimiterLexerFactory = subcomponentsDelimiterLexerFactory;
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
         }
 
         public ILexer<SegmentNonZeroLengthNoColons> Create()
@@ -81,7 +81,7 @@
                 this.unreservedLexerFactory.Create(),
                 this.percentEncodingLexerFactory.Create(),
                 this.subcomponentsDelimiterLexerFactory.Create(),
-                this.stringLexerFactory.Create(@"@"));
+                this.terminalLexerFactory.Create(@"@"));
             var segmentNonZeroLengthNoColonsRepetitionLexer = this.repetitionLexerFactory.Create(alternativeLexer, 1, Int32.MaxValue);
             return new SegmentNonZeroLengthNoColonsLexer(segmentNonZeroLengthNoColonsRepetitionLexer);
         }

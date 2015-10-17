@@ -15,12 +15,12 @@
 
         private readonly ISequenceLexerFactory sequenceLexerFactory;
 
-        private readonly IStringLexerFactory stringLexer;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public PathRootlessLexerFactory(
             ISequenceLexerFactory sequenceLexerFactory,
             IRepetitionLexerFactory repetitionLexerFactory,
-            IStringLexerFactory stringLexer,
+            ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<Segment> segmentLexerFactory,
             ILexerFactory<SegmentNonZeroLength> segmentNonZeroLengthLexerFactory)
         {
@@ -34,9 +34,9 @@
                 throw new ArgumentNullException("repetitionLexerFactory");
             }
 
-            if (stringLexer == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexer");
+                throw new ArgumentNullException("terminalLexerFactory");
             }
 
             if (segmentLexerFactory == null)
@@ -51,7 +51,7 @@
 
             this.sequenceLexerFactory = sequenceLexerFactory;
             this.repetitionLexerFactory = repetitionLexerFactory;
-            this.stringLexer = stringLexer;
+            this.terminalLexerFactory = terminalLexerFactory;
             this.segmentLexerFactory = segmentLexerFactory;
             this.segmentNonZeroLengthLexerFactory = segmentNonZeroLengthLexerFactory;
         }
@@ -59,7 +59,7 @@
         public ILexer<PathRootless> Create()
         {
             // "/"
-            var a = this.stringLexer.Create(@"/");
+            var a = this.terminalLexerFactory.Create(@"/");
 
             // segment
             var b = this.segmentLexerFactory.Create();

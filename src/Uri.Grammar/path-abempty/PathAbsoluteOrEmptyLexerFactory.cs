@@ -13,12 +13,12 @@ namespace Uri.Grammar
 
         private readonly ISequenceLexerFactory sequenceLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public PathAbsoluteOrEmptyLexerFactory(
             IRepetitionLexerFactory repetitionLexerFactory,
             ISequenceLexerFactory sequenceLexerFactory,
-            IStringLexerFactory stringLexerFactory,
+            ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<Segment> segmentLexerFactory)
         {
             if (repetitionLexerFactory == null)
@@ -31,9 +31,9 @@ namespace Uri.Grammar
                 throw new ArgumentNullException("sequenceLexerFactory");
             }
 
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexerFactory");
+                throw new ArgumentNullException("terminalLexerFactory");
             }
 
             if (segmentLexerFactory == null)
@@ -43,14 +43,14 @@ namespace Uri.Grammar
 
             this.repetitionLexerFactory = repetitionLexerFactory;
             this.sequenceLexerFactory = sequenceLexerFactory;
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
             this.segmentLexerFactory = segmentLexerFactory;
         }
 
         public ILexer<PathAbsoluteOrEmpty> Create()
         {
             // "/"
-            var a = this.stringLexerFactory.Create(@"/");
+            var a = this.terminalLexerFactory.Create(@"/");
 
             // segment
             var b = this.segmentLexerFactory.Create();

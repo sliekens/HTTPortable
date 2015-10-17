@@ -1,10 +1,11 @@
 ﻿namespace Http.Grammar
 {
+    using TextFx;
     using TextFx.ABNF;
 
-    public class AsteriskForm : TerminalString
+    public class AsteriskForm : Terminal
     {
-        public AsteriskForm(TerminalString element)
+        public AsteriskForm(Terminal element)
             : base(element)
         {
         }

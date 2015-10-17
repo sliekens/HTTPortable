@@ -9,13 +9,13 @@
     {
         private readonly IAlternativeLexerFactory alternativeLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
-        public GenericDelimiterLexerFactory(IStringLexerFactory stringLexerFactory, IAlternativeLexerFactory alternativeLexerFactory)
+        public GenericDelimiterLexerFactory(ITerminalLexerFactory terminalLexerFactory, IAlternativeLexerFactory alternativeLexerFactory)
         {
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexerFactory", "Precondition: stringLexerFactory != null");
+                throw new ArgumentNullException("terminalLexerFactory", "Precondition: terminalLexerFactory != null");
             }
 
             if (alternativeLexerFactory == null)
@@ -23,7 +23,7 @@
                 throw new ArgumentNullException("alternativeLexerFactory", "Precondition: alternativeLexerFactory != null");
             }
 
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
             this.alternativeLexerFactory = alternativeLexerFactory;
         }
 
@@ -31,13 +31,13 @@
         {
             ILexer[] a =
                 {
-                    this.stringLexerFactory.Create(@":"),
-                    this.stringLexerFactory.Create(@"/"),
-                    this.stringLexerFactory.Create(@"?"),
-                    this.stringLexerFactory.Create(@"#"),
-                    this.stringLexerFactory.Create(@"["),
-                    this.stringLexerFactory.Create(@"]"),
-                    this.stringLexerFactory.Create(@"@")
+                    this.terminalLexerFactory.Create(@":"),
+                    this.terminalLexerFactory.Create(@"/"),
+                    this.terminalLexerFactory.Create(@"?"),
+                    this.terminalLexerFactory.Create(@"#"),
+                    this.terminalLexerFactory.Create(@"["),
+                    this.terminalLexerFactory.Create(@"]"),
+                    this.terminalLexerFactory.Create(@"@")
                 };
 
             // ":" / "/" / "?" / "#" / "[" / "]" / "@"

@@ -8,17 +8,17 @@
 
     public class PercentEncodingLexerFactory : ILexerFactory<PercentEncoding>
     {
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         private readonly ILexerFactory<HexadecimalDigit> hexadecimalDigitLexerFactory;
 
         private readonly ISequenceLexerFactory sequenceLexerFactory;
 
-        public PercentEncodingLexerFactory(IStringLexerFactory stringLexerFactory, ILexerFactory<HexadecimalDigit> hexadecimalDigitLexerFactory, ISequenceLexerFactory sequenceLexerFactory)
+        public PercentEncodingLexerFactory(ITerminalLexerFactory terminalLexerFactory, ILexerFactory<HexadecimalDigit> hexadecimalDigitLexerFactory, ISequenceLexerFactory sequenceLexerFactory)
         {
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexerFactory", "Precondition: stringLexerFactory != null");
+                throw new ArgumentNullException("terminalLexerFactory", "Precondition: terminalLexerFactory != null");
             }
 
             if (hexadecimalDigitLexerFactory == null)
@@ -31,7 +31,7 @@
                 throw new ArgumentNullException("sequenceLexerFactory", "Precondition: sequenceLexerFactory != null");
             }
 
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
             this.hexadecimalDigitLexerFactory = hexadecimalDigitLexerFactory;
             this.sequenceLexerFactory = sequenceLexerFactory;
         }
@@ -40,7 +40,7 @@
         {
             var hexadecimalDigitLexer = this.hexadecimalDigitLexerFactory.Create();
             var percentEncodingAlternativeLexer = this.sequenceLexerFactory.Create(
-                this.stringLexerFactory.Create(@"%"),
+                this.terminalLexerFactory.Create(@"%"),
                 hexadecimalDigitLexer,
                 hexadecimalDigitLexer);
             return new PercentEncodingLexer(percentEncodingAlternativeLexer);

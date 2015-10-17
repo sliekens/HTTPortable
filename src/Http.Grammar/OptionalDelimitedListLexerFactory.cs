@@ -17,13 +17,13 @@
 
         private readonly ISequenceLexerFactory sequenceLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public OptionalDelimitedListLexerFactory(
             IOptionLexerFactory optionLexerFactory,
             ISequenceLexerFactory sequenceLexerFactory,
             IAlternativeLexerFactory alternativeLexerFactory,
-            IStringLexerFactory stringLexerFactory,
+            ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<OptionalWhiteSpace> optionalWhiteSpaceLexerFactory,
             IRepetitionLexerFactory repetitionLexerFactory)
         {
@@ -42,9 +42,9 @@
                 throw new ArgumentNullException("alternativeLexerFactory");
             }
 
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexerFactory");
+                throw new ArgumentNullException("terminalLexerFactory");
             }
 
             if (optionalWhiteSpaceLexerFactory == null)
@@ -60,14 +60,14 @@
             this.optionLexerFactory = optionLexerFactory;
             this.sequenceLexerFactory = sequenceLexerFactory;
             this.alternativeLexerFactory = alternativeLexerFactory;
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
             this.optionalWhiteSpaceLexerFactory = optionalWhiteSpaceLexerFactory;
             this.repetitionLexerFactory = repetitionLexerFactory;
         }
 
         public ILexer<OptionalDelimitedList> Create(ILexer lexer)
         {
-            var delim = this.stringLexerFactory.Create(@",");
+            var delim = this.terminalLexerFactory.Create(@",");
             var ows = this.optionalWhiteSpaceLexerFactory.Create();
             var innerLexer =
                 this.optionLexerFactory.Create(

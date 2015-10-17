@@ -14,12 +14,12 @@
 
         private readonly ILexerFactory<Digit> digitLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public UnreservedLexerFactory(
             ILexerFactory<Alpha> alphaLexerFactory,
             ILexerFactory<Digit> digitLexerFactory,
-            IStringLexerFactory stringLexerFactory,
+            ITerminalLexerFactory terminalLexerFactory,
             IAlternativeLexerFactory alternativeLexerFactory)
         {
             if (alphaLexerFactory == null)
@@ -32,7 +32,7 @@
                 throw new ArgumentNullException("digitLexerFactory", "Precondition: digitLexerFactory != null");
             }
 
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
                 throw new ArgumentNullException("stringLexerFactory", "Precondition: stringLexerFactory != null");
             }
@@ -44,7 +44,7 @@
 
             this.alphaLexerFactory = alphaLexerFactory;
             this.digitLexerFactory = digitLexerFactory;
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
             this.alternativeLexerFactory = alternativeLexerFactory;
         }
 
@@ -53,10 +53,10 @@
             var unreservedAlternativeLexer = this.alternativeLexerFactory.Create(
                 this.alphaLexerFactory.Create(),
                 this.digitLexerFactory.Create(),
-                this.stringLexerFactory.Create(@"-"),
-                this.stringLexerFactory.Create(@"."),
-                this.stringLexerFactory.Create(@"_"),
-                this.stringLexerFactory.Create(@"~"));
+                this.terminalLexerFactory.Create(@"-"),
+                this.terminalLexerFactory.Create(@"."),
+                this.terminalLexerFactory.Create(@"_"),
+                this.terminalLexerFactory.Create(@"~"));
             return new UnreservedLexer(unreservedAlternativeLexer);
         }
     }

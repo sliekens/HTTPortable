@@ -7,21 +7,21 @@
 
     public class HttpNameLexerFactory : ILexerFactory<HttpName>
     {
-        private readonly IStringLexerFactory caseSensitiveStringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
-        public HttpNameLexerFactory(IStringLexerFactory caseSensitiveStringLexerFactory)
+        public HttpNameLexerFactory(ITerminalLexerFactory terminalLexerFactory)
         {
-            if (caseSensitiveStringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("caseSensitiveStringLexerFactory");
+                throw new ArgumentNullException("terminalLexerFactory");
             }
 
-            this.caseSensitiveStringLexerFactory = caseSensitiveStringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
         }
 
         public ILexer<HttpName> Create()
         {
-            var innerLexer = this.caseSensitiveStringLexerFactory.Create(new[] { '\x48', '\x54', '\x54', '\x50' });
+            var innerLexer = this.terminalLexerFactory.Create("\x48\x54\x54\x50");
             return new HttpNameLexer(innerLexer);
         }
     }

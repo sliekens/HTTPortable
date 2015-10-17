@@ -16,14 +16,14 @@
 
         private readonly ISequenceLexerFactory sequenceLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         private readonly ILexerFactory<SubcomponentsDelimiter> subcomponentsDelimiterLexerFactory;
 
         private readonly ILexerFactory<Unreserved> unreservedLexerFactory;
 
         public IPvFutureLexerFactory(
-            IStringLexerFactory stringLexerFactory,
+            ITerminalLexerFactory terminalLexerFactory,
             IRepetitionLexerFactory repetitionLexerFactory,
             ISequenceLexerFactory sequenceLexerFactory,
             IAlternativeLexerFactory alternativeLexerFactory,
@@ -31,9 +31,9 @@
             ILexerFactory<Unreserved> unreservedLexerFactory,
             ILexerFactory<SubcomponentsDelimiter> subcomponentsDelimiterLexerFactory)
         {
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexerFactory");
+                throw new ArgumentNullException("terminalLexerFactory");
             }
 
             if (repetitionLexerFactory == null)
@@ -66,7 +66,7 @@
                 throw new ArgumentNullException("subcomponentsDelimiterLexerFactory");
             }
 
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
             this.repetitionLexerFactory = repetitionLexerFactory;
             this.sequenceLexerFactory = sequenceLexerFactory;
             this.alternativeLexerFactory = alternativeLexerFactory;
@@ -78,13 +78,13 @@
         public ILexer<IPvFuture> Create()
         {
             // "v"
-            var v = this.stringLexerFactory.Create(@"v");
+            var v = this.terminalLexerFactory.Create(@"v");
 
             // HEXDIG
             var hexdig = this.hexadecimalDigitLexerFactory.Create();
 
             // "."
-            var dot = this.stringLexerFactory.Create(@".");
+            var dot = this.terminalLexerFactory.Create(@".");
 
             // unreserved
             var unreserved = this.unreservedLexerFactory.Create();
@@ -93,7 +93,7 @@
             var subDelims = this.subcomponentsDelimiterLexerFactory.Create();
 
             // ":"
-            var colon = this.stringLexerFactory.Create(@":");
+            var colon = this.terminalLexerFactory.Create(@":");
 
             // 1*HEXDIG
             var r = this.repetitionLexerFactory.Create(hexdig, 1, int.MaxValue);

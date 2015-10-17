@@ -16,13 +16,13 @@
 
         private readonly ISequenceLexerFactory sequenceLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         private readonly IValueRangeLexerFactory valueRangeLexerFactory;
 
         public DecimalOctetLexerFactory(
             IValueRangeLexerFactory valueRangeLexerFactory,
-            IStringLexerFactory stringLexerFactory,
+            ITerminalLexerFactory terminalLexerFactory,
             IAlternativeLexerFactory alternativeLexerFactory,
             IRepetitionLexerFactory repetitionLexerFactory,
             ILexerFactory<Digit> digitLexerFactory,
@@ -33,9 +33,9 @@
                 throw new ArgumentNullException("valueRangeLexerFactory");
             }
 
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexerFactory");
+                throw new ArgumentNullException("terminalLexerFactory");
             }
 
             if (alternativeLexerFactory == null)
@@ -59,7 +59,7 @@
             }
 
             this.valueRangeLexerFactory = valueRangeLexerFactory;
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
             this.alternativeLexerFactory = alternativeLexerFactory;
             this.repetitionLexerFactory = repetitionLexerFactory;
             this.digitLexerFactory = digitLexerFactory;
@@ -72,7 +72,7 @@
             var a = this.valueRangeLexerFactory.Create('\x30', '\x35');
 
             // "25"
-            var b = this.stringLexerFactory.Create("25");
+            var b = this.terminalLexerFactory.Create("25");
 
             // "25" %x30-35 
             var c = this.sequenceLexerFactory.Create(b, a);
@@ -84,7 +84,7 @@
             var e = this.valueRangeLexerFactory.Create('\x30', '\x34');
 
             // "2"
-            var f = this.stringLexerFactory.Create("2");
+            var f = this.terminalLexerFactory.Create("2");
 
             // "2" %x30-34 DIGIT 
             var g = this.sequenceLexerFactory.Create(f, e, d);
@@ -93,7 +93,7 @@
             var h = this.repetitionLexerFactory.Create(d, 2, 2);
 
             // "1"
-            var i = this.stringLexerFactory.Create("1");
+            var i = this.terminalLexerFactory.Create("1");
 
             // "1" 2DIGIT  
             var j = this.sequenceLexerFactory.Create(i, h);

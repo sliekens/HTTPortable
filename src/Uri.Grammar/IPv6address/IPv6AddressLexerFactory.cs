@@ -21,12 +21,12 @@ namespace Uri.Grammar
 
         private readonly ISequenceLexerFactory sequenceLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public IPv6AddressLexerFactory(
             IAlternativeLexerFactory alternativeLexerFactory,
             ISequenceLexerFactory sequenceLexerFactory,
-            IStringLexerFactory stringLexerFactory,
+            ITerminalLexerFactory terminalLexerFactory,
             IRepetitionLexerFactory repetitionLexerFactory,
             IOptionLexerFactory optionLexerFactory,
             ILexerFactory<HexadecimalInt16> hexadecimalInt16LexerFactory,
@@ -42,9 +42,9 @@ namespace Uri.Grammar
                 throw new ArgumentNullException("sequenceLexerFactory");
             }
 
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexerFactory");
+                throw new ArgumentNullException("terminalLexerFactory");
             }
 
             if (repetitionLexerFactory == null)
@@ -69,7 +69,7 @@ namespace Uri.Grammar
 
             this.alternativeLexerFactory = alternativeLexerFactory;
             this.sequenceLexerFactory = sequenceLexerFactory;
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
             this.repetitionLexerFactory = repetitionLexerFactory;
             this.optionLexerFactory = optionLexerFactory;
             this.hexadecimalInt16LexerFactory = hexadecimalInt16LexerFactory;
@@ -79,10 +79,10 @@ namespace Uri.Grammar
         public ILexer<IPv6Address> Create()
         {
             // ":"
-            var colon = this.stringLexerFactory.Create(@":");
+            var colon = this.terminalLexerFactory.Create(@":");
 
             // "::"
-            var collapse = this.stringLexerFactory.Create(@"::");
+            var collapse = this.terminalLexerFactory.Create(@"::");
 
             // h16
             var h16 = this.hexadecimalInt16LexerFactory.Create();

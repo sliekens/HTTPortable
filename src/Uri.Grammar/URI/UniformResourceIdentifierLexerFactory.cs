@@ -19,12 +19,12 @@
 
         private readonly ISequenceLexerFactory sequenceLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public UniformResourceIdentifierLexerFactory(
             ISequenceLexerFactory sequenceLexerFactory,
             IOptionLexerFactory optionLexerFactory,
-            IStringLexerFactory stringLexerFactory,
+            ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<Scheme> schemeLexerFactory,
             ILexerFactory<HierarchicalPart> hierarchicalPartLexerFactory,
             ILexerFactory<Query> queryLexerFactory,
@@ -40,9 +40,9 @@
                 throw new ArgumentNullException("optionLexerFactory");
             }
 
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexerFactory");
+                throw new ArgumentNullException("terminalLexerFactory");
             }
 
             if (schemeLexerFactory == null)
@@ -67,7 +67,7 @@
 
             this.sequenceLexerFactory = sequenceLexerFactory;
             this.optionLexerFactory = optionLexerFactory;
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
             this.schemeLexerFactory = schemeLexerFactory;
             this.hierarchicalPartLexerFactory = hierarchicalPartLexerFactory;
             this.queryLexerFactory = queryLexerFactory;
@@ -77,13 +77,13 @@
         public ILexer<UniformResourceIdentifier> Create()
         {
             var scheme = this.schemeLexerFactory.Create();
-            var colon = this.stringLexerFactory.Create(@":");
+            var colon = this.terminalLexerFactory.Create(@":");
             var hierPart = this.hierarchicalPartLexerFactory.Create();
-            var qm = this.stringLexerFactory.Create(@"?");
+            var qm = this.terminalLexerFactory.Create(@"?");
             var query = this.queryLexerFactory.Create();
             var queryPart = this.sequenceLexerFactory.Create(qm, query);
             var optQuery = this.optionLexerFactory.Create(queryPart);
-            var ht = this.stringLexerFactory.Create(@"#");
+            var ht = this.terminalLexerFactory.Create(@"#");
             var fragment = this.fragmentLexerFactory.Create();
             var fragmentPart = this.sequenceLexerFactory.Create(ht, fragment);
             var optFragment = this.optionLexerFactory.Create(fragmentPart);

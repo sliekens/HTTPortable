@@ -7,21 +7,21 @@
 
     public class PathEmptyLexerFactory : ILexerFactory<PathEmpty>
     {
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
-        public PathEmptyLexerFactory(IStringLexerFactory stringLexerFactory)
+        public PathEmptyLexerFactory(ITerminalLexerFactory terminalLexerFactory)
         {
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexerFactory");
+                throw new ArgumentNullException("terminalLexerFactory");
             }
 
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
         }
 
         public ILexer<PathEmpty> Create()
         {
-            var innerLexer = this.stringLexerFactory.Create(string.Empty);
+            var innerLexer = this.terminalLexerFactory.Create(string.Empty);
             return new PathEmptyLexer(innerLexer);
         }
     }

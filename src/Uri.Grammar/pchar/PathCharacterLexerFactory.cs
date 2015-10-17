@@ -13,11 +13,11 @@
 
         private readonly ILexerFactory<SubcomponentsDelimiter> subcomponentsDelimiterLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         private readonly IAlternativeLexerFactory alternativeLexerFactory;
 
-        public PathCharacterLexerFactory(ILexerFactory<Unreserved> unreservedLexerFactory, ILexerFactory<PercentEncoding> percentEncodingLexerFactory, ILexerFactory<SubcomponentsDelimiter> subcomponentsDelimiterLexerFactory, IStringLexerFactory stringLexerFactory, IAlternativeLexerFactory alternativeLexerFactory)
+        public PathCharacterLexerFactory(ILexerFactory<Unreserved> unreservedLexerFactory, ILexerFactory<PercentEncoding> percentEncodingLexerFactory, ILexerFactory<SubcomponentsDelimiter> subcomponentsDelimiterLexerFactory, ITerminalLexerFactory terminalLexerFactory, IAlternativeLexerFactory alternativeLexerFactory)
         {
             if (unreservedLexerFactory == null)
             {
@@ -34,7 +34,7 @@
                 throw new ArgumentNullException("subcomponentsDelimiterLexerFactory", "Precondition: subcomponentsDelimiterLexerFactory != null");
             }
 
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
                 throw new ArgumentNullException("stringLexerFactory", "Precondition: stringLexerFactory != null");
             }
@@ -47,7 +47,7 @@
             this.unreservedLexerFactory = unreservedLexerFactory;
             this.percentEncodingLexerFactory = percentEncodingLexerFactory;
             this.subcomponentsDelimiterLexerFactory = subcomponentsDelimiterLexerFactory;
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
             this.alternativeLexerFactory = alternativeLexerFactory;
         }
 
@@ -57,8 +57,8 @@
                 this.unreservedLexerFactory.Create(),
                 this.percentEncodingLexerFactory.Create(),
                 this.subcomponentsDelimiterLexerFactory.Create(),
-                this.stringLexerFactory.Create(@":"),
-                this.stringLexerFactory.Create(@"@"));
+                this.terminalLexerFactory.Create(@":"),
+                this.terminalLexerFactory.Create(@"@"));
             return new PathCharacterLexer(pathCharacterAlternativeLexer);
         }
     }

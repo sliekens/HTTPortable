@@ -21,12 +21,12 @@
 
         private readonly ISequenceLexerFactory sequenceLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public RelativePartLexerFactory(
             IAlternativeLexerFactory alternativeLexerFactory,
             ISequenceLexerFactory sequenceLexerFactory,
-            IStringLexerFactory stringLexerFactory,
+            ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<Authority> authorityLexerFactory,
             ILexerFactory<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexerFactory,
             ILexerFactory<PathAbsolute> pathAbsoluteLexerFactory,
@@ -43,9 +43,9 @@
                 throw new ArgumentNullException("sequenceLexerFactory");
             }
 
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexerFactory");
+                throw new ArgumentNullException("terminalLexerFactory");
             }
 
             if (authorityLexerFactory == null)
@@ -75,7 +75,7 @@
 
             this.alternativeLexerFactory = alternativeLexerFactory;
             this.sequenceLexerFactory = sequenceLexerFactory;
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
             this.authorityLexerFactory = authorityLexerFactory;
             this.pathAbsoluteOrEmptyLexerFactory = pathAbsoluteOrEmptyLexerFactory;
             this.pathAbsoluteLexerFactory = pathAbsoluteLexerFactory;
@@ -85,7 +85,7 @@
 
         public ILexer<RelativePart> Create()
         {
-            var delim = this.stringLexerFactory.Create(@"//");
+            var delim = this.terminalLexerFactory.Create(@"//");
             var authority = this.authorityLexerFactory.Create();
             var pathAbEmpty = this.pathAbsoluteOrEmptyLexerFactory.Create();
             var seq = this.sequenceLexerFactory.Create(delim, authority, pathAbEmpty);

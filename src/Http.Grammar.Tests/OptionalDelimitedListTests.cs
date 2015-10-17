@@ -14,8 +14,8 @@
     {
         public static IEnumerable<object[]> GetTestData()
         {
-            var sl = new StringLexerFactory(new CaseInsensitiveTerminalLexerFactory());
-            var listItemLexer = new AlternativeLexer(sl.Create("foo"), sl.Create("bar"), sl.Create("charlie"));
+            var factory = new CaseInsensitiveTerminalLexerFactory();
+            var listItemLexer = new AlternativeLexer(factory.Create("foo"), factory.Create("bar"), factory.Create("charlie"));
             yield return new object[] { "foo,bar", "foo, bar", listItemLexer };
 
             yield return new object[] { "foo ,bar,", "foo, bar", listItemLexer };
@@ -38,7 +38,6 @@
             var sequenceLexerFactory = new SequenceLexerFactory();
             var alternativeLexerFactory = new AlternativeLexerFactory();
             var caseInsensitiveTerminalLexerFactory = new CaseInsensitiveTerminalLexerFactory();
-            var stringLexerFactory = new StringLexerFactory(caseInsensitiveTerminalLexerFactory);
             var spaceLexerFactory = new SpaceLexerFactory(caseInsensitiveTerminalLexerFactory);
             var repetitionLexerFactory = new RepetitionLexerFactory();
             var horizontalTabLexerFactory = new HorizontalTabLexerFactory(caseInsensitiveTerminalLexerFactory);
@@ -48,13 +47,12 @@
                 optionLexerFactory,
                 sequenceLexerFactory,
                 alternativeLexerFactory,
-                stringLexerFactory,
+                caseInsensitiveTerminalLexerFactory,
                 optionalWhiteSpaceLexerFactory,
                 repetitionLexerFactory);
 
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                scanner.Read();
                 return lexerFactory.Create(listItemLexer).Read(scanner, null);
             }
         }

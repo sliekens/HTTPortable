@@ -21,7 +21,7 @@
 
         private readonly ISequenceLexerFactory sequenceLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public HierarchicalPartLexerFactory(
             IAlternativeLexerFactory alternativeLexerFactory,
@@ -31,7 +31,7 @@
             ILexerFactory<PathEmpty> pathEmptyLexerFactory,
             ILexerFactory<PathRootless> pathRootlessLexerFactory,
             ISequenceLexerFactory sequenceLexerFactory,
-            IStringLexerFactory stringLexerFactory)
+            ITerminalLexerFactory terminalLexerFactory)
         {
             if (alternativeLexerFactory == null)
             {
@@ -68,9 +68,9 @@
                 throw new ArgumentNullException("sequenceLexerFactory");
             }
 
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexerFactory");
+                throw new ArgumentNullException("terminalLexerFactory");
             }
 
             this.alternativeLexerFactory = alternativeLexerFactory;
@@ -80,12 +80,12 @@
             this.pathEmptyLexerFactory = pathEmptyLexerFactory;
             this.pathRootlessLexerFactory = pathRootlessLexerFactory;
             this.sequenceLexerFactory = sequenceLexerFactory;
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
         }
 
         public ILexer<HierarchicalPart> Create()
         {
-            var delim = this.stringLexerFactory.Create(@"//");
+            var delim = this.terminalLexerFactory.Create(@"//");
             var authority = this.authorityLexerFactory.Create();
             var pathAbEmpty = this.pathAbsoluteOrEmptyLexerFactory.Create();
             var seq = this.sequenceLexerFactory.Create(delim, authority, pathAbEmpty);

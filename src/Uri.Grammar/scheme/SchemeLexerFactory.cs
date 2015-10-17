@@ -18,7 +18,7 @@
 
         private readonly ISequenceLexerFactory sequenceLexerFactory;
 
-        private readonly IStringLexerFactory stringLexerFactory;
+        private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public SchemeLexerFactory(
             ISequenceLexerFactory sequenceLexerFactory,
@@ -26,7 +26,7 @@
             IRepetitionLexerFactory repetitionLexerFactory,
             ILexerFactory<Alpha> alphaLexerFactory,
             ILexerFactory<Digit> digitLexerFactory,
-            IStringLexerFactory stringLexerFactory)
+            ITerminalLexerFactory terminalLexerFactory)
         {
             if (sequenceLexerFactory == null)
             {
@@ -53,9 +53,9 @@
                 throw new ArgumentNullException("digitLexerFactory");
             }
 
-            if (stringLexerFactory == null)
+            if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexerFactory");
+                throw new ArgumentNullException("terminalLexerFactory");
             }
 
             this.sequenceLexerFactory = sequenceLexerFactory;
@@ -63,16 +63,16 @@
             this.repetitionLexerFactory = repetitionLexerFactory;
             this.alphaLexerFactory = alphaLexerFactory;
             this.digitLexerFactory = digitLexerFactory;
-            this.stringLexerFactory = stringLexerFactory;
+            this.terminalLexerFactory = terminalLexerFactory;
         }
 
         public ILexer<Scheme> Create()
         {
             var alpha = this.alphaLexerFactory.Create();
             var digit = this.digitLexerFactory.Create();
-            var plus = this.stringLexerFactory.Create(@"+");
-            var minus = this.stringLexerFactory.Create(@"-");
-            var dot = this.stringLexerFactory.Create(@".");
+            var plus = this.terminalLexerFactory.Create(@"+");
+            var minus = this.terminalLexerFactory.Create(@"-");
+            var dot = this.terminalLexerFactory.Create(@".");
             var alt = this.alternativeLexerFactory.Create(alpha, digit, plus, minus, dot);
             var rep = this.repetitionLexerFactory.Create(alt, 0, int.MaxValue);
             var innerLexer = this.sequenceLexerFactory.Create(alpha, rep);

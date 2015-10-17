@@ -22,14 +22,12 @@
             var valueRangeLexerFactory = new ValueRangeLexerFactory();
             var alternativeLexerFactory = new AlternativeLexerFactory();
             var sequenceLexerFactory = new SequenceLexerFactory();
-            var stringLexerFactory = new StringLexerFactory(caseInsensitiveTerminalLexerFactory);
             var digitLexerFactory = new DigitLexerFactory(valueRangeLexerFactory);
-            var hexadecimalDigitLexerFactory = new HexadecimalDigitLexerFactory(digitLexerFactory, stringLexerFactory, alternativeLexerFactory);
-            var factory = new PercentEncodingLexerFactory(stringLexerFactory, hexadecimalDigitLexerFactory, sequenceLexerFactory);
+            var hexadecimalDigitLexerFactory = new HexadecimalDigitLexerFactory(digitLexerFactory, caseInsensitiveTerminalLexerFactory, alternativeLexerFactory);
+            var factory = new PercentEncodingLexerFactory(caseInsensitiveTerminalLexerFactory, hexadecimalDigitLexerFactory, sequenceLexerFactory);
             var lexer = factory.Create();
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                scanner.Read();
                 var element = lexer.Read(scanner, null);
                 Assert.NotNull(element);
                 Assert.Equal(input, element.Text);

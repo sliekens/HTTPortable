@@ -1,10 +1,10 @@
 ﻿namespace Uri.Grammar
 {
-    using TextFx.ABNF;
+    using TextFx;
 
-    public class PathEmpty : TerminalString
+    public class PathEmpty : Terminal
     {
-        public PathEmpty(TerminalString pathEmpty)
+        public PathEmpty(Terminal pathEmpty)
             : base(pathEmpty)
         {
         }

@@ -43,7 +43,6 @@
                 var lexer = new ContentLengthLexer();
                 using (ITextScanner scanner = new TextScanner(new StringTextSource(value)))
                 {
-                    scanner.Read();
                     ContentLength element;
                     if (!lexer.TryRead(scanner, null, out element))
                     {
@@ -76,7 +75,6 @@
                 var lexer = new TransferEncodingLexer();
                 using (ITextScanner scanner = new TextScanner(new StringTextSource(value)))
                 {
-                    scanner.Read();
                     TransferEncoding element;
                     if (!lexer.TryRead(scanner, null, out element))
                     {
