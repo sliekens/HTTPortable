@@ -6,7 +6,7 @@
 
     public class PseudonymLexer : Lexer<Pseudonym>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out Pseudonym element)
+        public override ReadResult<Pseudonym> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

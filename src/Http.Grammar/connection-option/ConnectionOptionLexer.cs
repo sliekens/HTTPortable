@@ -6,7 +6,7 @@
 
     public class ConnectionOptionLexer : Lexer<ConnectionOption>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out ConnectionOption element)
+        public override ReadResult<ConnectionOption> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

@@ -23,23 +23,28 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out GenericDelimiter element)
+        public override ReadResult<GenericDelimiter> Read(ITextScanner scanner, Element previousElementOrNull)
         {
-            Alternative result;
-            if (this.innerLexer.TryRead(scanner, null, out result))
+            var result = this.innerLexer.Read(scanner, null);
+            if (!result.Success)
             {
-                element = new GenericDelimiter(result);
-                if (previousElementOrNull != null)
+                return ReadResult<GenericDelimiter>.FromError(new SyntaxError
                 {
-                    previousElementOrNull.NextElement = element;
-                    element.PreviousElement = previousElementOrNull;
-                }
-
-                return true;
+                    Message = "Expected 'gen-delims'.",
+                    RuleName = "gen-delims",
+                    Context = scanner.GetContext(),
+                    InnerError = result.Error
+                });
             }
 
-            element = default(GenericDelimiter);
-            return false;
+            var element = new GenericDelimiter(result.Element);
+            if (previousElementOrNull != null)
+            {
+                previousElementOrNull.NextElement = element;
+                element.PreviousElement = previousElementOrNull;
+            }
+
+            return ReadResult<GenericDelimiter>.FromResult(element);
         }
     }
 }

@@ -70,9 +70,9 @@
         {
             var alpha = this.alphaLexerFactory.Create();
             var digit = this.digitLexerFactory.Create();
-            var plus = this.terminalLexerFactory.Create(@"+");
-            var minus = this.terminalLexerFactory.Create(@"-");
-            var dot = this.terminalLexerFactory.Create(@".");
+            var plus = this.terminalLexerFactory.Create(@"+", StringComparer.Ordinal);
+            var minus = this.terminalLexerFactory.Create(@"-", StringComparer.Ordinal);
+            var dot = this.terminalLexerFactory.Create(@".", StringComparer.Ordinal);
             var alt = this.alternativeLexerFactory.Create(alpha, digit, plus, minus, dot);
             var rep = this.repetitionLexerFactory.Create(alt, 0, int.MaxValue);
             var innerLexer = this.sequenceLexerFactory.Create(alpha, rep);

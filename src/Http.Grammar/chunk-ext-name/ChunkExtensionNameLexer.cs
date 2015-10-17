@@ -6,7 +6,7 @@ namespace Http.Grammar
 
     public class ChunkExtensionNameLexer : Lexer<ChunkExtensionName>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out ChunkExtensionName element)
+        public override ReadResult<ChunkExtensionName> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

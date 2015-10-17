@@ -53,10 +53,10 @@
             var unreservedAlternativeLexer = this.alternativeLexerFactory.Create(
                 this.alphaLexerFactory.Create(),
                 this.digitLexerFactory.Create(),
-                this.terminalLexerFactory.Create(@"-"),
-                this.terminalLexerFactory.Create(@"."),
-                this.terminalLexerFactory.Create(@"_"),
-                this.terminalLexerFactory.Create(@"~"));
+                this.terminalLexerFactory.Create(@"-", StringComparer.Ordinal),
+                this.terminalLexerFactory.Create(@".", StringComparer.Ordinal),
+                this.terminalLexerFactory.Create(@"_", StringComparer.Ordinal),
+                this.terminalLexerFactory.Create(@"~", StringComparer.Ordinal));
             return new UnreservedLexer(unreservedAlternativeLexer);
         }
     }

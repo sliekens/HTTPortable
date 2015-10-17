@@ -6,7 +6,7 @@
 
     public class RequestTargetLexer : Lexer<RequestTarget>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out RequestTarget element)
+        public override ReadResult<RequestTarget> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

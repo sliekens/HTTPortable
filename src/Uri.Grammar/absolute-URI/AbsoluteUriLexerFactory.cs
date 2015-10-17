@@ -68,9 +68,9 @@
         public ILexer<AbsoluteUri> Create()
         {
             var scheme = this.schemeLexerFactory.Create();
-            var colon = this.terminalLexerFactory.Create(@":");
+            var colon = this.terminalLexerFactory.Create(@":", StringComparer.Ordinal);
             var hierPart = this.hierarchicalPartLexerFactory.Create();
-            var qm = this.terminalLexerFactory.Create(@"?");
+            var qm = this.terminalLexerFactory.Create(@"?", StringComparer.Ordinal);
             var query = this.queryLexerFactory.Create();
             var queryPart = this.sequenceLexerFactory.Create(qm, query);
             var optQuery = this.optionLexerFactory.Create(queryPart);

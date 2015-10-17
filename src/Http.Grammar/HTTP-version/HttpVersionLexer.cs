@@ -21,23 +21,28 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out HttpVersion element)
+        public override ReadResult<HttpVersion> Read(ITextScanner scanner, Element previousElementOrNull)
         {
-            Sequence result;
-            if (this.innerLexer.TryRead(scanner, null, out result))
+            var result = this.innerLexer.Read(scanner, null);
+            if (!result.Success)
             {
-                element = new HttpVersion(result);
-                if (previousElementOrNull != null)
+                return ReadResult<HttpVersion>.FromError(new SyntaxError
                 {
-                    previousElementOrNull.NextElement = element;
-                    element.PreviousElement = previousElementOrNull;
-                }
-
-                return true;
+                    Message = "Expected 'HTTP-version'.",
+                    RuleName = "HTTP-version",
+                    Context = scanner.GetContext(),
+                    InnerError = result.Error
+                });
             }
 
-            element = default(HttpVersion);
-            return false;
+            var element = new HttpVersion(result.Element);
+            if (previousElementOrNull != null)
+            {
+                previousElementOrNull.NextElement = element;
+                element.PreviousElement = previousElementOrNull;
+            }
+
+            return ReadResult<HttpVersion>.FromResult(element);
         }
     }
 }

@@ -68,11 +68,11 @@
         public ILexer<Authority> Create()
         {
             var userinfo = this.userInformationLexerFactory.Create();
-            var at = this.terminalLexerFactory.Create(@"@");
+            var at = this.terminalLexerFactory.Create(@"@", StringComparer.Ordinal);
             var userinfoseq = this.sequenceLexerFactory.Create(userinfo, at);
             var optuserinfo = this.optionLexerFactory.Create(userinfoseq);
             var host = this.hostLexerFactory.Create();
-            var colon = this.terminalLexerFactory.Create(@":");
+            var colon = this.terminalLexerFactory.Create(@":", StringComparer.Ordinal);
             var port = this.portLexerFactory.Create();
             var portseq = this.sequenceLexerFactory.Create(colon, port);
             var optport = this.optionLexerFactory.Create(portseq);

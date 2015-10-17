@@ -26,8 +26,7 @@
         [InlineData(@"255.255.255.255")]
         public void Read_ShouldSucceed(string input)
         {
-            var caseInsensitiveTerminalLexerFactory = new CaseInsensitiveTerminalLexerFactory();
-
+            var terminalLexerFactory = new TerminalLexerFactory();
             var sequenceLexerFactory = new SequenceLexerFactory();
             var valueRangeLexerFactory = new ValueRangeLexerFactory();
             var alternativeLexerFactory = new AlternativeLexerFactory();
@@ -35,21 +34,23 @@
             var digitLexerFactory = new DigitLexerFactory(valueRangeLexerFactory);
             var decimalOctetLexerFactory = new DecimalOctetLexerFactory(
                 valueRangeLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 alternativeLexerFactory,
                 repetitionLexerFactory,
                 digitLexerFactory,
                 sequenceLexerFactory);
             var factory = new IPV4AddressLexerFactory(
                 sequenceLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 decimalOctetLexerFactory);
             var lexer = factory.Create();
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                var element = lexer.Read(scanner, null);
-                Assert.NotNull(element);
-                Assert.Equal(input, element.Text);
+                var result = lexer.Read(scanner, null);
+                Assert.NotNull(result);
+                Assert.True(result.Success);
+                Assert.NotNull(result.Element);
+                Assert.Equal(input, result.Element.Text);
             }
         }
     }

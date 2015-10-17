@@ -19,23 +19,28 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out DecimalOctet element)
+        public override ReadResult<DecimalOctet> Read(ITextScanner scanner, Element previousElementOrNull)
         {
-            Alternative result;
-            if (this.innerLexer.TryRead(scanner, null, out result))
+            var result = this.innerLexer.Read(scanner, null);
+            if (!result.Success)
             {
-                element = new DecimalOctet(result);
-                if (previousElementOrNull != null)
+                return ReadResult<DecimalOctet>.FromError(new SyntaxError
                 {
-                    previousElementOrNull.NextElement = element;
-                    element.PreviousElement = previousElementOrNull;
-                }
-
-                return true;
+                    Message = "Expected 'dec-octet'.",
+                    RuleName = "dec-octet",
+                    Context = scanner.GetContext(),
+                    InnerError = result.Error
+                });
             }
 
-            element = default(DecimalOctet);
-            return false;
+            var element = new DecimalOctet(result.Element);
+            if (previousElementOrNull != null)
+            {
+                previousElementOrNull.NextElement = element;
+                element.PreviousElement = previousElementOrNull;
+            }
+
+            return ReadResult<DecimalOctet>.FromResult(element);
         }
     }
 }

@@ -33,14 +33,14 @@
             this.outputStream = outputStream;
         }
 
-        private static readonly ILexer<EndOfLine> EndOfLineLexer; 
+        private static readonly ILexer<EndOfLine> EndOfLineLexer;
 
         static PortableUserAgent()
         {
             var sequenceLexerFactory = new SequenceLexerFactory();
-            var caseInsensitiveTerminalLexerFactory = new CaseInsensitiveTerminalLexerFactory();
-            var carriageReturnLexerFactory = new CarriageReturnLexerFactory(caseInsensitiveTerminalLexerFactory);
-            var lineFeedLexerFactory = new LineFeedLexerFactory(caseInsensitiveTerminalLexerFactory);
+            var terminalLexerFactory = new TerminalLexerFactory();
+            var carriageReturnLexerFactory = new CarriageReturnLexerFactory(terminalLexerFactory);
+            var lineFeedLexerFactory = new LineFeedLexerFactory(terminalLexerFactory);
             var endOfLineLexerFactory = new EndOfLineLexerFactory(carriageReturnLexerFactory, lineFeedLexerFactory, sequenceLexerFactory);
             EndOfLineLexer = endOfLineLexerFactory.Create();
         }
@@ -65,7 +65,13 @@
                 using (ITextScanner scanner = new TextScanner(new StreamTextSource(pushbackInputStream, Encoding.UTF8)))
                 {
                     var startLineLexer = new StartLineLexer();
-                    var startLine = startLineLexer.Read(scanner, null);
+                    var r = startLineLexer.Read(scanner, null);
+                    if (!r.Success)
+                    {
+                        // TODO: close connection
+                        throw new NotImplementedException("Error handling is not implemented");
+                    }
+                    var startLine = r.Element;
                     if (startLine.Element is RequestLine)
                     {
                         throw new NotImplementedException("Receiving requests is not implemented");
@@ -77,17 +83,27 @@
                     var reason = statusLine.Elements[5].Text;
                     message = new ResponseMessage(httpVersion, status, reason);
                     var headerFieldLexer = new HeaderFieldLexer();
-                    HeaderField headerField;
-                    while (headerFieldLexer.TryRead(scanner, null, out headerField))
+                    var rhf = headerFieldLexer.Read(scanner, null);
+                    while (rhf.Success)
                     {
-                        EndOfLineLexer.Read(scanner, null);
+                        if (!EndOfLineLexer.Read(scanner, null).Success)
+                        {
+                            // TODO: close connection
+                            throw new NotImplementedException("Error handling is not implemented");
+                        }
+
+                        var headerField = rhf.Element;
                         message.Headers.Add(new Header(headerField.FieldName.Text)
                         {
                             headerField.FieldValue.Text
                         });
                     }
 
-                    EndOfLineLexer.Read(scanner, null);
+                    if (!EndOfLineLexer.Read(scanner, null).Success)
+                    {
+                        // TODO: close connection
+                        throw new NotImplementedException("Error handling is not implemented");
+                    }
                 }
 
                 long contentLength;

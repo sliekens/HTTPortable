@@ -21,7 +21,7 @@
 
         public ILexer<PathEmpty> Create()
         {
-            var innerLexer = this.terminalLexerFactory.Create(string.Empty);
+            var innerLexer = this.terminalLexerFactory.Create(string.Empty, StringComparer.Ordinal);
             return new PathEmptyLexer(innerLexer);
         }
     }

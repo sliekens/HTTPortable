@@ -6,7 +6,7 @@ namespace Http.Grammar
 
     public class StatusLineLexer : Lexer<StatusLine>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out StatusLine element)
+        public override ReadResult<StatusLine> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

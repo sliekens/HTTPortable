@@ -43,13 +43,13 @@
                 var lexer = new ContentLengthLexer();
                 using (ITextScanner scanner = new TextScanner(new StringTextSource(value)))
                 {
-                    ContentLength element;
-                    if (!lexer.TryRead(scanner, null, out element))
+                    var readResult = lexer.Read(scanner, null);
+                    if (!readResult.Success)
                     {
                         continue;
                     }
 
-                    if (long.TryParse(element.Text, NumberStyles.None, NumberFormatInfo.InvariantInfo, out result))
+                    if (long.TryParse(readResult.Element.Text, NumberStyles.None, NumberFormatInfo.InvariantInfo, out result))
                     {
                         return true;
                     }
@@ -75,13 +75,13 @@
                 var lexer = new TransferEncodingLexer();
                 using (ITextScanner scanner = new TextScanner(new StringTextSource(value)))
                 {
-                    TransferEncoding element;
-                    if (!lexer.TryRead(scanner, null, out element))
+                    var readResult = lexer.Read(scanner, null);
+                    if (!readResult.Success)
                     {
                         break;
                     }
 
-                    var elements = element.Elements;
+                    var elements = readResult.Element.Elements;
                     result = new TransferEncodingHeader(elements.Select(coding => coding.Text).ToList());
                     return true;
                 }

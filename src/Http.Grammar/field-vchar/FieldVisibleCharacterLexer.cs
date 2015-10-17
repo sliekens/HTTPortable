@@ -6,7 +6,7 @@
 
     public class FieldVisibleCharacterLexer : Lexer<FieldVisibleCharacter>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out FieldVisibleCharacter element)
+        public override ReadResult<FieldVisibleCharacter> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

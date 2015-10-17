@@ -22,23 +22,27 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out OptionalDelimitedList element)
+        public override ReadResult<OptionalDelimitedList> Read(ITextScanner scanner, Element previousElementOrNull)
         {
-            Repetition result;
-            if (this.innerLexer.TryRead(scanner, null, out result))
+            var result = this.innerLexer.Read(scanner, null);
+            if (!result.Success)
             {
-                element = new OptionalDelimitedList(result);
-                if (previousElementOrNull != null)
+                return ReadResult<OptionalDelimitedList>.FromError(new SyntaxError
                 {
-                    previousElementOrNull.NextElement = element;
-                    element.PreviousElement = previousElementOrNull;
-                }
-
-                return true;
+                    Message = "One or more syntax errors were found.",
+                    Context = scanner.GetContext(),
+                    InnerError = result.Error
+                });
             }
 
-            element = default(OptionalDelimitedList);
-            return false;
+            var element = new OptionalDelimitedList(result.Element);
+            if (previousElementOrNull != null)
+            {
+                previousElementOrNull.NextElement = element;
+                element.PreviousElement = previousElementOrNull;
+            }
+
+            return ReadResult<OptionalDelimitedList>.FromResult(element);
         }
     }
 }

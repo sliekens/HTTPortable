@@ -19,23 +19,28 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out Query element)
+        public override ReadResult<Query> Read(ITextScanner scanner, Element previousElementOrNull)
         {
-            Repetition result;
-            if (this.innerLexer.TryRead(scanner, null, out result))
+            var result = this.innerLexer.Read(scanner, null);
+            if (!result.Success)
             {
-                element = new Query(result);
-                if (previousElementOrNull != null)
+                return ReadResult<Query>.FromError(new SyntaxError
                 {
-                    previousElementOrNull.NextElement = element;
-                    element.PreviousElement = previousElementOrNull;
-                }
-
-                return true;
+                    Message = "Expected 'query'.",
+                    RuleName = "query",
+                    Context = scanner.GetContext(),
+                    InnerError = result.Error
+                });
             }
 
-            element = default(Query);
-            return false;
+            var element = new Query(result.Element);
+            if (previousElementOrNull != null)
+            {
+                previousElementOrNull.NextElement = element;
+                element.PreviousElement = previousElementOrNull;
+            }
+
+            return ReadResult<Query>.FromResult(element);
         }
     }
 }

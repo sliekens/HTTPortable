@@ -6,7 +6,7 @@
 
     public class ChunkExtensionLexer : Lexer<ChunkExtension>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out ChunkExtension element)
+        public override ReadResult<ChunkExtension> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

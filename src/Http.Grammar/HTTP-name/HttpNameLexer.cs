@@ -3,7 +3,6 @@
     using System;
 
     using TextFx;
-    using TextFx.ABNF;
 
     public class HttpNameLexer : Lexer<HttpName>
     {
@@ -22,23 +21,28 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out HttpName element)
+        public override ReadResult<HttpName> Read(ITextScanner scanner, Element previousElementOrNull)
         {
-            Terminal result;
-            if (this.innerLexer.TryRead(scanner, null, out result))
+            var result = this.innerLexer.Read(scanner, null);
+            if (!result.Success)
             {
-                element = new HttpName(result);
-                if (previousElementOrNull != null)
+                return ReadResult<HttpName>.FromError(new SyntaxError
                 {
-                    previousElementOrNull.NextElement = element;
-                    element.PreviousElement = previousElementOrNull;
-                }
-
-                return true;
+                    Message = "Expected 'HTTP-name'.",
+                    RuleName = "HTTP-name",
+                    Context = scanner.GetContext(),
+                    InnerError = result.Error
+                });
             }
 
-            element = default(HttpName);
-            return false;
+            var element = new HttpName(result.Element);
+            if (previousElementOrNull != null)
+            {
+                previousElementOrNull.NextElement = element;
+                element.PreviousElement = previousElementOrNull;
+            }
+
+            return ReadResult<HttpName>.FromResult(element);
         }
     }
 }

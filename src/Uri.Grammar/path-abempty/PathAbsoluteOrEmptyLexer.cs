@@ -23,23 +23,28 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out PathAbsoluteOrEmpty element)
+        public override ReadResult<PathAbsoluteOrEmpty> Read(ITextScanner scanner, Element previousElementOrNull)
         {
-            Repetition result;
-            if (this.innerLexer.TryRead(scanner, null, out result))
+            var result = this.innerLexer.Read(scanner, null);
+            if (!result.Success)
             {
-                element = new PathAbsoluteOrEmpty(result);
-                if (previousElementOrNull != null)
+                return ReadResult<PathAbsoluteOrEmpty>.FromError(new SyntaxError
                 {
-                    previousElementOrNull.NextElement = element;
-                    element.PreviousElement = previousElementOrNull;
-                }
-
-                return true;
+                    Message = "Expected 'path-abempty'.",
+                    RuleName = "path-abempty",
+                    Context = scanner.GetContext(),
+                    InnerError = result.Error
+                });
             }
 
-            element = default(PathAbsoluteOrEmpty);
-            return false;
+            var element = new PathAbsoluteOrEmpty(result.Element);
+            if (previousElementOrNull != null)
+            {
+                previousElementOrNull.NextElement = element;
+                element.PreviousElement = previousElementOrNull;
+            }
+
+            return ReadResult<PathAbsoluteOrEmpty>.FromResult(element);
         }
     }
 }

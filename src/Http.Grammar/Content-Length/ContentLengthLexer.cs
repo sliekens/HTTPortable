@@ -6,7 +6,7 @@
 
     public class ContentLengthLexer : Lexer<ContentLength>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out ContentLength element)
+        public override ReadResult<ContentLength> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

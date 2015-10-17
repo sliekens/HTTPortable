@@ -44,7 +44,7 @@
             var a = this.decimaOctetLexerFactory.Create();
 
             // "."
-            var b = this.terminalLexerFactory.Create(@".");
+            var b = this.terminalLexerFactory.Create(@".", StringComparer.Ordinal);
 
             // dec-octet "." dec-octet "." dec-octet "." dec-octet
             var c = this.sequenceLexerFactory.Create(a, b, a, b, a, b, a);

@@ -22,23 +22,28 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out PathNoScheme element)
+        public override ReadResult<PathNoScheme> Read(ITextScanner scanner, Element previousElementOrNull)
         {
-            Sequence result;
-            if (this.innerLexer.TryRead(scanner, null, out result))
+            var result = this.innerLexer.Read(scanner, null);
+            if (!result.Success)
             {
-                element = new PathNoScheme(result);
-                if (previousElementOrNull != null)
+                return ReadResult<PathNoScheme>.FromError(new SyntaxError
                 {
-                    previousElementOrNull.NextElement = element;
-                    element.PreviousElement = previousElementOrNull;
-                }
-
-                return true;
+                    Message = "Expected 'path-noscheme'.",
+                    RuleName = "path-noscheme",
+                    Context = scanner.GetContext(),
+                    InnerError = result.Error
+                });
             }
 
-            element = default(PathNoScheme);
-            return false;
+            var element = new PathNoScheme(result.Element);
+            if (previousElementOrNull != null)
+            {
+                previousElementOrNull.NextElement = element;
+                element.PreviousElement = previousElementOrNull;
+            }
+
+            return ReadResult<PathNoScheme>.FromResult(element);
         }
     }
 }

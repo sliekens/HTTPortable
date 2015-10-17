@@ -6,7 +6,7 @@
 
     public class ChunkedBodyLexer : Lexer<ChunkedBody>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out ChunkedBody element)
+        public override ReadResult<ChunkedBody> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

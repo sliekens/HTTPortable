@@ -4,7 +4,7 @@
 
     public class ReceivedProtocolLexer : Lexer<ReceivedProtocol>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out ReceivedProtocol element)
+        public override ReadResult<ReceivedProtocol> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new System.NotImplementedException();
         }

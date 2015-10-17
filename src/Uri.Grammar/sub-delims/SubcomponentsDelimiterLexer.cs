@@ -23,23 +23,28 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out SubcomponentsDelimiter element)
+        public override ReadResult<SubcomponentsDelimiter> Read(ITextScanner scanner, Element previousElementOrNull)
         {
-            Alternative result;
-            if (this.innerLexer.TryRead(scanner, null, out result))
+            var result = this.innerLexer.Read(scanner, null);
+            if (!result.Success)
             {
-                element = new SubcomponentsDelimiter(result);
-                if (previousElementOrNull != null)
+                return ReadResult<SubcomponentsDelimiter>.FromError(new SyntaxError
                 {
-                    previousElementOrNull.NextElement = element;
-                    element.PreviousElement = previousElementOrNull;
-                }
-
-                return true;
+                    Message = "Expected 'sub-delims'",
+                    RuleName = "sub-delims",
+                    Context = scanner.GetContext(),
+                    InnerError = result.Error
+                });
             }
 
-            element = default(SubcomponentsDelimiter);
-            return false;
+            var element = new SubcomponentsDelimiter(result.Element);
+            if (previousElementOrNull != null)
+            {
+                previousElementOrNull.NextElement = element;
+                element.PreviousElement = previousElementOrNull;
+            }
+
+            return ReadResult<SubcomponentsDelimiter>.FromResult(element);
         }
     }
 }

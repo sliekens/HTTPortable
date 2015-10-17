@@ -72,7 +72,7 @@
             var a = this.valueRangeLexerFactory.Create('\x30', '\x35');
 
             // "25"
-            var b = this.terminalLexerFactory.Create("25");
+            var b = this.terminalLexerFactory.Create("25", StringComparer.Ordinal);
 
             // "25" %x30-35 
             var c = this.sequenceLexerFactory.Create(b, a);
@@ -84,7 +84,7 @@
             var e = this.valueRangeLexerFactory.Create('\x30', '\x34');
 
             // "2"
-            var f = this.terminalLexerFactory.Create("2");
+            var f = this.terminalLexerFactory.Create("2", StringComparer.Ordinal);
 
             // "2" %x30-34 DIGIT 
             var g = this.sequenceLexerFactory.Create(f, e, d);
@@ -93,7 +93,7 @@
             var h = this.repetitionLexerFactory.Create(d, 2, 2);
 
             // "1"
-            var i = this.terminalLexerFactory.Create("1");
+            var i = this.terminalLexerFactory.Create("1", StringComparer.Ordinal);
 
             // "1" 2DIGIT  
             var j = this.sequenceLexerFactory.Create(i, h);

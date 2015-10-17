@@ -6,7 +6,7 @@
 
     public class MethodLexer : Lexer<Method>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out Method element)
+        public override ReadResult<Method> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

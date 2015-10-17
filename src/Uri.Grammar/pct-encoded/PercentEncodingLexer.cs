@@ -23,23 +23,28 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out PercentEncoding element)
+        public override ReadResult<PercentEncoding> Read(ITextScanner scanner, Element previousElementOrNull)
         {
-            Sequence result;
-            if (this.innerLexer.TryRead(scanner, null, out result))
+            var result = this.innerLexer.Read(scanner, null);
+            if (!result.Success)
             {
-                element = new PercentEncoding(result);
-                if (previousElementOrNull != null)
+                return ReadResult<PercentEncoding>.FromError(new SyntaxError
                 {
-                    previousElementOrNull.NextElement = element;
-                    element.PreviousElement = previousElementOrNull;
-                }
-
-                return true;
+                    Message = "Expected 'pct-encoded'.",
+                    RuleName = "pct-encoded",
+                    Context = scanner.GetContext(),
+                    InnerError = result.Error
+                });
             }
 
-            element = default(PercentEncoding);
-            return false;
+            var element = new PercentEncoding(result.Element);
+            if (previousElementOrNull != null)
+            {
+                previousElementOrNull.NextElement = element;
+                element.PreviousElement = previousElementOrNull;
+            }
+
+            return ReadResult<PercentEncoding>.FromResult(element);
         }
     }
 }

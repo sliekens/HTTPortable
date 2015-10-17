@@ -78,13 +78,13 @@
         public ILexer<IPvFuture> Create()
         {
             // "v"
-            var v = this.terminalLexerFactory.Create(@"v");
+            var v = this.terminalLexerFactory.Create(@"v", StringComparer.OrdinalIgnoreCase);
 
             // HEXDIG
             var hexdig = this.hexadecimalDigitLexerFactory.Create();
 
             // "."
-            var dot = this.terminalLexerFactory.Create(@".");
+            var dot = this.terminalLexerFactory.Create(@".", StringComparer.Ordinal);
 
             // unreserved
             var unreserved = this.unreservedLexerFactory.Create();
@@ -93,7 +93,7 @@
             var subDelims = this.subcomponentsDelimiterLexerFactory.Create();
 
             // ":"
-            var colon = this.terminalLexerFactory.Create(@":");
+            var colon = this.terminalLexerFactory.Create(@":", StringComparer.Ordinal);
 
             // 1*HEXDIG
             var r = this.repetitionLexerFactory.Create(hexdig, 1, int.MaxValue);

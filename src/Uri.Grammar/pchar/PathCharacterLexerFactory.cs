@@ -57,8 +57,8 @@
                 this.unreservedLexerFactory.Create(),
                 this.percentEncodingLexerFactory.Create(),
                 this.subcomponentsDelimiterLexerFactory.Create(),
-                this.terminalLexerFactory.Create(@":"),
-                this.terminalLexerFactory.Create(@"@"));
+                this.terminalLexerFactory.Create(@":", StringComparer.Ordinal),
+                this.terminalLexerFactory.Create(@"@", StringComparer.Ordinal));
             return new PathCharacterLexer(pathCharacterAlternativeLexer);
         }
     }

@@ -21,7 +21,7 @@
         {
             var sequenceLexerFactory = new SequenceLexerFactory();
             var optionLexerFactory = new OptionLexerFactory();
-            var caseInsensitiveTerminalLexerFactory = new CaseInsensitiveTerminalLexerFactory();
+            var terminalLexerFactory = new TerminalLexerFactory();
             var alternativeLexerFactory = new AlternativeLexerFactory();
             var repetitionLexerFactory = new RepetitionLexerFactory();
             var valueRangeLexerFactory = new ValueRangeLexerFactory();
@@ -33,27 +33,27 @@
                 repetitionLexerFactory,
                 alphaLexerFactory,
                 digitLexerFactory,
-                caseInsensitiveTerminalLexerFactory);
+                terminalLexerFactory);
             var unreservedLexerFactory = new UnreservedLexerFactory(
                 alphaLexerFactory,
                 digitLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 alternativeLexerFactory);
             var hexadecimalDigitLexerFactory = new HexadecimalDigitLexerFactory(
                 digitLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 alternativeLexerFactory);
             var percentEncodingLexerFactory = new PercentEncodingLexerFactory(
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 hexadecimalDigitLexerFactory,
                 sequenceLexerFactory);
             var subcomponentsDelimiterLexerFactory = new SubcomponentsDelimiterLexerFactory(
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 alternativeLexerFactory);
             var userInformationLexerFactory = new UserInformationLexerFactory(
                 repetitionLexerFactory,
                 alternativeLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 unreservedLexerFactory,
                 percentEncodingLexerFactory,
                 subcomponentsDelimiterLexerFactory);
@@ -62,31 +62,31 @@
                 hexadecimalDigitLexerFactory);
             var decimalOctetLexerFactory = new DecimalOctetLexerFactory(
                 valueRangeLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 alternativeLexerFactory,
                 repetitionLexerFactory,
                 digitLexerFactory,
                 sequenceLexerFactory);
             var ipv4AddressLexerFactory = new IPV4AddressLexerFactory(
                 sequenceLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 decimalOctetLexerFactory);
             var leastSignificantInt32LexerFactory = new LeastSignificantInt32LexerFactory(
                 alternativeLexerFactory,
                 sequenceLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 hexadecimalInt16LexerFactory,
                 ipv4AddressLexerFactory);
             var ipv6AddressLexerFactory = new IPv6AddressLexerFactory(
                 alternativeLexerFactory,
                 sequenceLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 repetitionLexerFactory,
                 optionLexerFactory,
                 hexadecimalInt16LexerFactory,
                 leastSignificantInt32LexerFactory);
             var ipvFutureLexerFactory = new IPvFutureLexerFactory(
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 repetitionLexerFactory,
                 sequenceLexerFactory,
                 alternativeLexerFactory,
@@ -96,11 +96,11 @@
             var ipLiteralLexerFactory = new IPLiteralLexerFactory(
                 sequenceLexerFactory,
                 alternativeLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 ipv6AddressLexerFactory,
                 ipvFutureLexerFactory);
             var encodingLexerFactory = new PercentEncodingLexerFactory(
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 hexadecimalDigitLexerFactory,
                 sequenceLexerFactory);
             var registeredNameLexerFactory = new RegisteredNameLexerFactory(
@@ -119,21 +119,21 @@
                 optionLexerFactory,
                 sequenceLexerFactory,
                 userInformationLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 hostLexerFactory,
                 portLexerFactory);
             var pathCharacterLexerFactory = new PathCharacterLexerFactory(
                 unreservedLexerFactory,
                 percentEncodingLexerFactory,
                 subcomponentsDelimiterLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 alternativeLexerFactory);
             var segmentLexerFactory = new SegmentLexerFactory(pathCharacterLexerFactory, repetitionLexerFactory);
             var segmentNonZeroLengthLexerFactory = new SegmentNonZeroLengthLexerFactory(
                 pathCharacterLexerFactory,
                 repetitionLexerFactory);
             var pathAbsoluteLexerFactory = new PathAbsoluteLexerFactory(
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 optionLexerFactory,
                 sequenceLexerFactory,
                 repetitionLexerFactory,
@@ -142,13 +142,13 @@
             var pathAbsoluteOrEmptyLexerFactory = new PathAbsoluteOrEmptyLexerFactory(
                 repetitionLexerFactory,
                 sequenceLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 segmentLexerFactory);
-            var pathEmptyLexerFactory = new PathEmptyLexerFactory(caseInsensitiveTerminalLexerFactory);
+            var pathEmptyLexerFactory = new PathEmptyLexerFactory(terminalLexerFactory);
             var pathRootlessLexerFactory = new PathRootlessLexerFactory(
                 sequenceLexerFactory,
                 repetitionLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 segmentLexerFactory,
                 segmentNonZeroLengthLexerFactory);
             var hierarchicalPartLexerFactory = new HierarchicalPartLexerFactory(
@@ -159,21 +159,21 @@
                 pathEmptyLexerFactory,
                 pathRootlessLexerFactory,
                 sequenceLexerFactory,
-                caseInsensitiveTerminalLexerFactory);
+                terminalLexerFactory);
             var queryLexerFactory = new QueryLexerFactory(
                 alternativeLexerFactory,
                 pathCharacterLexerFactory,
                 repetitionLexerFactory,
-                caseInsensitiveTerminalLexerFactory);
+                terminalLexerFactory);
             var fragmentLexerFactory = new FragmentLexerFactory(
                 alternativeLexerFactory,
                 pathCharacterLexerFactory,
                 repetitionLexerFactory,
-                caseInsensitiveTerminalLexerFactory);
+                terminalLexerFactory);
             var factory = new UniformResourceIdentifierLexerFactory(
                 sequenceLexerFactory,
                 optionLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 schemeLexerFactory,
                 hierarchicalPartLexerFactory,
                 queryLexerFactory,
@@ -181,9 +181,11 @@
             var lexer = factory.Create();
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                var element = lexer.Read(scanner, null);
-                Assert.NotNull(element);
-                Assert.Equal(input, element.Text);
+                var result = lexer.Read(scanner, null);
+                Assert.NotNull(result);
+                Assert.True(result.Success);
+                Assert.NotNull(result.Element);
+                Assert.Equal(input, result.Element.Text);
             }
         }
     }

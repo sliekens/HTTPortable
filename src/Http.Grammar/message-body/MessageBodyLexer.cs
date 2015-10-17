@@ -6,7 +6,7 @@ namespace Http.Grammar
 
     public class MessageBodyLexer : Lexer<MessageBody>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out MessageBody element)
+        public override ReadResult<MessageBody> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

@@ -4,7 +4,7 @@
 
     public class RequestLineLexer : Lexer<RequestLine>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out RequestLine element)
+        public override ReadResult<RequestLine> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new System.NotImplementedException();
         }

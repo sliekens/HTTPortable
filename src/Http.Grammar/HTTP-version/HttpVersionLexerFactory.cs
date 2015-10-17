@@ -52,8 +52,8 @@
         {
             var httpName = this.httpNameLexerFactory.Create();
             var digit = this.digitLexerFactory.Create();
-            var slash = this.terminalLexerFactory.Create(@"/");
-            var dot = this.terminalLexerFactory.Create(@".");
+            var slash = this.terminalLexerFactory.Create(@"/", StringComparer.Ordinal);
+            var dot = this.terminalLexerFactory.Create(@".", StringComparer.Ordinal);
             var innerLexer = this.sequenceLexerFactory.Create(httpName, slash, digit, dot, digit);
             return new HttpVersionLexer(innerLexer);
         }

@@ -62,7 +62,7 @@
             var a = this.hexadecimalInt16LexerFactory.Create();
 
             // ":"
-            var b = this.terminalLexerFactory.Create(@":");
+            var b = this.terminalLexerFactory.Create(@":", StringComparer.Ordinal);
 
             // h16 ":" h16
             var c = this.sequenceLexerFactory.Create(a, b, a);

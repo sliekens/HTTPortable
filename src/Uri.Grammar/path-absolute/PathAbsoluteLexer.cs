@@ -22,23 +22,28 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out PathAbsolute element)
+        public override ReadResult<PathAbsolute> Read(ITextScanner scanner, Element previousElementOrNull)
         {
-            Sequence result;
-            if (this.innerLexer.TryRead(scanner, null, out result))
+            var result = this.innerLexer.Read(scanner, null);
+            if (!result.Success)
             {
-                element = new PathAbsolute(result);
-                if (previousElementOrNull != null)
+                return ReadResult<PathAbsolute>.FromError(new SyntaxError
                 {
-                    previousElementOrNull.NextElement = element;
-                    element.PreviousElement = previousElementOrNull;
-                }
-
-                return true;
+                    Message = "Expected 'path-absolute'.",
+                    RuleName = "path-absolute",
+                    Context = scanner.GetContext(),
+                    InnerError = result.Error
+                });
             }
 
-            element = default(PathAbsolute);
-            return false;
+            var element = new PathAbsolute(result.Element);
+            if (previousElementOrNull != null)
+            {
+                previousElementOrNull.NextElement = element;
+                element.PreviousElement = previousElementOrNull;
+            }
+
+            return ReadResult<PathAbsolute>.FromResult(element);
         }
     }
 }

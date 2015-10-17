@@ -19,23 +19,28 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out AbsoluteUri element)
+        public override ReadResult<AbsoluteUri> Read(ITextScanner scanner, Element previousElementOrNull)
         {
-            Sequence result;
-            if (this.innerLexer.TryRead(scanner, null, out result))
+            var result = this.innerLexer.Read(scanner, null);
+            if (!result.Success)
             {
-                element = new AbsoluteUri(result);
-                if (previousElementOrNull != null)
+                return ReadResult<AbsoluteUri>.FromError(new SyntaxError
                 {
-                    previousElementOrNull.NextElement = element;
-                    element.PreviousElement = previousElementOrNull;
-                }
-
-                return true;
+                    Message = "Expected 'absolute-URI'.",
+                    RuleName = "absolute-URI",
+                    Context = scanner.GetContext(),
+                    InnerError = result.Error
+                });
             }
 
-            element = default(AbsoluteUri);
-            return false;
+            var element = new AbsoluteUri(result.Element);
+            if (previousElementOrNull != null)
+            {
+                previousElementOrNull.NextElement = element;
+                element.PreviousElement = previousElementOrNull;
+            }
+
+            return ReadResult<AbsoluteUri>.FromResult(element);
         }
     }
 }

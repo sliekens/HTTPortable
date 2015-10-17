@@ -22,23 +22,28 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out StatusCode element)
+        public override ReadResult<StatusCode> Read(ITextScanner scanner, Element previousElementOrNull)
         {
-            Repetition result;
-            if (this.innerLexer.TryRead(scanner, null, out result))
+            var result = this.innerLexer.Read(scanner, null);
+            if (!result.Success)
             {
-                element = new StatusCode(result);
-                if (previousElementOrNull != null)
+                return ReadResult<StatusCode>.FromError(new SyntaxError
                 {
-                    previousElementOrNull.NextElement = element;
-                    element.PreviousElement = previousElementOrNull;
-                }
-                
-                return true;
+                    Message = "Expected 'status-code'.",
+                    RuleName = "status-code",
+                    Context = scanner.GetContext(),
+                    InnerError = result.Error
+                });
             }
 
-            element = default(StatusCode);
-            return false;
+            var element = new StatusCode(result.Element);
+            if (previousElementOrNull != null)
+            {
+                previousElementOrNull.NextElement = element;
+                element.PreviousElement = previousElementOrNull;
+            }
+
+            return ReadResult<StatusCode>.FromResult(element);
         }
     }
 }

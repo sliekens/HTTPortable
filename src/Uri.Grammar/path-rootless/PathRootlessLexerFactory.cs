@@ -59,7 +59,7 @@
         public ILexer<PathRootless> Create()
         {
             // "/"
-            var a = this.terminalLexerFactory.Create(@"/");
+            var a = this.terminalLexerFactory.Create(@"/", StringComparer.Ordinal);
 
             // segment
             var b = this.segmentLexerFactory.Create();

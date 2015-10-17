@@ -4,7 +4,7 @@
 
     public class ViaLexer : Lexer<Via>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out Via element)
+        public override ReadResult<Via> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new System.NotImplementedException();
         }

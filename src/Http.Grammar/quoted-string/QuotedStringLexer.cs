@@ -6,7 +6,7 @@
 
     public class QuotedStringLexer : Lexer<QuotedString>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out QuotedString element)
+        public override ReadResult<QuotedString> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

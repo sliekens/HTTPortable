@@ -85,7 +85,7 @@
 
         public ILexer<RelativePart> Create()
         {
-            var delim = this.terminalLexerFactory.Create(@"//");
+            var delim = this.terminalLexerFactory.Create(@"//", StringComparer.Ordinal);
             var authority = this.authorityLexerFactory.Create();
             var pathAbEmpty = this.pathAbsoluteOrEmptyLexerFactory.Create();
             var seq = this.sequenceLexerFactory.Create(delim, authority, pathAbEmpty);

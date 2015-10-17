@@ -12,27 +12,27 @@
         [InlineData(@"@")]
         public void Read_ShouldSucceed(string input)
         {
-            var caseInsensitiveTerminalLexerFactory = new CaseInsensitiveTerminalLexerFactory();
+            var terminalLexerFactory = new TerminalLexerFactory();
             var alternativeLexerFactory = new AlternativeLexerFactory();
             var subcomponentsDelimiterLexerFactory = new SubcomponentsDelimiterLexerFactory(
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 alternativeLexerFactory);
             var valueRangeLexerFactory = new ValueRangeLexerFactory();
             var sequenceLexerFactory = new SequenceLexerFactory();
             var digitLexerFactory = new DigitLexerFactory(valueRangeLexerFactory);
             var hexadecimalDigitLexerFactory = new HexadecimalDigitLexerFactory(
                 digitLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 alternativeLexerFactory);
             var alphaLexerFactory = new AlphaLexerFactory(valueRangeLexerFactory, alternativeLexerFactory);
             var percentEncodingLexerFactory = new PercentEncodingLexerFactory(
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 hexadecimalDigitLexerFactory,
                 sequenceLexerFactory);
             var unreservedLexerFactory = new UnreservedLexerFactory(
                 alphaLexerFactory,
                 digitLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 alternativeLexerFactory);
             var repetitionLexerFactory = new RepetitionLexerFactory();
             var factory = new SegmentNonZeroLengthNoColonsLexerFactory(
@@ -41,13 +41,15 @@
                 unreservedLexerFactory,
                 percentEncodingLexerFactory,
                 subcomponentsDelimiterLexerFactory,
-                caseInsensitiveTerminalLexerFactory);
+                terminalLexerFactory);
             var lexer = factory.Create();
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                var element = lexer.Read(scanner, null);
-                Assert.NotNull(element);
-                Assert.Equal(input, element.Text);
+                var result = lexer.Read(scanner, null);
+                Assert.NotNull(result);
+                Assert.True(result.Success);
+                Assert.NotNull(result.Element);
+                Assert.Equal(input, result.Element.Text);
             }
         }
     }

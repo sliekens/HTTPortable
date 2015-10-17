@@ -68,11 +68,11 @@
         public ILexer<RelativeReference> Create()
         {
             var relativePart = this.relativePartLexerFactory.Create();
-            var qm = this.terminalLexerFactory.Create(@"?");
+            var qm = this.terminalLexerFactory.Create(@"?", StringComparer.Ordinal);
             var query = this.queryLexerFactory.Create();
             var queryPart = this.sequenceLexerFactory.Create(qm, query);
             var optQuery = this.optionLexerFactory.Create(queryPart);
-            var ht = this.terminalLexerFactory.Create(@"#");
+            var ht = this.terminalLexerFactory.Create(@"#", StringComparer.Ordinal);
             var fragment = this.fragmentLexerFactory.Create();
             var fragmentPart = this.sequenceLexerFactory.Create(ht, fragment);
             var optFragment = this.optionLexerFactory.Create(fragmentPart);

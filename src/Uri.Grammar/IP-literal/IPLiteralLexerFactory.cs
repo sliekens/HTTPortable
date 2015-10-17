@@ -58,8 +58,8 @@
 
         public ILexer<IPLiteral> Create()
         {
-            var a = this.terminalLexerFactory.Create(@"[");
-            var b = this.terminalLexerFactory.Create(@"]");
+            var a = this.terminalLexerFactory.Create(@"[", StringComparer.Ordinal);
+            var b = this.terminalLexerFactory.Create(@"]", StringComparer.Ordinal);
             var ipv6 = this.ipv6AddressLexerFactory.Create();
             var ipvFuture = this.ipvFutureLexerFactory.Create();
             var alt = this.alternativeLexerFactory.Create(ipv6, ipvFuture);

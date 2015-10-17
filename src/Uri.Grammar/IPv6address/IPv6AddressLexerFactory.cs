@@ -79,10 +79,10 @@ namespace Uri.Grammar
         public ILexer<IPv6Address> Create()
         {
             // ":"
-            var colon = this.terminalLexerFactory.Create(@":");
+            var colon = this.terminalLexerFactory.Create(@":", StringComparer.Ordinal);
 
             // "::"
-            var collapse = this.terminalLexerFactory.Create(@"::");
+            var collapse = this.terminalLexerFactory.Create(@"::", StringComparer.Ordinal);
 
             // h16
             var h16 = this.hexadecimalInt16LexerFactory.Create();

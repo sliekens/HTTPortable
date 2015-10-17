@@ -6,7 +6,7 @@
 
     public class AbsoluteFormLexer : Lexer<AbsoluteForm>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out AbsoluteForm element)
+        public override ReadResult<AbsoluteForm> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

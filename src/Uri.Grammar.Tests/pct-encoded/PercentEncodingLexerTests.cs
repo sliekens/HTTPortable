@@ -18,19 +18,21 @@
         [InlineData(@"%10")]
         public void Read_ShouldSucceed(string input)
         {
-            var caseInsensitiveTerminalLexerFactory = new CaseInsensitiveTerminalLexerFactory();
+            var terminalLexerFactory = new TerminalLexerFactory();
             var valueRangeLexerFactory = new ValueRangeLexerFactory();
             var alternativeLexerFactory = new AlternativeLexerFactory();
             var sequenceLexerFactory = new SequenceLexerFactory();
             var digitLexerFactory = new DigitLexerFactory(valueRangeLexerFactory);
-            var hexadecimalDigitLexerFactory = new HexadecimalDigitLexerFactory(digitLexerFactory, caseInsensitiveTerminalLexerFactory, alternativeLexerFactory);
-            var factory = new PercentEncodingLexerFactory(caseInsensitiveTerminalLexerFactory, hexadecimalDigitLexerFactory, sequenceLexerFactory);
+            var hexadecimalDigitLexerFactory = new HexadecimalDigitLexerFactory(digitLexerFactory, terminalLexerFactory, alternativeLexerFactory);
+            var factory = new PercentEncodingLexerFactory(terminalLexerFactory, hexadecimalDigitLexerFactory, sequenceLexerFactory);
             var lexer = factory.Create();
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                var element = lexer.Read(scanner, null);
-                Assert.NotNull(element);
-                Assert.Equal(input, element.Text);
+                var result = lexer.Read(scanner, null);
+                Assert.NotNull(result);
+                Assert.True(result.Success);
+                Assert.NotNull(result.Element);
+                Assert.Equal(input, result.Element.Text);
             }
         }
     }

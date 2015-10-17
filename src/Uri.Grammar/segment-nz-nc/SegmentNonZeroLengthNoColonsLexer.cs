@@ -23,23 +23,28 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out SegmentNonZeroLengthNoColons element)
+        public override ReadResult<SegmentNonZeroLengthNoColons> Read(ITextScanner scanner, Element previousElementOrNull)
         {
-            Repetition result;
-            if (this.innerLexer.TryRead(scanner, null, out result))
+            var result = this.innerLexer.Read(scanner, null);
+            if (!result.Success)
             {
-                element = new SegmentNonZeroLengthNoColons(result);
-                if (previousElementOrNull != null)
+                return ReadResult<SegmentNonZeroLengthNoColons>.FromError(new SyntaxError
                 {
-                    previousElementOrNull.NextElement = element;
-                    element.PreviousElement = previousElementOrNull;
-                }
-
-                return true;
+                    Message = "Expected 'segment-nz-nc'",
+                    RuleName = "segment-nz-nc",
+                    Context = scanner.GetContext(),
+                    InnerError = result.Error
+                });
             }
 
-            element = default(SegmentNonZeroLengthNoColons);
-            return false;
+            var element = new SegmentNonZeroLengthNoColons(result.Element);
+            if (previousElementOrNull != null)
+            {
+                previousElementOrNull.NextElement = element;
+                element.PreviousElement = previousElementOrNull;
+            }
+
+            return ReadResult<SegmentNonZeroLengthNoColons>.FromResult(element);
         }
     }
 }

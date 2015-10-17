@@ -6,7 +6,7 @@
 
     public class PartialUriLexer : Lexer<PartialUri>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out PartialUri element)
+        public override ReadResult<PartialUri> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

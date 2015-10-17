@@ -22,23 +22,28 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out RequiredWhiteSpace element)
+        public override ReadResult<RequiredWhiteSpace> Read(ITextScanner scanner, Element previousElementOrNull)
         {
-            Repetition result;
-            if (this.innerLexer.TryRead(scanner, null, out result))
+            var result = this.innerLexer.Read(scanner, null);
+            if (!result.Success)
             {
-                element = new RequiredWhiteSpace(result);
-                if (previousElementOrNull != null)
+                return ReadResult<RequiredWhiteSpace>.FromError(new SyntaxError
                 {
-                    previousElementOrNull.NextElement = element;
-                    element.PreviousElement = previousElementOrNull;
-                }
-
-                return true;
+                    Message = "Expected 'RWS'.",
+                    RuleName = "RWS",
+                    Context = scanner.GetContext(),
+                    InnerError = result.Error
+                });
             }
 
-            element = default(RequiredWhiteSpace);
-            return false;
+            var element = new RequiredWhiteSpace(result.Element);
+            if (previousElementOrNull != null)
+            {
+                previousElementOrNull.NextElement = element;
+                element.PreviousElement = previousElementOrNull;
+            }
+
+            return ReadResult<RequiredWhiteSpace>.FromResult(element);
         }
     }
 }

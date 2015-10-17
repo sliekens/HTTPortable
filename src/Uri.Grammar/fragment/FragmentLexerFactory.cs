@@ -47,8 +47,8 @@
         {
             var alternativeLexer = this.alternativeLexerFactory.Create(
                 this.pathCharacterLexerFactory.Create(),
-                this.terminalLexerFactory.Create(@"/"),
-                this.terminalLexerFactory.Create(@"?"));
+                this.terminalLexerFactory.Create(@"/", StringComparer.Ordinal),
+                this.terminalLexerFactory.Create(@"?", StringComparer.Ordinal));
             var fragmentRepetitionLexer = this.repetitionLexerFactory.Create(alternativeLexer, 0, int.MaxValue);
             return new FragmentLexer(fragmentRepetitionLexer);
         }

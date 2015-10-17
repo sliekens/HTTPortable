@@ -6,7 +6,7 @@
 
     public class HttpMessageLexer : Lexer<HttpMessage>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out HttpMessage element)
+        public override ReadResult<HttpMessage> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

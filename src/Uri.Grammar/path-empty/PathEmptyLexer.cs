@@ -3,7 +3,6 @@
     using System;
 
     using TextFx;
-    using TextFx.ABNF;
 
     public class PathEmptyLexer : Lexer<PathEmpty>
     {
@@ -23,23 +22,28 @@
             this.innerLexer = innerLexer;
         }
 
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out PathEmpty element)
+        public override ReadResult<PathEmpty> Read(ITextScanner scanner, Element previousElementOrNull)
         {
-            Terminal result;
-            if (this.innerLexer.TryRead(scanner, null, out result))
+            var result = this.innerLexer.Read(scanner, null);
+            if (!result.Success)
             {
-                element = new PathEmpty(result);
-                if (previousElementOrNull != null)
+                return ReadResult<PathEmpty>.FromError(new SyntaxError
                 {
-                    previousElementOrNull.NextElement = element;
-                    element.PreviousElement = previousElementOrNull;
-                }
-
-                return true;
+                    Message = "Expected 'path-empty'.",
+                    RuleName = "path-empty",
+                    Context = scanner.GetContext(),
+                    InnerError = result.Error
+                });
             }
 
-            element = default(PathEmpty);
-            return false;
+            var element = new PathEmpty(result.Element);
+            if (previousElementOrNull != null)
+            {
+                previousElementOrNull.NextElement = element;
+                element.PreviousElement = previousElementOrNull;
+            }
+
+            return ReadResult<PathEmpty>.FromResult(element);
         }
     }
 }

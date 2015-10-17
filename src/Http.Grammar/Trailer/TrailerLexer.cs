@@ -4,7 +4,7 @@
 
     public class TrailerLexer : Lexer<Trailer>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out Trailer element)
+        public override ReadResult<Trailer> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new System.NotImplementedException();
         }

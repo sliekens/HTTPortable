@@ -31,13 +31,13 @@
         {
             ILexer[] a =
                 {
-                    this.terminalLexerFactory.Create(@":"),
-                    this.terminalLexerFactory.Create(@"/"),
-                    this.terminalLexerFactory.Create(@"?"),
-                    this.terminalLexerFactory.Create(@"#"),
-                    this.terminalLexerFactory.Create(@"["),
-                    this.terminalLexerFactory.Create(@"]"),
-                    this.terminalLexerFactory.Create(@"@")
+                    this.terminalLexerFactory.Create(@":", StringComparer.Ordinal),
+                    this.terminalLexerFactory.Create(@"/", StringComparer.Ordinal),
+                    this.terminalLexerFactory.Create(@"?", StringComparer.Ordinal),
+                    this.terminalLexerFactory.Create(@"#", StringComparer.Ordinal),
+                    this.terminalLexerFactory.Create(@"[", StringComparer.Ordinal),
+                    this.terminalLexerFactory.Create(@"]", StringComparer.Ordinal),
+                    this.terminalLexerFactory.Create(@"@", StringComparer.Ordinal)
                 };
 
             // ":" / "/" / "?" / "#" / "[" / "]" / "@"

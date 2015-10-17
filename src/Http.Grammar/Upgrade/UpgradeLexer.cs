@@ -4,7 +4,7 @@
 
     public class UpgradeLexer : Lexer<Upgrade>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out Upgrade element)
+        public override ReadResult<Upgrade> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new System.NotImplementedException();
         }

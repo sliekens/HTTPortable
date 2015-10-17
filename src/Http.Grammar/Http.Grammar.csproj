@@ -321,11 +321,11 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="TextFx">
-      <HintPath>..\..\packages\TextFx.2.0.0-CI113\lib\portable-net45+dnxcore50+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\TextFx.dll</HintPath>
+      <HintPath>..\..\packages\TextFx.2.0.0-CI116\lib\portable-net45+dnxcore50+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\TextFx.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TextFx.ABNF">
-      <HintPath>..\..\packages\TextFx.ABNF.2.0.0-CI113\lib\portable-net45+dnxcore50+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\TextFx.ABNF.dll</HintPath>
+      <HintPath>..\..\packages\TextFx.ABNF.2.0.0-CI116\lib\portable-net45+dnxcore50+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\TextFx.ABNF.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

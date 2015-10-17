@@ -6,7 +6,7 @@
 
     public class ProtocolVersionLexer : Lexer<ProtocolVersion>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out ProtocolVersion element)
+        public override ReadResult<ProtocolVersion> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

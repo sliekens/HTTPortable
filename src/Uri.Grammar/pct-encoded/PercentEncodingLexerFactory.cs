@@ -40,7 +40,7 @@
         {
             var hexadecimalDigitLexer = this.hexadecimalDigitLexerFactory.Create();
             var percentEncodingAlternativeLexer = this.sequenceLexerFactory.Create(
-                this.terminalLexerFactory.Create(@"%"),
+                this.terminalLexerFactory.Create(@"%", StringComparer.Ordinal),
                 hexadecimalDigitLexer,
                 hexadecimalDigitLexer);
             return new PercentEncodingLexer(percentEncodingAlternativeLexer);

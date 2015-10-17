@@ -6,7 +6,7 @@
 
     public class TokenLexer : Lexer<Token>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out Token element)
+        public override ReadResult<Token> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

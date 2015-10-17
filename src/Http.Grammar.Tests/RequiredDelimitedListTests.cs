@@ -1,5 +1,6 @@
 ﻿namespace Http.Grammar.Tests
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
@@ -14,8 +15,11 @@
     {
         public static IEnumerable<object[]> GetTestData()
         {
-            var factory = new CaseInsensitiveTerminalLexerFactory();
-            var listItemLexer = new AlternativeLexer(factory.Create("foo"), factory.Create("bar"), factory.Create("charlie"));
+            var factory = new TerminalLexerFactory();
+            var foo = factory.Create("foo", StringComparer.OrdinalIgnoreCase);
+            var bar = factory.Create("bar", StringComparer.OrdinalIgnoreCase);
+            var charlie = factory.Create("charlie", StringComparer.OrdinalIgnoreCase);
+            var listItemLexer = new AlternativeLexer(foo, bar, charlie);
             yield return new object[] { "foo,bar", "foo, bar", listItemLexer };
 
             yield return new object[] { "foo ,bar,", "foo, bar", listItemLexer };
@@ -37,21 +41,21 @@
             var optionLexerFactory = new OptionLexerFactory();
             var sequenceLexerFactory = new SequenceLexerFactory();
             var alternativeLexerFactory = new AlternativeLexerFactory();
-            var caseInsensitiveTerminalLexerFactory = new CaseInsensitiveTerminalLexerFactory();
-            var spaceLexerFactory = new SpaceLexerFactory(caseInsensitiveTerminalLexerFactory);
+            var terminalLexerFactory = new TerminalLexerFactory();
+            var spaceLexerFactory = new SpaceLexerFactory(terminalLexerFactory);
             var repetitionLexerFactory = new RepetitionLexerFactory();
-            var horizontalTabLexerFactory = new HorizontalTabLexerFactory(caseInsensitiveTerminalLexerFactory);
+            var horizontalTabLexerFactory = new HorizontalTabLexerFactory(terminalLexerFactory);
             var whiteSpaceLexerFactory = new WhiteSpaceLexerFactory(spaceLexerFactory, horizontalTabLexerFactory, alternativeLexerFactory);
             var optionalWhiteSpaceLexerFactory = new OptionalWhiteSpaceLexerFactory(repetitionLexerFactory, whiteSpaceLexerFactory);
             var lexerFactory = new RequiredDelimitedListLexerFactory(
                 repetitionLexerFactory,
                 sequenceLexerFactory,
                 optionLexerFactory,
-                caseInsensitiveTerminalLexerFactory,
+                terminalLexerFactory,
                 optionalWhiteSpaceLexerFactory);
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                return lexerFactory.Create(listItemLexer).Read(scanner, null);
+                return lexerFactory.Create(listItemLexer).Read(scanner, null).Element;
             }
         }
     }

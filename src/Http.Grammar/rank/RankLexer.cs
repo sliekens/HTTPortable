@@ -6,7 +6,7 @@
 
     public class RankLexer : Lexer<Rank>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out Rank element)
+        public override ReadResult<Rank> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

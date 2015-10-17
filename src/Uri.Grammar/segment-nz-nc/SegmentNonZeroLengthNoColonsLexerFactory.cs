@@ -81,7 +81,7 @@
                 this.unreservedLexerFactory.Create(),
                 this.percentEncodingLexerFactory.Create(),
                 this.subcomponentsDelimiterLexerFactory.Create(),
-                this.terminalLexerFactory.Create(@"@"));
+                this.terminalLexerFactory.Create(@"@", StringComparer.Ordinal));
             var segmentNonZeroLengthNoColonsRepetitionLexer = this.repetitionLexerFactory.Create(alternativeLexer, 1, Int32.MaxValue);
             return new SegmentNonZeroLengthNoColonsLexer(segmentNonZeroLengthNoColonsRepetitionLexer);
         }

@@ -6,7 +6,7 @@
 
     public class AbsolutePathLexer : Lexer<AbsolutePath>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out AbsolutePath element)
+        public override ReadResult<AbsolutePath> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

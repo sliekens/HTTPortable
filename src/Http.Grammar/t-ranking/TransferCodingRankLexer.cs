@@ -6,7 +6,7 @@
 
     public class TransferCodingRankLexer : Lexer<TransferCodingRank>
     {
-        public override bool TryRead(ITextScanner scanner, Element previousElementOrNull, out TransferCodingRank element)
+        public override ReadResult<TransferCodingRank> Read(ITextScanner scanner, Element previousElementOrNull)
         {
             throw new NotImplementedException();
         }

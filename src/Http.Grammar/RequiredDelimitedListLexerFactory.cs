@@ -58,7 +58,7 @@
 
         public ILexer<RequiredDelimitedList> Create(ILexer lexer)
         {
-            var delim = this.terminalLexerFactory.Create(@",");
+            var delim = this.terminalLexerFactory.Create(@",", StringComparer.Ordinal);
             var ows = this.optionalWhiteSpaceLexerFactory.Create();
             var innerLexer =
                 this.sequenceLexerFactory.Create(
