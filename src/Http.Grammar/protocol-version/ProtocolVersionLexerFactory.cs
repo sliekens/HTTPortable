@@ -6,9 +6,22 @@ namespace Http.Grammar
 
     public class ProtocolVersionLexerFactory : ILexerFactory<ProtocolVersion>
     {
+        private readonly ILexerFactory<Token> tokenLexerFactory;
+
+        public ProtocolVersionLexerFactory(ILexerFactory<Token> tokenLexerFactory)
+        {
+            if (tokenLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(tokenLexerFactory));
+            }
+
+            this.tokenLexerFactory = tokenLexerFactory;
+        }
+
         public ILexer<ProtocolVersion> Create()
         {
-            throw new NotImplementedException();
+            var innerLexer = this.tokenLexerFactory.Create();
+            return new ProtocolVersionLexer(innerLexer);
         }
     }
 }
