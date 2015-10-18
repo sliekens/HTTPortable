@@ -6,9 +6,22 @@
 
     public class ProtocolNameLexerFactory : ILexerFactory<ProtocolName>
     {
+        private readonly ILexerFactory<Token> tokenLexerFactory;
+
+        public ProtocolNameLexerFactory(ILexerFactory<Token> tokenLexerFactory)
+        {
+            if (tokenLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(tokenLexerFactory));
+            }
+
+            this.tokenLexerFactory = tokenLexerFactory;
+        }
+
         public ILexer<ProtocolName> Create()
         {
-            throw new NotImplementedException();
+            var innerLexer = this.tokenLexerFactory.Create();
+            return new ProtocolNameLexer(innerLexer);
         }
     }
 }
