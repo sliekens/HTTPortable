@@ -6,9 +6,22 @@
 
     public class MethodLexerFactory : ILexerFactory<Method>
     {
+        private readonly ILexerFactory<Token> tokenLexerFactory;
+
+        public MethodLexerFactory(ILexerFactory<Token> tokenLexerFactory)
+        {
+            if (tokenLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(tokenLexerFactory));
+            }
+
+            this.tokenLexerFactory = tokenLexerFactory;
+        }
+
         public ILexer<Method> Create()
         {
-            throw new NotImplementedException();
+            var innerLexer = this.tokenLexerFactory.Create();
+            return new MethodLexer(innerLexer);
         }
     }
 }
