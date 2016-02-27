@@ -1,49 +1,34 @@
 ﻿namespace Uri.Grammar
 {
     using System;
-
     using TextFx;
     using TextFx.ABNF;
 
-    public class IPv4AddressLexer : Lexer<IPv4Address>
+    public sealed class IPv4AddressLexer : Lexer<IPv4Address>
     {
-        private readonly ILexer<Sequence> innerLexer;
+        private readonly ILexer<Concatenation> innerLexer;
 
-        /// <summary>
-        /// </summary>
-        /// <param name="innerLexer">dec-octet "." dec-octet "." dec-octet "." dec-octet</param>
-        public IPv4AddressLexer(ILexer<Sequence> innerLexer)
+        public IPv4AddressLexer(ILexer<Concatenation> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
-
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<IPv4Address> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<IPv4Address> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<IPv4Address>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'IPv4address'.",
-                    RuleName = "IPv4address",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new IPv4Address(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<IPv4Address>.FromResult(new IPv4Address(result.Element));
             }
-
-            return ReadResult<IPv4Address>.FromResult(element);
+            return ReadResult<IPv4Address>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

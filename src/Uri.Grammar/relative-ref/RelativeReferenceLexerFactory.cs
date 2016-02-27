@@ -15,21 +15,21 @@
 
         private readonly ILexerFactory<RelativePart> relativePartLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public RelativeReferenceLexerFactory(
-            ISequenceLexerFactory sequenceLexerFactory,
+            IConcatenationLexerFactory concatenationLexerFactory,
             IOptionLexerFactory optionLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<RelativePart> relativePartLexerFactory,
             ILexerFactory<Query> queryLexerFactory,
             ILexerFactory<Fragment> fragmentLexerFactory)
         {
-            if (sequenceLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("concatenationLexerFactory");
             }
 
             if (optionLexerFactory == null)
@@ -57,7 +57,7 @@
                 throw new ArgumentNullException("fragmentLexerFactory");
             }
 
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
             this.optionLexerFactory = optionLexerFactory;
             this.terminalLexerFactory = terminalLexerFactory;
             this.relativePartLexerFactory = relativePartLexerFactory;
@@ -70,13 +70,13 @@
             var relativePart = this.relativePartLexerFactory.Create();
             var qm = this.terminalLexerFactory.Create(@"?", StringComparer.Ordinal);
             var query = this.queryLexerFactory.Create();
-            var queryPart = this.sequenceLexerFactory.Create(qm, query);
+            var queryPart = this.concatenationLexerFactory.Create(qm, query);
             var optQuery = this.optionLexerFactory.Create(queryPart);
             var ht = this.terminalLexerFactory.Create(@"#", StringComparer.Ordinal);
             var fragment = this.fragmentLexerFactory.Create();
-            var fragmentPart = this.sequenceLexerFactory.Create(ht, fragment);
+            var fragmentPart = this.concatenationLexerFactory.Create(ht, fragment);
             var optFragment = this.optionLexerFactory.Create(fragmentPart);
-            var innerLexer = this.sequenceLexerFactory.Create(relativePart, optQuery, optFragment);
+            var innerLexer = this.concatenationLexerFactory.Create(relativePart, optQuery, optFragment);
             return new RelativeReferenceLexer(innerLexer);
         }
     }

@@ -15,14 +15,14 @@
 
         private readonly ILexerFactory<SegmentNonZeroLength> segmentNonZeroLengthLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public PathAbsoluteLexerFactory(
             ITerminalLexerFactory terminalLexerFactory,
             IOptionLexerFactory optionLexerFactory,
-            ISequenceLexerFactory sequenceLexerFactory,
+            IConcatenationLexerFactory concatenationLexerFactory,
             RepetitionLexerFactory repetitionLexerFactory,
             ILexerFactory<Segment> segmentLexerFactory,
             ILexerFactory<SegmentNonZeroLength> segmentNonZeroLengthLexerFactory)
@@ -37,9 +37,9 @@
                 throw new ArgumentNullException("optionLexerFactory");
             }
 
-            if (sequenceLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("concatenationLexerFactory");
             }
 
             if (repetitionLexerFactory == null)
@@ -59,7 +59,7 @@
 
             this.terminalLexerFactory = terminalLexerFactory;
             this.optionLexerFactory = optionLexerFactory;
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
             this.repetitionLexerFactory = repetitionLexerFactory;
             this.segmentLexerFactory = segmentLexerFactory;
             this.segmentNonZeroLengthLexerFactory = segmentNonZeroLengthLexerFactory;
@@ -74,7 +74,7 @@
             var b = this.segmentLexerFactory.Create();
 
             // "/" segment
-            var c = this.sequenceLexerFactory.Create(a, b);
+            var c = this.concatenationLexerFactory.Create(a, b);
 
             // *( "/" segment )
             var d = this.repetitionLexerFactory.Create(c, 0, int.MaxValue);
@@ -83,13 +83,13 @@
             var e = this.segmentNonZeroLengthLexerFactory.Create();
 
             // segment-nz *( "/" segment )
-            var f = this.sequenceLexerFactory.Create(e, d);
+            var f = this.concatenationLexerFactory.Create(e, d);
 
             // [ segment-nz *( "/" segment ) ]
             var g = this.optionLexerFactory.Create(f);
 
             // "/" [ segment-nz *( "/" segment ) ]
-            var h = this.sequenceLexerFactory.Create(a, g);
+            var h = this.concatenationLexerFactory.Create(a, g);
 
             // path-absolute
             return new PathAbsoluteLexer(h);

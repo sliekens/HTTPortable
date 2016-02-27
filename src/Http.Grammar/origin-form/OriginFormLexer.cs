@@ -6,7 +6,7 @@
 
     public class OriginFormLexer : Lexer<OriginForm>
     {
-        public override ReadResult<OriginForm> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<OriginForm> Read(ITextScanner scanner)
         {
             throw new NotImplementedException();
         }

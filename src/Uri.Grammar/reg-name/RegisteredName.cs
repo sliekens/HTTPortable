@@ -4,8 +4,8 @@
 
     public class RegisteredName : Repetition
     {
-        public RegisteredName(Repetition sequence)
-            : base(sequence)
+        public RegisteredName(Repetition repetition)
+            : base(repetition)
         {
         }
     }

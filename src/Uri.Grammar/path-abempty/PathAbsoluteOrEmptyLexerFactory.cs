@@ -11,13 +11,13 @@ namespace Uri.Grammar
 
         private readonly ILexerFactory<Segment> segmentLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public PathAbsoluteOrEmptyLexerFactory(
             IRepetitionLexerFactory repetitionLexerFactory,
-            ISequenceLexerFactory sequenceLexerFactory,
+            IConcatenationLexerFactory concatenationLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<Segment> segmentLexerFactory)
         {
@@ -26,9 +26,9 @@ namespace Uri.Grammar
                 throw new ArgumentNullException("repetitionLexerFactory");
             }
 
-            if (sequenceLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("concatenationLexerFactory");
             }
 
             if (terminalLexerFactory == null)
@@ -42,7 +42,7 @@ namespace Uri.Grammar
             }
 
             this.repetitionLexerFactory = repetitionLexerFactory;
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
             this.terminalLexerFactory = terminalLexerFactory;
             this.segmentLexerFactory = segmentLexerFactory;
         }
@@ -56,7 +56,7 @@ namespace Uri.Grammar
             var b = this.segmentLexerFactory.Create();
 
             // "/" segment
-            var c = this.sequenceLexerFactory.Create(a, b);
+            var c = this.concatenationLexerFactory.Create(a, b);
 
             // *( "/" segment )
             var d = this.repetitionLexerFactory.Create(c, 0, int.MaxValue);

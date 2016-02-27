@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class Host : Sequence
+    public class Host : Concatenation
     {
-        public Host(Sequence sequence)
-            : base(sequence)
+        public Host(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

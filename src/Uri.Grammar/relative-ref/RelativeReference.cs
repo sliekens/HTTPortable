@@ -4,10 +4,10 @@
 
     using TextFx.ABNF;
 
-    public class RelativeReference : Sequence
+    public class RelativeReference : Concatenation
     {
-        public RelativeReference(Sequence sequence)
-            : base(sequence)
+        public RelativeReference(Concatenation concatenation)
+            : base(concatenation)
         {
         }
 
@@ -21,7 +21,7 @@
                     return null;
                 }
 
-                var fragmentPart = (Sequence)optionalFragmentPart.Elements[0];
+                var fragmentPart = (Concatenation)optionalFragmentPart.Elements[0];
                 return (Fragment)fragmentPart.Elements[1];
             }
         }
@@ -36,7 +36,7 @@
                     return null;
                 }
 
-                var queryPart = (Sequence)optionalQueryPart.Elements[0];
+                var queryPart = (Concatenation)optionalQueryPart.Elements[0];
                 return (Query)queryPart.Elements[1];
             }
         }

@@ -4,7 +4,7 @@
 
     using TextFx;
 
-    public class ProtocolNameLexer : Lexer<ProtocolName>
+    public sealed class ProtocolNameLexer : Lexer<ProtocolName>
     {
         private readonly ILexer<Token> innerLexer;
 
@@ -18,30 +18,17 @@
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<ProtocolName> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<ProtocolName> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return
-                    ReadResult<ProtocolName>.FromError(
-                        new SyntaxError
-                        {
-                            Message = "Expected 'protocol-name'.",
-                            RuleName = "protocol-name",
-                            Context = scanner.GetContext(),
-                            InnerError = result.Error
-                        });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new ProtocolName(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<ProtocolName>.FromResult(new ProtocolName(result.Element));
             }
-
-            return ReadResult<ProtocolName>.FromResult(element);
+            return ReadResult<ProtocolName>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

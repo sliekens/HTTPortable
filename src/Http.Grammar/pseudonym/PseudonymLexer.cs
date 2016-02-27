@@ -4,7 +4,7 @@
 
     using TextFx;
 
-    public class PseudonymLexer : Lexer<Pseudonym>
+    public sealed class PseudonymLexer : Lexer<Pseudonym>
     {
         private readonly ILexer<Token> innerLexer;
 
@@ -18,30 +18,17 @@
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Pseudonym> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<Pseudonym> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return
-                    ReadResult<Pseudonym>.FromError(
-                        new SyntaxError
-                        {
-                            Message = "Expected 'pseudonym'.",
-                            RuleName = "pseudonym",
-                            Context = scanner.GetContext(),
-                            InnerError = result.Error
-                        });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new Pseudonym(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<Pseudonym>.FromResult(new Pseudonym(result.Element));
             }
-
-            return ReadResult<Pseudonym>.FromResult(element);
+            return ReadResult<Pseudonym>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

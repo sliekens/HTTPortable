@@ -19,7 +19,7 @@
 
         private readonly ILexerFactory<PathRootless> pathRootlessLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
@@ -30,7 +30,7 @@
             ILexerFactory<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexerFactory,
             ILexerFactory<PathEmpty> pathEmptyLexerFactory,
             ILexerFactory<PathRootless> pathRootlessLexerFactory,
-            ISequenceLexerFactory sequenceLexerFactory,
+            IConcatenationLexerFactory concatenationLexerFactory,
             ITerminalLexerFactory terminalLexerFactory)
         {
             if (alternativeLexerFactory == null)
@@ -63,9 +63,9 @@
                 throw new ArgumentNullException("pathRootlessLexerFactory");
             }
 
-            if (sequenceLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("concatenationLexerFactory");
             }
 
             if (terminalLexerFactory == null)
@@ -79,7 +79,7 @@
             this.pathAbsoluteOrEmptyLexerFactory = pathAbsoluteOrEmptyLexerFactory;
             this.pathEmptyLexerFactory = pathEmptyLexerFactory;
             this.pathRootlessLexerFactory = pathRootlessLexerFactory;
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
             this.terminalLexerFactory = terminalLexerFactory;
         }
 
@@ -88,7 +88,7 @@
             var delim = this.terminalLexerFactory.Create(@"//", StringComparer.Ordinal);
             var authority = this.authorityLexerFactory.Create();
             var pathAbEmpty = this.pathAbsoluteOrEmptyLexerFactory.Create();
-            var seq = this.sequenceLexerFactory.Create(delim, authority, pathAbEmpty);
+            var seq = this.concatenationLexerFactory.Create(delim, authority, pathAbEmpty);
             var pathAbsolute = this.pathAbsoluteLexerFactory.Create();
             var pathRootless = this.pathRootlessLexerFactory.Create();
             var pathEmpty = this.pathEmptyLexerFactory.Create();

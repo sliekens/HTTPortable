@@ -4,8 +4,8 @@
 
     public class UserInformation : Repetition
     {
-        public UserInformation(Repetition sequence)
-            : base(sequence)
+        public UserInformation(Repetition repetition)
+            : base(repetition)
         {
         }
 

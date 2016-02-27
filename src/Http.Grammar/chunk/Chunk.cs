@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class Chunk : Sequence
+    public class Chunk : Concatenation
     {
-        public Chunk(Sequence sequence)
-            : base(sequence)
+        public Chunk(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

@@ -5,46 +5,32 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class FragmentLexer : Lexer<Fragment>
+    public sealed class FragmentLexer : Lexer<Fragment>
     {
         private readonly ILexer<Repetition> innerLexer;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="innerLexer">*( pchar / "/" / "?" )</param>
         public FragmentLexer(ILexer<Repetition> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Fragment> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<Fragment> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<Fragment>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'fragment'.",
-                    RuleName = "fragment",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new Fragment(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<Fragment>.FromResult(new Fragment(result.Element));
             }
-
-            return ReadResult<Fragment>.FromResult(element);
+            return ReadResult<Fragment>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

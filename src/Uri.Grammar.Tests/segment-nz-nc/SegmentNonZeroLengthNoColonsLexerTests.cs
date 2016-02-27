@@ -18,7 +18,7 @@
                 terminalLexerFactory,
                 alternativeLexerFactory);
             var valueRangeLexerFactory = new ValueRangeLexerFactory();
-            var sequenceLexerFactory = new SequenceLexerFactory();
+            var concatenationLexerFactory = new ConcatenationLexerFactory();
             var digitLexerFactory = new DigitLexerFactory(valueRangeLexerFactory);
             var hexadecimalDigitLexerFactory = new HexadecimalDigitLexerFactory(
                 digitLexerFactory,
@@ -28,7 +28,7 @@
             var percentEncodingLexerFactory = new PercentEncodingLexerFactory(
                 terminalLexerFactory,
                 hexadecimalDigitLexerFactory,
-                sequenceLexerFactory);
+                concatenationLexerFactory);
             var unreservedLexerFactory = new UnreservedLexerFactory(
                 alphaLexerFactory,
                 digitLexerFactory,
@@ -45,7 +45,7 @@
             var lexer = factory.Create();
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                var result = lexer.Read(scanner, null);
+                var result = lexer.Read(scanner);
                 Assert.NotNull(result);
                 Assert.True(result.Success);
                 Assert.NotNull(result.Element);

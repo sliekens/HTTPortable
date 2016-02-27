@@ -19,7 +19,7 @@
         [InlineData(@"urn:oasis:names:specification:docbook:dtd:xml:4.1.2")]
         public void Read_ShouldSucceed(string input)
         {
-            var sequenceLexerFactory = new SequenceLexerFactory();
+            var concatenationLexerFactory = new ConcatenationLexerFactory();
             var optionLexerFactory = new OptionLexerFactory();
             var terminalLexerFactory = new TerminalLexerFactory();
             var alternativeLexerFactory = new AlternativeLexerFactory();
@@ -28,7 +28,7 @@
             var alphaLexerFactory = new AlphaLexerFactory(valueRangeLexerFactory, alternativeLexerFactory);
             var digitLexerFactory = new DigitLexerFactory(valueRangeLexerFactory);
             var schemeLexerFactory = new SchemeLexerFactory(
-                sequenceLexerFactory,
+                concatenationLexerFactory,
                 alternativeLexerFactory,
                 repetitionLexerFactory,
                 alphaLexerFactory,
@@ -46,7 +46,7 @@
             var percentEncodingLexerFactory = new PercentEncodingLexerFactory(
                 terminalLexerFactory,
                 hexadecimalDigitLexerFactory,
-                sequenceLexerFactory);
+                concatenationLexerFactory);
             var subcomponentsDelimiterLexerFactory = new SubcomponentsDelimiterLexerFactory(
                 terminalLexerFactory,
                 alternativeLexerFactory);
@@ -66,20 +66,20 @@
                 alternativeLexerFactory,
                 repetitionLexerFactory,
                 digitLexerFactory,
-                sequenceLexerFactory);
-            var ipv4AddressLexerFactory = new IPV4AddressLexerFactory(
-                sequenceLexerFactory,
+                concatenationLexerFactory);
+            var ipv4AddressLexerFactory = new IPv4AddressLexerFactory(
+                concatenationLexerFactory,
                 terminalLexerFactory,
                 decimalOctetLexerFactory);
             var leastSignificantInt32LexerFactory = new LeastSignificantInt32LexerFactory(
                 alternativeLexerFactory,
-                sequenceLexerFactory,
+                concatenationLexerFactory,
                 terminalLexerFactory,
                 hexadecimalInt16LexerFactory,
                 ipv4AddressLexerFactory);
             var ipv6AddressLexerFactory = new IPv6AddressLexerFactory(
                 alternativeLexerFactory,
-                sequenceLexerFactory,
+                concatenationLexerFactory,
                 terminalLexerFactory,
                 repetitionLexerFactory,
                 optionLexerFactory,
@@ -88,13 +88,13 @@
             var ipvFutureLexerFactory = new IPvFutureLexerFactory(
                 terminalLexerFactory,
                 repetitionLexerFactory,
-                sequenceLexerFactory,
+                concatenationLexerFactory,
                 alternativeLexerFactory,
                 hexadecimalDigitLexerFactory,
                 unreservedLexerFactory,
                 subcomponentsDelimiterLexerFactory);
             var ipLiteralLexerFactory = new IPLiteralLexerFactory(
-                sequenceLexerFactory,
+                concatenationLexerFactory,
                 alternativeLexerFactory,
                 terminalLexerFactory,
                 ipv6AddressLexerFactory,
@@ -102,7 +102,7 @@
             var encodingLexerFactory = new PercentEncodingLexerFactory(
                 terminalLexerFactory,
                 hexadecimalDigitLexerFactory,
-                sequenceLexerFactory);
+                concatenationLexerFactory);
             var registeredNameLexerFactory = new RegisteredNameLexerFactory(
                 repetitionLexerFactory,
                 alternativeLexerFactory,
@@ -117,7 +117,7 @@
             var portLexerFactory = new PortLexerFactory(repetitionLexerFactory, digitLexerFactory);
             var authorityLexerFactory = new AuthorityLexerFactory(
                 optionLexerFactory,
-                sequenceLexerFactory,
+                concatenationLexerFactory,
                 userInformationLexerFactory,
                 terminalLexerFactory,
                 hostLexerFactory,
@@ -135,18 +135,18 @@
             var pathAbsoluteLexerFactory = new PathAbsoluteLexerFactory(
                 terminalLexerFactory,
                 optionLexerFactory,
-                sequenceLexerFactory,
+                concatenationLexerFactory,
                 repetitionLexerFactory,
                 segmentLexerFactory,
                 segmentNonZeroLengthLexerFactory);
             var pathAbsoluteOrEmptyLexerFactory = new PathAbsoluteOrEmptyLexerFactory(
                 repetitionLexerFactory,
-                sequenceLexerFactory,
+                concatenationLexerFactory,
                 terminalLexerFactory,
                 segmentLexerFactory);
             var pathEmptyLexerFactory = new PathEmptyLexerFactory(terminalLexerFactory);
             var pathRootlessLexerFactory = new PathRootlessLexerFactory(
-                sequenceLexerFactory,
+                concatenationLexerFactory,
                 repetitionLexerFactory,
                 terminalLexerFactory,
                 segmentLexerFactory,
@@ -158,7 +158,7 @@
                 pathAbsoluteOrEmptyLexerFactory,
                 pathEmptyLexerFactory,
                 pathRootlessLexerFactory,
-                sequenceLexerFactory,
+                concatenationLexerFactory,
                 terminalLexerFactory);
             var queryLexerFactory = new QueryLexerFactory(
                 alternativeLexerFactory,
@@ -171,7 +171,7 @@
                 repetitionLexerFactory,
                 terminalLexerFactory);
             var factory = new UniformResourceIdentifierLexerFactory(
-                sequenceLexerFactory,
+                concatenationLexerFactory,
                 optionLexerFactory,
                 terminalLexerFactory,
                 schemeLexerFactory,
@@ -181,7 +181,7 @@
             var lexer = factory.Create();
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                var result = lexer.Read(scanner, null);
+                var result = lexer.Read(scanner);
                 Assert.NotNull(result);
                 Assert.True(result.Success);
                 Assert.NotNull(result.Element);

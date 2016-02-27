@@ -5,44 +5,31 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class OptionalDelimitedListLexer : Lexer<OptionalDelimitedList>
+    public sealed class OptionalDelimitedListLexer : Lexer<OptionalDelimitedList>
     {
         private readonly ILexer<Repetition> innerLexer;
 
-        /// <summary>
-        /// </summary>
-        /// <param name="innerLexer">[ ( "," / element ) *( OWS "," [ OWS element ] ) ]</param>
         public OptionalDelimitedListLexer(ILexer<Repetition> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<OptionalDelimitedList> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<OptionalDelimitedList> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<OptionalDelimitedList>.FromError(new SyntaxError
-                {
-                    Message = "One or more syntax errors were found.",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new OptionalDelimitedList(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<OptionalDelimitedList>.FromResult(new OptionalDelimitedList(result.Element));
             }
-
-            return ReadResult<OptionalDelimitedList>.FromResult(element);
+            return ReadResult<OptionalDelimitedList>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

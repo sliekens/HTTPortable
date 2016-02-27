@@ -6,7 +6,7 @@ namespace Http.Grammar
 
     public class StartLineLexer : Lexer<StartLine>
     {
-        public override ReadResult<StartLine> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<StartLine> Read(ITextScanner scanner)
         {
             throw new NotImplementedException();
         }

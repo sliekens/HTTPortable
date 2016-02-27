@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class FieldContent : Sequence
+    public class FieldContent : Concatenation
     {
-        public FieldContent(Sequence sequence)
-            : base(sequence)
+        public FieldContent(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

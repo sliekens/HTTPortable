@@ -1,10 +1,9 @@
 ﻿namespace Http.Grammar
 {
     using System;
-
     using TextFx;
 
-    public class BadWhiteSpaceLexer : Lexer<BadWhiteSpace>
+    public sealed class BadWhiteSpaceLexer : Lexer<BadWhiteSpace>
     {
         private readonly ILexer<OptionalWhiteSpace> innerLexer;
 
@@ -12,34 +11,23 @@
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
-
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<BadWhiteSpace> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<BadWhiteSpace> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<BadWhiteSpace>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'BWS'.",
-                    RuleName = "BWS",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new BadWhiteSpace(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<BadWhiteSpace>.FromResult(new BadWhiteSpace(result.Element));
             }
-
-            return ReadResult<BadWhiteSpace>.FromResult(element);
+            return ReadResult<BadWhiteSpace>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

@@ -15,13 +15,13 @@
 
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory ConcatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public ChunkExtensionLexerFactory(
             IRepetitionLexerFactory repetitionLexerFactory,
-            ISequenceLexerFactory sequenceLexerFactory,
+            IConcatenationLexerFactory ConcatenationLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<ChunkExtensionName> chunkExtensionNameLexerFactory,
             IOptionLexerFactory optionLexerFactory,
@@ -32,9 +32,9 @@
                 throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
 
-            if (sequenceLexerFactory == null)
+            if (ConcatenationLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(sequenceLexerFactory));
+                throw new ArgumentNullException(nameof(ConcatenationLexerFactory));
             }
 
             if (terminalLexerFactory == null)
@@ -58,7 +58,7 @@
             }
 
             this.repetitionLexerFactory = repetitionLexerFactory;
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.ConcatenationLexerFactory = ConcatenationLexerFactory;
             this.terminalLexerFactory = terminalLexerFactory;
             this.chunkExtensionNameLexerFactory = chunkExtensionNameLexerFactory;
             this.optionLexerFactory = optionLexerFactory;
@@ -71,9 +71,9 @@
             var b = this.chunkExtensionNameLexerFactory.Create();
             var c = this.terminalLexerFactory.Create(@"=", StringComparer.Ordinal);
             var d = this.chunkExtensionValueLexerFactory.Create();
-            var e = this.sequenceLexerFactory.Create(c, d);
+            var e = this.ConcatenationLexerFactory.Create(c, d);
             var f = this.optionLexerFactory.Create(e);
-            var g = this.sequenceLexerFactory.Create(a, b, e);
+            var g = this.ConcatenationLexerFactory.Create(a, b, e);
             var innerLexer = this.repetitionLexerFactory.Create(g, 0, int.MaxValue);
             return new ChunkExtensionLexer(innerLexer);
         }

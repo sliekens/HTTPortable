@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class StatusLine : Sequence
+    public class StatusLine : Concatenation
     {
-        public StatusLine(Sequence sequence)
-            : base(sequence)
+        public StatusLine(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

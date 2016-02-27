@@ -15,21 +15,21 @@
 
         private readonly ILexerFactory<Scheme> schemeLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public AbsoluteUriLexerFactory(
-            ISequenceLexerFactory sequenceLexerFactory,
+            IConcatenationLexerFactory concatenationLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
             IOptionLexerFactory optionLexerFactory,
             ILexerFactory<Scheme> schemeLexerFactory,
             ILexerFactory<HierarchicalPart> hierarchicalPartLexerFactory,
             ILexerFactory<Query> queryLexerFactory)
         {
-            if (sequenceLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("concatenationLexerFactory");
             }
 
             if (terminalLexerFactory == null)
@@ -57,7 +57,7 @@
                 throw new ArgumentNullException("queryLexerFactory");
             }
 
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
             this.terminalLexerFactory = terminalLexerFactory;
             this.optionLexerFactory = optionLexerFactory;
             this.schemeLexerFactory = schemeLexerFactory;
@@ -72,9 +72,9 @@
             var hierPart = this.hierarchicalPartLexerFactory.Create();
             var qm = this.terminalLexerFactory.Create(@"?", StringComparer.Ordinal);
             var query = this.queryLexerFactory.Create();
-            var queryPart = this.sequenceLexerFactory.Create(qm, query);
+            var queryPart = this.concatenationLexerFactory.Create(qm, query);
             var optQuery = this.optionLexerFactory.Create(queryPart);
-            var innerLexer = this.sequenceLexerFactory.Create(scheme, colon, hierPart, optQuery);
+            var innerLexer = this.concatenationLexerFactory.Create(scheme, colon, hierPart, optQuery);
             return new AbsoluteUriLexer(innerLexer);
         }
     }

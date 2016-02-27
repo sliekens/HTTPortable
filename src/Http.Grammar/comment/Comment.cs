@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class Comment : Sequence
+    public class Comment : Concatenation
     {
-        public Comment(Sequence sequence)
-            : base(sequence)
+        public Comment(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

@@ -1,46 +1,34 @@
 ﻿namespace Uri.Grammar
 {
     using System;
-
     using TextFx;
     using TextFx.ABNF;
 
-    public class IPvFutureLexer : Lexer<IPvFuture>
+    public sealed class IPvFutureLexer : Lexer<IPvFuture>
     {
-        private readonly ILexer<Sequence> innerLexer;
+        private readonly ILexer<Concatenation> innerLexer;
 
-        public IPvFutureLexer(ILexer<Sequence> innerLexer)
+        public IPvFutureLexer(ILexer<Concatenation> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<IPvFuture> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<IPvFuture> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<IPvFuture>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'IPvFuture'.",
-                    RuleName = "IPvFuture",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new IPvFuture(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<IPvFuture>.FromResult(new IPvFuture(result.Element));
             }
-
-            return ReadResult<IPvFuture>.FromResult(element);
+            return ReadResult<IPvFuture>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

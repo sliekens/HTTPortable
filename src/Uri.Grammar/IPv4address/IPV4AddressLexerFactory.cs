@@ -5,22 +5,22 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class IPV4AddressLexerFactory : ILexerFactory<IPv4Address>
+    public class IPv4AddressLexerFactory : ILexerFactory<IPv4Address>
     {
         private readonly ILexerFactory<DecimalOctet> decimaOctetLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
-        public IPV4AddressLexerFactory(
-            ISequenceLexerFactory sequenceLexerFactory,
+        public IPv4AddressLexerFactory(
+            IConcatenationLexerFactory concatenationLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<DecimalOctet> decimaOctetLexerFactory)
         {
-            if (sequenceLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("concatenationLexerFactory");
             }
 
             if (terminalLexerFactory == null)
@@ -33,7 +33,7 @@
                 throw new ArgumentNullException("decimaOctetLexerFactory");
             }
 
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
             this.terminalLexerFactory = terminalLexerFactory;
             this.decimaOctetLexerFactory = decimaOctetLexerFactory;
         }
@@ -47,7 +47,7 @@
             var b = this.terminalLexerFactory.Create(@".", StringComparer.Ordinal);
 
             // dec-octet "." dec-octet "." dec-octet "." dec-octet
-            var c = this.sequenceLexerFactory.Create(a, b, a, b, a, b, a);
+            var c = this.concatenationLexerFactory.Create(a, b, a, b, a, b, a);
 
             // IPv4address
             return new IPv4AddressLexer(c);

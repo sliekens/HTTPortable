@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class Scheme : Sequence
+    public class Scheme : Concatenation
     {
-        public Scheme(Sequence sequence)
-            : base(sequence)
+        public Scheme(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

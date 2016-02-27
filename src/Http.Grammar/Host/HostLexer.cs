@@ -6,7 +6,7 @@
 
     public class HostLexer : Lexer<Host>
     {
-        public override ReadResult<Host> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<Host> Read(ITextScanner scanner)
         {
             throw new NotImplementedException();
         }

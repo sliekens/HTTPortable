@@ -5,7 +5,7 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class HexadecimalInt16Lexer : Lexer<HexadecimalInt16>
+    public sealed class HexadecimalInt16Lexer : Lexer<HexadecimalInt16>
     {
         private readonly ILexer<Repetition> innerLexer;
 
@@ -13,34 +13,23 @@
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<HexadecimalInt16> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<HexadecimalInt16> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<HexadecimalInt16>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'h16'.",
-                    RuleName = "h16",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new HexadecimalInt16(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<HexadecimalInt16>.FromResult(new HexadecimalInt16(result.Element));
             }
-
-            return ReadResult<HexadecimalInt16>.FromResult(element);
+            return ReadResult<HexadecimalInt16>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

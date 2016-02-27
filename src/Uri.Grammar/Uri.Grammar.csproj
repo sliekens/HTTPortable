@@ -115,9 +115,9 @@
     <Compile Include="IP-literal\IPLiteral.cs" />
     <Compile Include="IP-literal\IPLiteralLexer.cs" />
     <Compile Include="IP-literal\IPLiteralLexerFactory.cs" />
-    <Compile Include="IPv4address\IPV4Address.cs" />
-    <Compile Include="IPv4address\IPV4AddressLexer.cs" />
-    <Compile Include="IPv4address\IPV4AddressLexerFactory.cs" />
+    <Compile Include="IPv4address\IPv4Address.cs" />
+    <Compile Include="IPv4address\IPv4AddressLexer.cs" />
+    <Compile Include="IPv4address\IPv4AddressLexerFactory.cs" />
     <Compile Include="IPv6address\IPv6Address.cs" />
     <Compile Include="IPv6address\IPv6AddressLexer.cs" />
     <Compile Include="IPv6address\IPv6AddressLexerFactory.cs" />
@@ -246,11 +246,11 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="TextFx">
-      <HintPath>..\..\packages\TextFx.2.0.0-CI123\lib\portable-net45+dnxcore50+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\TextFx.dll</HintPath>
+      <HintPath>..\..\.nuget\packages\TextFx.2.0.0-CI00166\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+Xamarin.iOS10+MonoTouch10\TextFx.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TextFx.ABNF">
-      <HintPath>..\..\packages\TextFx.ABNF.2.0.0-CI123\lib\portable-net45+dnxcore50+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\TextFx.ABNF.dll</HintPath>
+      <HintPath>..\..\.nuget\packages\TextFx.ABNF.2.0.0-CI00166\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+Xamarin.iOS10+MonoTouch10\TextFx.ABNF.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

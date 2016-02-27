@@ -4,8 +4,8 @@
 
     public class PathAbsoluteOrEmpty : Repetition
     {
-        public PathAbsoluteOrEmpty(Repetition sequence)
-            : base(sequence)
+        public PathAbsoluteOrEmpty(Repetition repetition)
+            : base(repetition)
         {
         }
     }

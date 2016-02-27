@@ -6,7 +6,7 @@
 
     public class ProtocolLexer : Lexer<Protocol>
     {
-        public override ReadResult<Protocol> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<Protocol> Read(ITextScanner scanner)
         {
             throw new NotImplementedException();
         }

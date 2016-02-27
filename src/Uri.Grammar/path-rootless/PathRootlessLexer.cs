@@ -5,46 +5,31 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class PathRootlessLexer : Lexer<PathRootless>
+    public sealed class PathRootlessLexer : Lexer<PathRootless>
     {
-        private readonly ILexer<Sequence> innerLexer;
+        private readonly ILexer<Concatenation> innerLexer;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="innerLexer">segment-nz *( "/" segment )</param>
-        public PathRootlessLexer(ILexer<Sequence> innerLexer)
+        public PathRootlessLexer(ILexer<Concatenation> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<PathRootless> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<PathRootless> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<PathRootless>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'path-rootless'.",
-                    RuleName = "path-rootless",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new PathRootless(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<PathRootless>.FromResult(new PathRootless(result.Element));
             }
-
-            return ReadResult<PathRootless>.FromResult(element);
+            return ReadResult<PathRootless>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

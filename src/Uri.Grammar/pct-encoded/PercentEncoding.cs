@@ -5,10 +5,10 @@
 
     using TextFx.ABNF;
 
-    public class PercentEncoding : Sequence
+    public class PercentEncoding : Concatenation
     {
-        public PercentEncoding(Sequence sequence)
-            : base(sequence)
+        public PercentEncoding(Concatenation concatenation)
+            : base(concatenation)
         {
         }
 

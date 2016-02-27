@@ -5,7 +5,7 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class AbsolutePathLexer : Lexer<AbsolutePath>
+    public sealed class AbsolutePathLexer : Lexer<AbsolutePath>
     {
         private readonly ILexer<Repetition> innerLexer;
 
@@ -19,30 +19,17 @@
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<AbsolutePath> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<AbsolutePath> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return
-                    ReadResult<AbsolutePath>.FromError(
-                        new SyntaxError
-                        {
-                            Message = "Expected 'absolute-path'.",
-                            RuleName = "absolute-path",
-                            Context = scanner.GetContext(),
-                            InnerError = result.Error
-                        });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new AbsolutePath(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<AbsolutePath>.FromResult(new AbsolutePath(result.Element));
             }
-
-            return ReadResult<AbsolutePath>.FromResult(element);
+            return ReadResult<AbsolutePath>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

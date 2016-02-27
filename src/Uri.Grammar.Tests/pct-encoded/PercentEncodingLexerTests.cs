@@ -21,14 +21,14 @@
             var terminalLexerFactory = new TerminalLexerFactory();
             var valueRangeLexerFactory = new ValueRangeLexerFactory();
             var alternativeLexerFactory = new AlternativeLexerFactory();
-            var sequenceLexerFactory = new SequenceLexerFactory();
+            var concatenationLexerFactory = new ConcatenationLexerFactory();
             var digitLexerFactory = new DigitLexerFactory(valueRangeLexerFactory);
             var hexadecimalDigitLexerFactory = new HexadecimalDigitLexerFactory(digitLexerFactory, terminalLexerFactory, alternativeLexerFactory);
-            var factory = new PercentEncodingLexerFactory(terminalLexerFactory, hexadecimalDigitLexerFactory, sequenceLexerFactory);
+            var factory = new PercentEncodingLexerFactory(terminalLexerFactory, hexadecimalDigitLexerFactory, concatenationLexerFactory);
             var lexer = factory.Create();
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                var result = lexer.Read(scanner, null);
+                var result = lexer.Read(scanner);
                 Assert.NotNull(result);
                 Assert.True(result.Success);
                 Assert.NotNull(result.Element);

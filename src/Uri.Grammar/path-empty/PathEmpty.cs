@@ -1,6 +1,6 @@
 ﻿namespace Uri.Grammar
 {
-    using TextFx;
+    using TextFx.ABNF;
 
     public class PathEmpty : Terminal
     {

@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class IPLiteral : Sequence
+    public class IPLiteral : Concatenation
     {
-        public IPLiteral(Sequence sequence)
-            : base(sequence)
+        public IPLiteral(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

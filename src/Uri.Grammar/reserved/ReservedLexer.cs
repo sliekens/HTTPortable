@@ -5,46 +5,31 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class ReservedLexer : Lexer<Reserved>
+    public sealed class ReservedLexer : Lexer<Reserved>
     {
         private readonly ILexer<Alternative> innerLexer;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="innerLexer">gen-delims / sub-delims</param>
         public ReservedLexer(ILexer<Alternative> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Reserved> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<Reserved> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<Reserved>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'reserved'",
-                    RuleName = "reserved",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new Reserved(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<Reserved>.FromResult(new Reserved(result.Element));
             }
-
-            return ReadResult<Reserved>.FromResult(element);
+            return ReadResult<Reserved>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

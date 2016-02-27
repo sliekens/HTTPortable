@@ -5,7 +5,7 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class UriReferenceLexer : Lexer<UriReference>
+    public sealed class UriReferenceLexer : Lexer<UriReference>
     {
         private readonly ILexer<Alternative> innerLexer;
 
@@ -13,34 +13,23 @@
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<UriReference> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<UriReference> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<UriReference>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'URI-reference'",
-                    RuleName = "URI-reference",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new UriReference(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<UriReference>.FromResult(new UriReference(result.Element));
             }
-
-            return ReadResult<UriReference>.FromResult(element);
+            return ReadResult<UriReference>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

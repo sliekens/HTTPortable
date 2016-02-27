@@ -5,46 +5,31 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class UnreservedLexer : Lexer<Unreserved>
+    public sealed class UnreservedLexer : Lexer<Unreserved>
     {
         private readonly ILexer<Alternative> innerLexer;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="innerLexer">ALPHA / DIGIT / "-" / "." / "_" / "~"</param>
         public UnreservedLexer(ILexer<Alternative> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Unreserved> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<Unreserved> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<Unreserved>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'unreserved'",
-                    RuleName = "unreserved",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new Unreserved(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<Unreserved>.FromResult(new Unreserved(result.Element));
             }
-
-            return ReadResult<Unreserved>.FromResult(element);
+            return ReadResult<Unreserved>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

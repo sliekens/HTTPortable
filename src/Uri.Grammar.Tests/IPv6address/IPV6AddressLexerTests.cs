@@ -67,7 +67,7 @@
         public void Read_ShouldSucceed(string input)
         {
             var terminalLexerFactory = new TerminalLexerFactory();
-            var sequenceLexerFactory = new SequenceLexerFactory();
+            var concatenationLexerFactory = new ConcatenationLexerFactory();
             var valueRangeLexerFactory = new ValueRangeLexerFactory();
             var alternativeLexerFactory = new AlternativeLexerFactory();
             var repetitionLexerFactory = new RepetitionLexerFactory();
@@ -78,7 +78,7 @@
                 alternativeLexerFactory,
                 repetitionLexerFactory,
                 digitLexerFactory,
-                sequenceLexerFactory);
+                concatenationLexerFactory);
             var optionLexerFactory = new OptionLexerFactory();
             var hexadecimalDigitLexerFactory = new HexadecimalDigitLexerFactory(
                 digitLexerFactory,
@@ -87,19 +87,19 @@
             var hexadecimalInt16LexerFactory = new HexadecimalInt16LexerFactory(
                 repetitionLexerFactory,
                 hexadecimalDigitLexerFactory);
-            var ipv4AddressLexerFactory = new IPV4AddressLexerFactory(
-                sequenceLexerFactory,
+            var ipv4AddressLexerFactory = new IPv4AddressLexerFactory(
+                concatenationLexerFactory,
                 terminalLexerFactory,
                 decimalOctetLexerFactory);
             var leastSignificantInt32LexerFactory = new LeastSignificantInt32LexerFactory(
                 alternativeLexerFactory,
-                sequenceLexerFactory,
+                concatenationLexerFactory,
                 terminalLexerFactory,
                 hexadecimalInt16LexerFactory,
                 ipv4AddressLexerFactory);
             var factory = new IPv6AddressLexerFactory(
                 alternativeLexerFactory,
-                sequenceLexerFactory,
+                concatenationLexerFactory,
                 terminalLexerFactory,
                 repetitionLexerFactory,
                 optionLexerFactory,
@@ -108,7 +108,7 @@
             var lexer = factory.Create();
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                var result = lexer.Read(scanner, null);
+                var result = lexer.Read(scanner);
                 Assert.NotNull(result);
                 Assert.True(result.Success);
                 Assert.NotNull(result.Element);

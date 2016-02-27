@@ -20,30 +20,18 @@
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<AbsoluteForm> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<AbsoluteForm> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return
-                    ReadResult<AbsoluteForm>.FromError(
-                        new SyntaxError
-                        {
-                            Message = "Expected 'absolute-form'.",
-                            RuleName = "absolute-form",
-                            Context = scanner.GetContext(),
-                            InnerError = result.Error
-                        });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new AbsoluteForm(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<AbsoluteForm>.FromResult(new AbsoluteForm(result.Element));
             }
-
-            return ReadResult<AbsoluteForm>.FromResult(element);
+            return ReadResult<AbsoluteForm>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

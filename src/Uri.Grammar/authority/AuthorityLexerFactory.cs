@@ -13,7 +13,7 @@
 
         private readonly ILexerFactory<Port> portLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
@@ -21,7 +21,7 @@
 
         public AuthorityLexerFactory(
             IOptionLexerFactory optionLexerFactory,
-            ISequenceLexerFactory sequenceLexerFactory,
+            IConcatenationLexerFactory concatenationLexerFactory,
             ILexerFactory<UserInformation> userInformationLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<Host> hostLexerFactory,
@@ -32,9 +32,9 @@
                 throw new ArgumentNullException("optionLexerFactory");
             }
 
-            if (sequenceLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("concatenationLexerFactory");
             }
 
             if (userInformationLexerFactory == null)
@@ -62,21 +62,21 @@
             this.terminalLexerFactory = terminalLexerFactory;
             this.hostLexerFactory = hostLexerFactory;
             this.portLexerFactory = portLexerFactory;
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
         }
 
         public ILexer<Authority> Create()
         {
             var userinfo = this.userInformationLexerFactory.Create();
             var at = this.terminalLexerFactory.Create(@"@", StringComparer.Ordinal);
-            var userinfoseq = this.sequenceLexerFactory.Create(userinfo, at);
+            var userinfoseq = this.concatenationLexerFactory.Create(userinfo, at);
             var optuserinfo = this.optionLexerFactory.Create(userinfoseq);
             var host = this.hostLexerFactory.Create();
             var colon = this.terminalLexerFactory.Create(@":", StringComparer.Ordinal);
             var port = this.portLexerFactory.Create();
-            var portseq = this.sequenceLexerFactory.Create(colon, port);
+            var portseq = this.concatenationLexerFactory.Create(colon, port);
             var optport = this.optionLexerFactory.Create(portseq);
-            var innerLexer = this.sequenceLexerFactory.Create(optuserinfo, host, optport);
+            var innerLexer = this.concatenationLexerFactory.Create(optuserinfo, host, optport);
             return new AuthorityLexer(innerLexer);
         }
     }

@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class LastChunk : Sequence
+    public class LastChunk : Concatenation
     {
-        public LastChunk(Sequence sequence)
-            : base(sequence)
+        public LastChunk(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

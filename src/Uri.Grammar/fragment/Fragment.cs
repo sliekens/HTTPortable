@@ -4,8 +4,8 @@
 
     public class Fragment : Repetition
     {
-        public Fragment(Repetition sequence)
-            : base(sequence)
+        public Fragment(Repetition repetition)
+            : base(repetition)
         {
         }
     }

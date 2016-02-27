@@ -4,10 +4,10 @@
 
     using TextFx.ABNF;
 
-    public class IPv4Address : Sequence
+    public class IPv4Address : Concatenation
     {
-        public IPv4Address(Sequence sequence)
-            : base(sequence)
+        public IPv4Address(Concatenation concatenation)
+            : base(concatenation)
         {
         }
 

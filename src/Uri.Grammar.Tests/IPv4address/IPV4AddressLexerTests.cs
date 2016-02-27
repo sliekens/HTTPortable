@@ -27,7 +27,7 @@
         public void Read_ShouldSucceed(string input)
         {
             var terminalLexerFactory = new TerminalLexerFactory();
-            var sequenceLexerFactory = new SequenceLexerFactory();
+            var concatenationLexerFactory = new ConcatenationLexerFactory();
             var valueRangeLexerFactory = new ValueRangeLexerFactory();
             var alternativeLexerFactory = new AlternativeLexerFactory();
             var repetitionLexerFactory = new RepetitionLexerFactory();
@@ -38,15 +38,15 @@
                 alternativeLexerFactory,
                 repetitionLexerFactory,
                 digitLexerFactory,
-                sequenceLexerFactory);
-            var factory = new IPV4AddressLexerFactory(
-                sequenceLexerFactory,
+                concatenationLexerFactory);
+            var factory = new IPv4AddressLexerFactory(
+                concatenationLexerFactory,
                 terminalLexerFactory,
                 decimalOctetLexerFactory);
             var lexer = factory.Create();
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                var result = lexer.Read(scanner, null);
+                var result = lexer.Read(scanner);
                 Assert.NotNull(result);
                 Assert.True(result.Success);
                 Assert.NotNull(result.Element);

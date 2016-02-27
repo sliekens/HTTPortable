@@ -1,10 +1,10 @@
 ﻿namespace Http.Grammar
 {
     using System;
-
     using TextFx;
+    using TextFx.ABNF;
 
-    public class AsteriskFormLexer : Lexer<AsteriskForm>
+    public sealed class AsteriskFormLexer : Lexer<AsteriskForm>
     {
         private readonly ILexer<Terminal> innerLexer;
 
@@ -14,34 +14,21 @@
             {
                 throw new ArgumentNullException(nameof(innerLexer));
             }
-
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<AsteriskForm> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<AsteriskForm> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return
-                    ReadResult<AsteriskForm>.FromError(
-                        new SyntaxError
-                        {
-                            Message = "Expected 'asterisk-form'.",
-                            RuleName = "asterisk-form",
-                            Context = scanner.GetContext(),
-                            InnerError = result.Error
-                        });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new AsteriskForm(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<AsteriskForm>.FromResult(new AsteriskForm(result.Element));
             }
-
-            return ReadResult<AsteriskForm>.FromResult(element);
+            return ReadResult<AsteriskForm>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

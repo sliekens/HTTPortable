@@ -22,187 +22,187 @@
         
         public byte[] GetBytes()
         {
-            var sequence = (Sequence)this.Element;
+            var concatenation = (Concatenation)this.Element;
             switch (this.Ordinal)
             {
                 case 1:
-                    return GetBytes1(sequence);
+                    return GetBytes1(concatenation);
                 case 2:
-                    return GetBytes2(sequence);
+                    return GetBytes2(concatenation);
                 case 3:
-                    return GetBytes3(sequence);
+                    return GetBytes3(concatenation);
                 case 4:
-                    return GetBytes4(sequence);
+                    return GetBytes4(concatenation);
                 case 5:
-                    return GetBytes5(sequence);
+                    return GetBytes5(concatenation);
                 case 6:
-                    return GetBytes6(sequence);
+                    return GetBytes6(concatenation);
                 case 7:
-                    return GetBytes7(sequence);
+                    return GetBytes7(concatenation);
                 case 8:
-                    return GetBytes8(sequence);
+                    return GetBytes8(concatenation);
                 case 9:
-                    return GetBytes9(sequence);
+                    return GetBytes9(concatenation);
             }
 
             return null;
         }
 
-        private static byte[] GetBytes1(Sequence sequence)
+        private static byte[] GetBytes1(Concatenation concatenation)
         {
             var ctx = new BytesFactoryContext();
-            var rep = (Repetition)sequence.Elements[0];
+            var rep = (Repetition)concatenation.Elements[0];
             for (var i = 0; i < 6; i++)
             {
-                var seq1 = (Sequence)rep.Elements[i];
+                var seq1 = (Concatenation)rep.Elements[i];
                 var h16 = (HexadecimalInt16)seq1.Elements[0];
                 ctx.RightAlign.Add(h16.GetBytes);
             }
 
-            var ls32 = (LeastSignificantInt32)sequence.Elements[1];
+            var ls32 = (LeastSignificantInt32)concatenation.Elements[1];
             ctx.RightAlign.Add(ls32.GetBytes);
 
             return ctx.GetResult();
         }
 
-        private static byte[] GetBytes2(Sequence sequence)
+        private static byte[] GetBytes2(Concatenation concatenation)
         {
             var ctx = new BytesFactoryContext();
-            var rep = (Repetition)sequence.Elements[1];
+            var rep = (Repetition)concatenation.Elements[1];
             for (var i = 0; i < 5; i++)
             {
-                var seq1 = (Sequence)rep.Elements[i];
+                var seq1 = (Concatenation)rep.Elements[i];
                 var h16 = (HexadecimalInt16)seq1.Elements[0];
                 ctx.RightAlign.Add(h16.GetBytes);
             }
 
-            var ls32 = (LeastSignificantInt32)sequence.Elements[2];
+            var ls32 = (LeastSignificantInt32)concatenation.Elements[2];
             ctx.RightAlign.Add(ls32.GetBytes);
 
             return ctx.GetResult();
         }
 
-        private static byte[] GetBytes3(Sequence sequence)
+        private static byte[] GetBytes3(Concatenation concatenation)
         {
             var ctx = new BytesFactoryContext();
-            var opt1 = (Repetition)sequence.Elements[0];
+            var opt1 = (Repetition)concatenation.Elements[0];
             if (opt1.Elements.Count != 0)
             {
                 var h16 = (HexadecimalInt16)opt1.Elements[0];
                 ctx.LeftAlign.Add(h16.GetBytes);
             }
 
-            var rep = (Repetition)sequence.Elements[2];
+            var rep = (Repetition)concatenation.Elements[2];
             for (var i = 0; i < 4; i++)
             {
-                var seq1 = (Sequence)rep.Elements[i];
+                var seq1 = (Concatenation)rep.Elements[i];
                 var h16 = (HexadecimalInt16)seq1.Elements[0];
                 ctx.RightAlign.Add(h16.GetBytes);
             }
-            var ls32 = (LeastSignificantInt32)sequence.Elements[3];
+            var ls32 = (LeastSignificantInt32)concatenation.Elements[3];
             ctx.RightAlign.Add(ls32.GetBytes);
 
             return ctx.GetResult();
         }
 
-        private static byte[] GetBytes4(Sequence sequence)
+        private static byte[] GetBytes4(Concatenation concatenation)
         {
             var ctx = new BytesFactoryContext();
-            var opt1 = (Repetition)sequence.Elements[0];
+            var opt1 = (Repetition)concatenation.Elements[0];
             if (opt1.Elements.Count != 0)
             {
                 GetBytesh16Alt2((Alternative)opt1.Elements[0], ctx);
             }
 
-            var rep = (Repetition)sequence.Elements[2];
+            var rep = (Repetition)concatenation.Elements[2];
             for (var i = 0; i < 3; i++)
             {
-                var seq1 = (Sequence)rep.Elements[i];
+                var seq1 = (Concatenation)rep.Elements[i];
                 var h16 = (HexadecimalInt16)seq1.Elements[0];
                 ctx.RightAlign.Add(h16.GetBytes);
             }
 
-            var ls32 = (LeastSignificantInt32)sequence.Elements[3];
+            var ls32 = (LeastSignificantInt32)concatenation.Elements[3];
             ctx.RightAlign.Add(ls32.GetBytes);
 
             return ctx.GetResult();
         }
 
-        private static byte[] GetBytes5(Sequence sequence)
+        private static byte[] GetBytes5(Concatenation concatenation)
         {
             var ctx = new BytesFactoryContext();
-            var opt1 = (Repetition)sequence.Elements[0];
+            var opt1 = (Repetition)concatenation.Elements[0];
             if (opt1.Elements.Count != 0)
             {
                 GetBytesh16Alt3((Alternative)opt1.Elements[0], ctx);
             }
 
-            var rep = (Repetition)sequence.Elements[2];
+            var rep = (Repetition)concatenation.Elements[2];
             for (var i = 0; i < 2; i++)
             {
-                var seq1 = (Sequence)rep.Elements[i];
+                var seq1 = (Concatenation)rep.Elements[i];
                 var h16 = (HexadecimalInt16)seq1.Elements[0];
                 ctx.RightAlign.Add(h16.GetBytes);
             }
 
-            var ls32 = (LeastSignificantInt32)sequence.Elements[3];
+            var ls32 = (LeastSignificantInt32)concatenation.Elements[3];
             ctx.RightAlign.Add(ls32.GetBytes);
 
             return ctx.GetResult();
         }
 
-        private static byte[] GetBytes6(Sequence sequence)
+        private static byte[] GetBytes6(Concatenation concatenation)
         {
             var ctx = new BytesFactoryContext();
-            var opt1 = (Repetition)sequence.Elements[0];
+            var opt1 = (Repetition)concatenation.Elements[0];
             if (opt1.Elements.Count != 0)
             {
                 GetBytesh16Alt4((Alternative)opt1.Elements[0], ctx);
             }
 
-            var h16 = (HexadecimalInt16)sequence.Elements[2];
+            var h16 = (HexadecimalInt16)concatenation.Elements[2];
             ctx.RightAlign.Add(h16.GetBytes);
 
-            var ls32 = (LeastSignificantInt32)sequence.Elements[4];
+            var ls32 = (LeastSignificantInt32)concatenation.Elements[4];
             ctx.RightAlign.Add(ls32.GetBytes);
 
             return ctx.GetResult();
         }
 
-        private static byte[] GetBytes7(Sequence sequence)
+        private static byte[] GetBytes7(Concatenation concatenation)
         {
             var ctx = new BytesFactoryContext();
-            var opt1 = (Repetition)sequence.Elements[0];
+            var opt1 = (Repetition)concatenation.Elements[0];
             if (opt1.Elements.Count != 0)
             {
                 GetBytesh16Alt5((Alternative)opt1.Elements[0], ctx);
             }
 
-            var ls32 = (LeastSignificantInt32)sequence.Elements[2];
+            var ls32 = (LeastSignificantInt32)concatenation.Elements[2];
             ctx.RightAlign.Add(ls32.GetBytes);
 
             return ctx.GetResult();
         }
 
-        private static byte[] GetBytes8(Sequence sequence)
+        private static byte[] GetBytes8(Concatenation concatenation)
         {
             var ctx = new BytesFactoryContext();
-            var opt1 = (Repetition)sequence.Elements[0];
+            var opt1 = (Repetition)concatenation.Elements[0];
             if (opt1.Elements.Count != 0)
             {
                 GetBytesh16Alt6((Alternative)opt1.Elements[0], ctx);
             }
 
-            var h16 = (HexadecimalInt16)sequence.Elements[2];
+            var h16 = (HexadecimalInt16)concatenation.Elements[2];
             ctx.RightAlign.Add(h16.GetBytes);
 
             return ctx.GetResult();
         }
 
-        private static byte[] GetBytes9(Sequence sequence)
+        private static byte[] GetBytes9(Concatenation concatenation)
         {
             var ctx = new BytesFactoryContext();
-            var opt1 = (Repetition)sequence.Elements[0];
+            var opt1 = (Repetition)concatenation.Elements[0];
             if (opt1.Elements.Count != 0)
             {
                 GetBytesh16Alt7((Alternative)opt1.Elements[0], ctx);
@@ -219,7 +219,7 @@
                 return;
             }
 
-            var seq = (Sequence)alternative.Element;
+            var seq = (Concatenation)alternative.Element;
             ctx.LeftAlign.Add(((HexadecimalInt16)seq.Elements[0]).GetBytes);
             ctx.LeftAlign.Add(((HexadecimalInt16)seq.Elements[2]).GetBytes);
         }
@@ -232,16 +232,16 @@
                 return;
             }
 
-            var sequence = (Sequence)alternative.Element;
-            var rep = (Repetition)sequence.Elements[0];
+            var concatenation = (Concatenation)alternative.Element;
+            var rep = (Repetition)concatenation.Elements[0];
             for (var i = 0; i < 2; i++)
             {
-                var seq1 = (Sequence)rep.Elements[i];
+                var seq1 = (Concatenation)rep.Elements[i];
                 var h16 = (HexadecimalInt16)seq1.Elements[0];
                 ctx.LeftAlign.Add(h16.GetBytes);
             }
 
-            var trailer = (HexadecimalInt16)sequence.Elements[1];
+            var trailer = (HexadecimalInt16)concatenation.Elements[1];
             ctx.LeftAlign.Add(trailer.GetBytes);
         }
 
@@ -253,16 +253,16 @@
                 return;
             }
 
-            var sequence = (Sequence)alternative.Element;
-            var rep = (Repetition)sequence.Elements[0];
+            var concatenation = (Concatenation)alternative.Element;
+            var rep = (Repetition)concatenation.Elements[0];
             for (var i = 0; i < 3; i++)
             {
-                var seq1 = (Sequence)rep.Elements[i];
+                var seq1 = (Concatenation)rep.Elements[i];
                 var h16 = (HexadecimalInt16)seq1.Elements[0];
                 ctx.LeftAlign.Add(h16.GetBytes);
             }
 
-            var trailer = (HexadecimalInt16)sequence.Elements[1];
+            var trailer = (HexadecimalInt16)concatenation.Elements[1];
             ctx.LeftAlign.Add(trailer.GetBytes);
         }
 
@@ -274,16 +274,16 @@
                 return;
             }
 
-            var sequence = (Sequence)alternative.Element;
-            var rep = (Repetition)sequence.Elements[0];
+            var concatenation = (Concatenation)alternative.Element;
+            var rep = (Repetition)concatenation.Elements[0];
             for (var i = 0; i < 4; i++)
             {
-                var seq1 = (Sequence)rep.Elements[i];
+                var seq1 = (Concatenation)rep.Elements[i];
                 var h16 = (HexadecimalInt16)seq1.Elements[0];
                 ctx.LeftAlign.Add(h16.GetBytes);
             }
 
-            var trailer = (HexadecimalInt16)sequence.Elements[1];
+            var trailer = (HexadecimalInt16)concatenation.Elements[1];
             ctx.LeftAlign.Add(trailer.GetBytes);
         }
 
@@ -295,16 +295,16 @@
                 return;
             }
 
-            var sequence = (Sequence)alternative.Element;
-            var rep = (Repetition)sequence.Elements[0];
+            var concatenation = (Concatenation)alternative.Element;
+            var rep = (Repetition)concatenation.Elements[0];
             for (var i = 0; i < 5; i++)
             {
-                var seq1 = (Sequence)rep.Elements[i];
+                var seq1 = (Concatenation)rep.Elements[i];
                 var h16 = (HexadecimalInt16)seq1.Elements[0];
                 ctx.LeftAlign.Add(h16.GetBytes);
             }
 
-            var trailer = (HexadecimalInt16)sequence.Elements[1];
+            var trailer = (HexadecimalInt16)concatenation.Elements[1];
             ctx.LeftAlign.Add(trailer.GetBytes);
         }
 
@@ -316,16 +316,16 @@
                 return;
             }
 
-            var sequence = (Sequence)alternative.Element;
-            var rep = (Repetition)sequence.Elements[0];
+            var concatenation = (Concatenation)alternative.Element;
+            var rep = (Repetition)concatenation.Elements[0];
             for (var i = 0; i < 6; i++)
             {
-                var seq1 = (Sequence)rep.Elements[i];
+                var seq1 = (Concatenation)rep.Elements[i];
                 var h16 = (HexadecimalInt16)seq1.Elements[0];
                 ctx.LeftAlign.Add(h16.GetBytes);
             }
 
-            var trailer = (HexadecimalInt16)sequence.Elements[1];
+            var trailer = (HexadecimalInt16)concatenation.Elements[1];
             ctx.LeftAlign.Add(trailer.GetBytes);
         }
 

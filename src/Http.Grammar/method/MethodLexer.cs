@@ -4,7 +4,7 @@
 
     using TextFx;
 
-    public class MethodLexer : Lexer<Method>
+    public sealed class MethodLexer : Lexer<Method>
     {
         private readonly ILexer<Token> innerLexer;
 
@@ -18,30 +18,17 @@
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Method> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<Method> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return
-                    ReadResult<Method>.FromError(
-                        new SyntaxError
-                        {
-                            Message = "Expected 'method'.",
-                            RuleName = "method",
-                            Context = scanner.GetContext(),
-                            InnerError = result.Error
-                        });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new Method(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<Method>.FromResult(new Method(result.Element));
             }
-
-            return ReadResult<Method>.FromResult(element);
+            return ReadResult<Method>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

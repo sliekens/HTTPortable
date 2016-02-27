@@ -5,7 +5,7 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class IPv6AddressLexer : Lexer<IPv6Address>
+    public sealed class IPv6AddressLexer : Lexer<IPv6Address>
     {
         private readonly ILexer<Alternative> innerLexer;
 
@@ -13,34 +13,23 @@
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<IPv6Address> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<IPv6Address> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<IPv6Address>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'IPv6address'.",
-                    RuleName = "IPv6address",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new IPv6Address(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<IPv6Address>.FromResult(new IPv6Address(result.Element));
             }
-
-            return ReadResult<IPv6Address>.FromResult(element);
+            return ReadResult<IPv6Address>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

@@ -5,7 +5,7 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class ChunkSizeLexer : Lexer<ChunkSize>
+    public sealed class ChunkSizeLexer : Lexer<ChunkSize>
     {
         private readonly ILexer<Repetition> innerLexer;
 
@@ -19,30 +19,17 @@
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<ChunkSize> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<ChunkSize> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return
-                    ReadResult<ChunkSize>.FromError(
-                        new SyntaxError
-                        {
-                            Message = "Expected 'chunk-size'.",
-                            RuleName = "chunk-size",
-                            Context = scanner.GetContext(),
-                            InnerError = result.Error
-                        });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new ChunkSize(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<ChunkSize>.FromResult(new ChunkSize(result.Element));
             }
-
-            return ReadResult<ChunkSize>.FromResult(element);
+            return ReadResult<ChunkSize>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

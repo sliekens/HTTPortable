@@ -5,46 +5,32 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class SegmentNonZeroLengthNoColonsLexer : Lexer<SegmentNonZeroLengthNoColons>
+    public sealed class SegmentNonZeroLengthNoColonsLexer : Lexer<SegmentNonZeroLengthNoColons>
     {
         private readonly ILexer<Repetition> innerLexer;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="innerLexer">1*( unreserved / pct-encoded / sub-delims / "@" )</param>
         public SegmentNonZeroLengthNoColonsLexer(ILexer<Repetition> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<SegmentNonZeroLengthNoColons> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<SegmentNonZeroLengthNoColons> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<SegmentNonZeroLengthNoColons>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'segment-nz-nc'",
-                    RuleName = "segment-nz-nc",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new SegmentNonZeroLengthNoColons(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<SegmentNonZeroLengthNoColons>.FromResult(new SegmentNonZeroLengthNoColons(result.Element));
             }
-
-            return ReadResult<SegmentNonZeroLengthNoColons>.FromResult(element);
+            return ReadResult<SegmentNonZeroLengthNoColons>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

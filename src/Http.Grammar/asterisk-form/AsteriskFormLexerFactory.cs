@@ -1,8 +1,8 @@
 ﻿namespace Http.Grammar
 {
     using System;
-
     using TextFx;
+    using TextFx.ABNF;
 
     public class AsteriskFormLexerFactory : ILexerFactory<AsteriskForm>
     {
@@ -14,13 +14,12 @@
             {
                 throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
-
             this.terminalLexerFactory = terminalLexerFactory;
         }
 
         public ILexer<AsteriskForm> Create()
         {
-            var innerLexer = this.terminalLexerFactory.Create(@"*", StringComparer.Ordinal);
+            var innerLexer = terminalLexerFactory.Create(@"*", StringComparer.Ordinal);
             return new AsteriskFormLexer(innerLexer);
         }
     }

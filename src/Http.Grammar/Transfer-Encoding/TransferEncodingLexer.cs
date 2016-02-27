@@ -4,7 +4,7 @@
 
     public class TransferEncodingLexer : Lexer<TransferEncoding>
     {
-        public override ReadResult<TransferEncoding> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<TransferEncoding> Read(ITextScanner scanner)
         {
             throw new System.NotImplementedException();
         }

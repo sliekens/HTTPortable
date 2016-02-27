@@ -6,7 +6,7 @@
 
     public class TransferParameterLexer : Lexer<TransferParameter>
     {
-        public override ReadResult<TransferParameter> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<TransferParameter> Read(ITextScanner scanner)
         {
             throw new NotImplementedException();
         }

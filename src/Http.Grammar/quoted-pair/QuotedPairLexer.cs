@@ -6,7 +6,7 @@ namespace Http.Grammar
 
     public class QuotedPairLexer : Lexer<QuotedPair>
     {
-        public override ReadResult<QuotedPair> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<QuotedPair> Read(ITextScanner scanner)
         {
             throw new NotImplementedException();
         }

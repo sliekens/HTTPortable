@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class HttpUri : Sequence
+    public class HttpUri : Concatenation
     {
-        public HttpUri(Sequence sequence)
-            : base(sequence)
+        public HttpUri(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

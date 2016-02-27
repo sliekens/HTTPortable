@@ -1,46 +1,34 @@
 ﻿namespace Uri.Grammar
 {
     using System;
-
     using TextFx;
     using TextFx.ABNF;
 
-    public class AbsoluteUriLexer : Lexer<AbsoluteUri>
+    public sealed class AbsoluteUriLexer : Lexer<AbsoluteUri>
     {
-        private readonly ILexer<Sequence> innerLexer;
+        private readonly ILexer<Concatenation> innerLexer;
 
-        public AbsoluteUriLexer(ILexer<Sequence> innerLexer)
+        public AbsoluteUriLexer(ILexer<Concatenation> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
-
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<AbsoluteUri> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<AbsoluteUri> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<AbsoluteUri>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'absolute-URI'.",
-                    RuleName = "absolute-URI",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new AbsoluteUri(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<AbsoluteUri>.FromResult(new AbsoluteUri(result.Element));
             }
-
-            return ReadResult<AbsoluteUri>.FromResult(element);
+            return ReadResult<AbsoluteUri>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

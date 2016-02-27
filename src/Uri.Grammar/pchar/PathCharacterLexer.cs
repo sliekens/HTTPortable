@@ -5,46 +5,31 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class PathCharacterLexer : Lexer<PathCharacter>
+    public sealed class PathCharacterLexer : Lexer<PathCharacter>
     {
         private readonly ILexer<Alternative> innerLexer;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="innerLexer">unreserved / pct-encoded / sub-delims / ":" / "@"</param>
         public PathCharacterLexer(ILexer<Alternative> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<PathCharacter> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<PathCharacter> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<PathCharacter>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'pchar'.",
-                    RuleName = "pchar",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new PathCharacter(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<PathCharacter>.FromResult(new PathCharacter(result.Element));
             }
-
-            return ReadResult<PathCharacter>.FromResult(element);
+            return ReadResult<PathCharacter>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

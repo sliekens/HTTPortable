@@ -4,8 +4,8 @@
 
     public class SegmentNonZeroLength : Repetition
     {
-        public SegmentNonZeroLength(Repetition sequence)
-            : base(sequence)
+        public SegmentNonZeroLength(Repetition repetition)
+            : base(repetition)
         {
         }
     }

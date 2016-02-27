@@ -6,8 +6,8 @@
 
     public class HexadecimalInt16 : Repetition
     {
-        public HexadecimalInt16(Repetition sequence)
-            : base(sequence)
+        public HexadecimalInt16(Repetition repetition)
+            : base(repetition)
         {
         }
 

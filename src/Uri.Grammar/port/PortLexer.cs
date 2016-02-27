@@ -1,11 +1,10 @@
 ﻿namespace Uri.Grammar
 {
     using System;
-
     using TextFx;
     using TextFx.ABNF;
 
-    public class PortLexer : Lexer<Port>
+    public sealed class PortLexer : Lexer<Port>
     {
         private readonly ILexer<Repetition> innerLexer;
 
@@ -13,34 +12,23 @@
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
-
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Port> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<Port> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<Port>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'port'.",
-                    RuleName = "port",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new Port(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<Port>.FromResult(new Port(result.Element));
             }
-
-            return ReadResult<Port>.FromResult(element);
+            return ReadResult<Port>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

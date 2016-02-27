@@ -12,9 +12,9 @@
 
         private readonly ILexerFactory<HexadecimalDigit> hexadecimalDigitLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
-        public PercentEncodingLexerFactory(ITerminalLexerFactory terminalLexerFactory, ILexerFactory<HexadecimalDigit> hexadecimalDigitLexerFactory, ISequenceLexerFactory sequenceLexerFactory)
+        public PercentEncodingLexerFactory(ITerminalLexerFactory terminalLexerFactory, ILexerFactory<HexadecimalDigit> hexadecimalDigitLexerFactory, IConcatenationLexerFactory concatenationLexerFactory)
         {
             if (terminalLexerFactory == null)
             {
@@ -26,20 +26,20 @@
                 throw new ArgumentNullException("hexadecimalDigitLexerFactory", "Precondition: hexadecimalDigitLexerFactory != null");
             }
 
-            if (sequenceLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory", "Precondition: sequenceLexerFactory != null");
+                throw new ArgumentNullException("concatenationLexerFactory", "Precondition: concatenationLexerFactory != null");
             }
 
             this.terminalLexerFactory = terminalLexerFactory;
             this.hexadecimalDigitLexerFactory = hexadecimalDigitLexerFactory;
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
         }
 
         public ILexer<PercentEncoding> Create()
         {
             var hexadecimalDigitLexer = this.hexadecimalDigitLexerFactory.Create();
-            var percentEncodingAlternativeLexer = this.sequenceLexerFactory.Create(
+            var percentEncodingAlternativeLexer = this.concatenationLexerFactory.Create(
                 this.terminalLexerFactory.Create(@"%", StringComparer.Ordinal),
                 hexadecimalDigitLexer,
                 hexadecimalDigitLexer);

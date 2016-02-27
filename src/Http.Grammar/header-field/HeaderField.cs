@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class HeaderField : Sequence
+    public class HeaderField : Concatenation
     {
-        public HeaderField(Sequence sequence)
-            : base(sequence)
+        public HeaderField(Concatenation concatenation)
+            : base(concatenation)
         {
         }
 

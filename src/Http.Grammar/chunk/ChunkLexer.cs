@@ -1,46 +1,34 @@
 ﻿namespace Http.Grammar
 {
     using System;
-
     using TextFx;
     using TextFx.ABNF;
 
-    public class ChunkLexer : Lexer<Chunk>
+    public sealed class ChunkLexer : Lexer<Chunk>
     {
-        private ILexer<Sequence> innerLexer;
+        private readonly ILexer<Concatenation> innerLexer;
 
-        public ChunkLexer(ILexer<Sequence> innerLexer)
+        public ChunkLexer(ILexer<Concatenation> innerLexer)
         {
             if (innerLexer == null)
             {
                 throw new ArgumentNullException(nameof(innerLexer));
             }
-
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Chunk> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<Chunk> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<Chunk>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'chunk'.",
-                    RuleName = "chunk",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new Chunk(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<Chunk>.FromResult(new Chunk(result.Element));
             }
-
-            return ReadResult<Chunk>.FromResult(element);
+            return ReadResult<Chunk>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

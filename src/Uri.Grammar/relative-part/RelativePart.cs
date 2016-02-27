@@ -18,8 +18,8 @@
                     return null;
                 }
 
-                var sequence = (Sequence)this.Element;
-                return (Authority)sequence.Elements[1];
+                var concatenation = (Concatenation)this.Element;
+                return (Authority)concatenation.Elements[1];
             }
         }
 
@@ -45,8 +45,8 @@
                     return null;
                 }
 
-                var sequence = (Sequence)this.Element;
-                return (PathAbsoluteOrEmpty)sequence.Elements[2];
+                var concatenation = (Concatenation)this.Element;
+                return (PathAbsoluteOrEmpty)concatenation.Elements[2];
             }
         }
 

@@ -6,8 +6,8 @@
 
     public class Port : Repetition
     {
-        public Port(Repetition sequence)
-            : base(sequence)
+        public Port(Repetition repetition)
+            : base(repetition)
         {
         }
 

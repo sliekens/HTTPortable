@@ -1,48 +1,34 @@
 ﻿namespace Http.Grammar
 {
     using System;
-
     using TextFx;
+    using TextFx.ABNF;
 
-    public class HttpNameLexer : Lexer<HttpName>
+    public sealed class HttpNameLexer : Lexer<HttpName>
     {
         private readonly ILexer<Terminal> innerLexer;
 
-        /// <summary>
-        /// </summary>
-        /// <param name="innerLexer">%x48.54.54.50</param>
         public HttpNameLexer(ILexer<Terminal> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
-
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<HttpName> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<HttpName> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<HttpName>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'HTTP-name'.",
-                    RuleName = "HTTP-name",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new HttpName(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<HttpName>.FromResult(new HttpName(result.Element));
             }
-
-            return ReadResult<HttpName>.FromResult(element);
+            return ReadResult<HttpName>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

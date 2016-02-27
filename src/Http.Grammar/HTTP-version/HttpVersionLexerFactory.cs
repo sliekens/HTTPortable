@@ -12,19 +12,19 @@
 
         private readonly ILexerFactory<HttpName> httpNameLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory ConcatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public HttpVersionLexerFactory(
-            ISequenceLexerFactory sequenceLexerFactory,
+            IConcatenationLexerFactory ConcatenationLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<HttpName> httpNameLexerFactory,
             ILexerFactory<Digit> digitLexerFactory)
         {
-            if (sequenceLexerFactory == null)
+            if (ConcatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("ConcatenationLexerFactory");
             }
 
             if (terminalLexerFactory == null)
@@ -42,7 +42,7 @@
                 throw new ArgumentNullException("digitLexerFactory");
             }
 
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.ConcatenationLexerFactory = ConcatenationLexerFactory;
             this.terminalLexerFactory = terminalLexerFactory;
             this.httpNameLexerFactory = httpNameLexerFactory;
             this.digitLexerFactory = digitLexerFactory;
@@ -54,7 +54,7 @@
             var digit = this.digitLexerFactory.Create();
             var slash = this.terminalLexerFactory.Create(@"/", StringComparer.Ordinal);
             var dot = this.terminalLexerFactory.Create(@".", StringComparer.Ordinal);
-            var innerLexer = this.sequenceLexerFactory.Create(httpName, slash, digit, dot, digit);
+            var innerLexer = this.ConcatenationLexerFactory.Create(httpName, slash, digit, dot, digit);
             return new HttpVersionLexer(innerLexer);
         }
     }

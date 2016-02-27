@@ -1,50 +1,34 @@
 ﻿namespace Uri.Grammar
 {
     using System;
-
     using TextFx;
     using TextFx.ABNF;
 
-    public class PercentEncodingLexer : Lexer<PercentEncoding>
+    public sealed class PercentEncodingLexer : Lexer<PercentEncoding>
     {
-        private readonly ILexer<Sequence> innerLexer;
+        private readonly ILexer<Concatenation> innerLexer;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="innerLexer">"%" HEXDIG HEXDIG</param>
-        public PercentEncodingLexer(ILexer<Sequence> innerLexer)
+        public PercentEncodingLexer(ILexer<Concatenation> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<PercentEncoding> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<PercentEncoding> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<PercentEncoding>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'pct-encoded'.",
-                    RuleName = "pct-encoded",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new PercentEncoding(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<PercentEncoding>.FromResult(new PercentEncoding(result.Element));
             }
-
-            return ReadResult<PercentEncoding>.FromResult(element);
+            return ReadResult<PercentEncoding>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

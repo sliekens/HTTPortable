@@ -1,49 +1,34 @@
 ﻿namespace Uri.Grammar
 {
     using System;
-
     using TextFx;
+    using TextFx.ABNF;
 
-    public class PathEmptyLexer : Lexer<PathEmpty>
+    public sealed class PathEmptyLexer : Lexer<PathEmpty>
     {
         private readonly ILexer<Terminal> innerLexer;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="innerLexer">""</param>
         public PathEmptyLexer(ILexer<Terminal> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
-
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<PathEmpty> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<PathEmpty> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<PathEmpty>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'path-empty'.",
-                    RuleName = "path-empty",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new PathEmpty(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<PathEmpty>.FromResult(new PathEmpty(result.Element));
             }
-
-            return ReadResult<PathEmpty>.FromResult(element);
+            return ReadResult<PathEmpty>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

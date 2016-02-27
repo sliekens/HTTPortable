@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class TransferExtension : Sequence
+    public class TransferExtension : Concatenation
     {
-        public TransferExtension(Sequence sequence)
-            : base(sequence)
+        public TransferExtension(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

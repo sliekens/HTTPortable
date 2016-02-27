@@ -5,45 +5,31 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class RequiredWhiteSpaceLexer : Lexer<RequiredWhiteSpace>
+    public sealed class RequiredWhiteSpaceLexer : Lexer<RequiredWhiteSpace>
     {
         private readonly ILexer<Repetition> innerLexer;
 
-        /// <summary>
-        /// </summary>
-        /// <param name="innerLexer">1*( SP / HTAB )</param>
         public RequiredWhiteSpaceLexer(ILexer<Repetition> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<RequiredWhiteSpace> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<RequiredWhiteSpace> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<RequiredWhiteSpace>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'RWS'.",
-                    RuleName = "RWS",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new RequiredWhiteSpace(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<RequiredWhiteSpace>.FromResult(new RequiredWhiteSpace(result.Element));
             }
-
-            return ReadResult<RequiredWhiteSpace>.FromResult(element);
+            return ReadResult<RequiredWhiteSpace>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

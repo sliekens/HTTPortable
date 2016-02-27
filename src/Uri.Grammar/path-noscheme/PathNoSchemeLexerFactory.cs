@@ -13,20 +13,20 @@
 
         private readonly ILexerFactory<SegmentNonZeroLengthNoColons> segmentNonZeroLengthNoColonsLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public PathNoSchemeLexerFactory(
-            ISequenceLexerFactory sequenceLexerFactory,
+            IConcatenationLexerFactory concatenationLexerFactory,
             IRepetitionLexerFactory repetitionLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<Segment> segmentLexerFactory,
             ILexerFactory<SegmentNonZeroLengthNoColons> segmentNonZeroLengthNoColonsLexerFactory)
         {
-            if (sequenceLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("concatenationLexerFactory");
             }
 
             if (repetitionLexerFactory == null)
@@ -49,7 +49,7 @@
                 throw new ArgumentNullException("segmentNonZeroLengthNoColonsLexerFactory");
             }
 
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
             this.repetitionLexerFactory = repetitionLexerFactory;
             this.terminalLexerFactory = terminalLexerFactory;
             this.segmentLexerFactory = segmentLexerFactory;
@@ -65,7 +65,7 @@
             var b = this.segmentLexerFactory.Create();
 
             // "/" segment
-            var c = this.sequenceLexerFactory.Create(a, b);
+            var c = this.concatenationLexerFactory.Create(a, b);
 
             // *( "/" segment )
             var d = this.repetitionLexerFactory.Create(c, 0, int.MaxValue);
@@ -74,7 +74,7 @@
             var e = this.segmentNonZeroLengthNoColonsLexerFactory.Create();
 
             // segment-nz-nc *( "/" segment )
-            var f = this.sequenceLexerFactory.Create(e, d);
+            var f = this.concatenationLexerFactory.Create(e, d);
 
             // path-noscheme
             return new PathNoSchemeLexer(f);

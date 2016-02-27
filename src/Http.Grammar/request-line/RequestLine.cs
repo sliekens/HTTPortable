@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class RequestLine : Sequence
+    public class RequestLine : Concatenation
     {
-        public RequestLine(Sequence sequence)
-            : base(sequence)
+        public RequestLine(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

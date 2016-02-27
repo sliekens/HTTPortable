@@ -16,21 +16,21 @@
 
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public SchemeLexerFactory(
-            ISequenceLexerFactory sequenceLexerFactory,
+            IConcatenationLexerFactory concatenationLexerFactory,
             IAlternativeLexerFactory alternativeLexerFactory,
             IRepetitionLexerFactory repetitionLexerFactory,
             ILexerFactory<Alpha> alphaLexerFactory,
             ILexerFactory<Digit> digitLexerFactory,
             ITerminalLexerFactory terminalLexerFactory)
         {
-            if (sequenceLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("concatenationLexerFactory");
             }
 
             if (alternativeLexerFactory == null)
@@ -58,7 +58,7 @@
                 throw new ArgumentNullException("terminalLexerFactory");
             }
 
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
             this.alternativeLexerFactory = alternativeLexerFactory;
             this.repetitionLexerFactory = repetitionLexerFactory;
             this.alphaLexerFactory = alphaLexerFactory;
@@ -75,7 +75,7 @@
             var dot = this.terminalLexerFactory.Create(@".", StringComparer.Ordinal);
             var alt = this.alternativeLexerFactory.Create(alpha, digit, plus, minus, dot);
             var rep = this.repetitionLexerFactory.Create(alt, 0, int.MaxValue);
-            var innerLexer = this.sequenceLexerFactory.Create(alpha, rep);
+            var innerLexer = this.concatenationLexerFactory.Create(alpha, rep);
             return new SchemeLexer(innerLexer);
         }
     }

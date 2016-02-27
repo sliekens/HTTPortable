@@ -5,46 +5,31 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class GenericDelimiterLexer : Lexer<GenericDelimiter>
+    public sealed class GenericDelimiterLexer : Lexer<GenericDelimiter>
     {
         private readonly ILexer<Alternative> innerLexer;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="innerLexer">":" / "/" / "?" / "#" / "[" / "]" / "@"</param>
         public GenericDelimiterLexer(ILexer<Alternative> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<GenericDelimiter> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<GenericDelimiter> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<GenericDelimiter>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'gen-delims'.",
-                    RuleName = "gen-delims",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new GenericDelimiter(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<GenericDelimiter>.FromResult(new GenericDelimiter(result.Element));
             }
-
-            return ReadResult<GenericDelimiter>.FromResult(element);
+            return ReadResult<GenericDelimiter>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

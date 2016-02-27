@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class ReceivedProtocol : Sequence
+    public class ReceivedProtocol : Concatenation
     {
-        public ReceivedProtocol(Sequence sequence)
-            : base(sequence)
+        public ReceivedProtocol(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

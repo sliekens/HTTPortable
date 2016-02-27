@@ -19,13 +19,13 @@
 
         private readonly ILexerFactory<PathNoScheme> pathNoSchemeLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public RelativePartLexerFactory(
             IAlternativeLexerFactory alternativeLexerFactory,
-            ISequenceLexerFactory sequenceLexerFactory,
+            IConcatenationLexerFactory concatenationLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<Authority> authorityLexerFactory,
             ILexerFactory<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexerFactory,
@@ -38,9 +38,9 @@
                 throw new ArgumentNullException("alternativeLexerFactory");
             }
 
-            if (sequenceLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("concatenationLexerFactory");
             }
 
             if (terminalLexerFactory == null)
@@ -74,7 +74,7 @@
             }
 
             this.alternativeLexerFactory = alternativeLexerFactory;
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
             this.terminalLexerFactory = terminalLexerFactory;
             this.authorityLexerFactory = authorityLexerFactory;
             this.pathAbsoluteOrEmptyLexerFactory = pathAbsoluteOrEmptyLexerFactory;
@@ -88,7 +88,7 @@
             var delim = this.terminalLexerFactory.Create(@"//", StringComparer.Ordinal);
             var authority = this.authorityLexerFactory.Create();
             var pathAbEmpty = this.pathAbsoluteOrEmptyLexerFactory.Create();
-            var seq = this.sequenceLexerFactory.Create(delim, authority, pathAbEmpty);
+            var seq = this.concatenationLexerFactory.Create(delim, authority, pathAbEmpty);
             var pathAbsolute = this.pathAbsoluteLexerFactory.Create();
             var pathNoScheme = this.pathNoSchemeLexerFactory.Create();
             var pathEmpty = this.pathEmptyLexerFactory.Create();

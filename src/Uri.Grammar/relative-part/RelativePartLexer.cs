@@ -5,7 +5,7 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class RelativePartLexer : Lexer<RelativePart>
+    public sealed class RelativePartLexer : Lexer<RelativePart>
     {
         private readonly ILexer<Alternative> innerLexer;
 
@@ -13,34 +13,23 @@
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<RelativePart> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<RelativePart> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<RelativePart>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'relative-part'.",
-                    RuleName = "relative-part",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new RelativePart(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<RelativePart>.FromResult(new RelativePart(result.Element));
             }
-
-            return ReadResult<RelativePart>.FromResult(element);
+            return ReadResult<RelativePart>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

@@ -5,41 +5,31 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class RequiredDelimitedListLexer : Lexer<RequiredDelimitedList>
+    public sealed class RequiredDelimitedListLexer : Lexer<RequiredDelimitedList>
     {
-        private readonly ILexer<Sequence> innerLexer;
+        private readonly ILexer<Concatenation> innerLexer;
 
-        public RequiredDelimitedListLexer(ILexer<Sequence> innerLexer)
+        public RequiredDelimitedListLexer(ILexer<Concatenation> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<RequiredDelimitedList> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<RequiredDelimitedList> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<RequiredDelimitedList>.FromError(new SyntaxError
-                {
-                    Message = "One or more syntax errors were found.",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new RequiredDelimitedList(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<RequiredDelimitedList>.FromResult(new RequiredDelimitedList(result.Element));
             }
-
-            return ReadResult<RequiredDelimitedList>.FromResult(element);
+            return ReadResult<RequiredDelimitedList>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

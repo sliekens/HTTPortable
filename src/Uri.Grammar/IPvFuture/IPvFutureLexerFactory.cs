@@ -14,7 +14,7 @@
 
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
@@ -25,7 +25,7 @@
         public IPvFutureLexerFactory(
             ITerminalLexerFactory terminalLexerFactory,
             IRepetitionLexerFactory repetitionLexerFactory,
-            ISequenceLexerFactory sequenceLexerFactory,
+            IConcatenationLexerFactory concatenationLexerFactory,
             IAlternativeLexerFactory alternativeLexerFactory,
             ILexerFactory<HexadecimalDigit> hexadecimalDigitLexerFactory,
             ILexerFactory<Unreserved> unreservedLexerFactory,
@@ -41,9 +41,9 @@
                 throw new ArgumentNullException("repetitionLexerFactory");
             }
 
-            if (sequenceLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("concatenationLexerFactory");
             }
 
             if (alternativeLexerFactory == null)
@@ -68,7 +68,7 @@
 
             this.terminalLexerFactory = terminalLexerFactory;
             this.repetitionLexerFactory = repetitionLexerFactory;
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
             this.alternativeLexerFactory = alternativeLexerFactory;
             this.hexadecimalDigitLexerFactory = hexadecimalDigitLexerFactory;
             this.unreservedLexerFactory = unreservedLexerFactory;
@@ -105,7 +105,7 @@
             var s = this.repetitionLexerFactory.Create(a, 1, int.MaxValue);
 
             // "v" 1*HEXDIG "." 1*( unreserved / sub-delims / ":" )
-            var innerLexer = this.sequenceLexerFactory.Create(v, r, dot, s);
+            var innerLexer = this.concatenationLexerFactory.Create(v, r, dot, s);
 
             // IPvFuture
             return new IPvFutureLexer(innerLexer);

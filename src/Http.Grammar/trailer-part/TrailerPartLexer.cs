@@ -4,7 +4,7 @@ namespace Http.Grammar
 
     public class TrailerPartLexer : Lexer<TrailerPart>
     {
-        public override ReadResult<TrailerPart> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<TrailerPart> Read(ITextScanner scanner)
         {
             throw new System.NotImplementedException();
         }

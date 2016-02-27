@@ -2,9 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
-    using System.Text;
-
     using TextFx;
     using TextFx.ABNF;
     using TextFx.ABNF.Core;
@@ -40,7 +37,7 @@
         private static OptionalDelimitedList CreateTestCase(string input, ILexer listItemLexer)
         {
             var optionLexerFactory = new OptionLexerFactory();
-            var sequenceLexerFactory = new SequenceLexerFactory();
+            var ConcatenationLexerFactory = new ConcatenationLexerFactory();
             var alternativeLexerFactory = new AlternativeLexerFactory();
             var terminalLexerFactory = new TerminalLexerFactory();
             var spaceLexerFactory = new SpaceLexerFactory(terminalLexerFactory);
@@ -50,7 +47,7 @@
             var optionalWhiteSpaceLexerFactory = new OptionalWhiteSpaceLexerFactory(repetitionLexerFactory, whiteSpaceLexerFactory);
             var lexerFactory = new OptionalDelimitedListLexerFactory(
                 optionLexerFactory,
-                sequenceLexerFactory,
+                ConcatenationLexerFactory,
                 alternativeLexerFactory,
                 terminalLexerFactory,
                 optionalWhiteSpaceLexerFactory,
@@ -58,7 +55,7 @@
 
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                return lexerFactory.Create(listItemLexer).Read(scanner, null).Element;
+                return lexerFactory.Create(listItemLexer).Read(scanner).Element;
             }
         }
     }

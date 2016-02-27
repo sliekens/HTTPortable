@@ -5,7 +5,7 @@ namespace Http.Grammar
     using TextFx;
     using TextFx.ABNF;
 
-    public class MessageBodyLexer : Lexer<MessageBody>
+    public sealed class MessageBodyLexer : Lexer<MessageBody>
     {
         private readonly ILexer<Repetition> innerLexer;
 
@@ -19,30 +19,17 @@ namespace Http.Grammar
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<MessageBody> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<MessageBody> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return
-                    ReadResult<MessageBody>.FromError(
-                        new SyntaxError
-                            {
-                                Message = "Expected 'message-body'.",
-                                RuleName = "message-body",
-                                Context = scanner.GetContext(),
-                                InnerError = result.Error
-                            });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new MessageBody(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<MessageBody>.FromResult(new MessageBody(result.Element));
             }
-
-            return ReadResult<MessageBody>.FromResult(element);
+            return ReadResult<MessageBody>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class OriginForm : Sequence
+    public class OriginForm : Concatenation
     {
-        public OriginForm(Sequence sequence)
-            : base(sequence)
+        public OriginForm(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

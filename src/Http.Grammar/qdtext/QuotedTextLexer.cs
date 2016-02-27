@@ -6,7 +6,7 @@
 
     public class QuotedTextLexer : Lexer<QuotedText>
     {
-        public override ReadResult<QuotedText> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<QuotedText> Read(ITextScanner scanner)
         {
             throw new NotImplementedException();
         }

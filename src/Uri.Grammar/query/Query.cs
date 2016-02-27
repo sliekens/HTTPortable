@@ -4,8 +4,8 @@
 
     public class Query : Repetition
     {
-        public Query(Repetition sequence)
-            : base(sequence)
+        public Query(Repetition repetition)
+            : base(repetition)
         {
         }
     }

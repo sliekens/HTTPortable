@@ -6,15 +6,15 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class RequiredDelimitedList : Sequence
+    public class RequiredDelimitedList : Concatenation
     {
         public RequiredDelimitedList(RequiredDelimitedList delimitedList)
             : base(delimitedList)
         {
         }
 
-        public RequiredDelimitedList(Sequence sequence)
-            : base(sequence)
+        public RequiredDelimitedList(Concatenation concatenation)
+            : base(concatenation)
         {
         }
 
@@ -23,9 +23,9 @@
             var e1 = this.Elements[1];
             var items = new List<Element> { e1 };
             var rep1 = (Repetition)this.Elements[2];
-            foreach (var opt1 in rep1.Elements.Cast<Sequence>().Select(seq1 => (Repetition)seq1.Elements[2]))
+            foreach (var opt1 in rep1.Elements.Cast<Concatenation>().Select(seq1 => (Repetition)seq1.Elements[2]))
             {
-                items.AddRange(opt1.Elements.Cast<Sequence>().Select(seq2 => seq2.Elements[1]));
+                items.AddRange(opt1.Elements.Cast<Concatenation>().Select(seq2 => seq2.Elements[1]));
             }
 
             return items;

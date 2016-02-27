@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class ObsoleteFold : Sequence
+    public class ObsoleteFold : Concatenation
     {
-        public ObsoleteFold(Sequence sequence)
-            : base(sequence)
+        public ObsoleteFold(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

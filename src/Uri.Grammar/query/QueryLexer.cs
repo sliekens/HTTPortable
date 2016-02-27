@@ -5,7 +5,7 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class QueryLexer : Lexer<Query>
+    public sealed class QueryLexer : Lexer<Query>
     {
         private readonly ILexer<Repetition> innerLexer;
 
@@ -13,34 +13,23 @@
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Query> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<Query> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<Query>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'query'.",
-                    RuleName = "query",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new Query(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<Query>.FromResult(new Query(result.Element));
             }
-
-            return ReadResult<Query>.FromResult(element);
+            return ReadResult<Query>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

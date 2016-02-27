@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class IPvFuture : Sequence
+    public class IPvFuture : Concatenation
     {
-        public IPvFuture(Sequence sequence)
-            : base(sequence)
+        public IPvFuture(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

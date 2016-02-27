@@ -19,7 +19,7 @@
                 return thisAsIPv4.GetBytes();
             }
 
-            var seq = (Sequence)this.Element;
+            var seq = (Concatenation)this.Element;
             return seq.Elements.OfType<HexadecimalInt16>().SelectMany(int16 => int16.GetBytes()).ToArray();
         }
     }

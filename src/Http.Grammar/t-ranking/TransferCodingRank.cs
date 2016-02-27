@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class TransferCodingRank : Sequence
+    public class TransferCodingRank : Concatenation
     {
-        public TransferCodingRank(Sequence sequence)
-            : base(sequence)
+        public TransferCodingRank(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

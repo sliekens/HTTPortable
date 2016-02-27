@@ -5,7 +5,7 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class HierarchicalPartLexer : Lexer<HierarchicalPart>
+    public sealed class HierarchicalPartLexer : Lexer<HierarchicalPart>
     {
         private readonly ILexer<Alternative> innerLexer;
 
@@ -13,34 +13,23 @@
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<HierarchicalPart> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<HierarchicalPart> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<HierarchicalPart>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'fragment'.",
-                    RuleName = "fragment",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new HierarchicalPart(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<HierarchicalPart>.FromResult(new HierarchicalPart(result.Element));
             }
-
-            return ReadResult<HierarchicalPart>.FromResult(element);
+            return ReadResult<HierarchicalPart>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

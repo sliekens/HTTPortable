@@ -1,11 +1,10 @@
 ﻿namespace Http.Grammar
 {
     using System;
-
     using TextFx;
     using TextFx.ABNF;
 
-    public class TokenCharacterLexer : Lexer<TokenCharacter>
+    public sealed class TokenCharacterLexer : Lexer<TokenCharacter>
     {
         private readonly ILexer<Alternative> innerLexer;
 
@@ -19,28 +18,18 @@
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<TokenCharacter> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<TokenCharacter> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<TokenCharacter>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'tchar'.",
-                    RuleName = "tchar",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new TokenCharacter(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<TokenCharacter>.FromResult(new TokenCharacter(result.Element));
             }
-
-            return ReadResult<TokenCharacter>.FromResult(element);
+            return ReadResult<TokenCharacter>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

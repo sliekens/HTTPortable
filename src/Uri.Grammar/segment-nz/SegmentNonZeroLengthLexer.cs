@@ -5,44 +5,31 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class SegmentNonZeroLengthLexer : Lexer<SegmentNonZeroLength>
+    public sealed class SegmentNonZeroLengthLexer : Lexer<SegmentNonZeroLength>
     {
         private readonly ILexer<Repetition> innerLexer;
 
-        /// <summary></summary>
-        /// <param name="innerLexer">1*pchar</param>
         public SegmentNonZeroLengthLexer(ILexer<Repetition> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<SegmentNonZeroLength> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<SegmentNonZeroLength> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<SegmentNonZeroLength>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'segment-nz'",
-                    RuleName = "segment-nz",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new SegmentNonZeroLength(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<SegmentNonZeroLength>.FromResult((SegmentNonZeroLength) Activator.CreateInstance(typeof(SegmentNonZeroLength), result.Element));
             }
-
-            return ReadResult<SegmentNonZeroLength>.FromResult(element);
+            return ReadResult<SegmentNonZeroLength>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

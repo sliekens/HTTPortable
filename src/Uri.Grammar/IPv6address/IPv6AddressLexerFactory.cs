@@ -19,13 +19,13 @@ namespace Uri.Grammar
 
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public IPv6AddressLexerFactory(
             IAlternativeLexerFactory alternativeLexerFactory,
-            ISequenceLexerFactory sequenceLexerFactory,
+            IConcatenationLexerFactory concatenationLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
             IRepetitionLexerFactory repetitionLexerFactory,
             IOptionLexerFactory optionLexerFactory,
@@ -37,9 +37,9 @@ namespace Uri.Grammar
                 throw new ArgumentNullException("alternativeLexerFactory");
             }
 
-            if (sequenceLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("concatenationLexerFactory");
             }
 
             if (terminalLexerFactory == null)
@@ -68,7 +68,7 @@ namespace Uri.Grammar
             }
 
             this.alternativeLexerFactory = alternativeLexerFactory;
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
             this.terminalLexerFactory = terminalLexerFactory;
             this.repetitionLexerFactory = repetitionLexerFactory;
             this.optionLexerFactory = optionLexerFactory;
@@ -91,73 +91,73 @@ namespace Uri.Grammar
             var ls32 = this.leastSignificantInt32LexerFactory.Create();
 
             // h16 ":"
-            var h16c = this.sequenceLexerFactory.Create(h16, colon);
+            var h16c = this.concatenationLexerFactory.Create(h16, colon);
 
             // h16-2
-            var h16c2 = this.alternativeLexerFactory.Create(this.sequenceLexerFactory.Create(h16, colon, h16), h16);
+            var h16c2 = this.alternativeLexerFactory.Create(this.concatenationLexerFactory.Create(h16, colon, h16), h16);
 
             // h16-3
             var h16c3 =
                 this.alternativeLexerFactory.Create(
-                    this.sequenceLexerFactory.Create(this.repetitionLexerFactory.Create(h16c, 0, 2), h16),
+                    this.concatenationLexerFactory.Create(this.repetitionLexerFactory.Create(h16c, 0, 2), h16),
                     h16c2);
 
             // h16-4
             var h16c4 =
                 this.alternativeLexerFactory.Create(
-                    this.sequenceLexerFactory.Create(this.repetitionLexerFactory.Create(h16c, 0, 3), h16),
+                    this.concatenationLexerFactory.Create(this.repetitionLexerFactory.Create(h16c, 0, 3), h16),
                     h16c3);
 
             // h16-5
             var h16c5 =
                 this.alternativeLexerFactory.Create(
-                    this.sequenceLexerFactory.Create(this.repetitionLexerFactory.Create(h16c, 0, 4), h16),
+                    this.concatenationLexerFactory.Create(this.repetitionLexerFactory.Create(h16c, 0, 4), h16),
                     h16c4);
 
             // h16-6
             var h16c6 =
                 this.alternativeLexerFactory.Create(
-                    this.sequenceLexerFactory.Create(this.repetitionLexerFactory.Create(h16c, 0, 5), h16),
+                    this.concatenationLexerFactory.Create(this.repetitionLexerFactory.Create(h16c, 0, 5), h16),
                     h16c5);
 
             // h16-7
             var h16c7 =
                 this.alternativeLexerFactory.Create(
-                    this.sequenceLexerFactory.Create(this.repetitionLexerFactory.Create(h16c, 0, 6), h16),
+                    this.concatenationLexerFactory.Create(this.repetitionLexerFactory.Create(h16c, 0, 6), h16),
                     h16c6);
 
             // 6( h16 ":" ) ls32
-            var alternative1 = this.sequenceLexerFactory.Create(this.repetitionLexerFactory.Create(h16c, 6, 6), ls32);
+            var alternative1 = this.concatenationLexerFactory.Create(this.repetitionLexerFactory.Create(h16c, 6, 6), ls32);
 
             // "::" 5( h16 ":" ) ls32
-            var alternative2 = this.sequenceLexerFactory.Create(
+            var alternative2 = this.concatenationLexerFactory.Create(
                 collapse,
                 this.repetitionLexerFactory.Create(h16c, 5, 5),
                 ls32);
 
             // [ h16 ] "::" 4( h16 ":" ) ls32
-            var alternative3 = this.sequenceLexerFactory.Create(
+            var alternative3 = this.concatenationLexerFactory.Create(
                 this.optionLexerFactory.Create(h16),
                 collapse,
                 this.repetitionLexerFactory.Create(h16c, 4, 4),
                 ls32);
 
             // [ h16-2 ] "::" 3( h16 ":" ) ls32
-            var alternative4 = this.sequenceLexerFactory.Create(
+            var alternative4 = this.concatenationLexerFactory.Create(
                 this.optionLexerFactory.Create(h16c2),
                 collapse,
                 this.repetitionLexerFactory.Create(h16c, 3, 3),
                 ls32);
 
             // [ h16-3 ] "::" 2( h16 ":" ) ls32
-            var alternative5 = this.sequenceLexerFactory.Create(
+            var alternative5 = this.concatenationLexerFactory.Create(
                 this.optionLexerFactory.Create(h16c3),
                 collapse,
                 this.repetitionLexerFactory.Create(h16c, 2, 2),
                 ls32);
 
             // [ h16-4 ] "::" h16 ":" ls32
-            var alternative6 = this.sequenceLexerFactory.Create(
+            var alternative6 = this.concatenationLexerFactory.Create(
                 this.optionLexerFactory.Create(h16c4),
                 collapse,
                 h16,
@@ -165,13 +165,13 @@ namespace Uri.Grammar
                 ls32);
 
             // [ h16-5 ] "::" ls32
-            var alternative7 = this.sequenceLexerFactory.Create(this.optionLexerFactory.Create(h16c5), collapse, ls32);
+            var alternative7 = this.concatenationLexerFactory.Create(this.optionLexerFactory.Create(h16c5), collapse, ls32);
 
             // [ h16-6 ] "::" h16
-            var alternative8 = this.sequenceLexerFactory.Create(this.optionLexerFactory.Create(h16c6), collapse, h16);
+            var alternative8 = this.concatenationLexerFactory.Create(this.optionLexerFactory.Create(h16c6), collapse, h16);
 
             // [ h16-7 ] "::"
-            var alternative9 = this.sequenceLexerFactory.Create(this.optionLexerFactory.Create(h16c7), collapse);
+            var alternative9 = this.concatenationLexerFactory.Create(this.optionLexerFactory.Create(h16c7), collapse);
 
             var innerLexer = this.alternativeLexerFactory.Create(
                 alternative1,

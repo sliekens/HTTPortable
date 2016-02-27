@@ -6,7 +6,7 @@ namespace Http.Grammar
 
     public class FieldContentLexer : Lexer<FieldContent>
     {
-        public override ReadResult<FieldContent> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<FieldContent> Read(ITextScanner scanner)
         {
             throw new NotImplementedException();
         }

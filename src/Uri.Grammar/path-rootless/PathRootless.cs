@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class PathRootless : Sequence
+    public class PathRootless : Concatenation
     {
-        public PathRootless(Sequence sequence)
-            : base(sequence)
+        public PathRootless(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

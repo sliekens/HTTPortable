@@ -6,7 +6,7 @@
 
     public class ObsoleteFoldLexer : Lexer<ObsoleteFold>
     {
-        public override ReadResult<ObsoleteFold> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<ObsoleteFold> Read(ITextScanner scanner)
         {
             throw new NotImplementedException();
         }

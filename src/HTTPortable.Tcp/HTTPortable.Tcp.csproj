@@ -85,16 +85,15 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="TextFx, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\TextFx.2.0.0-CI123\lib\portable-net45+dnxcore50+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\TextFx.dll</HintPath>
+    <Reference Include="TextFx">
+      <HintPath>..\..\.nuget\packages\TextFx.2.0.0-CI00166\lib\dotnet5.1\TextFx.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TextFx.ABNF, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\TextFx.ABNF.2.0.0-CI123\lib\portable-net45+dnxcore50+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\TextFx.ABNF.dll</HintPath>
+    <Reference Include="TextFx.ABNF">
+      <HintPath>..\..\.nuget\packages\TextFx.ABNF.2.0.0-CI00166\lib\dotnet5.1\TextFx.ABNF.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class PartialUri : Sequence
+    public class PartialUri : Concatenation
     {
-        public PartialUri(Sequence sequence)
-            : base(sequence)
+        public PartialUri(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

@@ -6,7 +6,7 @@
 
     public class LastChunkLexer : Lexer<LastChunk>
     {
-        public override ReadResult<LastChunk> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<LastChunk> Read(ITextScanner scanner)
         {
             throw new NotImplementedException();
         }

@@ -1,50 +1,36 @@
 ﻿namespace Uri.Grammar
 {
     using System;
-
     using TextFx;
     using TextFx.ABNF;
 
-    public class PathAbsoluteOrEmptyLexer : Lexer<PathAbsoluteOrEmpty>
+    public sealed class PathAbsoluteOrEmptyLexer : Lexer<PathAbsoluteOrEmpty>
     {
         private readonly ILexer<Repetition> innerLexer;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="innerLexer">*( "/" segment )</param>
         public PathAbsoluteOrEmptyLexer(ILexer<Repetition> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
-
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<PathAbsoluteOrEmpty> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<PathAbsoluteOrEmpty> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<PathAbsoluteOrEmpty>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'path-abempty'.",
-                    RuleName = "path-abempty",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new PathAbsoluteOrEmpty(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<PathAbsoluteOrEmpty>.FromResult(new PathAbsoluteOrEmpty(result.Element));
             }
-
-            return ReadResult<PathAbsoluteOrEmpty>.FromResult(element);
+            return
+                ReadResult<PathAbsoluteOrEmpty>.FromSyntaxError(
+                    SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

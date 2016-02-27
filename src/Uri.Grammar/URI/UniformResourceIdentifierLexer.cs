@@ -5,42 +5,31 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class UniformResourceIdentifierLexer : Lexer<UniformResourceIdentifier>
+    public sealed class UniformResourceIdentifierLexer : Lexer<UniformResourceIdentifier>
     {
-        private readonly ILexer<Sequence> innerLexer;
+        private readonly ILexer<Concatenation> innerLexer;
 
-        public UniformResourceIdentifierLexer(ILexer<Sequence> innerLexer)
+        public UniformResourceIdentifierLexer(ILexer<Concatenation> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<UniformResourceIdentifier> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<UniformResourceIdentifier> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<UniformResourceIdentifier>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'URI'",
-                    RuleName = "URI",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new UniformResourceIdentifier(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<UniformResourceIdentifier>.FromResult(new UniformResourceIdentifier(result.Element));
             }
-
-            return ReadResult<UniformResourceIdentifier>.FromResult(element);
+            return ReadResult<UniformResourceIdentifier>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

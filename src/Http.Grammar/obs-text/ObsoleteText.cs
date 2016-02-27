@@ -1,6 +1,6 @@
 ﻿namespace Http.Grammar
 {
-    using TextFx;
+    using TextFx.ABNF;
 
     public class ObsoleteText : Terminal
     {

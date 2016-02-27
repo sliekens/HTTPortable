@@ -13,13 +13,13 @@
 
         private readonly ILexerFactory<IPv4Address> ipv4AddressLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public LeastSignificantInt32LexerFactory(
             IAlternativeLexerFactory alternativeLexerFactory,
-            ISequenceLexerFactory sequenceLexerFactory,
+            IConcatenationLexerFactory concatenationLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<HexadecimalInt16> hexadecimalInt16LexerFactory,
             ILexerFactory<IPv4Address> ipv4AddressLexerFactory)
@@ -29,9 +29,9 @@
                 throw new ArgumentNullException("alternativeLexerFactory");
             }
 
-            if (sequenceLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("concatenationLexerFactory");
             }
 
             if (terminalLexerFactory == null)
@@ -50,7 +50,7 @@
             }
 
             this.alternativeLexerFactory = alternativeLexerFactory;
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
             this.terminalLexerFactory = terminalLexerFactory;
             this.hexadecimalInt16LexerFactory = hexadecimalInt16LexerFactory;
             this.ipv4AddressLexerFactory = ipv4AddressLexerFactory;
@@ -65,7 +65,7 @@
             var b = this.terminalLexerFactory.Create(@":", StringComparer.Ordinal);
 
             // h16 ":" h16
-            var c = this.sequenceLexerFactory.Create(a, b, a);
+            var c = this.concatenationLexerFactory.Create(a, b, a);
 
             // IPv4address
             var d = this.ipv4AddressLexerFactory.Create();

@@ -6,7 +6,7 @@
 
     public class RequestTargetLexer : Lexer<RequestTarget>
     {
-        public override ReadResult<RequestTarget> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<RequestTarget> Read(ITextScanner scanner)
         {
             throw new NotImplementedException();
         }

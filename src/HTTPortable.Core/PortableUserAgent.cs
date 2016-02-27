@@ -37,11 +37,11 @@
 
         static PortableUserAgent()
         {
-            var sequenceLexerFactory = new SequenceLexerFactory();
+            var concatenationLexerFactory = new ConcatenationLexerFactory();
             var terminalLexerFactory = new TerminalLexerFactory();
             var carriageReturnLexerFactory = new CarriageReturnLexerFactory(terminalLexerFactory);
             var lineFeedLexerFactory = new LineFeedLexerFactory(terminalLexerFactory);
-            var endOfLineLexerFactory = new EndOfLineLexerFactory(carriageReturnLexerFactory, lineFeedLexerFactory, sequenceLexerFactory);
+            var endOfLineLexerFactory = new EndOfLineLexerFactory(carriageReturnLexerFactory, lineFeedLexerFactory, concatenationLexerFactory);
             EndOfLineLexer = endOfLineLexerFactory.Create();
         }
 
@@ -65,7 +65,7 @@
                 using (ITextScanner scanner = new TextScanner(new StreamTextSource(pushbackInputStream, Encoding.UTF8)))
                 {
                     var startLineLexer = new StartLineLexer();
-                    var r = startLineLexer.Read(scanner, null);
+                    var r = startLineLexer.Read(scanner);
                     if (!r.Success)
                     {
                         // TODO: close connection
@@ -83,10 +83,10 @@
                     var reason = statusLine.Elements[5].Text;
                     message = new ResponseMessage(httpVersion, status, reason);
                     var headerFieldLexer = new HeaderFieldLexer();
-                    var rhf = headerFieldLexer.Read(scanner, null);
+                    var rhf = headerFieldLexer.Read(scanner);
                     while (rhf.Success)
                     {
-                        if (!EndOfLineLexer.Read(scanner, null).Success)
+                        if (!EndOfLineLexer.Read(scanner).Success)
                         {
                             // TODO: close connection
                             throw new NotImplementedException("Error handling is not implemented");
@@ -99,7 +99,7 @@
                         });
                     }
 
-                    if (!EndOfLineLexer.Read(scanner, null).Success)
+                    if (!EndOfLineLexer.Read(scanner).Success)
                     {
                         // TODO: close connection
                         throw new NotImplementedException("Error handling is not implemented");

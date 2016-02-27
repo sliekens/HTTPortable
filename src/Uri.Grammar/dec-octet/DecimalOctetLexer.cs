@@ -1,11 +1,10 @@
 ﻿namespace Uri.Grammar
 {
     using System;
-
     using TextFx;
     using TextFx.ABNF;
 
-    public class DecimalOctetLexer : Lexer<DecimalOctet>
+    public sealed class DecimalOctetLexer : Lexer<DecimalOctet>
     {
         private readonly ILexer<Alternative> innerLexer;
 
@@ -13,34 +12,23 @@
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
-
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<DecimalOctet> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<DecimalOctet> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<DecimalOctet>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'dec-octet'.",
-                    RuleName = "dec-octet",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new DecimalOctet(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<DecimalOctet>.FromResult(new DecimalOctet(result.Element));
             }
-
-            return ReadResult<DecimalOctet>.FromResult(element);
+            return ReadResult<DecimalOctet>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

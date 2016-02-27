@@ -5,46 +5,32 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class SubcomponentsDelimiterLexer : Lexer<SubcomponentsDelimiter>
+    public sealed class SubcomponentsDelimiterLexer : Lexer<SubcomponentsDelimiter>
     {
-        private readonly ILexer<Alternative> innerLexer; 
+        private readonly ILexer<Alternative> innerLexer;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="innerLexer">"!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="</param>
         public SubcomponentsDelimiterLexer(ILexer<Alternative> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer", "Precondition: innerLexer != null");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<SubcomponentsDelimiter> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<SubcomponentsDelimiter> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<SubcomponentsDelimiter>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'sub-delims'",
-                    RuleName = "sub-delims",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new SubcomponentsDelimiter(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<SubcomponentsDelimiter>.FromResult(new SubcomponentsDelimiter(result.Element));
             }
-
-            return ReadResult<SubcomponentsDelimiter>.FromResult(element);
+            return ReadResult<SubcomponentsDelimiter>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

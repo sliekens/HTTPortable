@@ -6,7 +6,7 @@
 
     public class HttpsUriLexer : Lexer<HttpsUri>
     {
-        public override ReadResult<HttpsUri> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<HttpsUri> Read(ITextScanner scanner)
         {
             throw new NotImplementedException();
         }

@@ -4,8 +4,8 @@
 
     public class Segment : Repetition
     {
-        public Segment(Repetition sequence)
-            : base(sequence)
+        public Segment(Repetition repetition)
+            : base(repetition)
         {
         }
     }

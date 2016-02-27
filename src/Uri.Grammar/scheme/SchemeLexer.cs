@@ -5,42 +5,31 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class SchemeLexer : Lexer<Scheme>
+    public sealed class SchemeLexer : Lexer<Scheme>
     {
-        private readonly ILexer<Sequence> innerLexer;
+        private readonly ILexer<Concatenation> innerLexer;
 
-        public SchemeLexer(ILexer<Sequence> innerLexer)
+        public SchemeLexer(ILexer<Concatenation> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Scheme> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<Scheme> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<Scheme>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'scheme'",
-                    RuleName = "scheme",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new Scheme(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<Scheme>.FromResult(new Scheme(result.Element));
             }
-
-            return ReadResult<Scheme>.FromResult(element);
+            return ReadResult<Scheme>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

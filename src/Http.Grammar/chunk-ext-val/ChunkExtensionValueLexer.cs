@@ -5,7 +5,7 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class ChunkExtensionValueLexer : Lexer<ChunkExtensionValue>
+    public sealed class ChunkExtensionValueLexer : Lexer<ChunkExtensionValue>
     {
         private readonly ILexer<Alternative> innerLexer;
 
@@ -19,30 +19,17 @@
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<ChunkExtensionValue> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<ChunkExtensionValue> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return
-                    ReadResult<ChunkExtensionValue>.FromError(
-                        new SyntaxError
-                        {
-                            Message = "Expected 'chunk-ext-val'.",
-                            RuleName = "chunk-ext-val",
-                            Context = scanner.GetContext(),
-                            InnerError = result.Error
-                        });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new ChunkExtensionValue(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<ChunkExtensionValue>.FromResult(new ChunkExtensionValue(result.Element));
             }
-
-            return ReadResult<ChunkExtensionValue>.FromResult(element);
+            return ReadResult<ChunkExtensionValue>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

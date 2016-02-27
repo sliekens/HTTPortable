@@ -21,7 +21,7 @@
         public IList<Element> GetItems()
         {
             var items = new List<Element>();
-            foreach (var seq1 in this.Elements.Cast<Sequence>())
+            foreach (var seq1 in this.Elements.Cast<Concatenation>())
             {
                 var alt1 = (Alternative)seq1.Elements[0];
                 if (alt1.Ordinal == 2)
@@ -30,9 +30,9 @@
                 }
 
                 var rep1 = (Repetition)seq1.Elements[1];
-                foreach (var opt1 in rep1.Elements.Cast<Sequence>().Select(seq2 => (Repetition)seq2.Elements[2]))
+                foreach (var opt1 in rep1.Elements.Cast<Concatenation>().Select(seq2 => (Repetition)seq2.Elements[2]))
                 {
-                    items.AddRange(opt1.Elements.Cast<Sequence>().Select(seq3 => seq3.Elements[1]));
+                    items.AddRange(opt1.Elements.Cast<Concatenation>().Select(seq3 => seq3.Elements[1]));
                 }
             }
 

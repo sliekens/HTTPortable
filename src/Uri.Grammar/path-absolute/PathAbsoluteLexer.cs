@@ -5,45 +5,31 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class PathAbsoluteLexer : Lexer<PathAbsolute>
+    public sealed class PathAbsoluteLexer : Lexer<PathAbsolute>
     {
-        private readonly ILexer<Sequence> innerLexer;
+        private readonly ILexer<Concatenation> innerLexer;
 
-        /// <summary>
-        /// </summary>
-        /// <param name="innerLexer">"/" [ segment-nz *( "/" segment ) ]</param>
-        public PathAbsoluteLexer(ILexer<Sequence> innerLexer)
+        public PathAbsoluteLexer(ILexer<Concatenation> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<PathAbsolute> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<PathAbsolute> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<PathAbsolute>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'path-absolute'.",
-                    RuleName = "path-absolute",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new PathAbsolute(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<PathAbsolute>.FromResult(new PathAbsolute(result.Element));
             }
-
-            return ReadResult<PathAbsolute>.FromResult(element);
+            return ReadResult<PathAbsolute>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

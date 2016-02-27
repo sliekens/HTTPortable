@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class HttpMessage : Sequence
+    public class HttpMessage : Concatenation
     {
-        public HttpMessage(Sequence sequence)
-            : base(sequence)
+        public HttpMessage(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

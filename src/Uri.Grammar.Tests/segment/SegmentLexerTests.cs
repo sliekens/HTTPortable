@@ -20,11 +20,11 @@
             var alternativeLexerFactory = new AlternativeLexerFactory();
             var subcomponentsDelimiterLexerFactory = new SubcomponentsDelimiterLexerFactory(terminalLexerFactory, alternativeLexerFactory);
             var valueRangeLexerFactory = new ValueRangeLexerFactory();
-            var sequenceLexerFactory = new SequenceLexerFactory();
+            var concatenationLexerFactory = new ConcatenationLexerFactory();
             var digitLexerFactory = new DigitLexerFactory(valueRangeLexerFactory);
             var hexadecimalDigitLexerFactory = new HexadecimalDigitLexerFactory(digitLexerFactory, terminalLexerFactory, alternativeLexerFactory);
             var alphaLexerFactory = new AlphaLexerFactory(valueRangeLexerFactory, alternativeLexerFactory);
-            var percentEncodingLexerFactory = new PercentEncodingLexerFactory(terminalLexerFactory, hexadecimalDigitLexerFactory, sequenceLexerFactory);
+            var percentEncodingLexerFactory = new PercentEncodingLexerFactory(terminalLexerFactory, hexadecimalDigitLexerFactory, concatenationLexerFactory);
             var unreservedLexerFactory = new UnreservedLexerFactory(alphaLexerFactory, digitLexerFactory, terminalLexerFactory, alternativeLexerFactory);
             var pathCharacterLexerFactory = new PathCharacterLexerFactory(unreservedLexerFactory, percentEncodingLexerFactory, subcomponentsDelimiterLexerFactory, terminalLexerFactory, alternativeLexerFactory);
             var repetitionLexerFactory = new RepetitionLexerFactory();
@@ -32,7 +32,7 @@
             var lexer = factory.Create();
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                var result = lexer.Read(scanner, null);
+                var result = lexer.Read(scanner);
                 Assert.NotNull(result);
                 Assert.True(result.Success);
                 Assert.NotNull(result.Element);

@@ -13,20 +13,20 @@
 
         private readonly ILexerFactory<IPvFuture> ipvFutureLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public IPLiteralLexerFactory(
-            ISequenceLexerFactory sequenceLexerFactory,
+            IConcatenationLexerFactory concatenationLexerFactory,
             IAlternativeLexerFactory alternativeLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<IPv6Address> ipv6AddressLexerFactory,
             ILexerFactory<IPvFuture> ipvFutureLexerFactory)
         {
-            if (sequenceLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("concatenationLexerFactory");
             }
 
             if (alternativeLexerFactory == null)
@@ -49,7 +49,7 @@
                 throw new ArgumentNullException("ipvFutureLexerFactory");
             }
 
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
             this.alternativeLexerFactory = alternativeLexerFactory;
             this.terminalLexerFactory = terminalLexerFactory;
             this.ipv6AddressLexerFactory = ipv6AddressLexerFactory;
@@ -63,7 +63,7 @@
             var ipv6 = this.ipv6AddressLexerFactory.Create();
             var ipvFuture = this.ipvFutureLexerFactory.Create();
             var alt = this.alternativeLexerFactory.Create(ipv6, ipvFuture);
-            var innerLexer = this.sequenceLexerFactory.Create(a, alt, b);
+            var innerLexer = this.concatenationLexerFactory.Create(a, alt, b);
             return new IPLiteralLexer(innerLexer);
         }
     }

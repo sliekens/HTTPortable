@@ -4,10 +4,10 @@
 
     using TextFx.ABNF;
 
-    public class AbsoluteUri : Sequence
+    public class AbsoluteUri : Concatenation
     {
-        public AbsoluteUri(Sequence sequence)
-            : base(sequence)
+        public AbsoluteUri(Concatenation concatenation) 
+            : base(concatenation)
         {
         }
 
@@ -30,7 +30,7 @@
                     return null;
                 }
 
-                var queryPart = (Sequence)optionalQueryPart.Elements[0];
+                var queryPart = (Concatenation)optionalQueryPart.Elements[0];
                 return (Query)queryPart.Elements[1];
             }
         }

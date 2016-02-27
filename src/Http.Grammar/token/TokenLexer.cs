@@ -5,7 +5,7 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class TokenLexer : Lexer<Token>
+    public sealed class TokenLexer : Lexer<Token>
     {
         private readonly ILexer<Repetition> innerLexer;
 
@@ -19,30 +19,17 @@
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Token> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<Token> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return
-                    ReadResult<Token>.FromError(
-                        new SyntaxError
-                            {
-                                Message = "Expected 'token'.",
-                                RuleName = "token",
-                                Context = scanner.GetContext(),
-                                InnerError = result.Error
-                            });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new Token(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<Token>.FromResult(new Token(result.Element));
             }
-
-            return ReadResult<Token>.FromResult(element);
+            return ReadResult<Token>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

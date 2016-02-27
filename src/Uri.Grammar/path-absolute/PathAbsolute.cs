@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class PathAbsolute : Sequence
+    public class PathAbsolute : Concatenation
     {
-        public PathAbsolute(Sequence sequence)
-            : base(sequence)
+        public PathAbsolute(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

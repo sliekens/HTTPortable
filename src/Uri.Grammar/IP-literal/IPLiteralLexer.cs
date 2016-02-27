@@ -1,46 +1,34 @@
 ﻿namespace Uri.Grammar
 {
     using System;
-
     using TextFx;
     using TextFx.ABNF;
 
-    public class IPLiteralLexer : Lexer<IPLiteral>
+    public sealed class IPLiteralLexer : Lexer<IPLiteral>
     {
-        private readonly ILexer<Sequence> innerLexer;
+        private readonly ILexer<Concatenation> innerLexer;
 
-        public IPLiteralLexer(ILexer<Sequence> innerLexer)
+        public IPLiteralLexer(ILexer<Concatenation> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
-
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<IPLiteral> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<IPLiteral> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<IPLiteral>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'IP-literal'.",
-                    RuleName = "IP-literal",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new IPLiteral(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<IPLiteral>.FromResult(new IPLiteral(result.Element));
             }
-
-            return ReadResult<IPLiteral>.FromResult(element);
+            return ReadResult<IPLiteral>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

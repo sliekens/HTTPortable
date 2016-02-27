@@ -5,45 +5,31 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class PathNoSchemeLexer : Lexer<PathNoScheme>
+    public sealed class PathNoSchemeLexer : Lexer<PathNoScheme>
     {
-        private readonly ILexer<Sequence> innerLexer;
+        private readonly ILexer<Concatenation> innerLexer;
 
-        /// <summary>
-        /// </summary>
-        /// <param name="innerLexer">segment-nz-nc *( "/" segment )</param>
-        public PathNoSchemeLexer(ILexer<Sequence> innerLexer)
+        public PathNoSchemeLexer(ILexer<Concatenation> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
 
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<PathNoScheme> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<PathNoScheme> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<PathNoScheme>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'path-noscheme'.",
-                    RuleName = "path-noscheme",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new PathNoScheme(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<PathNoScheme>.FromResult(new PathNoScheme(result.Element));
             }
-
-            return ReadResult<PathNoScheme>.FromResult(element);
+            return ReadResult<PathNoScheme>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}

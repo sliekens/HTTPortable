@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class PathNoScheme : Sequence
+    public class PathNoScheme : Concatenation
     {
-        public PathNoScheme(Sequence sequence)
-            : base(sequence)
+        public PathNoScheme(Concatenation concatenation)
+            : base(concatenation)
         {
         }
     }

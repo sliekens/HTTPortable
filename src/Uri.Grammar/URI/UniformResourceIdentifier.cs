@@ -6,10 +6,10 @@
 
     /// <summary>Represents a Uniform Resource Identifier (URI) as described in RFC 3986.</summary>
     /// <remarks>See: <a href="https://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>.</remarks>
-    public class UniformResourceIdentifier : Sequence
+    public class UniformResourceIdentifier : Concatenation
     {
-        public UniformResourceIdentifier(Sequence sequence)
-            : base(sequence)
+        public UniformResourceIdentifier(Concatenation concatenation)
+            : base(concatenation)
         {
         }
 
@@ -23,7 +23,7 @@
                     return null;
                 }
 
-                var fragmentPart = (Sequence)optionalFragmentPart.Elements[0];
+                var fragmentPart = (Concatenation)optionalFragmentPart.Elements[0];
                 return (Fragment)fragmentPart.Elements[1];
             }
         }
@@ -47,7 +47,7 @@
                     return null;
                 }
 
-                var queryPart = (Sequence)optionalQueryPart.Elements[0];
+                var queryPart = (Concatenation)optionalQueryPart.Elements[0];
                 return (Query)queryPart.Elements[1];
             }
         }

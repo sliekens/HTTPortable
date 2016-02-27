@@ -1,11 +1,10 @@
 ﻿namespace Uri.Grammar
 {
     using System;
-
     using TextFx;
     using TextFx.ABNF;
 
-    public class HostLexer : Lexer<Host>
+    public sealed class HostLexer : Lexer<Host>
     {
         private readonly ILexer<Alternative> innerLexer;
 
@@ -13,34 +12,23 @@
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
-
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Host> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<Host> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<Host>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'host'.",
-                    RuleName = "host",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new Host(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<Host>.FromResult(new Host(result.Element));
             }
-
-            return ReadResult<Host>.FromResult(element);
+            return ReadResult<Host>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

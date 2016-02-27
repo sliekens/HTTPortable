@@ -2,10 +2,10 @@
 {
     using TextFx.ABNF;
 
-    public class Authority : Sequence
+    public class Authority : Concatenation
     {
-        public Authority(Sequence sequence)
-            : base(sequence)
+        public Authority(Concatenation concatenation)
+            : base(concatenation)
         {
         }
 
@@ -21,8 +21,8 @@
                     return null;
                 }
 
-                var portSequence = (Sequence)optionalPort.Elements[0];
-                return (Port)portSequence.Elements[1];
+                var portConcatenation = (Concatenation)optionalPort.Elements[0];
+                return (Port)portConcatenation.Elements[1];
             }
         }
 
@@ -36,8 +36,8 @@
                     return null;
                 }
 
-                var userInfoSequence = (Sequence)optionalUserInfo.Elements[0];
-                return (UserInformation)userInfoSequence.Elements[0];
+                var userInfoConcatenation = (Concatenation)optionalUserInfo.Elements[0];
+                return (UserInformation)userInfoConcatenation.Elements[0];
             }
         }
     }

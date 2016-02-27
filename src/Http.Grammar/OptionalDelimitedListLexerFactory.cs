@@ -15,13 +15,13 @@
 
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory ConcatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public OptionalDelimitedListLexerFactory(
             IOptionLexerFactory optionLexerFactory,
-            ISequenceLexerFactory sequenceLexerFactory,
+            IConcatenationLexerFactory ConcatenationLexerFactory,
             IAlternativeLexerFactory alternativeLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<OptionalWhiteSpace> optionalWhiteSpaceLexerFactory,
@@ -32,9 +32,9 @@
                 throw new ArgumentNullException("optionLexerFactory");
             }
 
-            if (sequenceLexerFactory == null)
+            if (ConcatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("ConcatenationLexerFactory");
             }
 
             if (alternativeLexerFactory == null)
@@ -58,7 +58,7 @@
             }
 
             this.optionLexerFactory = optionLexerFactory;
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.ConcatenationLexerFactory = ConcatenationLexerFactory;
             this.alternativeLexerFactory = alternativeLexerFactory;
             this.terminalLexerFactory = terminalLexerFactory;
             this.optionalWhiteSpaceLexerFactory = optionalWhiteSpaceLexerFactory;
@@ -71,13 +71,13 @@
             var ows = this.optionalWhiteSpaceLexerFactory.Create();
             var innerLexer =
                 this.optionLexerFactory.Create(
-                    this.sequenceLexerFactory.Create(
+                    this.ConcatenationLexerFactory.Create(
                         this.alternativeLexerFactory.Create(delim, lexer),
                         this.repetitionLexerFactory.Create(
-                            this.sequenceLexerFactory.Create(
+                            this.ConcatenationLexerFactory.Create(
                                 ows,
                                 delim,
-                                this.optionLexerFactory.Create(this.sequenceLexerFactory.Create(ows, lexer))),
+                                this.optionLexerFactory.Create(this.ConcatenationLexerFactory.Create(ows, lexer))),
                             0,
                             int.MaxValue)));
             return new OptionalDelimitedListLexer(innerLexer);

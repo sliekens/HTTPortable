@@ -14,7 +14,7 @@
 
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
-        private readonly ISequenceLexerFactory sequenceLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
@@ -26,7 +26,7 @@
             IAlternativeLexerFactory alternativeLexerFactory,
             IRepetitionLexerFactory repetitionLexerFactory,
             ILexerFactory<Digit> digitLexerFactory,
-            ISequenceLexerFactory sequenceLexerFactory)
+            IConcatenationLexerFactory concatenationLexerFactory)
         {
             if (valueRangeLexerFactory == null)
             {
@@ -53,9 +53,9 @@
                 throw new ArgumentNullException("digitLexerFactory");
             }
 
-            if (sequenceLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("sequenceLexerFactory");
+                throw new ArgumentNullException("concatenationLexerFactory");
             }
 
             this.valueRangeLexerFactory = valueRangeLexerFactory;
@@ -63,7 +63,7 @@
             this.alternativeLexerFactory = alternativeLexerFactory;
             this.repetitionLexerFactory = repetitionLexerFactory;
             this.digitLexerFactory = digitLexerFactory;
-            this.sequenceLexerFactory = sequenceLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
         }
 
         public ILexer<DecimalOctet> Create()
@@ -75,7 +75,7 @@
             var b = this.terminalLexerFactory.Create("25", StringComparer.Ordinal);
 
             // "25" %x30-35 
-            var c = this.sequenceLexerFactory.Create(b, a);
+            var c = this.concatenationLexerFactory.Create(b, a);
 
             // DIGIT
             var d = this.digitLexerFactory.Create();
@@ -87,7 +87,7 @@
             var f = this.terminalLexerFactory.Create("2", StringComparer.Ordinal);
 
             // "2" %x30-34 DIGIT 
-            var g = this.sequenceLexerFactory.Create(f, e, d);
+            var g = this.concatenationLexerFactory.Create(f, e, d);
 
             // 2DIGIT
             var h = this.repetitionLexerFactory.Create(d, 2, 2);
@@ -96,13 +96,13 @@
             var i = this.terminalLexerFactory.Create("1", StringComparer.Ordinal);
 
             // "1" 2DIGIT  
-            var j = this.sequenceLexerFactory.Create(i, h);
+            var j = this.concatenationLexerFactory.Create(i, h);
 
             // %x31-39
             var k = this.valueRangeLexerFactory.Create('\x31', '\x39');
 
             // %x31-39 DIGIT 
-            var l = this.sequenceLexerFactory.Create(k, d);
+            var l = this.concatenationLexerFactory.Create(k, d);
 
             // "25" %x30-35 / "2" %x30-34 DIGIT / "1" 2DIGIT / %x31-39 DIGIT / DIGIT
             var m = this.alternativeLexerFactory.Create(c, g, j, l, d);

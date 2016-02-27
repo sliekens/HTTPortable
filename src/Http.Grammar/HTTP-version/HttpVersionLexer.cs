@@ -5,44 +5,31 @@
     using TextFx;
     using TextFx.ABNF;
 
-    public class HttpVersionLexer : Lexer<HttpVersion>
+    public sealed class HttpVersionLexer : Lexer<HttpVersion>
     {
-        private readonly ILexer<Sequence> innerLexer;
+        private readonly ILexer<Concatenation> innerLexer;
 
-        /// <summary>
-        /// </summary>
-        /// <param name="innerLexer">HTTP-name "/" DIGIT "." DIGIT</param>
-        public HttpVersionLexer(ILexer<Sequence> innerLexer)
+        public HttpVersionLexer(ILexer<Concatenation> innerLexer)
         {
             if (innerLexer == null)
             {
-                throw new ArgumentNullException("innerLexer");
+                throw new ArgumentNullException(nameof(innerLexer));
             }
+
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<HttpVersion> Read(ITextScanner scanner, Element previousElementOrNull)
+        public override ReadResult<HttpVersion> Read(ITextScanner scanner)
         {
-            var result = this.innerLexer.Read(scanner, null);
-            if (!result.Success)
+            if (scanner == null)
             {
-                return ReadResult<HttpVersion>.FromError(new SyntaxError
-                {
-                    Message = "Expected 'HTTP-version'.",
-                    RuleName = "HTTP-version",
-                    Context = scanner.GetContext(),
-                    InnerError = result.Error
-                });
+                throw new ArgumentNullException(nameof(scanner));
             }
-
-            var element = new HttpVersion(result.Element);
-            if (previousElementOrNull != null)
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
             {
-                previousElementOrNull.NextElement = element;
-                element.PreviousElement = previousElementOrNull;
+                return ReadResult<HttpVersion>.FromResult(new HttpVersion(result.Element));
             }
-
-            return ReadResult<HttpVersion>.FromResult(element);
+            return ReadResult<HttpVersion>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }
-}
+    }}
