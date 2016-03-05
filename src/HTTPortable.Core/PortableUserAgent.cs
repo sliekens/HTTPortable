@@ -35,6 +35,8 @@
 
         private static readonly ILexer<EndOfLine> EndOfLineLexer;
 
+        private static readonly ILexer<StartLine> StartLineLexer; 
+
         static PortableUserAgent()
         {
             var concatenationLexerFactory = new ConcatenationLexerFactory();
@@ -42,7 +44,10 @@
             var carriageReturnLexerFactory = new CarriageReturnLexerFactory(terminalLexerFactory);
             var lineFeedLexerFactory = new LineFeedLexerFactory(terminalLexerFactory);
             var endOfLineLexerFactory = new EndOfLineLexerFactory(carriageReturnLexerFactory, lineFeedLexerFactory, concatenationLexerFactory);
+            var alternativeLexerFactory = new AlternativeLexerFactory();
+            var startLineLexerFactory = new StartLineLexerFactory(alternativeLexerFactory, new RequestLineLexerFactory(), new StatusLineLexerFactory());
             EndOfLineLexer = endOfLineLexerFactory.Create();
+            StartLineLexer = startLineLexerFactory.Create();
         }
 
         /// <summary>This method calls <see cref="Dispose(bool)" />, specifying <c>true</c> to release all resources.</summary>
@@ -64,8 +69,7 @@
             {
                 using (ITextScanner scanner = new TextScanner(new StreamTextSource(pushbackInputStream, Encoding.UTF8)))
                 {
-                    var startLineLexer = new StartLineLexer();
-                    var r = startLineLexer.Read(scanner);
+                    var r = StartLineLexer.Read(scanner);
                     if (!r.Success)
                     {
                         // TODO: close connection
