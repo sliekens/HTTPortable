@@ -1,7 +1,6 @@
 ﻿namespace Http
 {
     using System;
-    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Text;
     using System.Threading.Tasks;
@@ -30,7 +29,6 @@
         public SimpleStreamReader(Stream stream)
             : this(stream, DefaultBufferSize)
         {
-            Contract.Requires(stream != null);
         }
 
         /// <summary>Initializes a new instance of the <see cref="M:Http.SimpleStreamReader.#ctor(System.IO.Stream)"/> class with a specified <see cref="T:System.IO.Stream"/> and buffer size.</summary>
@@ -38,8 +36,14 @@
         /// <param name="bufferSize">The buffer size to use for <see cref="ReadToEnd"/> and <see cref="ReadToEndAsync"/>.</param>
         public SimpleStreamReader(Stream stream, long bufferSize)
         {
-            Contract.Requires(stream != null);
-            Contract.Requires(bufferSize > 0);
+            if (stream == null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+            if (bufferSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(bufferSize));
+            }
             this.stream = stream;
             this.bufferSize = bufferSize;
         }
@@ -444,13 +448,6 @@
 
             this.disposed = true;
             base.Dispose(disposing);
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.stream != null);
-            Contract.Invariant(this.bufferSize > 0);
         }
     }
 }

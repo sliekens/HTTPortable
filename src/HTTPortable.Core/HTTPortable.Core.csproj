@@ -96,7 +96,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContractClassForIMessage.cs" />
     <Compile Include="ExtensionsForIHeaderCollection.cs" />
     <Compile Include="Headers\ContentLengthHeader.cs" />
     <Compile Include="Headers\TransferEncodingHeader.cs" />

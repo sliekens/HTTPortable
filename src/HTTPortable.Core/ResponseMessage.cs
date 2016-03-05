@@ -1,7 +1,6 @@
 namespace Http
 {
     using System;
-    using System.Diagnostics.Contracts;
 
     public class ResponseMessage : IResponseMessage
     {
@@ -10,20 +9,30 @@ namespace Http
         private readonly string reason;
         private readonly int status;
 
+
         public ResponseMessage(Version httpVersion, int status, string reason)
             : this(httpVersion, status, new HeaderCollection(), reason)
         {
-            Contract.Requires(httpVersion != null);
-            Contract.Requires(status >= 100 && status <= 999);
-            Contract.Requires(!string.IsNullOrWhiteSpace(reason));
         }
 
         public ResponseMessage(Version httpVersion, int status, IHeaderCollection headers, string reason)
         {
-            Contract.Requires(httpVersion != null);
-            Contract.Requires(headers != null);
-            Contract.Requires(status >= 100 && status <= 999);
-            Contract.Requires(!string.IsNullOrWhiteSpace(reason));
+            if (httpVersion == null)
+            {
+                throw new ArgumentNullException(nameof(httpVersion));
+            }
+            if (headers == null)
+            {
+                throw new ArgumentNullException(nameof(headers));
+            }
+            if (status < 100 || status > 999)
+            {
+                throw new ArgumentOutOfRangeException(nameof(status));
+            }
+            if (string.IsNullOrWhiteSpace(reason))
+            {
+                throw new ArgumentException("Argument is null or whitespace", nameof(reason));
+            }
             this.httpVersion = httpVersion;
             this.headers = headers;
             this.reason = reason;
@@ -63,15 +72,6 @@ namespace Http
             {
                 return this.status;
             }
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.httpVersion != null);
-            Contract.Invariant(this.headers != null);
-            Contract.Invariant(this.status >= 100 && this.status <= 999);
-            Contract.Invariant(!string.IsNullOrWhiteSpace(this.reason));
         }
     }
 }

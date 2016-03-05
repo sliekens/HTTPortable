@@ -1,8 +1,8 @@
 ﻿namespace Http
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Diagnostics.Contracts;
 
     /// <summary>Represents a request or response header.</summary>
     [DebuggerDisplay("Count = {Count}", Name = "{Name}")]
@@ -17,7 +17,6 @@
         public Header(string name)
             : this(name, false)
         {
-            Contract.Requires(!string.IsNullOrEmpty(name));
         }
 
         /// <summary>
@@ -29,7 +28,10 @@
         public Header(string name, bool required)
             : base(1)
         {
-            Contract.Requires(!string.IsNullOrEmpty(name));
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("Argument is null or empty", nameof(name));
+            }
             this.name = name;
             this.required = required;
         }
@@ -50,12 +52,6 @@
             {
                 return this.required;
             }
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(!string.IsNullOrEmpty(this.name));
         }
 
         [DebuggerDisplay("{Values}")]

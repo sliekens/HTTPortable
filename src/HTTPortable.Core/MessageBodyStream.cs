@@ -1,7 +1,6 @@
 ﻿namespace Http
 {
     using System;
-    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Threading;
 
@@ -14,8 +13,10 @@
 
         public MessageBodyStream(Stream messageBody, long contentLength)
         {
-            Contract.Requires(messageBody != null);
-            Contract.Requires(messageBody.Length >= 0);
+            if (messageBody == null)
+            {
+                throw new ArgumentNullException(nameof(messageBody));
+            }
             this.messageBody = messageBody;
             this.contentLength = contentLength;
         }
@@ -268,13 +269,6 @@
         {
             base.Dispose(disposing);
             this.disposed = true;
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.messageBody != null);
-            Contract.Invariant(this.contentLength >= 0);
         }
     }
 }
