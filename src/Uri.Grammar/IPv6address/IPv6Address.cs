@@ -410,7 +410,7 @@
 
         private static string FormatHex(int value)
         {
-            return string.Format("{0:x}", value);
+            return $"{value:x}";
         }
 
         private class Subset
