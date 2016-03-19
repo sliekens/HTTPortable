@@ -223,7 +223,7 @@
             lock (messageBody)
             {
                 var bytesToWrite = contentLength - position;
-                if (bytesToWrite == 0 || count > bytesToWrite)
+                if ((bytesToWrite == 0) || (count > bytesToWrite))
                 {
                     throw new IOException("Attempt to write past the given Content-Length");
                 }

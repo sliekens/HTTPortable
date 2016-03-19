@@ -19,7 +19,7 @@ namespace Http
             {
                 throw new ArgumentNullException(nameof(headers));
             }
-            if (status < 100 || status > 999)
+            if ((status < 100) || (status > 999))
             {
                 throw new ArgumentOutOfRangeException(nameof(status));
             }

@@ -15,7 +15,7 @@
         {
             get
             {
-                Debug.Assert(Ordinal == 1 || Ordinal == 2, "this.Ordinal == 1 || this.Ordinal == 2");
+                Debug.Assert((Ordinal == 1) || (Ordinal == 2), "this.Ordinal == 1 || this.Ordinal == 2");
                 if (Ordinal == 1)
                 {
                     return true;

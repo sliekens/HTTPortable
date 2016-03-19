@@ -332,7 +332,7 @@
                         encounteredCr = true;
                     }
                 }
-                else if (encounteredCr && c == '\n')
+                else if (encounteredCr && (c == '\n'))
                 {
                     encounteredLf = true;
                 }
@@ -377,7 +377,7 @@
                         encounteredCr = true;
                     }
                 }
-                else if (encounteredCr && c == '\n')
+                else if (encounteredCr && (c == '\n'))
                 {
                     encounteredLf = true;
                 }

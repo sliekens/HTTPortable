@@ -334,7 +334,7 @@
             var segments = new int[8];
             for (var i = 0; i < bytes.Length; i += 2)
             {
-                segments[i / 2] = bytes[i] << 8 | bytes[i + 1];
+                segments[i / 2] = (bytes[i] << 8) | bytes[i + 1];
             }
 
             Subset emptySubset = null;

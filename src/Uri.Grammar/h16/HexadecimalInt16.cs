@@ -16,7 +16,7 @@
             var bytes = new byte[2];
             int ix = 1;
             var hex = Text;
-            for (int i = hex.Length; i > 0 && ix >= 0; i -= 2, ix--)
+            for (int i = hex.Length; (i > 0) && (ix >= 0); i -= 2, ix--)
             {
                 int subLength = i == 1 ? 1 : 2;
                 var substr = hex.Substring(i - subLength, subLength);
