@@ -41,7 +41,7 @@
         {
             get
             {
-                return this.name;
+                return name;
             }
         }
 
@@ -50,7 +50,7 @@
         {
             get
             {
-                return this.required;
+                return required;
             }
         }
 
@@ -69,7 +69,7 @@
             {
                 get
                 {
-                    return this.header.ToArray();
+                    return header.ToArray();
                 }
             }
         }

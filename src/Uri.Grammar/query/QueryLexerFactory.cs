@@ -45,11 +45,11 @@
 
         public ILexer<Query> Create()
         {
-            var alternativeLexer = this.alternativeLexerFactory.Create(
-                this.pathCharacterLexerFactory.Create(),
-                this.terminalLexerFactory.Create(@"/", StringComparer.Ordinal),
-                this.terminalLexerFactory.Create(@"?", StringComparer.Ordinal));
-            var fragmentRepetitionLexer = this.repetitionLexerFactory.Create(alternativeLexer, 0, int.MaxValue);
+            var alternativeLexer = alternativeLexerFactory.Create(
+                pathCharacterLexerFactory.Create(),
+                terminalLexerFactory.Create(@"/", StringComparer.Ordinal),
+                terminalLexerFactory.Create(@"?", StringComparer.Ordinal));
+            var fragmentRepetitionLexer = repetitionLexerFactory.Create(alternativeLexer, 0, int.MaxValue);
             return new QueryLexer(fragmentRepetitionLexer);
         }
     }

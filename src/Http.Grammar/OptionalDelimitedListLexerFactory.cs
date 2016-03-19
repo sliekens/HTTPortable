@@ -67,17 +67,17 @@
 
         public ILexer<OptionalDelimitedList> Create(ILexer lexer)
         {
-            var delim = this.terminalLexerFactory.Create(@",", StringComparer.Ordinal);
-            var ows = this.optionalWhiteSpaceLexerFactory.Create();
+            var delim = terminalLexerFactory.Create(@",", StringComparer.Ordinal);
+            var ows = optionalWhiteSpaceLexerFactory.Create();
             var innerLexer =
-                this.optionLexerFactory.Create(
-                    this.ConcatenationLexerFactory.Create(
-                        this.alternativeLexerFactory.Create(delim, lexer),
-                        this.repetitionLexerFactory.Create(
-                            this.ConcatenationLexerFactory.Create(
+                optionLexerFactory.Create(
+                    ConcatenationLexerFactory.Create(
+                        alternativeLexerFactory.Create(delim, lexer),
+                        repetitionLexerFactory.Create(
+                            ConcatenationLexerFactory.Create(
                                 ows,
                                 delim,
-                                this.optionLexerFactory.Create(this.ConcatenationLexerFactory.Create(ows, lexer))),
+                                optionLexerFactory.Create(ConcatenationLexerFactory.Create(ows, lexer))),
                             0,
                             int.MaxValue)));
             return new OptionalDelimitedListLexer(innerLexer);

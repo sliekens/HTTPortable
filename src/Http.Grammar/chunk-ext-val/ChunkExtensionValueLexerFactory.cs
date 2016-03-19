@@ -40,9 +40,9 @@
 
         public ILexer<ChunkExtensionValue> Create()
         {
-            var innerLexer = this.alternativeLexerFactory.Create(
-                this.tokenLexerFactory.Create(),
-                this.quotedStringLexerFactory.Create());
+            var innerLexer = alternativeLexerFactory.Create(
+                tokenLexerFactory.Create(),
+                quotedStringLexerFactory.Create());
             return new ChunkExtensionValueLexer(innerLexer);
         }
     }

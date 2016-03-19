@@ -59,19 +59,19 @@
         public ILexer<LeastSignificantInt32> Create()
         {
             // h16
-            var a = this.hexadecimalInt16LexerFactory.Create();
+            var a = hexadecimalInt16LexerFactory.Create();
 
             // ":"
-            var b = this.terminalLexerFactory.Create(@":", StringComparer.Ordinal);
+            var b = terminalLexerFactory.Create(@":", StringComparer.Ordinal);
 
             // h16 ":" h16
-            var c = this.concatenationLexerFactory.Create(a, b, a);
+            var c = concatenationLexerFactory.Create(a, b, a);
 
             // IPv4address
-            var d = this.ipv4AddressLexerFactory.Create();
+            var d = ipv4AddressLexerFactory.Create();
 
             // ( h16 ":" h16 ) / IPv4address
-            var e = this.alternativeLexerFactory.Create(c, d);
+            var e = alternativeLexerFactory.Create(c, d);
 
             // ls32
             return new LeastSignificantInt32Lexer(e);

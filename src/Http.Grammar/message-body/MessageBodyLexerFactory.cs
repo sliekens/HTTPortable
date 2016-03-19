@@ -32,7 +32,7 @@ namespace Http.Grammar
 
         public ILexer<MessageBody> Create()
         {
-            var innerLexer = this.repetitionLexerFactory.Create(this.octetLexerFactory.Create(), 1, int.MaxValue);
+            var innerLexer = repetitionLexerFactory.Create(octetLexerFactory.Create(), 1, int.MaxValue);
             return new MessageBodyLexer(innerLexer);
         }
     }

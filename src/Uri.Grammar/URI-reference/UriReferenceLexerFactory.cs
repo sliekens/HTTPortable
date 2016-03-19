@@ -40,9 +40,9 @@
 
         public ILexer<UriReference> Create()
         {
-            var uri = this.uriLexerFactory.Create();
-            var relativeRef = this.relativeReferenceLexerFactory.Create();
-            var innerLexer = this.alternativeLexerFactory.Create(uri, relativeRef);
+            var uri = uriLexerFactory.Create();
+            var relativeRef = relativeReferenceLexerFactory.Create();
+            var innerLexer = alternativeLexerFactory.Create(uri, relativeRef);
             return new UriReferenceLexer(innerLexer);
         }
     }

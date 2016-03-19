@@ -38,9 +38,9 @@
 
         public ILexer<PercentEncoding> Create()
         {
-            var hexadecimalDigitLexer = this.hexadecimalDigitLexerFactory.Create();
-            var percentEncodingAlternativeLexer = this.concatenationLexerFactory.Create(
-                this.terminalLexerFactory.Create(@"%", StringComparer.Ordinal),
+            var hexadecimalDigitLexer = hexadecimalDigitLexerFactory.Create();
+            var percentEncodingAlternativeLexer = concatenationLexerFactory.Create(
+                terminalLexerFactory.Create(@"%", StringComparer.Ordinal),
                 hexadecimalDigitLexer,
                 hexadecimalDigitLexer);
             return new PercentEncodingLexer(percentEncodingAlternativeLexer);

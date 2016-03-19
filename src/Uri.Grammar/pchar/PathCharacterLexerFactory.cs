@@ -53,12 +53,12 @@
 
         public ILexer<PathCharacter> Create()
         {
-            var pathCharacterAlternativeLexer = this.alternativeLexerFactory.Create(
-                this.unreservedLexerFactory.Create(),
-                this.percentEncodingLexerFactory.Create(),
-                this.subcomponentsDelimiterLexerFactory.Create(),
-                this.terminalLexerFactory.Create(@":", StringComparer.Ordinal),
-                this.terminalLexerFactory.Create(@"@", StringComparer.Ordinal));
+            var pathCharacterAlternativeLexer = alternativeLexerFactory.Create(
+                unreservedLexerFactory.Create(),
+                percentEncodingLexerFactory.Create(),
+                subcomponentsDelimiterLexerFactory.Create(),
+                terminalLexerFactory.Create(@":", StringComparer.Ordinal),
+                terminalLexerFactory.Create(@"@", StringComparer.Ordinal));
             return new PathCharacterLexer(pathCharacterAlternativeLexer);
         }
     }

@@ -29,8 +29,8 @@
 
         public ILexer<SegmentNonZeroLength> Create()
         {
-            var pathCharacterLexer = this.pathCharacterLexerFactory.Create();
-            var segmentRepetitionLexer = this.repetitionLexerFactory.Create(pathCharacterLexer, 1, int.MaxValue);
+            var pathCharacterLexer = pathCharacterLexerFactory.Create();
+            var segmentRepetitionLexer = repetitionLexerFactory.Create(pathCharacterLexer, 1, int.MaxValue);
             return new SegmentNonZeroLengthLexer(segmentRepetitionLexer);
         }
     }

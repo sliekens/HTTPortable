@@ -68,12 +68,12 @@
 
         public ILexer<Chunk> Create()
         {
-            var a = this.chunkSizeLexerFactory.Create();
-            var b = this.chunkExtensionLexerFactory.Create();
-            var c = this.optionLexerFactory.Create(b);
-            var d = this.endOfLineLexerFactory.Create();
-            var e = this.chunkDataLexerFactory.Create();
-            var innerLexer = this.ConcatenationLexerFactory.Create(a, c, d, e, d);
+            var a = chunkSizeLexerFactory.Create();
+            var b = chunkExtensionLexerFactory.Create();
+            var c = optionLexerFactory.Create(b);
+            var d = endOfLineLexerFactory.Create();
+            var e = chunkDataLexerFactory.Create();
+            var innerLexer = ConcatenationLexerFactory.Create(a, c, d, e, d);
             return new ChunkLexer(innerLexer);
         }
     }

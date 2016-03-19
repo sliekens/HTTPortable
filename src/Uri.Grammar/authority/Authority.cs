@@ -9,13 +9,13 @@
         {
         }
 
-        public Host Host => (Host)this.Elements[1];
+        public Host Host => (Host)Elements[1];
 
         public Port Port
         {
             get
             {
-                var optionalPort = (Repetition)this.Elements[2];
+                var optionalPort = (Repetition)Elements[2];
                 if (optionalPort.Elements.Count == 0)
                 {
                     return null;
@@ -30,7 +30,7 @@
         {
             get
             {
-                var optionalUserInfo = (Repetition)this.Elements[0];
+                var optionalUserInfo = (Repetition)Elements[0];
                 if (optionalUserInfo.Elements.Count == 0)
                 {
                     return null;

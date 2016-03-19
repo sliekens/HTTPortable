@@ -32,8 +32,8 @@
 
         public ILexer<ChunkSize> Create()
         {
-            var innerLexer = this.repetitionLexerFactory.Create(
-                this.hexadecimalDigitLexerFactory.Create(),
+            var innerLexer = repetitionLexerFactory.Create(
+                hexadecimalDigitLexerFactory.Create(),
                 1,
                 int.MaxValue);
             return new ChunkSizeLexer(innerLexer);

@@ -14,7 +14,7 @@
         public ContentLengthHeader(long contentLength)
             : base(FieldName)
         {
-            this.Add(contentLength.ToString(NumberFormatInfo.InvariantInfo));
+            Add(contentLength.ToString(NumberFormatInfo.InvariantInfo));
         }
     }
 }

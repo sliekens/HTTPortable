@@ -67,16 +67,16 @@
 
         public ILexer<RelativeReference> Create()
         {
-            var relativePart = this.relativePartLexerFactory.Create();
-            var qm = this.terminalLexerFactory.Create(@"?", StringComparer.Ordinal);
-            var query = this.queryLexerFactory.Create();
-            var queryPart = this.concatenationLexerFactory.Create(qm, query);
-            var optQuery = this.optionLexerFactory.Create(queryPart);
-            var ht = this.terminalLexerFactory.Create(@"#", StringComparer.Ordinal);
-            var fragment = this.fragmentLexerFactory.Create();
-            var fragmentPart = this.concatenationLexerFactory.Create(ht, fragment);
-            var optFragment = this.optionLexerFactory.Create(fragmentPart);
-            var innerLexer = this.concatenationLexerFactory.Create(relativePart, optQuery, optFragment);
+            var relativePart = relativePartLexerFactory.Create();
+            var qm = terminalLexerFactory.Create(@"?", StringComparer.Ordinal);
+            var query = queryLexerFactory.Create();
+            var queryPart = concatenationLexerFactory.Create(qm, query);
+            var optQuery = optionLexerFactory.Create(queryPart);
+            var ht = terminalLexerFactory.Create(@"#", StringComparer.Ordinal);
+            var fragment = fragmentLexerFactory.Create();
+            var fragmentPart = concatenationLexerFactory.Create(ht, fragment);
+            var optFragment = optionLexerFactory.Create(fragmentPart);
+            var innerLexer = concatenationLexerFactory.Create(relativePart, optQuery, optFragment);
             return new RelativeReferenceLexer(innerLexer);
         }
     }

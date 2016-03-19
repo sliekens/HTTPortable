@@ -15,8 +15,8 @@
         {
             get
             {
-                Debug.Assert(this.Elements[2] is HierarchicalPart, "this.Elements[2] is HierarchicalPart");
-                return (HierarchicalPart)this.Elements[2];
+                Debug.Assert(Elements[2] is HierarchicalPart, "this.Elements[2] is HierarchicalPart");
+                return (HierarchicalPart)Elements[2];
             }
         }
 
@@ -24,7 +24,7 @@
         {
             get
             {
-                var optionalQueryPart = (Repetition)this.Elements[3];
+                var optionalQueryPart = (Repetition)Elements[3];
                 if (optionalQueryPart.Elements.Count == 0)
                 {
                     return null;
@@ -39,8 +39,8 @@
         {
             get
             {
-                Debug.Assert(this.Elements[0] is Scheme, "this.Elements[0] is Scheme");
-                return (Scheme)this.Elements[0];
+                Debug.Assert(Elements[0] is Scheme, "this.Elements[0] is Scheme");
+                return (Scheme)Elements[0];
             }
         }
     }

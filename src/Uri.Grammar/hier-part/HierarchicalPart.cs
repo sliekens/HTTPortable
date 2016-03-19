@@ -13,12 +13,12 @@
         {
             get
             {
-                if (this.Ordinal != 1)
+                if (Ordinal != 1)
                 {
                     return null;
                 }
 
-                var concatenation = (Concatenation)this.Element;
+                var concatenation = (Concatenation)Element;
                 return (Authority)concatenation.Elements[1];
             }
         }
@@ -27,12 +27,12 @@
         {
             get
             {
-                if (this.Ordinal != 1)
+                if (Ordinal != 1)
                 {
                     return null;
                 }
 
-                var concatenation = (Concatenation)this.Element;
+                var concatenation = (Concatenation)Element;
                 return (PathAbsoluteOrEmpty)concatenation.Elements[2];
             }
         }
@@ -41,12 +41,12 @@
         {
             get
             {
-                if (this.Ordinal != 2)
+                if (Ordinal != 2)
                 {
                     return null;
                 }
 
-                return (PathAbsolute)this.Element;
+                return (PathAbsolute)Element;
             }
         }
 
@@ -54,12 +54,12 @@
         {
             get
             {
-                if (this.Ordinal != 3)
+                if (Ordinal != 3)
                 {
                     return null;
                 }
 
-                return (PathRootless)this.Element;
+                return (PathRootless)Element;
             }
         }
 
@@ -67,12 +67,12 @@
         {
             get
             {
-                if (this.Ordinal != 4)
+                if (Ordinal != 4)
                 {
                     return null;
                 }
 
-                return (PathEmpty)this.Element;
+                return (PathEmpty)Element;
             }
         }
     }

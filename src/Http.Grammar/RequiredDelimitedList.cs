@@ -20,9 +20,9 @@
 
         public IList<Element> GetItems()
         {
-            var e1 = this.Elements[1];
+            var e1 = Elements[1];
             var items = new List<Element> { e1 };
-            var rep1 = (Repetition)this.Elements[2];
+            var rep1 = (Repetition)Elements[2];
             foreach (var opt1 in rep1.Elements.Cast<Concatenation>().Select(seq1 => (Repetition)seq1.Elements[2]))
             {
                 items.AddRange(opt1.Elements.Cast<Concatenation>().Select(seq2 => seq2.Elements[1]));
@@ -33,7 +33,7 @@
 
         public override string GetWellFormedText()
         {
-            return string.Join(", ", this.GetItems().Select(e => e.GetWellFormedText()));
+            return string.Join(", ", GetItems().Select(e => e.GetWellFormedText()));
         }
     }
 }

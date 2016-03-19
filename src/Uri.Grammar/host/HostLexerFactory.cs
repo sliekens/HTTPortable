@@ -49,10 +49,10 @@
 
         public ILexer<Host> Create()
         {
-            var ipliteral = this.ipLiteralLexerFactory.Create();
-            var ipv4 = this.ipv4AddressLexerFactory.Create();
-            var regName = this.registeredNameLexerFactory.Create();
-            var innerLexer = this.alternativeLexerFactory.Create(ipliteral, ipv4, regName);
+            var ipliteral = ipLiteralLexerFactory.Create();
+            var ipv4 = ipv4AddressLexerFactory.Create();
+            var regName = registeredNameLexerFactory.Create();
+            var innerLexer = alternativeLexerFactory.Create(ipliteral, ipv4, regName);
             return new HostLexer(innerLexer);
         }
     }

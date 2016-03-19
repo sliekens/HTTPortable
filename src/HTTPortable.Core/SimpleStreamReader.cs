@@ -51,13 +51,13 @@
         /// <inheritdoc />
         public override int Peek()
         {
-            if (this.disposed)
+            if (disposed)
             {
-                throw new ObjectDisposedException(this.GetType().Name);
+                throw new ObjectDisposedException(GetType().Name);
             }
 
             // Ensure that the stream supports seeking
-            if (!this.stream.CanSeek)
+            if (!stream.CanSeek)
             {
                 return -1;
             }
@@ -66,7 +66,7 @@
             try
             {
                 // Read the next byte
-                octal = this.stream.ReadByte();
+                octal = stream.ReadByte();
             }
             catch (NotSupportedException notSupportedException)
             {
@@ -88,7 +88,7 @@
             try
             {
                 // Rewind the stream
-                this.stream.Seek(-1, SeekOrigin.Current);
+                stream.Seek(-1, SeekOrigin.Current);
             }
             catch (NotSupportedException notSupportedException)
             {
@@ -114,15 +114,15 @@
         /// <inheritdoc />
         public override int Read()
         {
-            if (this.disposed)
+            if (disposed)
             {
-                throw new ObjectDisposedException(this.GetType().Name);
+                throw new ObjectDisposedException(GetType().Name);
             }
 
             try
             {
                 // Return the next byte
-                return this.stream.ReadByte();
+                return stream.ReadByte();
             }
             catch (NotSupportedException notSupportedException)
             {
@@ -139,9 +139,9 @@
         /// <inheritdoc />
         public override int Read(char[] buffer, int index, int count)
         {
-            if (this.disposed)
+            if (disposed)
             {
-                throw new ObjectDisposedException(this.GetType().Name);
+                throw new ObjectDisposedException(GetType().Name);
             }
 
             // Ensure that 'buffer' is not a null reference
@@ -176,7 +176,7 @@
             {
                 // Read up to the requested number of characters, assuming 1 byte per character.
                 // TODO: what happens when the stream contains multibyte characters?
-                byteCount = this.stream.Read(bytes, 0, count);
+                byteCount = stream.Read(bytes, 0, count);
             }
             catch (NotSupportedException notSupportedException)
             {
@@ -199,9 +199,9 @@
         /// <inheritdoc />
         public override async Task<int> ReadAsync(char[] buffer, int index, int count)
         {
-            if (this.disposed)
+            if (disposed)
             {
-                throw new ObjectDisposedException(this.GetType().Name);
+                throw new ObjectDisposedException(GetType().Name);
             }
 
             // Ensure that 'buffer' is not a null reference
@@ -236,7 +236,7 @@
             {
                 // Read up to the requested number of characters, assuming 1 byte per character.
                 // TODO: what happens when the stream contains multibyte characters?
-                byteCount = await this.stream.ReadAsync(bytes, 0, count).ConfigureAwait(false);
+                byteCount = await stream.ReadAsync(bytes, 0, count).ConfigureAwait(false);
             }
             catch (NotSupportedException notSupportedException)
             {
@@ -260,12 +260,12 @@
         /// TODO: verify the correctness of this 'ReadBlock' implementation
         public override int ReadBlock(char[] buffer, int index, int count)
         {
-            if (this.disposed)
+            if (disposed)
             {
-                throw new ObjectDisposedException(this.GetType().Name);
+                throw new ObjectDisposedException(GetType().Name);
             }
 
-            var charCount = this.Read(buffer, index, count);
+            var charCount = Read(buffer, index, count);
             if (charCount == 0)
             {
                 return 0;
@@ -278,19 +278,19 @@
             }
 
             index += charCount;
-            return charCount + this.ReadBlock(buffer, index, count);
+            return charCount + ReadBlock(buffer, index, count);
         }
 
         /// <inheritdoc />
         /// TODO: verify the correctness of this 'ReadBlockAsync' implementation
         public override async Task<int> ReadBlockAsync(char[] buffer, int index, int count)
         {
-            if (this.disposed)
+            if (disposed)
             {
-                throw new ObjectDisposedException(this.GetType().Name);
+                throw new ObjectDisposedException(GetType().Name);
             }
 
-            var charCount = await this.ReadAsync(buffer, index, count).ConfigureAwait(false);
+            var charCount = await ReadAsync(buffer, index, count).ConfigureAwait(false);
             if (charCount == 0)
             {
                 return 0;
@@ -303,22 +303,22 @@
             }
 
             index += charCount;
-            return charCount + await this.ReadBlockAsync(buffer, index, count).ConfigureAwait(false);
+            return charCount + await ReadBlockAsync(buffer, index, count).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public override string ReadLine()
         {
-            if (this.disposed)
+            if (disposed)
             {
-                throw new ObjectDisposedException(this.GetType().Name);
+                throw new ObjectDisposedException(GetType().Name);
             }
 
             var buffer = new StringBuilder();
             bool encounteredCr = false;
             bool encounteredLf = false;
             int octal;
-            while ((octal = this.Read()) != -1)
+            while ((octal = Read()) != -1)
             {
                 var c = (char)octal;
                 if (c == '\r')
@@ -354,16 +354,16 @@
         /// <inheritdoc />
         public override async Task<string> ReadLineAsync()
         {
-            if (this.disposed)
+            if (disposed)
             {
-                throw new ObjectDisposedException(this.GetType().Name);
+                throw new ObjectDisposedException(GetType().Name);
             }
 
             var buffer = new char[1];
             var lineBuffer = new StringBuilder();
             bool encounteredCr = false;
             bool encounteredLf = false;
-            while (0 != await this.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false))
+            while (0 != await ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false))
             {
                 var c = buffer[0];
                 if (c == '\r')
@@ -399,16 +399,16 @@
         /// <inheritdoc />
         public override string ReadToEnd()
         {
-            if (this.disposed)
+            if (disposed)
             {
-                throw new ObjectDisposedException(this.GetType().Name);
+                throw new ObjectDisposedException(GetType().Name);
             }
 
-            var buffer = new char[this.bufferSize];
+            var buffer = new char[bufferSize];
             using (var writer = new StringWriter())
             {
                 int charCount;
-                while (0 != (charCount = this.Read(buffer, 0, buffer.Length)))
+                while (0 != (charCount = Read(buffer, 0, buffer.Length)))
                 {
                     writer.Write(buffer, 0, charCount);
                 }
@@ -420,16 +420,16 @@
         /// <inheritdoc />
         public override async Task<string> ReadToEndAsync()
         {
-            if (this.disposed)
+            if (disposed)
             {
-                throw new ObjectDisposedException(this.GetType().Name);
+                throw new ObjectDisposedException(GetType().Name);
             }
 
-            var buffer = new char[this.bufferSize];
+            var buffer = new char[bufferSize];
             using (var writer = new StringWriter())
             {
                 int charCount;
-                while (0 != (charCount = await this.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)))
+                while (0 != (charCount = await ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)))
                 {
                     await writer.WriteAsync(buffer, 0, charCount).ConfigureAwait(false);
                 }
@@ -441,12 +441,12 @@
         /// <inheritdoc />
         protected override void Dispose(bool disposing)
         {
-            if (this.disposed)
+            if (disposed)
             {
                 return;
             }
 
-            this.disposed = true;
+            disposed = true;
             base.Dispose(disposing);
         }
     }

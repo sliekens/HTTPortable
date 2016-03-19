@@ -21,7 +21,7 @@
         public IList<Element> GetItems()
         {
             var items = new List<Element>();
-            foreach (var seq1 in this.Elements.Cast<Concatenation>())
+            foreach (var seq1 in Elements.Cast<Concatenation>())
             {
                 var alt1 = (Alternative)seq1.Elements[0];
                 if (alt1.Ordinal == 2)
@@ -41,7 +41,7 @@
 
         public override string GetWellFormedText()
         {
-            return string.Join(", ", this.GetItems().Select(e => e.GetWellFormedText()));
+            return string.Join(", ", GetItems().Select(e => e.GetWellFormedText()));
         }
     }
 }

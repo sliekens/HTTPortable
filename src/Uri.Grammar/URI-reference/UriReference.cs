@@ -15,8 +15,8 @@
         {
             get
             {
-                Debug.Assert(this.Ordinal == 1 || this.Ordinal == 2, "this.Ordinal == 1 || this.Ordinal == 2");
-                if (this.Ordinal == 1)
+                Debug.Assert(Ordinal == 1 || Ordinal == 2, "this.Ordinal == 1 || this.Ordinal == 2");
+                if (Ordinal == 1)
                 {
                     return true;
                 }
@@ -29,12 +29,12 @@
         {
             get
             {
-                if (this.Ordinal != 2)
+                if (Ordinal != 2)
                 {
                     return null;
                 }
 
-                return (RelativeReference)this.Element;
+                return (RelativeReference)Element;
             }
         }
 
@@ -42,12 +42,12 @@
         {
             get
             {
-                if (this.Ordinal != 1)
+                if (Ordinal != 1)
                 {
                     return null;
                 }
 
-                return (UniformResourceIdentifier)this.Element;
+                return (UniformResourceIdentifier)Element;
             }
         }
     }

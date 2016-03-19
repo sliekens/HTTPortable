@@ -43,7 +43,7 @@ namespace Http
         {
             get
             {
-                return this.headers;
+                return headers;
             }
         }
 
@@ -52,7 +52,7 @@ namespace Http
         {
             get
             {
-                return this.httpVersion;
+                return httpVersion;
             }
         }
 
@@ -61,7 +61,7 @@ namespace Http
         {
             get
             {
-                return this.reason;
+                return reason;
             }
         }
 
@@ -70,7 +70,7 @@ namespace Http
         {
             get
             {
-                return this.status;
+                return status;
             }
         }
     }

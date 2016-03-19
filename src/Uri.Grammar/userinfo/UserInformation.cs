@@ -13,13 +13,13 @@
         {
             get
             {
-                var indexOfSeparator = this.Text.IndexOf(':');
+                var indexOfSeparator = Text.IndexOf(':');
                 if (indexOfSeparator == -1)
                 {
                     return null;
                 }
 
-                return this.Text.Substring(indexOfSeparator + 1);
+                return Text.Substring(indexOfSeparator + 1);
             }
         }
 
@@ -27,18 +27,18 @@
         {
             get
             {
-                if (this.Text == string.Empty)
+                if (Text == string.Empty)
                 {
                     return null;
                 }
 
-                var indexOfSeparator = this.Text.IndexOf(':');
+                var indexOfSeparator = Text.IndexOf(':');
                 if (indexOfSeparator == -1)
                 {
-                    return this.Text;
+                    return Text;
                 }
 
-                return this.Text.Substring(0, indexOfSeparator);
+                return Text.Substring(0, indexOfSeparator);
             }
         }
     }

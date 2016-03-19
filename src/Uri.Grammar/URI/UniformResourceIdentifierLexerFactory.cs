@@ -76,18 +76,18 @@
 
         public ILexer<UniformResourceIdentifier> Create()
         {
-            var scheme = this.schemeLexerFactory.Create();
-            var colon = this.terminalLexerFactory.Create(@":", StringComparer.Ordinal);
-            var hierPart = this.hierarchicalPartLexerFactory.Create();
-            var qm = this.terminalLexerFactory.Create(@"?", StringComparer.Ordinal);
-            var query = this.queryLexerFactory.Create();
-            var queryPart = this.concatenationLexerFactory.Create(qm, query);
-            var optQuery = this.optionLexerFactory.Create(queryPart);
-            var ht = this.terminalLexerFactory.Create(@"#", StringComparer.Ordinal);
-            var fragment = this.fragmentLexerFactory.Create();
-            var fragmentPart = this.concatenationLexerFactory.Create(ht, fragment);
-            var optFragment = this.optionLexerFactory.Create(fragmentPart);
-            var innerLexer = this.concatenationLexerFactory.Create(scheme, colon, hierPart, optQuery, optFragment);
+            var scheme = schemeLexerFactory.Create();
+            var colon = terminalLexerFactory.Create(@":", StringComparer.Ordinal);
+            var hierPart = hierarchicalPartLexerFactory.Create();
+            var qm = terminalLexerFactory.Create(@"?", StringComparer.Ordinal);
+            var query = queryLexerFactory.Create();
+            var queryPart = concatenationLexerFactory.Create(qm, query);
+            var optQuery = optionLexerFactory.Create(queryPart);
+            var ht = terminalLexerFactory.Create(@"#", StringComparer.Ordinal);
+            var fragment = fragmentLexerFactory.Create();
+            var fragmentPart = concatenationLexerFactory.Create(ht, fragment);
+            var optFragment = optionLexerFactory.Create(fragmentPart);
+            var innerLexer = concatenationLexerFactory.Create(scheme, colon, hierPart, optQuery, optFragment);
             return new UniformResourceIdentifierLexer(innerLexer);
         }
     }

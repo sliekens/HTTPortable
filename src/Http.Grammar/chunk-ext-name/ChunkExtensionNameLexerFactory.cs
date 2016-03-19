@@ -20,7 +20,7 @@ namespace Http.Grammar
 
         public ILexer<ChunkExtensionName> Create()
         {
-            var innerLexer = this.tokenLexerFactory.Create();
+            var innerLexer = tokenLexerFactory.Create();
             return new ChunkExtensionNameLexer(innerLexer);
         }
     }

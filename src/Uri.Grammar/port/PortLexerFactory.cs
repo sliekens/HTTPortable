@@ -30,8 +30,8 @@
 
         public ILexer<Port> Create()
         {
-            var digit = this.digitLexerFactory.Create();
-            var innerLexer = this.repetitionLexerFactory.Create(digit, 0, int.MaxValue);
+            var digit = digitLexerFactory.Create();
+            var innerLexer = repetitionLexerFactory.Create(digit, 0, int.MaxValue);
             return new PortLexer(innerLexer);
         }
     }

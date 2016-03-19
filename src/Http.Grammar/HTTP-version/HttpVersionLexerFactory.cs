@@ -50,11 +50,11 @@
 
         public ILexer<HttpVersion> Create()
         {
-            var httpName = this.httpNameLexerFactory.Create();
-            var digit = this.digitLexerFactory.Create();
-            var slash = this.terminalLexerFactory.Create(@"/", StringComparer.Ordinal);
-            var dot = this.terminalLexerFactory.Create(@".", StringComparer.Ordinal);
-            var innerLexer = this.ConcatenationLexerFactory.Create(httpName, slash, digit, dot, digit);
+            var httpName = httpNameLexerFactory.Create();
+            var digit = digitLexerFactory.Create();
+            var slash = terminalLexerFactory.Create(@"/", StringComparer.Ordinal);
+            var dot = terminalLexerFactory.Create(@".", StringComparer.Ordinal);
+            var innerLexer = ConcatenationLexerFactory.Create(httpName, slash, digit, dot, digit);
             return new HttpVersionLexer(innerLexer);
         }
     }

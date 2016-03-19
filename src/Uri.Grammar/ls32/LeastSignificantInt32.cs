@@ -13,13 +13,13 @@
 
         public byte[] GetBytes()
         {
-            var thisAsIPv4 = this.Element as IPv4Address;
+            var thisAsIPv4 = Element as IPv4Address;
             if (thisAsIPv4 != null)
             {
                 return thisAsIPv4.GetBytes();
             }
 
-            var seq = (Concatenation)this.Element;
+            var seq = (Concatenation)Element;
             return seq.Elements.OfType<HexadecimalInt16>().SelectMany(int16 => int16.GetBytes()).ToArray();
         }
     }

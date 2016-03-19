@@ -58,12 +58,12 @@
 
         public ILexer<IPLiteral> Create()
         {
-            var a = this.terminalLexerFactory.Create(@"[", StringComparer.Ordinal);
-            var b = this.terminalLexerFactory.Create(@"]", StringComparer.Ordinal);
-            var ipv6 = this.ipv6AddressLexerFactory.Create();
-            var ipvFuture = this.ipvFutureLexerFactory.Create();
-            var alt = this.alternativeLexerFactory.Create(ipv6, ipvFuture);
-            var innerLexer = this.concatenationLexerFactory.Create(a, alt, b);
+            var a = terminalLexerFactory.Create(@"[", StringComparer.Ordinal);
+            var b = terminalLexerFactory.Create(@"]", StringComparer.Ordinal);
+            var ipv6 = ipv6AddressLexerFactory.Create();
+            var ipvFuture = ipvFutureLexerFactory.Create();
+            var alt = alternativeLexerFactory.Create(ipv6, ipvFuture);
+            var innerLexer = concatenationLexerFactory.Create(a, alt, b);
             return new IPLiteralLexer(innerLexer);
         }
     }

@@ -67,16 +67,16 @@
 
         public ILexer<Authority> Create()
         {
-            var userinfo = this.userInformationLexerFactory.Create();
-            var at = this.terminalLexerFactory.Create(@"@", StringComparer.Ordinal);
-            var userinfoseq = this.concatenationLexerFactory.Create(userinfo, at);
-            var optuserinfo = this.optionLexerFactory.Create(userinfoseq);
-            var host = this.hostLexerFactory.Create();
-            var colon = this.terminalLexerFactory.Create(@":", StringComparer.Ordinal);
-            var port = this.portLexerFactory.Create();
-            var portseq = this.concatenationLexerFactory.Create(colon, port);
-            var optport = this.optionLexerFactory.Create(portseq);
-            var innerLexer = this.concatenationLexerFactory.Create(optuserinfo, host, optport);
+            var userinfo = userInformationLexerFactory.Create();
+            var at = terminalLexerFactory.Create(@"@", StringComparer.Ordinal);
+            var userinfoseq = concatenationLexerFactory.Create(userinfo, at);
+            var optuserinfo = optionLexerFactory.Create(userinfoseq);
+            var host = hostLexerFactory.Create();
+            var colon = terminalLexerFactory.Create(@":", StringComparer.Ordinal);
+            var port = portLexerFactory.Create();
+            var portseq = concatenationLexerFactory.Create(colon, port);
+            var optport = optionLexerFactory.Create(portseq);
+            var innerLexer = concatenationLexerFactory.Create(optuserinfo, host, optport);
             return new AuthorityLexer(innerLexer);
         }
     }

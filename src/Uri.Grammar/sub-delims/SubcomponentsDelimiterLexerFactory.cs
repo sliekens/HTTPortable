@@ -35,21 +35,21 @@
         {
             ILexer[] a =
                 {
-                    this.terminalLexerFactory.Create(@"!", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"$", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"&", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"'", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"(", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@")", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"*", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"+", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@",", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@";", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"=", StringComparer.Ordinal)
+                    terminalLexerFactory.Create(@"!", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"$", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"&", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"'", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"(", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@")", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"*", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"+", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@",", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@";", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"=", StringComparer.Ordinal)
                 };
 
             // "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="
-            var b = this.alternativeLexerFactory.Create(a);
+            var b = alternativeLexerFactory.Create(a);
 
             // sub-delims
             return new SubcomponentsDelimiterLexer(b);

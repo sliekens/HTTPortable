@@ -41,13 +41,13 @@
         public ILexer<IPv4Address> Create()
         {
             // dec-octet
-            var a = this.decimaOctetLexerFactory.Create();
+            var a = decimaOctetLexerFactory.Create();
 
             // "."
-            var b = this.terminalLexerFactory.Create(@".", StringComparer.Ordinal);
+            var b = terminalLexerFactory.Create(@".", StringComparer.Ordinal);
 
             // dec-octet "." dec-octet "." dec-octet "." dec-octet
-            var c = this.concatenationLexerFactory.Create(a, b, a, b, a, b, a);
+            var c = concatenationLexerFactory.Create(a, b, a, b, a, b, a);
 
             // IPv4address
             return new IPv4AddressLexer(c);

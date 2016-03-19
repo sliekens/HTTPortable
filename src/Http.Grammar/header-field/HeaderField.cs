@@ -13,7 +13,7 @@
         {
             get
             {
-                return (FieldName)this.Elements[0];
+                return (FieldName)Elements[0];
             }
         }
 
@@ -21,7 +21,7 @@
         {
             get
             {
-                return (FieldValue)this.Elements[3];
+                return (FieldValue)Elements[3];
             }
         }
     }

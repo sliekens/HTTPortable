@@ -69,43 +69,43 @@
         public ILexer<DecimalOctet> Create()
         {
             // %x30-35
-            var a = this.valueRangeLexerFactory.Create('\x30', '\x35');
+            var a = valueRangeLexerFactory.Create('\x30', '\x35');
 
             // "25"
-            var b = this.terminalLexerFactory.Create("25", StringComparer.Ordinal);
+            var b = terminalLexerFactory.Create("25", StringComparer.Ordinal);
 
             // "25" %x30-35 
-            var c = this.concatenationLexerFactory.Create(b, a);
+            var c = concatenationLexerFactory.Create(b, a);
 
             // DIGIT
-            var d = this.digitLexerFactory.Create();
+            var d = digitLexerFactory.Create();
 
             // %x30-34
-            var e = this.valueRangeLexerFactory.Create('\x30', '\x34');
+            var e = valueRangeLexerFactory.Create('\x30', '\x34');
 
             // "2"
-            var f = this.terminalLexerFactory.Create("2", StringComparer.Ordinal);
+            var f = terminalLexerFactory.Create("2", StringComparer.Ordinal);
 
             // "2" %x30-34 DIGIT 
-            var g = this.concatenationLexerFactory.Create(f, e, d);
+            var g = concatenationLexerFactory.Create(f, e, d);
 
             // 2DIGIT
-            var h = this.repetitionLexerFactory.Create(d, 2, 2);
+            var h = repetitionLexerFactory.Create(d, 2, 2);
 
             // "1"
-            var i = this.terminalLexerFactory.Create("1", StringComparer.Ordinal);
+            var i = terminalLexerFactory.Create("1", StringComparer.Ordinal);
 
             // "1" 2DIGIT  
-            var j = this.concatenationLexerFactory.Create(i, h);
+            var j = concatenationLexerFactory.Create(i, h);
 
             // %x31-39
-            var k = this.valueRangeLexerFactory.Create('\x31', '\x39');
+            var k = valueRangeLexerFactory.Create('\x31', '\x39');
 
             // %x31-39 DIGIT 
-            var l = this.concatenationLexerFactory.Create(k, d);
+            var l = concatenationLexerFactory.Create(k, d);
 
             // "25" %x30-35 / "2" %x30-34 DIGIT / "1" 2DIGIT / %x31-39 DIGIT / DIGIT
-            var m = this.alternativeLexerFactory.Create(c, g, j, l, d);
+            var m = alternativeLexerFactory.Create(c, g, j, l, d);
 
             // dec-octet
             return new DecimalOctetLexer(m);

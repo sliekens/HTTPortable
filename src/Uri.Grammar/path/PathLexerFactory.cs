@@ -69,12 +69,12 @@
         {
             ILexer[] a =
                 {
-                    this.pathAbsoluteOrEmptyLexerFactory.Create(), this.pathAbsoluteLexerFactory.Create(),
-                    this.pathNoSchemeLexerFactory.Create(), this.pathRootlessLexerFactory.Create(),
-                    this.pathEmptyLexerFactory.Create()
+                    pathAbsoluteOrEmptyLexerFactory.Create(), pathAbsoluteLexerFactory.Create(),
+                    pathNoSchemeLexerFactory.Create(), pathRootlessLexerFactory.Create(),
+                    pathEmptyLexerFactory.Create()
                 };
 
-            var b = this.alternativeLexerFactory.Create(a);
+            var b = alternativeLexerFactory.Create(a);
             return new PathLexer(b);
         }
     }

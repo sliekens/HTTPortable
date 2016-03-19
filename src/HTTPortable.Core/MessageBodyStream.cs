@@ -26,7 +26,7 @@
         {
             get
             {
-                return this.messageBody.CanRead;
+                return messageBody.CanRead;
             }
         }
 
@@ -35,7 +35,7 @@
         {
             get
             {
-                return this.messageBody.CanSeek;
+                return messageBody.CanSeek;
             }
         }
 
@@ -44,7 +44,7 @@
         {
             get
             {
-                return this.messageBody.CanWrite;
+                return messageBody.CanWrite;
             }
         }
 
@@ -53,7 +53,7 @@
         {
             get
             {
-                return this.contentLength;
+                return contentLength;
             }
         }
 
@@ -62,12 +62,12 @@
         {
             get
             {
-                return this.position;
+                return position;
             }
 
             set
             {
-                this.position = value;
+                position = value;
             }
         }
 
@@ -76,7 +76,7 @@
         {
             try
             {
-                this.messageBody.Flush();
+                messageBody.Flush();
             }
             catch (IOException ioException)
             {
@@ -87,9 +87,9 @@
         /// <inheritdoc />
         public override int Read(byte[] buffer, int offset, int count)
         {
-            if (this.disposed)
+            if (disposed)
             {
-                throw new ObjectDisposedException(this.GetType().Name);
+                throw new ObjectDisposedException(GetType().Name);
             }
 
             if (buffer == null)
@@ -112,7 +112,7 @@
                 throw new ArgumentOutOfRangeException(nameof(count), count, "Precondition: count >= 0");
             }
 
-            if (!this.CanRead)
+            if (!CanRead)
             {
                 throw new NotSupportedException("Precondition: Stream.CanRead");
             }
@@ -124,9 +124,9 @@
             }
 
 
-            lock (this.messageBody)
+            lock (messageBody)
             {
-                var unread = this.contentLength - this.position;
+                var unread = contentLength - position;
 
                 // Optimization: return early if there are no unread bytes
                 if (unread == 0)
@@ -145,7 +145,7 @@
                 int bytesRead;
                 try
                 {
-                    bytesRead = this.messageBody.Read(buffer, offset, count);
+                    bytesRead = messageBody.Read(buffer, offset, count);
                 }
                 catch (IOException ioException)
                 {
@@ -153,7 +153,7 @@
                 }
 
                 // Update the position
-                Interlocked.Add(ref this.position, bytesRead);
+                Interlocked.Add(ref position, bytesRead);
 
                 // Return the number of bytes read
                 return bytesRead;
@@ -163,19 +163,19 @@
         /// <inheritdoc />
         public override long Seek(long offset, SeekOrigin origin)
         {
-            if (this.disposed)
+            if (disposed)
             {
-                throw new ObjectDisposedException(this.GetType().Name);
+                throw new ObjectDisposedException(GetType().Name);
             }
 
-            if (!this.CanSeek)
+            if (!CanSeek)
             {
                 throw new NotSupportedException("Precondition: Stream.CanSeek");
             }
 
             try
             {
-                return this.messageBody.Seek(offset, origin);
+                return messageBody.Seek(offset, origin);
             }
             catch (IOException ioException)
             {
@@ -186,24 +186,24 @@
         /// <inheritdoc />
         public override void SetLength(long value)
         {
-            if (this.disposed)
+            if (disposed)
             {
-                throw new ObjectDisposedException(this.GetType().Name);
+                throw new ObjectDisposedException(GetType().Name);
             }
 
-            if (!this.CanWrite)
+            if (!CanWrite)
             {
                 throw new NotSupportedException("Precondition: Stream.CanWrite");
             }
 
-            if (!this.CanSeek)
+            if (!CanSeek)
             {
                 throw new NotSupportedException("Precondition: Stream.CanSeek");
             }
 
             try
             {
-                this.messageBody.SetLength(value);
+                messageBody.SetLength(value);
             }
             catch (IOException ioException)
             {
@@ -214,9 +214,9 @@
         /// <inheritdoc />
         public override void Write(byte[] buffer, int offset, int count)
         {
-            if (this.disposed)
+            if (disposed)
             {
-                throw new ObjectDisposedException(this.GetType().Name);
+                throw new ObjectDisposedException(GetType().Name);
             }
 
             if (buffer == null)
@@ -239,14 +239,14 @@
                 throw new ArgumentOutOfRangeException(nameof(count), count, "Precondition: count >= 0");
             }
 
-            if (!this.CanWrite)
+            if (!CanWrite)
             {
                 throw new NotSupportedException("Precondition: Stream.CanWrite");
             }
 
-            lock (this.messageBody)
+            lock (messageBody)
             {
-                var bytesToWrite = this.contentLength - this.position;
+                var bytesToWrite = contentLength - position;
                 if (bytesToWrite == 0 || count > bytesToWrite)
                 {
                     throw new IOException("Attempt to write past the given Content-Length");
@@ -254,21 +254,21 @@
 
                 try
                 {
-                    this.messageBody.Write(buffer, offset, count);
+                    messageBody.Write(buffer, offset, count);
                 }
                 catch (IOException ioException)
                 {
                     throw new IOException("An I/O error occurred while writing to the stream.", ioException);
                 }
 
-                Interlocked.Add(ref this.position, count);
+                Interlocked.Add(ref position, count);
             }
         }
 
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            this.disposed = true;
+            disposed = true;
         }
     }
 }

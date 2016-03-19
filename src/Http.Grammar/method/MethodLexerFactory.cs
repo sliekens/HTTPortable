@@ -20,7 +20,7 @@
 
         public ILexer<Method> Create()
         {
-            var innerLexer = this.tokenLexerFactory.Create();
+            var innerLexer = tokenLexerFactory.Create();
             return new MethodLexer(innerLexer);
         }
     }

@@ -19,9 +19,9 @@
 
         public char ToChar()
         {
-            Debug.Assert(this.Text != null, "this.Value != null");
-            Debug.Assert(this.Text.Length == 3, "this.Value.Length == 3");
-            return (char)Convert.ToInt32(this.Text.Substring(1), 16);
+            Debug.Assert(Text != null, "this.Value != null");
+            Debug.Assert(Text.Length == 3, "this.Value.Length == 3");
+            return (char)Convert.ToInt32(Text.Substring(1), 16);
         }
 
         public override string GetWellFormedText()

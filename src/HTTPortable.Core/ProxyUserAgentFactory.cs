@@ -34,7 +34,7 @@
         /// <inheritdoc />
         public Task<IUserAgent> CreateAsync(Uri uri, CancellationToken cancellationToken)
         {
-            return this.userAgentFactory.CreateAsync(this.webProxy.GetProxy(uri), cancellationToken);
+            return userAgentFactory.CreateAsync(webProxy.GetProxy(uri), cancellationToken);
         }
     }
 }

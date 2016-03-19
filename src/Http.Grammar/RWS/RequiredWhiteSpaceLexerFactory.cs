@@ -50,10 +50,10 @@
 
         public ILexer<RequiredWhiteSpace> Create()
         {
-            var sp = this.spaceLexerFactory.Create();
-            var htab = this.horizontalTabLexerFactory.Create();
-            var a = this.alternativeLexerFactory.Create(sp, htab);
-            var innerLexer = this.repetitionLexerFactory.Create(a, 1, int.MaxValue);
+            var sp = spaceLexerFactory.Create();
+            var htab = horizontalTabLexerFactory.Create();
+            var a = alternativeLexerFactory.Create(sp, htab);
+            var innerLexer = repetitionLexerFactory.Create(a, 1, int.MaxValue);
             return new RequiredWhiteSpaceLexer(innerLexer);
         }
     }

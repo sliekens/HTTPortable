@@ -51,10 +51,10 @@
 
         public ILexer<AbsolutePath> Create()
         {
-            var a = this.terminalLexerFactory.Create(@"/", StringComparer.Ordinal);
-            var b = this.segmentLexerFactory.Create();
-            var c = this.ConcatenationLexerFactory.Create(a, b);
-            var innerLexer = this.repetitionLexerFactory.Create(c, 1, int.MaxValue);
+            var a = terminalLexerFactory.Create(@"/", StringComparer.Ordinal);
+            var b = segmentLexerFactory.Create();
+            var c = ConcatenationLexerFactory.Create(a, b);
+            var innerLexer = repetitionLexerFactory.Create(c, 1, int.MaxValue);
             return new AbsolutePathLexer(innerLexer);
         }
     }

@@ -20,7 +20,7 @@
 
         public ILexer<ProtocolName> Create()
         {
-            var innerLexer = this.tokenLexerFactory.Create();
+            var innerLexer = tokenLexerFactory.Create();
             return new ProtocolNameLexer(innerLexer);
         }
     }

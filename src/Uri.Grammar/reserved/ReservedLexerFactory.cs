@@ -37,9 +37,9 @@
 
         public ILexer<Reserved> Create()
         {
-            var reservedAlterativeLexer = this.alternativeLexerFactory.Create(
-                this.genericDelimiterLexerFactory.Create(),
-                this.subcomponentsDelimiterLexerFactory.Create());
+            var reservedAlterativeLexer = alternativeLexerFactory.Create(
+                genericDelimiterLexerFactory.Create(),
+                subcomponentsDelimiterLexerFactory.Create());
             return new ReservedLexer(reservedAlterativeLexer);
         }
     }

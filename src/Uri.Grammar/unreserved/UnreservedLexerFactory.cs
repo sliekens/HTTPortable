@@ -50,13 +50,13 @@
 
         public ILexer<Unreserved> Create()
         {
-            var unreservedAlternativeLexer = this.alternativeLexerFactory.Create(
-                this.alphaLexerFactory.Create(),
-                this.digitLexerFactory.Create(),
-                this.terminalLexerFactory.Create(@"-", StringComparer.Ordinal),
-                this.terminalLexerFactory.Create(@".", StringComparer.Ordinal),
-                this.terminalLexerFactory.Create(@"_", StringComparer.Ordinal),
-                this.terminalLexerFactory.Create(@"~", StringComparer.Ordinal));
+            var unreservedAlternativeLexer = alternativeLexerFactory.Create(
+                alphaLexerFactory.Create(),
+                digitLexerFactory.Create(),
+                terminalLexerFactory.Create(@"-", StringComparer.Ordinal),
+                terminalLexerFactory.Create(@".", StringComparer.Ordinal),
+                terminalLexerFactory.Create(@"_", StringComparer.Ordinal),
+                terminalLexerFactory.Create(@"~", StringComparer.Ordinal));
             return new UnreservedLexer(unreservedAlternativeLexer);
         }
     }

@@ -78,34 +78,34 @@
         public ILexer<IPvFuture> Create()
         {
             // "v"
-            var v = this.terminalLexerFactory.Create(@"v", StringComparer.OrdinalIgnoreCase);
+            var v = terminalLexerFactory.Create(@"v", StringComparer.OrdinalIgnoreCase);
 
             // HEXDIG
-            var hexdig = this.hexadecimalDigitLexerFactory.Create();
+            var hexdig = hexadecimalDigitLexerFactory.Create();
 
             // "."
-            var dot = this.terminalLexerFactory.Create(@".", StringComparer.Ordinal);
+            var dot = terminalLexerFactory.Create(@".", StringComparer.Ordinal);
 
             // unreserved
-            var unreserved = this.unreservedLexerFactory.Create();
+            var unreserved = unreservedLexerFactory.Create();
 
             // sub-delims
-            var subDelims = this.subcomponentsDelimiterLexerFactory.Create();
+            var subDelims = subcomponentsDelimiterLexerFactory.Create();
 
             // ":"
-            var colon = this.terminalLexerFactory.Create(@":", StringComparer.Ordinal);
+            var colon = terminalLexerFactory.Create(@":", StringComparer.Ordinal);
 
             // 1*HEXDIG
-            var r = this.repetitionLexerFactory.Create(hexdig, 1, int.MaxValue);
+            var r = repetitionLexerFactory.Create(hexdig, 1, int.MaxValue);
 
             // unreserved / sub-delims / ":"
-            var a = this.alternativeLexerFactory.Create(unreserved, subDelims, colon);
+            var a = alternativeLexerFactory.Create(unreserved, subDelims, colon);
 
             // 1*( unreserved / sub-delims / ":" )
-            var s = this.repetitionLexerFactory.Create(a, 1, int.MaxValue);
+            var s = repetitionLexerFactory.Create(a, 1, int.MaxValue);
 
             // "v" 1*HEXDIG "." 1*( unreserved / sub-delims / ":" )
-            var innerLexer = this.concatenationLexerFactory.Create(v, r, dot, s);
+            var innerLexer = concatenationLexerFactory.Create(v, r, dot, s);
 
             // IPvFuture
             return new IPvFutureLexer(innerLexer);

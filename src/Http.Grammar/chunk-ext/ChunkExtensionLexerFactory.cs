@@ -67,14 +67,14 @@
 
         public ILexer<ChunkExtension> Create()
         {
-            var a = this.terminalLexerFactory.Create(@";", StringComparer.Ordinal);
-            var b = this.chunkExtensionNameLexerFactory.Create();
-            var c = this.terminalLexerFactory.Create(@"=", StringComparer.Ordinal);
-            var d = this.chunkExtensionValueLexerFactory.Create();
-            var e = this.ConcatenationLexerFactory.Create(c, d);
-            var f = this.optionLexerFactory.Create(e);
-            var g = this.ConcatenationLexerFactory.Create(a, b, e);
-            var innerLexer = this.repetitionLexerFactory.Create(g, 0, int.MaxValue);
+            var a = terminalLexerFactory.Create(@";", StringComparer.Ordinal);
+            var b = chunkExtensionNameLexerFactory.Create();
+            var c = terminalLexerFactory.Create(@"=", StringComparer.Ordinal);
+            var d = chunkExtensionValueLexerFactory.Create();
+            var e = ConcatenationLexerFactory.Create(c, d);
+            var f = optionLexerFactory.Create(e);
+            var g = ConcatenationLexerFactory.Create(a, b, e);
+            var innerLexer = repetitionLexerFactory.Create(g, 0, int.MaxValue);
             return new ChunkExtensionLexer(innerLexer);
         }
     }

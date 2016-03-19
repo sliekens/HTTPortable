@@ -20,7 +20,7 @@ namespace Http.Grammar
 
         public ILexer<ProtocolVersion> Create()
         {
-            var innerLexer = this.tokenLexerFactory.Create();
+            var innerLexer = tokenLexerFactory.Create();
             return new ProtocolVersionLexer(innerLexer);
         }
     }

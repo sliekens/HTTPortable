@@ -32,8 +32,8 @@
 
         public ILexer<OptionalWhiteSpace> Create()
         {
-            var wsp = this.whiteSpaceLexerFactory.Create();
-            var innerLexer = this.repetitionLexerFactory.Create(wsp, 0, int.MaxValue);
+            var wsp = whiteSpaceLexerFactory.Create();
+            var innerLexer = repetitionLexerFactory.Create(wsp, 0, int.MaxValue);
             return new OptionalWhiteSpaceLexer(innerLexer);
         }
     }

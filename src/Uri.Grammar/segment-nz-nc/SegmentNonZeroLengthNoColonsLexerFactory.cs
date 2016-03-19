@@ -77,12 +77,12 @@
 
         public ILexer<SegmentNonZeroLengthNoColons> Create()
         {
-            var alternativeLexer = this.alternativeLexerFactory.Create(
-                this.unreservedLexerFactory.Create(),
-                this.percentEncodingLexerFactory.Create(),
-                this.subcomponentsDelimiterLexerFactory.Create(),
-                this.terminalLexerFactory.Create(@"@", StringComparer.Ordinal));
-            var segmentNonZeroLengthNoColonsRepetitionLexer = this.repetitionLexerFactory.Create(alternativeLexer, 1, Int32.MaxValue);
+            var alternativeLexer = alternativeLexerFactory.Create(
+                unreservedLexerFactory.Create(),
+                percentEncodingLexerFactory.Create(),
+                subcomponentsDelimiterLexerFactory.Create(),
+                terminalLexerFactory.Create(@"@", StringComparer.Ordinal));
+            var segmentNonZeroLengthNoColonsRepetitionLexer = repetitionLexerFactory.Create(alternativeLexer, 1, Int32.MaxValue);
             return new SegmentNonZeroLengthNoColonsLexer(segmentNonZeroLengthNoColonsRepetitionLexer);
         }
     }

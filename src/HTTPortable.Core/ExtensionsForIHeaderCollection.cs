@@ -6,8 +6,8 @@
     using System.Linq;
     using System.Text;
 
-    using Http.Grammar;
-    using Http.Headers;
+    using Grammar;
+    using Headers;
 
     using TextFx;
 

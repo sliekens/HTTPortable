@@ -33,10 +33,10 @@
         public ILexer<HexadecimalInt16> Create()
         {
             // HEXDIG
-            var a = this.hexadecimalLexerFactory.Create();
+            var a = hexadecimalLexerFactory.Create();
 
             // 1*4HEXDIG
-            var b = this.repetitionLexerFactory.Create(a, 1, 4);
+            var b = repetitionLexerFactory.Create(a, 1, 4);
 
             // h16
             return new HexadecimalInt16Lexer(b);

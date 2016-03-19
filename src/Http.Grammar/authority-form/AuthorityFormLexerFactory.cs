@@ -22,7 +22,7 @@
 
         public ILexer<AuthorityForm> Create()
         {
-            var innerLexer = this.authorityLexerFactory.Create();
+            var innerLexer = authorityLexerFactory.Create();
             return new AuthorityFormLexer(innerLexer);
         }
     }

@@ -20,7 +20,7 @@
 
         public ILexer<Pseudonym> Create()
         {
-            var innerLexer = this.tokenLexerFactory.Create();
+            var innerLexer = tokenLexerFactory.Create();
             return new PseudonymLexer(innerLexer);
         }
     }

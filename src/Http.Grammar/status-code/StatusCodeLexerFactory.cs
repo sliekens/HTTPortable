@@ -32,8 +32,8 @@
 
         public ILexer<StatusCode> Create()
         {
-            var digit = this.digitLexerFactory.Create();
-            var innerLexer = this.repetitionLexerFactory.Create(digit, 3, 3);
+            var digit = digitLexerFactory.Create();
+            var innerLexer = repetitionLexerFactory.Create(digit, 3, 3);
             return new StatusCodeLexer(innerLexer);
         }
     }

@@ -20,7 +20,7 @@
 
         public ILexer<BadWhiteSpace> Create()
         {
-            var innerLexer = this.optionalWhiteSpaceLexerFactory.Create();
+            var innerLexer = optionalWhiteSpaceLexerFactory.Create();
             return new BadWhiteSpaceLexer(innerLexer);
         }
     }

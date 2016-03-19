@@ -68,14 +68,14 @@
 
         public ILexer<Scheme> Create()
         {
-            var alpha = this.alphaLexerFactory.Create();
-            var digit = this.digitLexerFactory.Create();
-            var plus = this.terminalLexerFactory.Create(@"+", StringComparer.Ordinal);
-            var minus = this.terminalLexerFactory.Create(@"-", StringComparer.Ordinal);
-            var dot = this.terminalLexerFactory.Create(@".", StringComparer.Ordinal);
-            var alt = this.alternativeLexerFactory.Create(alpha, digit, plus, minus, dot);
-            var rep = this.repetitionLexerFactory.Create(alt, 0, int.MaxValue);
-            var innerLexer = this.concatenationLexerFactory.Create(alpha, rep);
+            var alpha = alphaLexerFactory.Create();
+            var digit = digitLexerFactory.Create();
+            var plus = terminalLexerFactory.Create(@"+", StringComparer.Ordinal);
+            var minus = terminalLexerFactory.Create(@"-", StringComparer.Ordinal);
+            var dot = terminalLexerFactory.Create(@".", StringComparer.Ordinal);
+            var alt = alternativeLexerFactory.Create(alpha, digit, plus, minus, dot);
+            var rep = repetitionLexerFactory.Create(alt, 0, int.MaxValue);
+            var innerLexer = concatenationLexerFactory.Create(alpha, rep);
             return new SchemeLexer(innerLexer);
         }
     }

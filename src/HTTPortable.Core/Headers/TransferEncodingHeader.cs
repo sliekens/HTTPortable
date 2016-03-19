@@ -14,7 +14,7 @@
         public TransferEncodingHeader(IList<string> transferCodings)
             : base(FieldName)
         {
-            this.AddRange(transferCodings);
+            AddRange(transferCodings);
         }
     }
 }

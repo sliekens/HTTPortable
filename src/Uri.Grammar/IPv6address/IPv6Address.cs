@@ -15,15 +15,15 @@
 
         public override string GetWellFormedText()
         {
-            return ConvertToIPv6Address(this.GetBytes());
+            return ConvertToIPv6Address(GetBytes());
         }
 
         private delegate byte[] BytesFactory();
         
         public byte[] GetBytes()
         {
-            var concatenation = (Concatenation)this.Element;
-            switch (this.Ordinal)
+            var concatenation = (Concatenation)Element;
+            switch (Ordinal)
             {
                 case 1:
                     return GetBytes1(concatenation);
@@ -429,7 +429,7 @@
             {
                 get
                 {
-                    return this.leftAlign;
+                    return leftAlign;
                 }
             }
 
@@ -437,22 +437,22 @@
             {
                 get
                 {
-                    return this.rightAlign;
+                    return rightAlign;
                 }
             }
 
             public byte[] GetResult()
             {
                 var result = new byte[16];
-                if (this.LeftAlign.Count != 0)
+                if (LeftAlign.Count != 0)
                 {
-                    var l = this.LeftAlign.SelectMany(factory => factory()).ToArray();
+                    var l = LeftAlign.SelectMany(factory => factory()).ToArray();
                     l.CopyTo(result, 0);
                 }
 
-                if (this.RightAlign.Count != 0)
+                if (RightAlign.Count != 0)
                 {
-                    var r = this.RightAlign.SelectMany(factory => factory()).ToArray();
+                    var r = RightAlign.SelectMany(factory => factory()).ToArray();
                     r.CopyTo(result, 16 - r.Length);
                 }
 

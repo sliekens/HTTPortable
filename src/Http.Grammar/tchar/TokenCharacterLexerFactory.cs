@@ -51,24 +51,24 @@
         public ILexer<TokenCharacter> Create()
         {
             var innerLexer =
-                this.alternativeLexerFactory.Create(
-                    this.terminalLexerFactory.Create(@"!", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"#", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"$", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"%", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"&", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"'", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"*", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"+", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"-", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@".", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"^", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"_", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"`", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"|", StringComparer.Ordinal),
-                    this.terminalLexerFactory.Create(@"~", StringComparer.Ordinal),
-                    this.digitLexerFactory.Create(),
-                    this.alphaLexerFactory.Create());
+                alternativeLexerFactory.Create(
+                    terminalLexerFactory.Create(@"!", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"#", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"$", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"%", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"&", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"'", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"*", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"+", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"-", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@".", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"^", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"_", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"`", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"|", StringComparer.Ordinal),
+                    terminalLexerFactory.Create(@"~", StringComparer.Ordinal),
+                    digitLexerFactory.Create(),
+                    alphaLexerFactory.Create());
             return new TokenCharacterLexer(innerLexer);
         }
     }

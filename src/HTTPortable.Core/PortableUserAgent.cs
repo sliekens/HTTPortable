@@ -7,8 +7,8 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Http.Grammar;
-    using Http.Headers;
+    using Grammar;
+    using Headers;
 
     using TextFx;
     using TextFx.ABNF;
@@ -53,19 +53,19 @@
         /// <summary>This method calls <see cref="Dispose(bool)" />, specifying <c>true</c> to release all resources.</summary>
         public void Close()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         public async Task ReceiveAsync(CancellationToken cancellationToken, OnResponseHeadersComplete callback = null)
         {
-            if (this.disposed)
+            if (disposed)
             {
-                throw new ObjectDisposedException(this.GetType().FullName);
+                throw new ObjectDisposedException(GetType().FullName);
             }
 
             ResponseMessage message;
-            using (var pushbackInputStream = new PushbackInputStream(this.inputStream))
+            using (var pushbackInputStream = new PushbackInputStream(inputStream))
             {
                 using (ITextScanner scanner = new TextScanner(new StreamTextSource(pushbackInputStream, Encoding.UTF8)))
                 {
@@ -145,12 +145,12 @@
         public async Task SendAsync(IRequestMessage message, CancellationToken cancellationToken,
             OnRequestHeadersComplete callback = null)
         {
-            if (this.disposed)
+            if (disposed)
             {
-                throw new ObjectDisposedException(this.GetType().FullName);
+                throw new ObjectDisposedException(GetType().FullName);
             }
 
-            using (var writer = new StreamWriter(this.outputStream, new UTF8Encoding(false), 512, true))
+            using (var writer = new StreamWriter(outputStream, new UTF8Encoding(false), 512, true))
             {
                 await WriteRequestLineAsync(writer, message).ConfigureAwait(false);
                 await WriteHeadersAsync(writer, message.Headers).ConfigureAwait(false);
@@ -187,7 +187,7 @@
         /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         void IDisposable.Dispose()
         {
-            this.Close();
+            Close();
         }
 
         /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
@@ -197,18 +197,18 @@
         /// </param>
         protected virtual void Dispose(bool disposing)
         {
-            if (this.disposed)
+            if (disposed)
             {
                 return;
             }
 
             if (disposing)
             {
-                this.inputStream.Dispose();
-                this.outputStream.Dispose();
+                inputStream.Dispose();
+                outputStream.Dispose();
             }
 
-            this.disposed = true;
+            disposed = true;
         }
 
         /// <summary>

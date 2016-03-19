@@ -59,22 +59,22 @@
         public ILexer<PathRootless> Create()
         {
             // "/"
-            var a = this.terminalLexerFactory.Create(@"/", StringComparer.Ordinal);
+            var a = terminalLexerFactory.Create(@"/", StringComparer.Ordinal);
 
             // segment
-            var b = this.segmentLexerFactory.Create();
+            var b = segmentLexerFactory.Create();
 
             // "/" segment
-            var c = this.concatenationLexerFactory.Create(a, b);
+            var c = concatenationLexerFactory.Create(a, b);
 
             // *( "/" segment )
-            var d = this.repetitionLexerFactory.Create(c, 0, int.MaxValue);
+            var d = repetitionLexerFactory.Create(c, 0, int.MaxValue);
 
             // segment-nz
-            var e = this.segmentNonZeroLengthLexerFactory.Create();
+            var e = segmentNonZeroLengthLexerFactory.Create();
 
             // segment-nz *( "/" segment )
-            var f = this.concatenationLexerFactory.Create(e, d);
+            var f = concatenationLexerFactory.Create(e, d);
 
             // path-rootless
             return new PathRootlessLexer(f);

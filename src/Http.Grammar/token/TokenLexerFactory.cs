@@ -29,8 +29,8 @@
 
         public ILexer<Token> Create()
         {
-            var innerLexer = this.repetitionLexerFactory.Create(
-                this.tokenCharacterLexerFactory.Create(),
+            var innerLexer = repetitionLexerFactory.Create(
+                tokenCharacterLexerFactory.Create(),
                 1,
                 int.MaxValue);
             return new TokenLexer(innerLexer);

@@ -42,7 +42,7 @@
         {
             get
             {
-                return this.headers;
+                return headers;
             }
         }
 
@@ -50,7 +50,7 @@
         {
             get
             {
-                return this.httpVersion;
+                return httpVersion;
             }
         }
 
@@ -58,7 +58,7 @@
         {
             get
             {
-                return this.method;
+                return method;
             }
         }
 
@@ -66,7 +66,7 @@
         {
             get
             {
-                return this.requestUri;
+                return requestUri;
             }
         }
     }

@@ -22,7 +22,7 @@
 
         public ILexer<AbsoluteForm> Create()
         {
-            var innerLexer = this.absoluteUriLexerFactory.Create();
+            var innerLexer = absoluteUriLexerFactory.Create();
             return new AbsoluteFormLexer(innerLexer);
         }
     }

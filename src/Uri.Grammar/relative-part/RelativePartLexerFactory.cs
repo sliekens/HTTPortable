@@ -85,14 +85,14 @@
 
         public ILexer<RelativePart> Create()
         {
-            var delim = this.terminalLexerFactory.Create(@"//", StringComparer.Ordinal);
-            var authority = this.authorityLexerFactory.Create();
-            var pathAbEmpty = this.pathAbsoluteOrEmptyLexerFactory.Create();
-            var seq = this.concatenationLexerFactory.Create(delim, authority, pathAbEmpty);
-            var pathAbsolute = this.pathAbsoluteLexerFactory.Create();
-            var pathNoScheme = this.pathNoSchemeLexerFactory.Create();
-            var pathEmpty = this.pathEmptyLexerFactory.Create();
-            var innerLexer = this.alternativeLexerFactory.Create(seq, pathAbsolute, pathNoScheme, pathEmpty);
+            var delim = terminalLexerFactory.Create(@"//", StringComparer.Ordinal);
+            var authority = authorityLexerFactory.Create();
+            var pathAbEmpty = pathAbsoluteOrEmptyLexerFactory.Create();
+            var seq = concatenationLexerFactory.Create(delim, authority, pathAbEmpty);
+            var pathAbsolute = pathAbsoluteLexerFactory.Create();
+            var pathNoScheme = pathNoSchemeLexerFactory.Create();
+            var pathEmpty = pathEmptyLexerFactory.Create();
+            var innerLexer = alternativeLexerFactory.Create(seq, pathAbsolute, pathNoScheme, pathEmpty);
             return new RelativePartLexer(innerLexer);
         }
     }

@@ -67,12 +67,12 @@
 
         public ILexer<UserInformation> Create()
         {
-            var unreserved = this.unreservedLexerFactory.Create();
-            var pctEncoding = this.percentEncodingLexerFactory.Create();
-            var subDelims = this.subcomponentsDelimiterLexerFactory.Create();
-            var colon = this.terminalLexerFactory.Create(@":", StringComparer.Ordinal);
-            var alt = this.alternativeLexerFactory.Create(unreserved, pctEncoding, subDelims, colon);
-            var innerLexer = this.repetitionLexerFactory.Create(alt, 0, int.MaxValue);
+            var unreserved = unreservedLexerFactory.Create();
+            var pctEncoding = percentEncodingLexerFactory.Create();
+            var subDelims = subcomponentsDelimiterLexerFactory.Create();
+            var colon = terminalLexerFactory.Create(@":", StringComparer.Ordinal);
+            var alt = alternativeLexerFactory.Create(unreserved, pctEncoding, subDelims, colon);
+            var innerLexer = repetitionLexerFactory.Create(alt, 0, int.MaxValue);
             return new UserInformationLexer(innerLexer);
         }
     }

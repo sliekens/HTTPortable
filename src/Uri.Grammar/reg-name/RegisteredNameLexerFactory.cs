@@ -60,13 +60,13 @@
         {
             ILexer[] a =
                 {
-                    this.unreservedLexerFactory.Create(), this.percentEncodingLexerFactory.Create(),
-                    this.subcomponentsDelimiterLexerFactory.Create()
+                    unreservedLexerFactory.Create(), percentEncodingLexerFactory.Create(),
+                    subcomponentsDelimiterLexerFactory.Create()
                 };
 
-            var b = this.alternativeLexerFactory.Create(a);
+            var b = alternativeLexerFactory.Create(a);
 
-            var c = this.repetitionLexerFactory.Create(b, 0, int.MaxValue);
+            var c = repetitionLexerFactory.Create(b, 0, int.MaxValue);
 
             return new RegisteredNameLexer(c);
         }

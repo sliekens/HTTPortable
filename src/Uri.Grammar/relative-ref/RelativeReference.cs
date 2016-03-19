@@ -15,7 +15,7 @@
         {
             get
             {
-                var optionalFragmentPart = (Repetition)this.Elements[4];
+                var optionalFragmentPart = (Repetition)Elements[4];
                 if (optionalFragmentPart.Elements.Count == 0)
                 {
                     return null;
@@ -30,7 +30,7 @@
         {
             get
             {
-                var optionalQueryPart = (Repetition)this.Elements[3];
+                var optionalQueryPart = (Repetition)Elements[3];
                 if (optionalQueryPart.Elements.Count == 0)
                 {
                     return null;
@@ -45,8 +45,8 @@
         {
             get
             {
-                Debug.Assert(this.Elements[0] is RelativePart, "this.Elements[0] is RelativePart");
-                return (RelativePart)this.Elements[0];
+                Debug.Assert(Elements[0] is RelativePart, "this.Elements[0] is RelativePart");
+                return (RelativePart)Elements[0];
             }
         }
     }

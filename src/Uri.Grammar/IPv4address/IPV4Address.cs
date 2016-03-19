@@ -13,7 +13,7 @@
 
         public byte[] GetBytes()
         {
-            var octets = this.Elements.OfType<DecimalOctet>();
+            var octets = Elements.OfType<DecimalOctet>();
             return octets.Select(octet => octet.ToByte()).ToArray();
         }
     }
