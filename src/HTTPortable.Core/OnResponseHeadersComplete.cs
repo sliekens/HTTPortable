@@ -1,9 +1,9 @@
-﻿namespace Http
-{
-    using System.IO;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
+namespace HTTPortable.Core
+{
     /// <summary>Represents the method that is called after a response's headers have been read.</summary>
     /// <param name="responseMessage">The object that describes the response and its headers.</param>
     /// <param name="responseStream">The <see cref="T:System.IO.Stream" /> to read a message body from.</param>

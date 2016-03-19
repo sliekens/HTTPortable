@@ -1,10 +1,10 @@
-﻿namespace Http
-{
-    using System;
-    using System.IO;
-    using System.Text;
-    using System.Threading.Tasks;
+﻿using System;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 
+namespace HTTPortable.Core
+{
     /// <summary>
     /// Implements a <see cref="T:System.IO.TextReader"/> that reads characters from a byte stream. This reader is suitable for reading text transfer protocols that only use characters in the US ASCII set (e.g. HTTP).
     /// Unlike its framework counterpart, this reader does not support multibyte character encodings. This reader also does not buffer the stream internally. The implication for streams that support seeking is that the reader and the underlying stream do not require manual synchronization after seeking.
@@ -24,14 +24,14 @@
         private readonly Stream stream;
         private bool disposed;
 
-        /// <summary>Initializes a new instance of the <see cref="M:Http.SimpleStreamReader.#ctor(System.IO.Stream)"/> class with a specified <see cref="T:System.IO.Stream"/> and a default buffer size.</summary>
+        /// <summary>Initializes a new instance of the <see cref="M:HTTPortable.Core.SimpleStreamReader.#ctor(System.IO.Stream)"/> class with a specified <see cref="T:System.IO.Stream"/> and a default buffer size.</summary>
         /// <param name="stream">The <see cref="T:System.IO.Stream"/> to read.</param>
         public SimpleStreamReader(Stream stream)
             : this(stream, DefaultBufferSize)
         {
         }
 
-        /// <summary>Initializes a new instance of the <see cref="M:Http.SimpleStreamReader.#ctor(System.IO.Stream)"/> class with a specified <see cref="T:System.IO.Stream"/> and buffer size.</summary>
+        /// <summary>Initializes a new instance of the <see cref="M:HTTPortable.Core.SimpleStreamReader.#ctor(System.IO.Stream)"/> class with a specified <see cref="T:System.IO.Stream"/> and buffer size.</summary>
         /// <param name="stream">The <see cref="T:System.IO.Stream"/> to read.</param>
         /// <param name="bufferSize">The buffer size to use for <see cref="ReadToEnd"/> and <see cref="ReadToEndAsync"/>.</param>
         public SimpleStreamReader(Stream stream, long bufferSize)

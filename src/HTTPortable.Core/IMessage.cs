@@ -1,7 +1,7 @@
-﻿namespace Http
-{
-    using System;
+﻿using System;
 
+namespace HTTPortable.Core
+{
     /// <summary>Provides the interface for types that represent request or response messages.</summary>
     public interface IMessage
     {

@@ -1,4 +1,4 @@
-﻿namespace Http
+﻿namespace HTTPortable.Core
 {
     public interface IRequestMessage : IMessage
     {

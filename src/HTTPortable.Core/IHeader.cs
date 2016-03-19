@@ -1,7 +1,7 @@
-﻿namespace Http
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace HTTPortable.Core
+{
     /// <summary>Provides the interface for types that represent a request or response header.</summary>
     public interface IHeader : IList<string>
     {

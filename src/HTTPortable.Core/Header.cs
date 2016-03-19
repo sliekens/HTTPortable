@@ -1,15 +1,15 @@
-﻿namespace Http
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
+namespace HTTPortable.Core
+{
     /// <summary>Represents a request or response header.</summary>
     [DebuggerDisplay("Count = {Count}", Name = "{Name}")]
     [DebuggerTypeProxy(typeof(HeaderDebugView))]
     public class Header : List<string>, IHeader
     {
-        /// <summary>Initializes a new instance of the <see cref="T:Http.Header" /> class with a specified header name.</summary>
+        /// <summary>Initializes a new instance of the <see cref="T:HTTPortable.Core.Header" /> class with a specified header name.</summary>
         /// <param name="name">The name of the header.</param>
         public Header(string name)
             : this(name, false)
@@ -17,7 +17,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Http.Header" /> class with a specified header name and an
+        /// Initializes a new instance of the <see cref="T:HTTPortable.Core.Header" /> class with a specified header name and an
         /// additional value that indicates whether the header is required.
         /// </summary>
         /// <param name="name">The name of the header.</param>

@@ -1,14 +1,13 @@
-﻿namespace Http
+﻿using System;
+using System.Globalization;
+using System.Linq;
+using Http.Grammar;
+using HTTPortable.Core.Headers;
+using TextFx;
+
+namespace HTTPortable.Core
 {
-    using System;
-    using System.Globalization;
-    using System.Linq;
-    using Grammar;
-    using Headers;
-
-    using TextFx;
-
-    /// <summary>Provides extension methods for the <see cref="T:Http.IHeaderCollection" /> interface.</summary>
+    /// <summary>Provides extension methods for the <see cref="T:HTTPortable.Core.IHeaderCollection" /> interface.</summary>
     public static class ExtensionsForIHeaderCollection
     {
         /// <summary>

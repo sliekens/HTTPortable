@@ -1,13 +1,14 @@
-﻿namespace Http.Tcp
-{
-    using System;
-    using System.IO;
-    using System.Net;
-    using System.Net.Security;
-    using System.Net.Sockets;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System;
+using System.IO;
+using System.Net;
+using System.Net.Security;
+using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
+using HTTPortable.Core;
 
+namespace HTTPortable.Tcp
+{
     public class UserAgentFactory : IUserAgentFactory
     {
         /// <inheritdoc />

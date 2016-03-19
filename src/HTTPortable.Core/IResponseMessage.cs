@@ -1,4 +1,4 @@
-﻿namespace Http
+﻿namespace HTTPortable.Core
 {
     /// <summary>Provides the interface for response messages.</summary>
     public interface IResponseMessage : IMessage

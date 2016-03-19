@@ -1,7 +1,7 @@
-﻿namespace Http.Headers
-{
-    using System.Globalization;
+﻿using System.Globalization;
 
+namespace HTTPortable.Core.Headers
+{
     public class ContentLengthHeader : Header
     {
         public const string FieldName = "Content-Length";

@@ -1,10 +1,10 @@
-﻿namespace Http
-{
-    using System;
-    using System.Net;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 
+namespace HTTPortable.Core
+{
     /// <summary>A user agent factory class that creates and configures user agents for a proxy server.</summary>
     public class ProxyUserAgentFactory : IUserAgentFactory
     {

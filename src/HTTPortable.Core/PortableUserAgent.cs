@@ -1,19 +1,17 @@
-﻿namespace Http
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Http.Grammar;
+using HTTPortable.Core.Headers;
+using TextFx;
+using TextFx.ABNF;
+using TextFx.ABNF.Core;
+
+namespace HTTPortable.Core
 {
-    using System;
-    using System.IO;
-    using System.Linq;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
-
-    using Grammar;
-    using Headers;
-
-    using TextFx;
-    using TextFx.ABNF;
-    using TextFx.ABNF.Core;
-
     public class PortableUserAgent : IUserAgent
     {
         private readonly Stream inputStream;

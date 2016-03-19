@@ -1,13 +1,11 @@
-﻿namespace HTTPortable.Tcp.Tests
+﻿using HTTPortable.Core;
+
+namespace HTTPortable.Tcp.Tests
 {
     using System;
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
-
-    using Http;
-    using Http.Tcp;
-
     using Xunit;
 
     public class IntegrationTests

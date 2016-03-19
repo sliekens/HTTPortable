@@ -1,7 +1,7 @@
-namespace Http
-{
-    using System;
+using System;
 
+namespace HTTPortable.Core
+{
     public class ResponseMessage : IResponseMessage
     {
         public ResponseMessage(Version httpVersion, int status, string reason)

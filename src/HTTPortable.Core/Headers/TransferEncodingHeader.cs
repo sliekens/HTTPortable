@@ -1,7 +1,7 @@
-﻿namespace Http.Headers
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace HTTPortable.Core.Headers
+{
     public class TransferEncodingHeader : Header
     {
         public const string FieldName = "Transfer-Encoding";

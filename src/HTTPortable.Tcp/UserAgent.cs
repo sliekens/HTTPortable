@@ -1,7 +1,8 @@
-﻿namespace Http.Tcp
-{
-    using System.IO;
+﻿using System.IO;
+using HTTPortable.Core;
 
+namespace HTTPortable.Tcp
+{
     public class UserAgent : PortableUserAgent
     {
         public UserAgent(Stream stream)

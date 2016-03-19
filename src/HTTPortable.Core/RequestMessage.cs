@@ -1,7 +1,7 @@
-﻿namespace Http
-{
-    using System;
+﻿using System;
 
+namespace HTTPortable.Core
+{
     public class RequestMessage : IRequestMessage
     {
         public RequestMessage(string method, string requestUri, Version httpVersion)

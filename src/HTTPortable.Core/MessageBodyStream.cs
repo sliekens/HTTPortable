@@ -1,9 +1,9 @@
-﻿namespace Http
-{
-    using System;
-    using System.IO;
-    using System.Threading;
+﻿using System;
+using System.IO;
+using System.Threading;
 
+namespace HTTPortable.Core
+{
     public class MessageBodyStream : Stream
     {
         private readonly long contentLength;

@@ -1,9 +1,9 @@
-﻿namespace Http
-{
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
+namespace HTTPortable.Core
+{
     /// <summary>Provides the interface for factory classes that create instances of classes that implement the
     /// <see cref="IUserAgent" /> interface.</summary>
     public interface IUserAgentFactory
