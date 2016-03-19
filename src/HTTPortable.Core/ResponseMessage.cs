@@ -4,12 +4,6 @@ namespace Http
 
     public class ResponseMessage : IResponseMessage
     {
-        private readonly IHeaderCollection headers;
-        private readonly Version httpVersion;
-        private readonly string reason;
-        private readonly int status;
-
-
         public ResponseMessage(Version httpVersion, int status, string reason)
             : this(httpVersion, status, new HeaderCollection(), reason)
         {
@@ -33,45 +27,21 @@ namespace Http
             {
                 throw new ArgumentException("Argument is null or whitespace", nameof(reason));
             }
-            this.httpVersion = httpVersion;
-            this.headers = headers;
-            this.reason = reason;
-            this.status = status;
+            HttpVersion = httpVersion;
+            Headers = headers;
+            Reason = reason;
+            Status = status;
         }
 
-        public IHeaderCollection Headers
-        {
-            get
-            {
-                return headers;
-            }
-        }
+        public IHeaderCollection Headers { get; }
 
         /// <inheritdoc />
-        public Version HttpVersion
-        {
-            get
-            {
-                return httpVersion;
-            }
-        }
+        public Version HttpVersion { get; }
 
         /// <inheritdoc />
-        public string Reason
-        {
-            get
-            {
-                return reason;
-            }
-        }
+        public string Reason { get; }
 
         /// <inheritdoc />
-        public int Status
-        {
-            get
-            {
-                return status;
-            }
-        }
+        public int Status { get; }
     }
 }

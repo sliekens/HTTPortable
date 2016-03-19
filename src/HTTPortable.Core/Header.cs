@@ -9,9 +9,6 @@
     [DebuggerTypeProxy(typeof(HeaderDebugView))]
     public class Header : List<string>, IHeader
     {
-        private readonly string name;
-        private readonly bool required;
-
         /// <summary>Initializes a new instance of the <see cref="T:Http.Header" /> class with a specified header name.</summary>
         /// <param name="name">The name of the header.</param>
         public Header(string name)
@@ -32,27 +29,15 @@
             {
                 throw new ArgumentException("Argument is null or empty", nameof(name));
             }
-            this.name = name;
-            this.required = required;
+            Name = name;
+            Required = required;
         }
 
         /// <inheritdoc />
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-        }
+        public string Name { get; }
 
         /// <inheritdoc />
-        public bool Required
-        {
-            get
-            {
-                return required;
-            }
-        }
+        public bool Required { get; }
 
         [DebuggerDisplay("{Values}")]
         private class HeaderDebugView
@@ -65,13 +50,7 @@
             }
 
             [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-            public string[] Values
-            {
-                get
-                {
-                    return header.ToArray();
-                }
-            }
+            public string[] Values => header.ToArray();
         }
     }
 }

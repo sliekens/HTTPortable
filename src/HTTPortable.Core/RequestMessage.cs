@@ -4,11 +4,6 @@
 
     public class RequestMessage : IRequestMessage
     {
-        private readonly IHeaderCollection headers;
-        private readonly Version httpVersion;
-        private readonly string method;
-        private readonly string requestUri;
-
         public RequestMessage(string method, string requestUri, Version httpVersion)
             : this(method, requestUri, httpVersion, new HeaderCollection())
         {
@@ -32,42 +27,18 @@
             {
                 throw new ArgumentNullException(nameof(headers));
             }
-            this.method = method;
-            this.requestUri = requestUri;
-            this.httpVersion = httpVersion;
-            this.headers = headers;
+            Method = method;
+            RequestUri = requestUri;
+            HttpVersion = httpVersion;
+            Headers = headers;
         }
 
-        public IHeaderCollection Headers
-        {
-            get
-            {
-                return headers;
-            }
-        }
+        public IHeaderCollection Headers { get; }
 
-        public Version HttpVersion
-        {
-            get
-            {
-                return httpVersion;
-            }
-        }
+        public Version HttpVersion { get; }
 
-        public string Method
-        {
-            get
-            {
-                return method;
-            }
-        }
+        public string Method { get; }
 
-        public string RequestUri
-        {
-            get
-            {
-                return requestUri;
-            }
-        }
+        public string RequestUri { get; }
     }
 }

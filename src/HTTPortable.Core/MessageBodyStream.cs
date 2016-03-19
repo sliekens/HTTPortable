@@ -22,40 +22,16 @@
         }
 
         /// <inheritdoc />
-        public override bool CanRead
-        {
-            get
-            {
-                return messageBody.CanRead;
-            }
-        }
+        public override bool CanRead => messageBody.CanRead;
 
         /// <inheritdoc />
-        public override bool CanSeek
-        {
-            get
-            {
-                return messageBody.CanSeek;
-            }
-        }
+        public override bool CanSeek => messageBody.CanSeek;
 
         /// <inheritdoc />
-        public override bool CanWrite
-        {
-            get
-            {
-                return messageBody.CanWrite;
-            }
-        }
+        public override bool CanWrite => messageBody.CanWrite;
 
         /// <inheritdoc />
-        public override long Length
-        {
-            get
-            {
-                return contentLength;
-            }
-        }
+        public override long Length => contentLength;
 
         /// <inheritdoc />
         public override long Position

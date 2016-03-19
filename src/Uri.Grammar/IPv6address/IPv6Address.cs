@@ -421,25 +421,9 @@
 
         private class BytesFactoryContext
         {
-            private readonly IList<BytesFactory> leftAlign = new List<BytesFactory>();
+            public IList<BytesFactory> LeftAlign { get; } = new List<BytesFactory>();
 
-            private readonly IList<BytesFactory> rightAlign = new List<BytesFactory>();
-
-            public IList<BytesFactory> LeftAlign
-            {
-                get
-                {
-                    return leftAlign;
-                }
-            }
-
-            public IList<BytesFactory> RightAlign
-            {
-                get
-                {
-                    return rightAlign;
-                }
-            }
+            public IList<BytesFactory> RightAlign { get; } = new List<BytesFactory>();
 
             public byte[] GetResult()
             {

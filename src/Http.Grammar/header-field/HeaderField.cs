@@ -9,20 +9,8 @@
         {
         }
 
-        public FieldName FieldName
-        {
-            get
-            {
-                return (FieldName)Elements[0];
-            }
-        }
+        public FieldName FieldName => (FieldName)Elements[0];
 
-        public FieldValue FieldValue
-        {
-            get
-            {
-                return (FieldValue)Elements[3];
-            }
-        }
+        public FieldValue FieldValue => (FieldValue)Elements[3];
     }
 }
