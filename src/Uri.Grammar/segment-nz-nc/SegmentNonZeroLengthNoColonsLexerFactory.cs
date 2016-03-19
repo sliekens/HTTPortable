@@ -82,7 +82,7 @@
                 percentEncodingLexerFactory.Create(),
                 subcomponentsDelimiterLexerFactory.Create(),
                 terminalLexerFactory.Create(@"@", StringComparer.Ordinal));
-            var segmentNonZeroLengthNoColonsRepetitionLexer = repetitionLexerFactory.Create(alternativeLexer, 1, Int32.MaxValue);
+            var segmentNonZeroLengthNoColonsRepetitionLexer = repetitionLexerFactory.Create(alternativeLexer, 1, int.MaxValue);
             return new SegmentNonZeroLengthNoColonsLexer(segmentNonZeroLengthNoColonsRepetitionLexer);
         }
     }
