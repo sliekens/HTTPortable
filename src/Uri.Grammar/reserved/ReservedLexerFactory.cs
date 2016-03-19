@@ -17,17 +17,17 @@
         {
             if (genericDelimiterLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(genericDelimiterLexerFactory), "Precondition: genericDelimiterLexerFactory != null");
+                throw new ArgumentNullException(nameof(genericDelimiterLexerFactory));
             }
 
             if (subcomponentsDelimiterLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(subcomponentsDelimiterLexerFactory), "Precondition: subcomponentsDelimiterLexerFactory != null");
+                throw new ArgumentNullException(nameof(subcomponentsDelimiterLexerFactory));
             }
 
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(alternativeLexerFactory), "Precondition: alternativeLexerFactory != null");
+                throw new ArgumentNullException(nameof(alternativeLexerFactory));
             }
 
             this.genericDelimiterLexerFactory = genericDelimiterLexerFactory;

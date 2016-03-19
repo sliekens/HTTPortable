@@ -18,17 +18,17 @@
         {
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(terminalLexerFactory), "Precondition: terminalLexerFactory != null");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             if (hexadecimalDigitLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(hexadecimalDigitLexerFactory), "Precondition: hexadecimalDigitLexerFactory != null");
+                throw new ArgumentNullException(nameof(hexadecimalDigitLexerFactory));
             }
 
             if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory), "Precondition: concatenationLexerFactory != null");
+                throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
 
             this.terminalLexerFactory = terminalLexerFactory;

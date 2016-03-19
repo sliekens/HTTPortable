@@ -70,7 +70,7 @@ namespace HTTPortable.Core
 
             if (buffer == null)
             {
-                throw new ArgumentNullException(nameof(buffer), "Precondition: buffer != null");
+                throw new ArgumentNullException(nameof(buffer));
             }
 
             if (offset + count > buffer.Length)
@@ -197,7 +197,7 @@ namespace HTTPortable.Core
 
             if (buffer == null)
             {
-                throw new ArgumentNullException(nameof(buffer), "Precondition: buffer != null");
+                throw new ArgumentNullException(nameof(buffer));
             }
 
             if (offset + count > buffer.Length)

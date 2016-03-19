@@ -15,12 +15,12 @@
         {
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(terminalLexerFactory), "Precondition: terminalLexerFactory != null");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(alternativeLexerFactory), "Precondition: alternativeLexerFactory != null");
+                throw new ArgumentNullException(nameof(alternativeLexerFactory));
             }
 
             this.terminalLexerFactory = terminalLexerFactory;

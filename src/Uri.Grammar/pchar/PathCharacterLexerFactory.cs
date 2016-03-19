@@ -21,27 +21,27 @@
         {
             if (unreservedLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(unreservedLexerFactory), "Precondition: unreservedLexerFactory != null");
+                throw new ArgumentNullException(nameof(unreservedLexerFactory));
             }
 
             if (percentEncodingLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(percentEncodingLexerFactory), "Precondition: percentEncodingLexerFactory != null");
+                throw new ArgumentNullException(nameof(percentEncodingLexerFactory));
             }
 
             if (subcomponentsDelimiterLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(subcomponentsDelimiterLexerFactory), "Precondition: subcomponentsDelimiterLexerFactory != null");
+                throw new ArgumentNullException(nameof(subcomponentsDelimiterLexerFactory));
             }
 
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(terminalLexerFactory), "Precondition: terminalLexerFactory != null");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(alternativeLexerFactory), "Precondition: alternativeLexerFactory != null");
+                throw new ArgumentNullException(nameof(alternativeLexerFactory));
             }
 
             this.unreservedLexerFactory = unreservedLexerFactory;

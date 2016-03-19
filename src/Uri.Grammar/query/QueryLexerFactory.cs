@@ -19,22 +19,22 @@
         {
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(alternativeLexerFactory), "Precondition: alternativeLexerFactory != null");
+                throw new ArgumentNullException(nameof(alternativeLexerFactory));
             }
 
             if (pathCharacterLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(pathCharacterLexerFactory), "Precondition: pathCharacterLexerFactory != null");
+                throw new ArgumentNullException(nameof(pathCharacterLexerFactory));
             }
 
             if (repetitionLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(repetitionLexerFactory), "Precondition: repetitionLexerFactory != null");
+                throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
 
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(terminalLexerFactory), "Precondition: terminalLexerFactory != null");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             this.alternativeLexerFactory = alternativeLexerFactory;
