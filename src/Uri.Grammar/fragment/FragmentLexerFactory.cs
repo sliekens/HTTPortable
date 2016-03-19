@@ -34,7 +34,7 @@
 
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("stringLexerFactory", "Precondition: stringLexerFactory != null");
+                throw new ArgumentNullException(nameof(terminalLexerFactory), "Precondition: terminalLexerFactory != null");
             }
 
             this.alternativeLexerFactory = alternativeLexerFactory;
