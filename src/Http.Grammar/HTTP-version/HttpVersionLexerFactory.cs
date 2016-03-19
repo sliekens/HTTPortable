@@ -24,22 +24,22 @@
         {
             if (ConcatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("ConcatenationLexerFactory");
+                throw new ArgumentNullException(nameof(ConcatenationLexerFactory));
             }
 
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("terminalLexerFactory");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             if (httpNameLexerFactory == null)
             {
-                throw new ArgumentNullException("httpNameLexerFactory");
+                throw new ArgumentNullException(nameof(httpNameLexerFactory));
             }
 
             if (digitLexerFactory == null)
             {
-                throw new ArgumentNullException("digitLexerFactory");
+                throw new ArgumentNullException(nameof(digitLexerFactory));
             }
 
             this.ConcatenationLexerFactory = ConcatenationLexerFactory;

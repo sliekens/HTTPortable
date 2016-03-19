@@ -26,27 +26,27 @@
         {
             if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("concatenationLexerFactory");
+                throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
 
             if (repetitionLexerFactory == null)
             {
-                throw new ArgumentNullException("repetitionLexerFactory");
+                throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
 
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("terminalLexerFactory");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             if (segmentLexerFactory == null)
             {
-                throw new ArgumentNullException("segmentLexerFactory");
+                throw new ArgumentNullException(nameof(segmentLexerFactory));
             }
 
             if (segmentNonZeroLengthNoColonsLexerFactory == null)
             {
-                throw new ArgumentNullException("segmentNonZeroLengthNoColonsLexerFactory");
+                throw new ArgumentNullException(nameof(segmentNonZeroLengthNoColonsLexerFactory));
             }
 
             this.concatenationLexerFactory = concatenationLexerFactory;

@@ -13,7 +13,7 @@
         {
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("terminalLexerFactory");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             this.terminalLexerFactory = terminalLexerFactory;

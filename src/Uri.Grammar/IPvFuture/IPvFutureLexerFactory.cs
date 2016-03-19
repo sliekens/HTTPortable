@@ -33,37 +33,37 @@
         {
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("terminalLexerFactory");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             if (repetitionLexerFactory == null)
             {
-                throw new ArgumentNullException("repetitionLexerFactory");
+                throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
 
             if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("concatenationLexerFactory");
+                throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
 
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException("alternativeLexerFactory");
+                throw new ArgumentNullException(nameof(alternativeLexerFactory));
             }
 
             if (hexadecimalDigitLexerFactory == null)
             {
-                throw new ArgumentNullException("hexadecimalDigitLexerFactory");
+                throw new ArgumentNullException(nameof(hexadecimalDigitLexerFactory));
             }
 
             if (unreservedLexerFactory == null)
             {
-                throw new ArgumentNullException("unreservedLexerFactory");
+                throw new ArgumentNullException(nameof(unreservedLexerFactory));
             }
 
             if (subcomponentsDelimiterLexerFactory == null)
             {
-                throw new ArgumentNullException("subcomponentsDelimiterLexerFactory");
+                throw new ArgumentNullException(nameof(subcomponentsDelimiterLexerFactory));
             }
 
             this.terminalLexerFactory = terminalLexerFactory;

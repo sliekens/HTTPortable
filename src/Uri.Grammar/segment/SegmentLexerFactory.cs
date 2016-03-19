@@ -15,12 +15,12 @@
         {
             if (pathCharacterLexerFactory == null)
             {
-                throw new ArgumentNullException("pathCharacterLexerFactory", "Precondition: pathCharacterLexerFactory != null");
+                throw new ArgumentNullException(nameof(pathCharacterLexerFactory), "Precondition: pathCharacterLexerFactory != null");
             }
 
             if (repetitionLexerFactory == null)
             {
-                throw new ArgumentNullException("repetitionLexerFactory", "Precondition: repetitionLexerFactory != null");
+                throw new ArgumentNullException(nameof(repetitionLexerFactory), "Precondition: repetitionLexerFactory != null");
             }
 
             this.pathCharacterLexerFactory = pathCharacterLexerFactory;

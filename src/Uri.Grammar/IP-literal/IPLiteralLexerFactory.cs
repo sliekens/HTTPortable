@@ -26,27 +26,27 @@
         {
             if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("concatenationLexerFactory");
+                throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
 
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException("alternativeLexerFactory");
+                throw new ArgumentNullException(nameof(alternativeLexerFactory));
             }
 
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("terminalLexerFactory");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             if (ipv6AddressLexerFactory == null)
             {
-                throw new ArgumentNullException("ipv6AddressLexerFactory");
+                throw new ArgumentNullException(nameof(ipv6AddressLexerFactory));
             }
 
             if (ipvFutureLexerFactory == null)
             {
-                throw new ArgumentNullException("ipvFutureLexerFactory");
+                throw new ArgumentNullException(nameof(ipvFutureLexerFactory));
             }
 
             this.concatenationLexerFactory = concatenationLexerFactory;

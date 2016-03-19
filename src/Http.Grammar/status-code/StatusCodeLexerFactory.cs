@@ -18,12 +18,12 @@
         {
             if (repetitionLexerFactory == null)
             {
-                throw new ArgumentNullException("repetitionLexerFactory");
+                throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
 
             if (digitLexerFactory == null)
             {
-                throw new ArgumentNullException("digitLexerFactory");
+                throw new ArgumentNullException(nameof(digitLexerFactory));
             }
 
             this.repetitionLexerFactory = repetitionLexerFactory;

@@ -30,35 +30,35 @@
             if (repetitionLexerFactory == null)
             {
                 throw new ArgumentNullException(
-                    "repetitionLexerFactory",
+                    nameof(repetitionLexerFactory),
                     "Precondition: repetitionLexerFactory != null");
             }
 
             if (alternativeLexerFactory == null)
             {
                 throw new ArgumentNullException(
-                    "alternativeLexerFactory",
+                    nameof(alternativeLexerFactory),
                     "Precondition: alternativeLexerFactory != null");
             }
 
             if (unreservedLexerFactory == null)
             {
                 throw new ArgumentNullException(
-                    "unreservedLexerFactory",
+                    nameof(unreservedLexerFactory),
                     "Precondition: unreservedLexerFactory != null");
             }
 
             if (percentEncodingLexerFactory == null)
             {
                 throw new ArgumentNullException(
-                    "percentEncodingLexerFactory",
+                    nameof(percentEncodingLexerFactory),
                     "Precondition: percentEncodingLexerFactory != null");
             }
 
             if (subcomponentsDelimiterLexerFactory == null)
             {
                 throw new ArgumentNullException(
-                    "subcomponentsDelimiterLexerFactory",
+                    nameof(subcomponentsDelimiterLexerFactory),
                     "Precondition: subcomponentsDelimiterLexerFactory != null");
             }
 

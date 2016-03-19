@@ -147,19 +147,19 @@
             // Ensure that 'buffer' is not a null reference
             if (buffer == null)
             {
-                throw new ArgumentNullException("buffer");
+                throw new ArgumentNullException(nameof(buffer));
             }
 
             // Ensure that 'index' is positive
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException("index", index, "The value of 'index' must be positive.");
+                throw new ArgumentOutOfRangeException(nameof(index), index, "The value of 'index' must be positive.");
             }
 
             // Ensure that 'count' is positive
             if (count < 0)
             {
-                throw new ArgumentOutOfRangeException("count", count, "The value of 'count' must be positive.");
+                throw new ArgumentOutOfRangeException(nameof(count), count, "The value of 'count' must be positive.");
             }
 
             // Ensure that the buffer can hold the requested number of characters
@@ -167,7 +167,7 @@
             {
                 throw new ArgumentException(
                     "The buffer is too small to hold the requested number of characters starting at the given index", 
-                    "buffer");
+                    nameof(buffer));
             }
 
             var bytes = new byte[count];
@@ -207,19 +207,19 @@
             // Ensure that 'buffer' is not a null reference
             if (buffer == null)
             {
-                throw new ArgumentNullException("buffer");
+                throw new ArgumentNullException(nameof(buffer));
             }
 
             // Ensure that 'index' is positive
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException("index", index, "The value of 'index' must be positive.");
+                throw new ArgumentOutOfRangeException(nameof(index), index, "The value of 'index' must be positive.");
             }
 
             // Ensure that 'count' is positive
             if (count < 0)
             {
-                throw new ArgumentOutOfRangeException("count", count, "The value of 'count' must be positive.");
+                throw new ArgumentOutOfRangeException(nameof(count), count, "The value of 'count' must be positive.");
             }
 
             // Ensure that the buffer can hold the requested number of characters
@@ -227,7 +227,7 @@
             {
                 throw new ArgumentException(
                     "The buffer is too small to hold the requested number of characters starting at the given index", 
-                    "buffer");
+                    nameof(buffer));
             }
 
             var bytes = new byte[count];

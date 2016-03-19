@@ -35,42 +35,42 @@
         {
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException("alternativeLexerFactory");
+                throw new ArgumentNullException(nameof(alternativeLexerFactory));
             }
 
             if (authorityLexerFactory == null)
             {
-                throw new ArgumentNullException("authorityLexerFactory");
+                throw new ArgumentNullException(nameof(authorityLexerFactory));
             }
 
             if (pathAbsoluteLexerFactory == null)
             {
-                throw new ArgumentNullException("pathAbsoluteLexerFactory");
+                throw new ArgumentNullException(nameof(pathAbsoluteLexerFactory));
             }
 
             if (pathAbsoluteOrEmptyLexerFactory == null)
             {
-                throw new ArgumentNullException("pathAbsoluteOrEmptyLexerFactory");
+                throw new ArgumentNullException(nameof(pathAbsoluteOrEmptyLexerFactory));
             }
 
             if (pathEmptyLexerFactory == null)
             {
-                throw new ArgumentNullException("pathEmptyLexerFactory");
+                throw new ArgumentNullException(nameof(pathEmptyLexerFactory));
             }
 
             if (pathRootlessLexerFactory == null)
             {
-                throw new ArgumentNullException("pathRootlessLexerFactory");
+                throw new ArgumentNullException(nameof(pathRootlessLexerFactory));
             }
 
             if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("concatenationLexerFactory");
+                throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
 
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("terminalLexerFactory");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             this.alternativeLexerFactory = alternativeLexerFactory;

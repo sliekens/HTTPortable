@@ -29,32 +29,32 @@
         {
             if (optionLexerFactory == null)
             {
-                throw new ArgumentNullException("optionLexerFactory");
+                throw new ArgumentNullException(nameof(optionLexerFactory));
             }
 
             if (ConcatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("ConcatenationLexerFactory");
+                throw new ArgumentNullException(nameof(ConcatenationLexerFactory));
             }
 
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException("alternativeLexerFactory");
+                throw new ArgumentNullException(nameof(alternativeLexerFactory));
             }
 
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("terminalLexerFactory");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             if (optionalWhiteSpaceLexerFactory == null)
             {
-                throw new ArgumentNullException("optionalWhiteSpaceLexerFactory");
+                throw new ArgumentNullException(nameof(optionalWhiteSpaceLexerFactory));
             }
 
             if (repetitionLexerFactory == null)
             {
-                throw new ArgumentNullException("repetitionLexerFactory");
+                throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
 
             this.optionLexerFactory = optionLexerFactory;

@@ -26,27 +26,27 @@
         {
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException("alternativeLexerFactory");
+                throw new ArgumentNullException(nameof(alternativeLexerFactory));
             }
 
             if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("concatenationLexerFactory");
+                throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
 
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("terminalLexerFactory");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             if (hexadecimalInt16LexerFactory == null)
             {
-                throw new ArgumentNullException("hexadecimalInt16LexerFactory");
+                throw new ArgumentNullException(nameof(hexadecimalInt16LexerFactory));
             }
 
             if (ipv4AddressLexerFactory == null)
             {
-                throw new ArgumentNullException("ipv4AddressLexerFactory");
+                throw new ArgumentNullException(nameof(ipv4AddressLexerFactory));
             }
 
             this.alternativeLexerFactory = alternativeLexerFactory;

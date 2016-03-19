@@ -20,17 +20,17 @@
         {
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException("alternativeLexerFactory");
+                throw new ArgumentNullException(nameof(alternativeLexerFactory));
             }
 
             if (uriLexerFactory == null)
             {
-                throw new ArgumentNullException("uriLexerFactory");
+                throw new ArgumentNullException(nameof(uriLexerFactory));
             }
 
             if (relativeReferenceLexerFactory == null)
             {
-                throw new ArgumentNullException("relativeReferenceLexerFactory");
+                throw new ArgumentNullException(nameof(relativeReferenceLexerFactory));
             }
 
             this.alternativeLexerFactory = alternativeLexerFactory;

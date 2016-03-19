@@ -20,17 +20,17 @@
         {
             if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("concatenationLexerFactory");
+                throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
 
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("terminalLexerFactory");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             if (decimaOctetLexerFactory == null)
             {
-                throw new ArgumentNullException("decimaOctetLexerFactory");
+                throw new ArgumentNullException(nameof(decimaOctetLexerFactory));
             }
 
             this.concatenationLexerFactory = concatenationLexerFactory;

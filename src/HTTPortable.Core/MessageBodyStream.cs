@@ -94,7 +94,7 @@
 
             if (buffer == null)
             {
-                throw new ArgumentNullException("buffer", "Precondition: buffer != null");
+                throw new ArgumentNullException(nameof(buffer), "Precondition: buffer != null");
             }
 
             if ((offset + count) > buffer.Length)
@@ -104,12 +104,12 @@
 
             if (offset < 0)
             {
-                throw new ArgumentOutOfRangeException("offset", offset, "Precondition: offset >= 0");
+                throw new ArgumentOutOfRangeException(nameof(offset), offset, "Precondition: offset >= 0");
             }
 
             if (count < 0)
             {
-                throw new ArgumentOutOfRangeException("count", count, "Precondition: count >= 0");
+                throw new ArgumentOutOfRangeException(nameof(count), count, "Precondition: count >= 0");
             }
 
             if (!this.CanRead)
@@ -221,7 +221,7 @@
 
             if (buffer == null)
             {
-                throw new ArgumentNullException("buffer", "Precondition: buffer != null");
+                throw new ArgumentNullException(nameof(buffer), "Precondition: buffer != null");
             }
 
             if ((offset + count) > buffer.Length)
@@ -231,12 +231,12 @@
 
             if (offset < 0)
             {
-                throw new ArgumentOutOfRangeException("offset", offset, "Precondition: offset >= 0");
+                throw new ArgumentOutOfRangeException(nameof(offset), offset, "Precondition: offset >= 0");
             }
 
             if (count < 0)
             {
-                throw new ArgumentOutOfRangeException("count", count, "Precondition: count >= 0");
+                throw new ArgumentOutOfRangeException(nameof(count), count, "Precondition: count >= 0");
             }
 
             if (!this.CanWrite)

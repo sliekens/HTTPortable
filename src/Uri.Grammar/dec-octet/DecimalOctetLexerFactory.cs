@@ -30,32 +30,32 @@
         {
             if (valueRangeLexerFactory == null)
             {
-                throw new ArgumentNullException("valueRangeLexerFactory");
+                throw new ArgumentNullException(nameof(valueRangeLexerFactory));
             }
 
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("terminalLexerFactory");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException("alternativeLexerFactory");
+                throw new ArgumentNullException(nameof(alternativeLexerFactory));
             }
 
             if (repetitionLexerFactory == null)
             {
-                throw new ArgumentNullException("repetitionLexerFactory");
+                throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
 
             if (digitLexerFactory == null)
             {
-                throw new ArgumentNullException("digitLexerFactory");
+                throw new ArgumentNullException(nameof(digitLexerFactory));
             }
 
             if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("concatenationLexerFactory");
+                throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
 
             this.valueRangeLexerFactory = valueRangeLexerFactory;

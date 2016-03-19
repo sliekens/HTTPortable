@@ -23,22 +23,22 @@ namespace Uri.Grammar
         {
             if (repetitionLexerFactory == null)
             {
-                throw new ArgumentNullException("repetitionLexerFactory");
+                throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
 
             if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("concatenationLexerFactory");
+                throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
 
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("terminalLexerFactory");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             if (segmentLexerFactory == null)
             {
-                throw new ArgumentNullException("segmentLexerFactory");
+                throw new ArgumentNullException(nameof(segmentLexerFactory));
             }
 
             this.repetitionLexerFactory = repetitionLexerFactory;

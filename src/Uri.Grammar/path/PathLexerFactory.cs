@@ -29,32 +29,32 @@
         {
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException("alternativeLexerFactory");
+                throw new ArgumentNullException(nameof(alternativeLexerFactory));
             }
 
             if (pathAbsoluteOrEmptyLexerFactory == null)
             {
-                throw new ArgumentNullException("pathAbsoluteOrEmptyLexerFactory");
+                throw new ArgumentNullException(nameof(pathAbsoluteOrEmptyLexerFactory));
             }
 
             if (pathAbsoluteLexerFactory == null)
             {
-                throw new ArgumentNullException("pathAbsoluteLexerFactory");
+                throw new ArgumentNullException(nameof(pathAbsoluteLexerFactory));
             }
 
             if (pathNoSchemeLexerFactory == null)
             {
-                throw new ArgumentNullException("pathNoSchemeLexerFactory");
+                throw new ArgumentNullException(nameof(pathNoSchemeLexerFactory));
             }
 
             if (pathRootlessLexerFactory == null)
             {
-                throw new ArgumentNullException("pathRootlessLexerFactory");
+                throw new ArgumentNullException(nameof(pathRootlessLexerFactory));
             }
 
             if (pathEmptyLexerFactory == null)
             {
-                throw new ArgumentNullException("pathEmptyLexerFactory");
+                throw new ArgumentNullException(nameof(pathEmptyLexerFactory));
             }
 
             this.alternativeLexerFactory = alternativeLexerFactory;

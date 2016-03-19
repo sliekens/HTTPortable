@@ -23,22 +23,22 @@
         {
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException("alternativeLexerFactory");
+                throw new ArgumentNullException(nameof(alternativeLexerFactory));
             }
 
             if (ipLiteralLexerFactory == null)
             {
-                throw new ArgumentNullException("ipLiteralLexerFactory");
+                throw new ArgumentNullException(nameof(ipLiteralLexerFactory));
             }
 
             if (ipv4AddressLexerFactory == null)
             {
-                throw new ArgumentNullException("ipv4AddressLexerFactory");
+                throw new ArgumentNullException(nameof(ipv4AddressLexerFactory));
             }
 
             if (registeredNameLexerFactory == null)
             {
-                throw new ArgumentNullException("registeredNameLexerFactory");
+                throw new ArgumentNullException(nameof(registeredNameLexerFactory));
             }
 
             this.alternativeLexerFactory = alternativeLexerFactory;

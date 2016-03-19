@@ -23,7 +23,7 @@
             if (alternativeLexerFactory == null)
             {
                 throw new ArgumentNullException(
-                    "alternativeLexerFactory",
+                    nameof(alternativeLexerFactory),
                     "Precondition: alternativeLexerFactory != null");
             }
 

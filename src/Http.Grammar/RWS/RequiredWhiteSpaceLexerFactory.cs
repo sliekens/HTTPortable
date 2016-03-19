@@ -24,22 +24,22 @@
         {
             if (repetitionLexerFactory == null)
             {
-                throw new ArgumentNullException("repetitionLexerFactory");
+                throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
 
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException("alternativeLexerFactory");
+                throw new ArgumentNullException(nameof(alternativeLexerFactory));
             }
 
             if (spaceLexerFactory == null)
             {
-                throw new ArgumentNullException("spaceLexerFactory");
+                throw new ArgumentNullException(nameof(spaceLexerFactory));
             }
 
             if (horizontalTabLexerFactory == null)
             {
-                throw new ArgumentNullException("horizontalTabLexerFactory");
+                throw new ArgumentNullException(nameof(horizontalTabLexerFactory));
             }
 
             this.repetitionLexerFactory = repetitionLexerFactory;

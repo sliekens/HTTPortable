@@ -24,12 +24,12 @@
         {
             if (alphaLexerFactory == null)
             {
-                throw new ArgumentNullException("alphaLexerFactory", "Precondition: alphaLexerFactory != null");
+                throw new ArgumentNullException(nameof(alphaLexerFactory), "Precondition: alphaLexerFactory != null");
             }
 
             if (digitLexerFactory == null)
             {
-                throw new ArgumentNullException("digitLexerFactory", "Precondition: digitLexerFactory != null");
+                throw new ArgumentNullException(nameof(digitLexerFactory), "Precondition: digitLexerFactory != null");
             }
 
             if (terminalLexerFactory == null)
@@ -39,7 +39,7 @@
 
             if (alphaLexerFactory == null)
             {
-                throw new ArgumentNullException("alphaLexerFactory", "Precondition: alphaLexerFactory != null");
+                throw new ArgumentNullException(nameof(alphaLexerFactory), "Precondition: alphaLexerFactory != null");
             }
 
             this.alphaLexerFactory = alphaLexerFactory;

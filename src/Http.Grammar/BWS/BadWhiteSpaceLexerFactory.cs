@@ -12,7 +12,7 @@
         {
             if (optionalWhiteSpaceLexerFactory == null)
             {
-                throw new ArgumentNullException("optionalWhiteSpaceLexerFactory");
+                throw new ArgumentNullException(nameof(optionalWhiteSpaceLexerFactory));
             }
 
             this.optionalWhiteSpaceLexerFactory = optionalWhiteSpaceLexerFactory;

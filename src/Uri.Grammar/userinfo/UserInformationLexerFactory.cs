@@ -29,32 +29,32 @@
         {
             if (repetitionLexerFactory == null)
             {
-                throw new ArgumentNullException("repetitionLexerFactory");
+                throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
 
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException("alternativeLexerFactory");
+                throw new ArgumentNullException(nameof(alternativeLexerFactory));
             }
 
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("terminalLexerFactory");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             if (unreservedLexerFactory == null)
             {
-                throw new ArgumentNullException("unreservedLexerFactory");
+                throw new ArgumentNullException(nameof(unreservedLexerFactory));
             }
 
             if (percentEncodingLexerFactory == null)
             {
-                throw new ArgumentNullException("percentEncodingLexerFactory");
+                throw new ArgumentNullException(nameof(percentEncodingLexerFactory));
             }
 
             if (subcomponentsDelimiterLexerFactory == null)
             {
-                throw new ArgumentNullException("subcomponentsDelimiterLexerFactory");
+                throw new ArgumentNullException(nameof(subcomponentsDelimiterLexerFactory));
             }
 
             this.repetitionLexerFactory = repetitionLexerFactory;

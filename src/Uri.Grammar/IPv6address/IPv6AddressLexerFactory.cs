@@ -34,37 +34,37 @@ namespace Uri.Grammar
         {
             if (alternativeLexerFactory == null)
             {
-                throw new ArgumentNullException("alternativeLexerFactory");
+                throw new ArgumentNullException(nameof(alternativeLexerFactory));
             }
 
             if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException("concatenationLexerFactory");
+                throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
 
             if (terminalLexerFactory == null)
             {
-                throw new ArgumentNullException("terminalLexerFactory");
+                throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
 
             if (repetitionLexerFactory == null)
             {
-                throw new ArgumentNullException("repetitionLexerFactory");
+                throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
 
             if (optionLexerFactory == null)
             {
-                throw new ArgumentNullException("optionLexerFactory");
+                throw new ArgumentNullException(nameof(optionLexerFactory));
             }
 
             if (hexadecimalInt16LexerFactory == null)
             {
-                throw new ArgumentNullException("hexadecimalInt16LexerFactory");
+                throw new ArgumentNullException(nameof(hexadecimalInt16LexerFactory));
             }
 
             if (leastSignificantInt32LexerFactory == null)
             {
-                throw new ArgumentNullException("leastSignificantInt32LexerFactory");
+                throw new ArgumentNullException(nameof(leastSignificantInt32LexerFactory));
             }
 
             this.alternativeLexerFactory = alternativeLexerFactory;
