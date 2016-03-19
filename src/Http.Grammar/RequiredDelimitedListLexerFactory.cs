@@ -13,13 +13,13 @@
 
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
-        private readonly IConcatenationLexerFactory ConcatenationLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public RequiredDelimitedListLexerFactory(
             IRepetitionLexerFactory repetitionLexerFactory,
-            IConcatenationLexerFactory ConcatenationLexerFactory,
+            IConcatenationLexerFactory concatenationLexerFactory,
             IOptionLexerFactory optionLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<OptionalWhiteSpace> optionalWhiteSpaceLexerFactory)
@@ -29,9 +29,9 @@
                 throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
 
-            if (ConcatenationLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(ConcatenationLexerFactory));
+                throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
 
             if (optionLexerFactory == null)
@@ -50,7 +50,7 @@
             }
 
             this.repetitionLexerFactory = repetitionLexerFactory;
-            this.ConcatenationLexerFactory = ConcatenationLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
             this.optionLexerFactory = optionLexerFactory;
             this.terminalLexerFactory = terminalLexerFactory;
             this.optionalWhiteSpaceLexerFactory = optionalWhiteSpaceLexerFactory;
@@ -61,14 +61,14 @@
             var delim = terminalLexerFactory.Create(@",", StringComparer.Ordinal);
             var ows = optionalWhiteSpaceLexerFactory.Create();
             var innerLexer =
-                ConcatenationLexerFactory.Create(
-                    repetitionLexerFactory.Create(ConcatenationLexerFactory.Create(delim, ows), 0, int.MaxValue),
+                concatenationLexerFactory.Create(
+                    repetitionLexerFactory.Create(concatenationLexerFactory.Create(delim, ows), 0, int.MaxValue),
                     lexer,
                     repetitionLexerFactory.Create(
-                        ConcatenationLexerFactory.Create(
+                        concatenationLexerFactory.Create(
                             ows,
                             delim,
-                            optionLexerFactory.Create(ConcatenationLexerFactory.Create(ows, lexer))),
+                            optionLexerFactory.Create(concatenationLexerFactory.Create(ows, lexer))),
                         0,
                         int.MaxValue));
 

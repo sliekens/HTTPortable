@@ -18,19 +18,19 @@
 
         private readonly IOptionLexerFactory optionLexerFactory;
 
-        private readonly IConcatenationLexerFactory ConcatenationLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         public ChunkLexerFactory(
-            IConcatenationLexerFactory ConcatenationLexerFactory,
+            IConcatenationLexerFactory concatenationLexerFactory,
             ILexerFactory<ChunkSize> chunkSizeLexerFactory,
             IOptionLexerFactory optionLexerFactory,
             ILexerFactory<ChunkExtension> chunkExtensionLexerFactory,
             ILexerFactory<EndOfLine> endOfLineLexerFactory,
             ILexerFactory<ChunkData> chunkDataLexerFactory)
         {
-            if (ConcatenationLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(ConcatenationLexerFactory));
+                throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
 
             if (chunkSizeLexerFactory == null)
@@ -58,7 +58,7 @@
                 throw new ArgumentNullException(nameof(chunkDataLexerFactory));
             }
 
-            this.ConcatenationLexerFactory = ConcatenationLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
             this.chunkSizeLexerFactory = chunkSizeLexerFactory;
             this.optionLexerFactory = optionLexerFactory;
             this.chunkExtensionLexerFactory = chunkExtensionLexerFactory;
@@ -73,7 +73,7 @@
             var c = optionLexerFactory.Create(b);
             var d = endOfLineLexerFactory.Create();
             var e = chunkDataLexerFactory.Create();
-            var innerLexer = ConcatenationLexerFactory.Create(a, c, d, e, d);
+            var innerLexer = concatenationLexerFactory.Create(a, c, d, e, d);
             return new ChunkLexer(innerLexer);
         }
     }

@@ -37,7 +37,7 @@
         private static OptionalDelimitedList CreateTestCase(string input, ILexer listItemLexer)
         {
             var optionLexerFactory = new OptionLexerFactory();
-            var ConcatenationLexerFactory = new ConcatenationLexerFactory();
+            var concatenationLexerFactory = new ConcatenationLexerFactory();
             var alternativeLexerFactory = new AlternativeLexerFactory();
             var terminalLexerFactory = new TerminalLexerFactory();
             var spaceLexerFactory = new SpaceLexerFactory(terminalLexerFactory);
@@ -47,7 +47,7 @@
             var optionalWhiteSpaceLexerFactory = new OptionalWhiteSpaceLexerFactory(repetitionLexerFactory, whiteSpaceLexerFactory);
             var lexerFactory = new OptionalDelimitedListLexerFactory(
                 optionLexerFactory,
-                ConcatenationLexerFactory,
+                concatenationLexerFactory,
                 alternativeLexerFactory,
                 terminalLexerFactory,
                 optionalWhiteSpaceLexerFactory,

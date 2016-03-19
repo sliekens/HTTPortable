@@ -13,13 +13,13 @@
 
         private readonly ILexerFactory<Segment> segmentLexerFactory;
 
-        private readonly IConcatenationLexerFactory ConcatenationLexerFactory;
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public AbsolutePathLexerFactory(
             IRepetitionLexerFactory repetitionLexerFactory,
-            IConcatenationLexerFactory ConcatenationLexerFactory,
+            IConcatenationLexerFactory concatenationLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<Segment> segmentLexerFactory)
         {
@@ -28,9 +28,9 @@
                 throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
 
-            if (ConcatenationLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(ConcatenationLexerFactory));
+                throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
 
             if (terminalLexerFactory == null)
@@ -44,7 +44,7 @@
             }
 
             this.repetitionLexerFactory = repetitionLexerFactory;
-            this.ConcatenationLexerFactory = ConcatenationLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
             this.terminalLexerFactory = terminalLexerFactory;
             this.segmentLexerFactory = segmentLexerFactory;
         }
@@ -53,7 +53,7 @@
         {
             var a = terminalLexerFactory.Create(@"/", StringComparer.Ordinal);
             var b = segmentLexerFactory.Create();
-            var c = ConcatenationLexerFactory.Create(a, b);
+            var c = concatenationLexerFactory.Create(a, b);
             var innerLexer = repetitionLexerFactory.Create(c, 1, int.MaxValue);
             return new AbsolutePathLexer(innerLexer);
         }
