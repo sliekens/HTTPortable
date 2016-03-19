@@ -73,7 +73,7 @@
             var d = chunkExtensionValueLexerFactory.Create();
             var e = ConcatenationLexerFactory.Create(c, d);
             var f = optionLexerFactory.Create(e);
-            var g = ConcatenationLexerFactory.Create(a, b, e);
+            var g = ConcatenationLexerFactory.Create(a, b, f);
             var innerLexer = repetitionLexerFactory.Create(g, 0, int.MaxValue);
             return new ChunkExtensionLexer(innerLexer);
         }
