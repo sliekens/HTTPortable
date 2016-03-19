@@ -163,7 +163,7 @@
             }
 
             // Ensure that the buffer can hold the requested number of characters
-            if (buffer.Length < (index + count))
+            if (buffer.Length < index + count)
             {
                 throw new ArgumentException(
                     "The buffer is too small to hold the requested number of characters starting at the given index", 
@@ -223,7 +223,7 @@
             }
 
             // Ensure that the buffer can hold the requested number of characters
-            if (buffer.Length < (index + count))
+            if (buffer.Length < index + count)
             {
                 throw new ArgumentException(
                     "The buffer is too small to hold the requested number of characters starting at the given index", 

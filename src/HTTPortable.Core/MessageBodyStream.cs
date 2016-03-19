@@ -73,7 +73,7 @@
                 throw new ArgumentNullException(nameof(buffer), "Precondition: buffer != null");
             }
 
-            if ((offset + count) > buffer.Length)
+            if (offset + count > buffer.Length)
             {
                 throw new ArgumentException("Precondition: buffer.Length >= (offset + count)");
             }
@@ -200,7 +200,7 @@
                 throw new ArgumentNullException(nameof(buffer), "Precondition: buffer != null");
             }
 
-            if ((offset + count) > buffer.Length)
+            if (offset + count > buffer.Length)
             {
                 throw new ArgumentException("Precondition: buffer.Length >= (offset + count)");
             }
