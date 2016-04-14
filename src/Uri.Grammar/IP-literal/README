@@ -1,1 +1,0 @@
-﻿IP-literal = "[" ( IPv6address / IPvFuture ) "]"

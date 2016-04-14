@@ -1,1 +1,0 @@
-﻿IPvFuture = "v" 1*HEXDIG "." 1*( unreserved / sub-delims / ":" )

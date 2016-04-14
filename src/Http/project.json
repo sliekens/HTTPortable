@@ -1,0 +1,28 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "Implements RFCs 7230-7237",
+  "authors": [ "Steven Liekens" ],
+  "tags": [ "" ],
+  "projectUrl": "https://github.com/StevenLiekens/HTTPortable",
+  "licenseUrl": "https://raw.githubusercontent.com/StevenLiekens/HTTPortable/master/LICENSE",
+  "frameworks": {
+    "dotnet5.1": {
+      "dependencies": {
+        "Microsoft.CSharp": "4.0.1-beta-23516",
+        "System.Collections": "4.0.11-beta-23516",
+        "System.Linq": "4.0.1-beta-23516",
+        "System.Runtime": "4.0.21-beta-23516",
+        "System.Threading": "4.0.11-beta-23516",
+        "System.Net.Primitives": "4.0.11-beta-23516",
+        "System.Net.Requests": "4.0.11-beta-23516"
+      }
+    }
+
+  },
+  "dependencies": {
+    "Txt": "2.0.0-CI00174",
+    "Txt.ABNF": "2.0.0-CI00174",
+    "Uri": "1.0.0-CI00007"
+
+  }
+}

@@ -1,1 +1,0 @@
-﻿segment-nz-nc = 1*( unreserved / pct-encoded / sub-delims / "@" )

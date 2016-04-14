@@ -1,1 +1,0 @@
-﻿path-rootless = segment-nz *( "/" segment )

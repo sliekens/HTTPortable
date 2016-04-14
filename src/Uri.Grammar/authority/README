@@ -1,1 +1,0 @@
-﻿authority = [ userinfo "@" ] host [ ":" port ]

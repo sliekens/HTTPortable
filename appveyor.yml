@@ -1,0 +1,33 @@
+os: Visual Studio 2015
+version: '1.0.{build}'
+configuration:
+- Debug
+- Release
+platform: Any CPU
+init:
+ - ps: $Env:DNX_BUILD_VERSION = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0")
+install:
+- dnvm upgrade -r clr
+- dnvm install 1.0.0-rc1-update2
+- dnu restore
+build:
+  parallel: true
+test: off
+artifacts:
+  - path: artifacts\bin\**\*.nupkg
+deploy:
+ - provider: NuGet
+   server: https://www.myget.org/F/ci/api/v2/package
+   api_key:
+     secure: Qwf1a1BP2lCg6c9F5xt7hwDVciba1FhiYewLIAGzAVLeNh0TiAamxz78W06ij4tp
+   skip_symbols: false
+   symbol_server: https://www.myget.org/F/ci/api/v2/package
+   on:
+     configuration: Debug
+ - provider: NuGet
+   server: https://www.myget.org/F/ci/api/v2/package
+   api_key:
+     secure: Qwf1a1BP2lCg6c9F5xt7hwDVciba1FhiYewLIAGzAVLeNh0TiAamxz78W06ij4tp
+   skip_symbols: true
+   on:
+     configuration: Release
