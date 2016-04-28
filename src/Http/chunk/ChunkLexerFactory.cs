@@ -16,7 +16,7 @@ namespace Http.chunk
 
         private readonly ILexerFactory<ChunkSize> chunkSizeLexerFactory;
 
-        private readonly ILexerFactory<EndOfLine> endOfLineLexerFactory;
+        private readonly ILexerFactory<NewLine> newLineLexerFactory;
 
         private readonly IOptionLexerFactory optionLexerFactory;
 
@@ -27,7 +27,7 @@ namespace Http.chunk
             ILexerFactory<ChunkSize> chunkSizeLexerFactory,
             IOptionLexerFactory optionLexerFactory,
             ILexerFactory<ChunkExtension> chunkExtensionLexerFactory,
-            ILexerFactory<EndOfLine> endOfLineLexerFactory,
+            ILexerFactory<NewLine> newLineLexerFactory,
             ILexerFactory<ChunkData> chunkDataLexerFactory)
         {
             if (concatenationLexerFactory == null)
@@ -50,9 +50,9 @@ namespace Http.chunk
                 throw new ArgumentNullException(nameof(chunkExtensionLexerFactory));
             }
 
-            if (endOfLineLexerFactory == null)
+            if (newLineLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(endOfLineLexerFactory));
+                throw new ArgumentNullException(nameof(newLineLexerFactory));
             }
 
             if (chunkDataLexerFactory == null)
@@ -64,7 +64,7 @@ namespace Http.chunk
             this.chunkSizeLexerFactory = chunkSizeLexerFactory;
             this.optionLexerFactory = optionLexerFactory;
             this.chunkExtensionLexerFactory = chunkExtensionLexerFactory;
-            this.endOfLineLexerFactory = endOfLineLexerFactory;
+            this.newLineLexerFactory = newLineLexerFactory;
             this.chunkDataLexerFactory = chunkDataLexerFactory;
         }
 
@@ -73,7 +73,7 @@ namespace Http.chunk
             var a = chunkSizeLexerFactory.Create();
             var b = chunkExtensionLexerFactory.Create();
             var c = optionLexerFactory.Create(b);
-            var d = endOfLineLexerFactory.Create();
+            var d = newLineLexerFactory.Create();
             var e = chunkDataLexerFactory.Create();
             var innerLexer = concatenationLexerFactory.Create(a, c, d, e, d);
             return new ChunkLexer(innerLexer);

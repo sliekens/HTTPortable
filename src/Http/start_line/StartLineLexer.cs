@@ -6,9 +6,9 @@ namespace Http.start_line
 {
     public sealed class StartLineLexer : Lexer<StartLine>
     {
-        private readonly ILexer<Alternative> innerLexer;
+        private readonly ILexer<Alternation> innerLexer;
 
-        public StartLineLexer(ILexer<Alternative> innerLexer)
+        public StartLineLexer(ILexer<Alternation> innerLexer)
         {
             if (innerLexer == null)
             {

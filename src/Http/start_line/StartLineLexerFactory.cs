@@ -8,20 +8,20 @@ namespace Http.start_line
 {
     public class StartLineLexerFactory : ILexerFactory<StartLine>
     {
-        private readonly IAlternativeLexerFactory alternativeLexerFactory;
+        private readonly IAlternationLexerFactory alternationLexerFactory;
 
         private readonly ILexerFactory<RequestLine> requestLineLexerFactory;
 
         private readonly ILexerFactory<StatusLine> statusLineLexerFactory;
 
         public StartLineLexerFactory(
-            IAlternativeLexerFactory alternativeLexerFactory,
+            IAlternationLexerFactory alternationLexerFactory,
             ILexerFactory<RequestLine> requestLineLexerFactory,
             ILexerFactory<StatusLine> statusLineLexerFactory)
         {
-            if (alternativeLexerFactory == null)
+            if (alternationLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(alternativeLexerFactory));
+                throw new ArgumentNullException(nameof(alternationLexerFactory));
             }
             if (requestLineLexerFactory == null)
             {
@@ -31,7 +31,7 @@ namespace Http.start_line
             {
                 throw new ArgumentNullException(nameof(statusLineLexerFactory));
             }
-            this.alternativeLexerFactory = alternativeLexerFactory;
+            this.alternationLexerFactory = alternationLexerFactory;
             this.requestLineLexerFactory = requestLineLexerFactory;
             this.statusLineLexerFactory = statusLineLexerFactory;
         }
@@ -40,7 +40,7 @@ namespace Http.start_line
         {
             return
                 new StartLineLexer(
-                    alternativeLexerFactory.Create(requestLineLexerFactory.Create(), statusLineLexerFactory.Create()));
+                    alternationLexerFactory.Create(requestLineLexerFactory.Create(), statusLineLexerFactory.Create()));
         }
     }
 }

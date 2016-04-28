@@ -8,20 +8,20 @@ namespace Http.chunk_ext_val
 {
     public class ChunkExtensionValueLexerFactory : ILexerFactory<ChunkExtensionValue>
     {
-        private readonly IAlternativeLexerFactory alternativeLexerFactory;
+        private readonly IAlternationLexerFactory alternationLexerFactory;
 
         private readonly ILexerFactory<QuotedString> quotedStringLexerFactory;
 
         private readonly ILexerFactory<Token> tokenLexerFactory;
 
         public ChunkExtensionValueLexerFactory(
-            IAlternativeLexerFactory alternativeLexerFactory,
+            IAlternationLexerFactory alternationLexerFactory,
             ILexerFactory<Token> tokenLexerFactory,
             ILexerFactory<QuotedString> quotedStringLexerFactory)
         {
-            if (alternativeLexerFactory == null)
+            if (alternationLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(alternativeLexerFactory));
+                throw new ArgumentNullException(nameof(alternationLexerFactory));
             }
 
             if (tokenLexerFactory == null)
@@ -34,14 +34,14 @@ namespace Http.chunk_ext_val
                 throw new ArgumentNullException(nameof(quotedStringLexerFactory));
             }
 
-            this.alternativeLexerFactory = alternativeLexerFactory;
+            this.alternationLexerFactory = alternationLexerFactory;
             this.tokenLexerFactory = tokenLexerFactory;
             this.quotedStringLexerFactory = quotedStringLexerFactory;
         }
 
         public ILexer<ChunkExtensionValue> Create()
         {
-            var innerLexer = alternativeLexerFactory.Create(
+            var innerLexer = alternationLexerFactory.Create(
                 tokenLexerFactory.Create(),
                 quotedStringLexerFactory.Create());
             return new ChunkExtensionValueLexer(innerLexer);

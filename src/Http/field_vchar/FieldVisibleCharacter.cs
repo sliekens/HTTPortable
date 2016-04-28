@@ -2,10 +2,10 @@
 
 namespace Http.field_vchar
 {
-    public class FieldVisibleCharacter : Alternative
+    public class FieldVisibleCharacter : Alternation
     {
-        public FieldVisibleCharacter(Alternative alternative)
-            : base(alternative)
+        public FieldVisibleCharacter(Alternation alternation)
+            : base(alternation)
         {
         }
     }

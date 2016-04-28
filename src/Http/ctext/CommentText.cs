@@ -2,10 +2,10 @@
 
 namespace Http.ctext
 {
-    public class CommentText : Alternative
+    public class CommentText : Alternation
     {
-        public CommentText(Alternative alternative)
-            : base(alternative)
+        public CommentText(Alternation alternation)
+            : base(alternation)
         {
         }
     }

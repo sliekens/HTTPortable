@@ -2,10 +2,10 @@
 
 namespace Http.transfer_coding
 {
-    public class TransferCoding : Alternative
+    public class TransferCoding : Alternation
     {
-        public TransferCoding(Alternative alternative)
-            : base(alternative)
+        public TransferCoding(Alternation alternation)
+            : base(alternation)
         {
         }
     }

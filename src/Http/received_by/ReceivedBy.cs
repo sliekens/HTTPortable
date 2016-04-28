@@ -2,10 +2,10 @@
 
 namespace Http.received_by
 {
-    public class ReceivedBy : Alternative
+    public class ReceivedBy : Alternation
     {
-        public ReceivedBy(Alternative alternative)
-            : base(alternative)
+        public ReceivedBy(Alternation alternation)
+            : base(alternation)
         {
         }
     }

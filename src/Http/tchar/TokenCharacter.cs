@@ -2,10 +2,10 @@
 
 namespace Http.tchar
 {
-    public class TokenCharacter : Alternative
+    public class TokenCharacter : Alternation
     {
-        public TokenCharacter(Alternative alternative)
-            : base(alternative)
+        public TokenCharacter(Alternation alternation)
+            : base(alternation)
         {
         }
     }

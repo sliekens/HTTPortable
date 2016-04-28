@@ -7,7 +7,7 @@ namespace Http
 {
     public class OptionalDelimitedListLexerFactory : IOptionalDelimitedListLexerFactory
     {
-        private readonly IAlternativeLexerFactory alternativeLexerFactory;
+        private readonly IAlternationLexerFactory alternationLexerFactory;
 
         private readonly ILexerFactory<OptionalWhiteSpace> optionalWhiteSpaceLexerFactory;
 
@@ -22,7 +22,7 @@ namespace Http
         public OptionalDelimitedListLexerFactory(
             IOptionLexerFactory optionLexerFactory,
             IConcatenationLexerFactory concatenationLexerFactory,
-            IAlternativeLexerFactory alternativeLexerFactory,
+            IAlternationLexerFactory alternationLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<OptionalWhiteSpace> optionalWhiteSpaceLexerFactory,
             IRepetitionLexerFactory repetitionLexerFactory)
@@ -37,9 +37,9 @@ namespace Http
                 throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
 
-            if (alternativeLexerFactory == null)
+            if (alternationLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(alternativeLexerFactory));
+                throw new ArgumentNullException(nameof(alternationLexerFactory));
             }
 
             if (terminalLexerFactory == null)
@@ -59,7 +59,7 @@ namespace Http
 
             this.optionLexerFactory = optionLexerFactory;
             this.concatenationLexerFactory = concatenationLexerFactory;
-            this.alternativeLexerFactory = alternativeLexerFactory;
+            this.alternationLexerFactory = alternationLexerFactory;
             this.terminalLexerFactory = terminalLexerFactory;
             this.optionalWhiteSpaceLexerFactory = optionalWhiteSpaceLexerFactory;
             this.repetitionLexerFactory = repetitionLexerFactory;
@@ -72,7 +72,7 @@ namespace Http
             var innerLexer =
                 optionLexerFactory.Create(
                     concatenationLexerFactory.Create(
-                        alternativeLexerFactory.Create(delim, lexer),
+                        alternationLexerFactory.Create(delim, lexer),
                         repetitionLexerFactory.Create(
                             concatenationLexerFactory.Create(
                                 ows,

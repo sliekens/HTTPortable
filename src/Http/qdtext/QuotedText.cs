@@ -2,10 +2,10 @@
 
 namespace Http.qdtext
 {
-    public class QuotedText : Alternative
+    public class QuotedText : Alternation
     {
-        public QuotedText(Alternative alternative)
-            : base(alternative)
+        public QuotedText(Alternation alternation)
+            : base(alternation)
         {
         }
     }

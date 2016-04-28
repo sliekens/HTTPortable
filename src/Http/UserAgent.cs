@@ -36,7 +36,7 @@ namespace Http
             this.outputStream = outputStream;
         }
 
-        private static readonly ILexer<EndOfLine> EndOfLineLexer;
+        private static readonly ILexer<NewLine> NewLineLexer;
 
         private static readonly ILexer<StartLine> StartLineLexer; 
 
@@ -46,10 +46,10 @@ namespace Http
             var terminalLexerFactory = new TerminalLexerFactory();
             var carriageReturnLexerFactory = new CarriageReturnLexerFactory(terminalLexerFactory);
             var lineFeedLexerFactory = new LineFeedLexerFactory(terminalLexerFactory);
-            var endOfLineLexerFactory = new EndOfLineLexerFactory(carriageReturnLexerFactory, lineFeedLexerFactory, concatenationLexerFactory);
-            var alternativeLexerFactory = new AlternativeLexerFactory();
-            var startLineLexerFactory = new StartLineLexerFactory(alternativeLexerFactory, new RequestLineLexerFactory(), new StatusLineLexerFactory());
-            EndOfLineLexer = endOfLineLexerFactory.Create();
+            var newLineLexerFactory = new NewLineLexerFactory(concatenationLexerFactory, carriageReturnLexerFactory.Create(), lineFeedLexerFactory.Create());
+            var alternationLexerFactory = new AlternationLexerFactory();
+            var startLineLexerFactory = new StartLineLexerFactory(alternationLexerFactory, new RequestLineLexerFactory(), new StatusLineLexerFactory());
+            NewLineLexer = newLineLexerFactory.Create();
             StartLineLexer = startLineLexerFactory.Create();
         }
 
@@ -93,7 +93,7 @@ namespace Http
                     var rhf = headerFieldLexer.Read(scanner);
                     while (rhf.Success)
                     {
-                        if (!EndOfLineLexer.Read(scanner).Success)
+                        if (!NewLineLexer.Read(scanner).Success)
                         {
                             // TODO: close connection
                             throw new NotImplementedException("Error handling is not implemented");
@@ -106,7 +106,7 @@ namespace Http
                         });
                     }
 
-                    if (!EndOfLineLexer.Read(scanner).Success)
+                    if (!NewLineLexer.Read(scanner).Success)
                     {
                         // TODO: close connection
                         throw new NotImplementedException("Error handling is not implemented");

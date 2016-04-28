@@ -10,7 +10,7 @@ namespace Http.tchar
     {
         private readonly ILexerFactory<Alpha> alphaLexerFactory;
 
-        private readonly IAlternativeLexerFactory alternativeLexerFactory;
+        private readonly IAlternationLexerFactory alternationLexerFactory;
 
         private readonly ILexerFactory<Digit> digitLexerFactory;
 
@@ -20,7 +20,7 @@ namespace Http.tchar
             ITerminalLexerFactory terminalLexerFactory,
             ILexerFactory<Alpha> alphaLexerFactory,
             ILexerFactory<Digit> digitLexerFactory,
-            IAlternativeLexerFactory alternativeLexerFactory)
+            IAlternationLexerFactory alternationLexerFactory)
         {
             if (terminalLexerFactory == null)
             {
@@ -37,21 +37,21 @@ namespace Http.tchar
                 throw new ArgumentNullException(nameof(digitLexerFactory));
             }
 
-            if (alternativeLexerFactory == null)
+            if (alternationLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(alternativeLexerFactory));
+                throw new ArgumentNullException(nameof(alternationLexerFactory));
             }
 
             this.terminalLexerFactory = terminalLexerFactory;
             this.alphaLexerFactory = alphaLexerFactory;
             this.digitLexerFactory = digitLexerFactory;
-            this.alternativeLexerFactory = alternativeLexerFactory;
+            this.alternationLexerFactory = alternationLexerFactory;
         }
 
         public ILexer<TokenCharacter> Create()
         {
             var innerLexer =
-                alternativeLexerFactory.Create(
+                alternationLexerFactory.Create(
                     terminalLexerFactory.Create(@"!", StringComparer.Ordinal),
                     terminalLexerFactory.Create(@"#", StringComparer.Ordinal),
                     terminalLexerFactory.Create(@"$", StringComparer.Ordinal),

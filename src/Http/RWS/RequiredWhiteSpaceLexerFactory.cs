@@ -8,7 +8,7 @@ namespace Http.RWS
 {
     public class RequiredWhiteSpaceLexerFactory : ILexerFactory<RequiredWhiteSpace>
     {
-        private readonly IAlternativeLexerFactory alternativeLexerFactory;
+        private readonly IAlternationLexerFactory alternationLexerFactory;
 
         private readonly ILexerFactory<HorizontalTab> horizontalTabLexerFactory;
 
@@ -18,7 +18,7 @@ namespace Http.RWS
 
         public RequiredWhiteSpaceLexerFactory(
             IRepetitionLexerFactory repetitionLexerFactory,
-            IAlternativeLexerFactory alternativeLexerFactory,
+            IAlternationLexerFactory alternationLexerFactory,
             ILexerFactory<Space> spaceLexerFactory,
             ILexerFactory<HorizontalTab> horizontalTabLexerFactory)
         {
@@ -27,9 +27,9 @@ namespace Http.RWS
                 throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
 
-            if (alternativeLexerFactory == null)
+            if (alternationLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(alternativeLexerFactory));
+                throw new ArgumentNullException(nameof(alternationLexerFactory));
             }
 
             if (spaceLexerFactory == null)
@@ -43,7 +43,7 @@ namespace Http.RWS
             }
 
             this.repetitionLexerFactory = repetitionLexerFactory;
-            this.alternativeLexerFactory = alternativeLexerFactory;
+            this.alternationLexerFactory = alternationLexerFactory;
             this.spaceLexerFactory = spaceLexerFactory;
             this.horizontalTabLexerFactory = horizontalTabLexerFactory;
         }
@@ -52,7 +52,7 @@ namespace Http.RWS
         {
             var sp = spaceLexerFactory.Create();
             var htab = horizontalTabLexerFactory.Create();
-            var a = alternativeLexerFactory.Create(sp, htab);
+            var a = alternationLexerFactory.Create(sp, htab);
             var innerLexer = repetitionLexerFactory.Create(a, 1, int.MaxValue);
             return new RequiredWhiteSpaceLexer(innerLexer);
         }

@@ -2,10 +2,10 @@
 
 namespace Http.rank
 {
-    public class Rank : Alternative
+    public class Rank : Alternation
     {
-        public Rank(Alternative alternative)
-            : base(alternative)
+        public Rank(Alternation alternation)
+            : base(alternation)
         {
         }
     }

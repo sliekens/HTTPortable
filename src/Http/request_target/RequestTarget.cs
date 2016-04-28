@@ -2,10 +2,10 @@
 
 namespace Http.request_target
 {
-    public class RequestTarget : Alternative
+    public class RequestTarget : Alternation
     {
-        public RequestTarget(Alternative alternative)
-            : base(alternative)
+        public RequestTarget(Alternation alternation)
+            : base(alternation)
         {
         }
     }

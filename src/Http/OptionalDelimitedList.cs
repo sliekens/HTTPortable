@@ -22,7 +22,7 @@ namespace Http
             var items = new List<Element>();
             foreach (var seq1 in Elements.Cast<Concatenation>())
             {
-                var alt1 = (Alternative)seq1.Elements[0];
+                var alt1 = (Alternation)seq1.Elements[0];
                 if (alt1.Ordinal == 2)
                 {
                     items.Add(alt1.Element);

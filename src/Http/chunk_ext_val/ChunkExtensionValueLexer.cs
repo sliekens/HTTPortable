@@ -6,9 +6,9 @@ namespace Http.chunk_ext_val
 {
     public sealed class ChunkExtensionValueLexer : Lexer<ChunkExtensionValue>
     {
-        private readonly ILexer<Alternative> innerLexer;
+        private readonly ILexer<Alternation> innerLexer;
 
-        public ChunkExtensionValueLexer(ILexer<Alternative> innerLexer)
+        public ChunkExtensionValueLexer(ILexer<Alternation> innerLexer)
         {
             if (innerLexer == null)
             {

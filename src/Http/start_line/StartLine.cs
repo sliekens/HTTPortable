@@ -2,10 +2,10 @@
 
 namespace Http.start_line
 {
-    public class StartLine : Alternative
+    public class StartLine : Alternation
     {
-        public StartLine(Alternative alternative)
-            : base(alternative)
+        public StartLine(Alternation alternation)
+            : base(alternation)
         {
         }
     }

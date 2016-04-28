@@ -6,9 +6,9 @@ namespace Http.tchar
 {
     public sealed class TokenCharacterLexer : Lexer<TokenCharacter>
     {
-        private readonly ILexer<Alternative> innerLexer;
+        private readonly ILexer<Alternation> innerLexer;
 
-        public TokenCharacterLexer(ILexer<Alternative> innerLexer)
+        public TokenCharacterLexer(ILexer<Alternation> innerLexer)
         {
             if (innerLexer == null)
             {

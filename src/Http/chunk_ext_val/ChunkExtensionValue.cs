@@ -2,10 +2,10 @@
 
 namespace Http.chunk_ext_val
 {
-    public class ChunkExtensionValue : Alternative
+    public class ChunkExtensionValue : Alternation
     {
-        public ChunkExtensionValue(Alternative alternative)
-            : base(alternative)
+        public ChunkExtensionValue(Alternation alternation)
+            : base(alternation)
         {
         }
     }

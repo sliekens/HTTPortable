@@ -19,7 +19,7 @@ namespace Http
             var foo = factory.Create("foo", comparer);
             var bar = factory.Create("bar", comparer);
             var charlie = factory.Create("charlie", comparer);
-            var listItemLexer = new AlternativeLexer(foo, bar, charlie);
+            var listItemLexer = new AlternationLexer(foo, bar, charlie);
             yield return new object[] { "foo,bar", "foo, bar", listItemLexer };
             yield return new object[] { "foo ,bar,", "foo, bar", listItemLexer };
             yield return new object[] { "foo , ,bar,charlie   ", "foo, bar, charlie", listItemLexer };
@@ -38,22 +38,22 @@ namespace Http
         {
             var optionLexerFactory = new OptionLexerFactory();
             var concatenationLexerFactory = new ConcatenationLexerFactory();
-            var alternativeLexerFactory = new AlternativeLexerFactory();
+            var alternationLexerFactory = new AlternationLexerFactory();
             var terminalLexerFactory = new TerminalLexerFactory();
             var spaceLexerFactory = new SpaceLexerFactory(terminalLexerFactory);
             var repetitionLexerFactory = new RepetitionLexerFactory();
             var horizontalTabLexerFactory = new HorizontalTabLexerFactory(terminalLexerFactory);
             var whiteSpaceLexerFactory = new WhiteSpaceLexerFactory(
-                spaceLexerFactory,
-                horizontalTabLexerFactory,
-                alternativeLexerFactory);
+                alternationLexerFactory,
+                spaceLexerFactory.Create(),
+                horizontalTabLexerFactory.Create());
             var optionalWhiteSpaceLexerFactory = new OptionalWhiteSpaceLexerFactory(
                 repetitionLexerFactory,
                 whiteSpaceLexerFactory);
             var lexerFactory = new OptionalDelimitedListLexerFactory(
                 optionLexerFactory,
                 concatenationLexerFactory,
-                alternativeLexerFactory,
+                alternationLexerFactory,
                 terminalLexerFactory,
                 optionalWhiteSpaceLexerFactory,
                 repetitionLexerFactory);
