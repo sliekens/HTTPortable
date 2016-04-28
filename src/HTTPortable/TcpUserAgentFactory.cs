@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Security;
@@ -6,11 +7,42 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Http;
+using Http.HTTP_message;
+using SimpleInjector;
+using Txt;
+using Txt.ABNF;
+using Uri;
+using Registration = Txt.Registration;
 
 namespace HTTPortable
 {
     public class TcpUserAgentFactory : IUserAgentFactory
     {
+        private readonly Container container = new Container();
+
+        public TcpUserAgentFactory()
+        {
+            List<Registration> registrations = new List<Registration>();
+            registrations.AddRange(AbnfRegistrations.GetRegistrations(container.GetInstance));
+            registrations.AddRange(UriRegistrations.GetRegistrations(container.GetInstance));
+            registrations.AddRange(HttpRegistrations.GetRegistrations(container.GetInstance));
+            foreach (var registration in registrations)
+            {
+                if (registration.Implementation != null)
+                {
+                    container.RegisterSingleton(registration.Service, registration.Implementation);
+                }
+                if (registration.Instance != null)
+                {
+                    container.RegisterSingleton(registration.Service, registration.Instance);
+                }
+                if (registration.Factory != null)
+                {
+                    container.RegisterSingleton(registration.Service, registration.Factory);
+                }
+            }
+        }
+
         /// <inheritdoc />
         public async Task<IUserAgent> CreateAsync(System.Uri uri, CancellationToken cancellationToken)
         {
@@ -24,7 +56,7 @@ namespace HTTPortable
                 await sslStream.AuthenticateAsClientAsync(uri.Host).ConfigureAwait(false);
                 stream = sslStream;
             }
-            return new UserAgent(stream);
+            return new UserAgent(stream, container.GetInstance<ILexer<HttpMessage>>());
         }
     }
 }

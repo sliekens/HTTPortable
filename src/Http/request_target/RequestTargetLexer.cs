@@ -1,13 +1,34 @@
 ﻿using System;
 using Txt;
+using Txt.ABNF;
 
 namespace Http.request_target
 {
-    public class RequestTargetLexer : Lexer<RequestTarget>
+    public sealed class RequestTargetLexer : Lexer<RequestTarget>
     {
+        private readonly ILexer<Alternation> innerLexer;
+
+        public RequestTargetLexer(ILexer<Alternation> innerLexer)
+        {
+            if (innerLexer == null)
+            {
+                throw new ArgumentNullException(nameof(innerLexer));
+            }
+            this.innerLexer = innerLexer;
+        }
+
         public override ReadResult<RequestTarget> Read(ITextScanner scanner)
         {
-            throw new NotImplementedException();
+            if (scanner == null)
+            {
+                throw new ArgumentNullException(nameof(scanner));
+            }
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
+            {
+                return ReadResult<RequestTarget>.FromResult(new RequestTarget(result.Element));
+            }
+            return ReadResult<RequestTarget>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

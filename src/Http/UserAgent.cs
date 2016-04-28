@@ -6,9 +6,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Http.header_field;
 using Http.Headers;
+using Http.HTTP_message;
+using Http.method;
 using Http.request_line;
 using Http.start_line;
 using Http.status_line;
+using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.CR;
@@ -22,35 +25,26 @@ namespace Http
         private readonly Stream inputStream;
         private readonly Stream outputStream;
 
+        private readonly ILexer<HttpMessage> httpMessageLexer;
+
         /// <summary>Indicates whether this object has been disposed.</summary>
         private bool disposed;
 
-        public UserAgent(Stream stream)
-            : this(stream, stream)
+        public UserAgent(Stream stream, ILexer<HttpMessage> httpMessageLexer)
+            : this(stream, stream, httpMessageLexer)
         {
+            this.httpMessageLexer = httpMessageLexer;
         }
 
-        public UserAgent(Stream inputStream, Stream outputStream)
+        public UserAgent(Stream inputStream, Stream outputStream, [NotNull] ILexer<HttpMessage> httpMessageLexer)
         {
+            if (httpMessageLexer == null)
+            {
+                throw new ArgumentNullException(nameof(httpMessageLexer));
+            }
             this.inputStream = inputStream;
             this.outputStream = outputStream;
-        }
-
-        private static readonly ILexer<NewLine> NewLineLexer;
-
-        private static readonly ILexer<StartLine> StartLineLexer; 
-
-        static UserAgent()
-        {
-            var concatenationLexerFactory = new ConcatenationLexerFactory();
-            var terminalLexerFactory = new TerminalLexerFactory();
-            var carriageReturnLexerFactory = new CarriageReturnLexerFactory(terminalLexerFactory);
-            var lineFeedLexerFactory = new LineFeedLexerFactory(terminalLexerFactory);
-            var newLineLexerFactory = new NewLineLexerFactory(concatenationLexerFactory, carriageReturnLexerFactory.Create(), lineFeedLexerFactory.Create());
-            var alternationLexerFactory = new AlternationLexerFactory();
-            var startLineLexerFactory = new StartLineLexerFactory(alternationLexerFactory, new RequestLineLexerFactory().Create(), new StatusLineLexerFactory().Create());
-            NewLineLexer = newLineLexerFactory.Create();
-            StartLineLexer = startLineLexerFactory.Create();
+            this.httpMessageLexer = httpMessageLexer;
         }
 
         /// <summary>This method calls <see cref="Dispose(bool)" />, specifying <c>true</c> to release all resources.</summary>
@@ -67,80 +61,12 @@ namespace Http
                 throw new ObjectDisposedException(GetType().FullName);
             }
 
-            ResponseMessage message;
             using (var pushbackInputStream = new PushbackInputStream(inputStream))
             {
                 using (ITextScanner scanner = new TextScanner(new StreamTextSource(pushbackInputStream, Encoding.UTF8)))
                 {
-                    var r = StartLineLexer.Read(scanner);
-                    if (!r.Success)
-                    {
-                        // TODO: close connection
-                        throw new NotImplementedException("Error handling is not implemented");
-                    }
-                    var startLine = r.Element;
-                    if (startLine.Element is RequestLine)
-                    {
-                        throw new NotImplementedException("Receiving requests is not implemented");
-                    }
-
-                    var statusLine = (StatusLine)startLine.Element;
-                    var httpVersion = Version.Parse(statusLine.Elements[0].Text);
-                    var status = int.Parse(statusLine.Elements[3].Text);
-                    var reason = statusLine.Elements[5].Text;
-                    message = new ResponseMessage(httpVersion, status, reason);
-                    var headerFieldLexer = new HeaderFieldLexer();
-                    var rhf = headerFieldLexer.Read(scanner);
-                    while (rhf.Success)
-                    {
-                        if (!NewLineLexer.Read(scanner).Success)
-                        {
-                            // TODO: close connection
-                            throw new NotImplementedException("Error handling is not implemented");
-                        }
-
-                        var headerField = rhf.Element;
-                        message.Headers.Add(new Header(headerField.FieldName.Text)
-                        {
-                            headerField.FieldValue.Text
-                        });
-                    }
-
-                    if (!NewLineLexer.Read(scanner).Success)
-                    {
-                        // TODO: close connection
-                        throw new NotImplementedException("Error handling is not implemented");
-                    }
-                }
-
-                long contentLength;
-                if (!message.Headers.TryGetContentLength(out contentLength))
-                {
-                    contentLength = 0;
-                }
-
-                TransferEncodingHeader transferEncoding;
-                if (message.Headers.TryGetTransferEncoding(out transferEncoding))
-                {
-                    if (transferEncoding.Contains("chunked"))
-                    {
-                        throw new NotImplementedException("Chunked messages are not implemented.");
-                    }
-                }
-
-                using (var messageBodyStream = new MessageBodyStream(pushbackInputStream, contentLength))
-                {
-                    // Invoke the callback (if specified) that will optionally consume the message body
-                    if (callback != null)
-                    {
-                        await callback(message, messageBodyStream, cancellationToken);
-                    }
-
-                    // Swallow remaining bytes (if any)
-                    if (messageBodyStream.Position < messageBodyStream.Length)
-                    {
-                        await messageBodyStream.CopyToAsync(Stream.Null);
-                    }
+                    var result = httpMessageLexer.Read(scanner);
+                    throw new NotImplementedException();
                 }
             }
         }

@@ -1,13 +1,34 @@
 using System;
 using Txt;
+using Txt.ABNF;
 
 namespace Http.status_line
 {
-    public class StatusLineLexer : Lexer<StatusLine>
+    public sealed class StatusLineLexer : Lexer<StatusLine>
     {
+        private readonly ILexer<Concatenation> innerLexer;
+
+        public StatusLineLexer(ILexer<Concatenation> innerLexer)
+        {
+            if (innerLexer == null)
+            {
+                throw new ArgumentNullException(nameof(innerLexer));
+            }
+            this.innerLexer = innerLexer;
+        }
+
         public override ReadResult<StatusLine> Read(ITextScanner scanner)
         {
-            throw new NotImplementedException();
+            if (scanner == null)
+            {
+                throw new ArgumentNullException(nameof(scanner));
+            }
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
+            {
+                return ReadResult<StatusLine>.FromResult(new StatusLine(result.Element));
+            }
+            return ReadResult<StatusLine>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }
