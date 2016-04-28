@@ -1,27 +1,26 @@
 using System;
 using Http.token;
+using JetBrains.Annotations;
 using Txt;
 
 namespace Http.protocol_version
 {
     public class ProtocolVersionLexerFactory : ILexerFactory<ProtocolVersion>
     {
-        private readonly ILexerFactory<Token> tokenLexerFactory;
+        private readonly ILexer<Token> tokenLexer;
 
-        public ProtocolVersionLexerFactory(ILexerFactory<Token> tokenLexerFactory)
+        public ProtocolVersionLexerFactory([NotNull] ILexer<Token> tokenLexer)
         {
-            if (tokenLexerFactory == null)
+            if (tokenLexer == null)
             {
-                throw new ArgumentNullException(nameof(tokenLexerFactory));
+                throw new ArgumentNullException(nameof(tokenLexer));
             }
-
-            this.tokenLexerFactory = tokenLexerFactory;
+            this.tokenLexer = tokenLexer;
         }
 
         public ILexer<ProtocolVersion> Create()
         {
-            var innerLexer = tokenLexerFactory.Create();
-            return new ProtocolVersionLexer(innerLexer);
+            return new ProtocolVersionLexer(tokenLexer);
         }
     }
 }

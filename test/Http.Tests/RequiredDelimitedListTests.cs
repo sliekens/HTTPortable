@@ -48,7 +48,7 @@ namespace Http
                 horizontalTabLexerFactory.Create());
             var optionalWhiteSpaceLexerFactory = new OptionalWhiteSpaceLexerFactory(
                 repetitionLexerFactory,
-                whiteSpaceLexerFactory);
+                whiteSpaceLexerFactory.Create());
             var lexerFactory = new RequiredDelimitedListLexerFactory(
                 repetitionLexerFactory,
                 concatenationLexerFactory,

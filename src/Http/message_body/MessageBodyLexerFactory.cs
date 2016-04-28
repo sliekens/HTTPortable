@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.OCTET;
@@ -7,31 +8,29 @@ namespace Http.message_body
 {
     public class MessageBodyLexerFactory : ILexerFactory<MessageBody>
     {
-        private readonly ILexerFactory<Octet> octetLexerFactory;
+        private readonly ILexer<Octet> octetLexer;
 
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
         public MessageBodyLexerFactory(
-            IRepetitionLexerFactory repetitionLexerFactory,
-            ILexerFactory<Octet> octetLexerFactory)
+            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
+            [NotNull] ILexer<Octet> octetLexer)
         {
             if (repetitionLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
-
-            if (octetLexerFactory == null)
+            if (octetLexer == null)
             {
-                throw new ArgumentNullException(nameof(octetLexerFactory));
+                throw new ArgumentNullException(nameof(octetLexer));
             }
-
             this.repetitionLexerFactory = repetitionLexerFactory;
-            this.octetLexerFactory = octetLexerFactory;
+            this.octetLexer = octetLexer;
         }
 
         public ILexer<MessageBody> Create()
         {
-            var innerLexer = repetitionLexerFactory.Create(octetLexerFactory.Create(), 1, int.MaxValue);
+            var innerLexer = repetitionLexerFactory.Create(octetLexer, 1, int.MaxValue);
             return new MessageBodyLexer(innerLexer);
         }
     }

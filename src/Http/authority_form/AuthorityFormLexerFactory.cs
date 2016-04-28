@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Txt;
 using Uri.authority;
 
@@ -6,22 +7,20 @@ namespace Http.authority_form
 {
     public class AuthorityFormLexerFactory : ILexerFactory<AuthorityForm>
     {
-        private readonly ILexerFactory<Authority> authorityLexerFactory;
+        private readonly ILexer<Authority> authorityLexer;
 
-        public AuthorityFormLexerFactory(ILexerFactory<Authority> authorityLexerFactory)
+        public AuthorityFormLexerFactory([NotNull] ILexer<Authority> authorityLexer)
         {
-            if (authorityLexerFactory == null)
+            if (authorityLexer == null)
             {
-                throw new ArgumentNullException(nameof(authorityLexerFactory));
+                throw new ArgumentNullException(nameof(authorityLexer));
             }
-
-            this.authorityLexerFactory = authorityLexerFactory;
+            this.authorityLexer = authorityLexer;
         }
 
         public ILexer<AuthorityForm> Create()
         {
-            var innerLexer = authorityLexerFactory.Create();
-            return new AuthorityFormLexer(innerLexer);
+            return new AuthorityFormLexer(authorityLexer);
         }
     }
 }

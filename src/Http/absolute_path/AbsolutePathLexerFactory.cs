@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 using Uri.segment;
@@ -7,52 +8,51 @@ namespace Http.absolute_path
 {
     public class AbsolutePathLexerFactory : ILexerFactory<AbsolutePath>
     {
+        private readonly IConcatenationLexerFactory concatenationLexerFactory;
+
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
-        private readonly ILexerFactory<Segment> segmentLexerFactory;
-
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
+        private readonly ILexer<Segment> segmentLexer;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public AbsolutePathLexerFactory(
-            IRepetitionLexerFactory repetitionLexerFactory,
-            IConcatenationLexerFactory concatenationLexerFactory,
-            ITerminalLexerFactory terminalLexerFactory,
-            ILexerFactory<Segment> segmentLexerFactory)
+            [NotNull] ITerminalLexerFactory terminalLexerFactory,
+            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
+            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
+            [NotNull] ILexer<Segment> segmentLexer)
         {
-            if (repetitionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(repetitionLexerFactory));
-            }
-
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-
             if (terminalLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
-
-            if (segmentLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(segmentLexerFactory));
+                throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
-
-            this.repetitionLexerFactory = repetitionLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
+            if (repetitionLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(repetitionLexerFactory));
+            }
+            if (segmentLexer == null)
+            {
+                throw new ArgumentNullException(nameof(segmentLexer));
+            }
             this.terminalLexerFactory = terminalLexerFactory;
-            this.segmentLexerFactory = segmentLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
+            this.repetitionLexerFactory = repetitionLexerFactory;
+            this.segmentLexer = segmentLexer;
         }
 
         public ILexer<AbsolutePath> Create()
         {
-            var a = terminalLexerFactory.Create(@"/", StringComparer.Ordinal);
-            var b = segmentLexerFactory.Create();
-            var c = concatenationLexerFactory.Create(a, b);
-            var innerLexer = repetitionLexerFactory.Create(c, 1, int.MaxValue);
+            var innerLexer =
+                repetitionLexerFactory.Create(
+                    concatenationLexerFactory.Create(
+                        terminalLexerFactory.Create(@"/", StringComparer.Ordinal),
+                        segmentLexer),
+                    1,
+                    int.MaxValue);
             return new AbsolutePathLexer(innerLexer);
         }
     }

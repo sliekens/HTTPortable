@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.WSP;
@@ -9,30 +10,27 @@ namespace Http.OWS
     {
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
-        private readonly ILexerFactory<WhiteSpace> whiteSpaceLexerFactory;
+        private readonly ILexer<WhiteSpace> whiteSpaceLexer;
 
         public OptionalWhiteSpaceLexerFactory(
-            IRepetitionLexerFactory repetitionLexerFactory,
-            ILexerFactory<WhiteSpace> whiteSpaceLexerFactory)
+            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
+            [NotNull] ILexer<WhiteSpace> whiteSpaceLexer)
         {
             if (repetitionLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
-
-            if (whiteSpaceLexerFactory == null)
+            if (whiteSpaceLexer == null)
             {
-                throw new ArgumentNullException(nameof(whiteSpaceLexerFactory));
+                throw new ArgumentNullException(nameof(whiteSpaceLexer));
             }
-
             this.repetitionLexerFactory = repetitionLexerFactory;
-            this.whiteSpaceLexerFactory = whiteSpaceLexerFactory;
+            this.whiteSpaceLexer = whiteSpaceLexer;
         }
 
         public ILexer<OptionalWhiteSpace> Create()
         {
-            var wsp = whiteSpaceLexerFactory.Create();
-            var innerLexer = repetitionLexerFactory.Create(wsp, 0, int.MaxValue);
+            var innerLexer = repetitionLexerFactory.Create(whiteSpaceLexer, 0, int.MaxValue);
             return new OptionalWhiteSpaceLexer(innerLexer);
         }
     }

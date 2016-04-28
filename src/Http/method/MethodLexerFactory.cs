@@ -1,27 +1,26 @@
 ﻿using System;
 using Http.token;
+using JetBrains.Annotations;
 using Txt;
 
 namespace Http.method
 {
     public class MethodLexerFactory : ILexerFactory<Method>
     {
-        private readonly ILexerFactory<Token> tokenLexerFactory;
+        private readonly ILexer<Token> tokenLexer;
 
-        public MethodLexerFactory(ILexerFactory<Token> tokenLexerFactory)
+        public MethodLexerFactory([NotNull] ILexer<Token> tokenLexer)
         {
-            if (tokenLexerFactory == null)
+            if (tokenLexer == null)
             {
-                throw new ArgumentNullException(nameof(tokenLexerFactory));
+                throw new ArgumentNullException(nameof(tokenLexer));
             }
-
-            this.tokenLexerFactory = tokenLexerFactory;
+            this.tokenLexer = tokenLexer;
         }
 
         public ILexer<Method> Create()
         {
-            var innerLexer = tokenLexerFactory.Create();
-            return new MethodLexer(innerLexer);
+            return new MethodLexer(tokenLexer);
         }
     }
 }

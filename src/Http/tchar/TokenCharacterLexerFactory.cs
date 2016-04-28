@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.ALPHA;
@@ -8,44 +9,40 @@ namespace Http.tchar
 {
     public class TokenCharacterLexerFactory : ILexerFactory<TokenCharacter>
     {
-        private readonly ILexerFactory<Alpha> alphaLexerFactory;
+        private readonly ILexer<Alpha> alphaLexer;
 
         private readonly IAlternationLexerFactory alternationLexerFactory;
 
-        private readonly ILexerFactory<Digit> digitLexerFactory;
+        private readonly ILexer<Digit> digitLexer;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public TokenCharacterLexerFactory(
-            ITerminalLexerFactory terminalLexerFactory,
-            ILexerFactory<Alpha> alphaLexerFactory,
-            ILexerFactory<Digit> digitLexerFactory,
-            IAlternationLexerFactory alternationLexerFactory)
+            [NotNull] ITerminalLexerFactory terminalLexerFactory,
+            [NotNull] IAlternationLexerFactory alternationLexerFactory,
+            [NotNull] ILexer<Digit> digitLexer,
+            [NotNull] ILexer<Alpha> alphaLexer)
         {
             if (terminalLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
-
-            if (alphaLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alphaLexerFactory));
-            }
-
-            if (digitLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(digitLexerFactory));
-            }
-
             if (alternationLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(alternationLexerFactory));
             }
-
+            if (digitLexer == null)
+            {
+                throw new ArgumentNullException(nameof(digitLexer));
+            }
+            if (alphaLexer == null)
+            {
+                throw new ArgumentNullException(nameof(alphaLexer));
+            }
             this.terminalLexerFactory = terminalLexerFactory;
-            this.alphaLexerFactory = alphaLexerFactory;
-            this.digitLexerFactory = digitLexerFactory;
             this.alternationLexerFactory = alternationLexerFactory;
+            this.digitLexer = digitLexer;
+            this.alphaLexer = alphaLexer;
         }
 
         public ILexer<TokenCharacter> Create()
@@ -67,8 +64,8 @@ namespace Http.tchar
                     terminalLexerFactory.Create(@"`", StringComparer.Ordinal),
                     terminalLexerFactory.Create(@"|", StringComparer.Ordinal),
                     terminalLexerFactory.Create(@"~", StringComparer.Ordinal),
-                    digitLexerFactory.Create(),
-                    alphaLexerFactory.Create());
+                    digitLexer,
+                    alphaLexer);
             return new TokenCharacterLexer(innerLexer);
         }
     }

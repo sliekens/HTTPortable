@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.OCTET;
@@ -7,31 +8,29 @@ namespace Http.chunk_data
 {
     public class ChunkDataLexerFactory : ILexerFactory<ChunkData>
     {
-        private readonly ILexerFactory<Octet> octetLexerFactory;
+        private readonly ILexer<Octet> octetLexer;
 
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
         public ChunkDataLexerFactory(
-            IRepetitionLexerFactory repetitionLexerFactory,
-            ILexerFactory<Octet> octetLexerFactory)
+            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
+            [NotNull] ILexer<Octet> octetLexer)
         {
             if (repetitionLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
-
-            if (octetLexerFactory == null)
+            if (octetLexer == null)
             {
-                throw new ArgumentNullException(nameof(octetLexerFactory));
+                throw new ArgumentNullException(nameof(octetLexer));
             }
-
             this.repetitionLexerFactory = repetitionLexerFactory;
-            this.octetLexerFactory = octetLexerFactory;
+            this.octetLexer = octetLexer;
         }
 
         public ILexer<ChunkData> Create()
         {
-            var innerLexer = repetitionLexerFactory.Create(octetLexerFactory.Create(), 1, int.MaxValue);
+            var innerLexer = repetitionLexerFactory.Create(octetLexer, 1, int.MaxValue);
             return new ChunkDataLexer(innerLexer);
         }
     }

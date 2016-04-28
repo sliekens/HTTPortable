@@ -1,27 +1,26 @@
 ﻿using System;
 using Http.OWS;
+using JetBrains.Annotations;
 using Txt;
 
 namespace Http.BWS
 {
     public class BadWhiteSpaceLexerFactory : ILexerFactory<BadWhiteSpace>
     {
-        private readonly ILexerFactory<OptionalWhiteSpace> optionalWhiteSpaceLexerFactory;
+        private readonly ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer;
 
-        public BadWhiteSpaceLexerFactory(ILexerFactory<OptionalWhiteSpace> optionalWhiteSpaceLexerFactory)
+        public BadWhiteSpaceLexerFactory([NotNull] ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer)
         {
-            if (optionalWhiteSpaceLexerFactory == null)
+            if (optionalWhiteSpaceLexer == null)
             {
-                throw new ArgumentNullException(nameof(optionalWhiteSpaceLexerFactory));
+                throw new ArgumentNullException(nameof(optionalWhiteSpaceLexer));
             }
-
-            this.optionalWhiteSpaceLexerFactory = optionalWhiteSpaceLexerFactory;
+            this.optionalWhiteSpaceLexer = optionalWhiteSpaceLexer;
         }
 
         public ILexer<BadWhiteSpace> Create()
         {
-            var innerLexer = optionalWhiteSpaceLexerFactory.Create();
-            return new BadWhiteSpaceLexer(innerLexer);
+            return new BadWhiteSpaceLexer(optionalWhiteSpaceLexer);
         }
     }
 }

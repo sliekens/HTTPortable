@@ -48,7 +48,7 @@ namespace Http
             var lineFeedLexerFactory = new LineFeedLexerFactory(terminalLexerFactory);
             var newLineLexerFactory = new NewLineLexerFactory(concatenationLexerFactory, carriageReturnLexerFactory.Create(), lineFeedLexerFactory.Create());
             var alternationLexerFactory = new AlternationLexerFactory();
-            var startLineLexerFactory = new StartLineLexerFactory(alternationLexerFactory, new RequestLineLexerFactory(), new StatusLineLexerFactory());
+            var startLineLexerFactory = new StartLineLexerFactory(alternationLexerFactory, new RequestLineLexerFactory().Create(), new StatusLineLexerFactory().Create());
             NewLineLexer = newLineLexerFactory.Create();
             StartLineLexer = startLineLexerFactory.Create();
         }

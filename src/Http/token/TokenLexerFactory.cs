@@ -1,5 +1,6 @@
 ﻿using System;
 using Http.tchar;
+using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 
@@ -9,28 +10,28 @@ namespace Http.token
     {
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
-        private readonly ILexerFactory<TokenCharacter> tokenCharacterLexerFactory;
+        private readonly ILexer<TokenCharacter> tokenCharacterLexer;
 
         public TokenLexerFactory(
-            IRepetitionLexerFactory repetitionLexerFactory,
-            ILexerFactory<TokenCharacter> tokenCharacterLexerFactory)
+            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
+            [NotNull] ILexer<TokenCharacter> tokenCharacterLexer)
         {
             if (repetitionLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
-            if (tokenCharacterLexerFactory == null)
+            if (tokenCharacterLexer == null)
             {
-                throw new ArgumentNullException(nameof(tokenCharacterLexerFactory));
+                throw new ArgumentNullException(nameof(tokenCharacterLexer));
             }
             this.repetitionLexerFactory = repetitionLexerFactory;
-            this.tokenCharacterLexerFactory = tokenCharacterLexerFactory;
+            this.tokenCharacterLexer = tokenCharacterLexer;
         }
 
         public ILexer<Token> Create()
         {
             var innerLexer = repetitionLexerFactory.Create(
-                tokenCharacterLexerFactory.Create(),
+                tokenCharacterLexer,
                 1,
                 int.MaxValue);
             return new TokenLexer(innerLexer);

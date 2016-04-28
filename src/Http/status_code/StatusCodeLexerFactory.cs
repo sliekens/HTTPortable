@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.DIGIT;
@@ -7,32 +8,29 @@ namespace Http.status_code
 {
     public class StatusCodeLexerFactory : ILexerFactory<StatusCode>
     {
-        private readonly ILexerFactory<Digit> digitLexerFactory;
+        private readonly ILexer<Digit> digitLexer;
 
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
         public StatusCodeLexerFactory(
-            IRepetitionLexerFactory repetitionLexerFactory,
-            ILexerFactory<Digit> digitLexerFactory)
+            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
+            [NotNull] ILexer<Digit> digitLexer)
         {
             if (repetitionLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
-
-            if (digitLexerFactory == null)
+            if (digitLexer == null)
             {
-                throw new ArgumentNullException(nameof(digitLexerFactory));
+                throw new ArgumentNullException(nameof(digitLexer));
             }
-
             this.repetitionLexerFactory = repetitionLexerFactory;
-            this.digitLexerFactory = digitLexerFactory;
+            this.digitLexer = digitLexer;
         }
 
         public ILexer<StatusCode> Create()
         {
-            var digit = digitLexerFactory.Create();
-            var innerLexer = repetitionLexerFactory.Create(digit, 3, 3);
+            var innerLexer = repetitionLexerFactory.Create(digitLexer, 3, 3);
             return new StatusCodeLexer(innerLexer);
         }
     }

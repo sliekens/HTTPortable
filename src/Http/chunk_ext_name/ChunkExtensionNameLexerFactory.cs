@@ -1,27 +1,26 @@
 using System;
 using Http.token;
+using JetBrains.Annotations;
 using Txt;
 
 namespace Http.chunk_ext_name
 {
     public class ChunkExtensionNameLexerFactory : ILexerFactory<ChunkExtensionName>
     {
-        private readonly ILexerFactory<Token> tokenLexerFactory;
+        private readonly ILexer<Token> tokenLexer;
 
-        public ChunkExtensionNameLexerFactory(ILexerFactory<Token> tokenLexerFactory)
+        public ChunkExtensionNameLexerFactory([NotNull] ILexer<Token> tokenLexer)
         {
-            if (tokenLexerFactory == null)
+            if (tokenLexer == null)
             {
-                throw new ArgumentNullException(nameof(tokenLexerFactory));
+                throw new ArgumentNullException(nameof(tokenLexer));
             }
-
-            this.tokenLexerFactory = tokenLexerFactory;
+            this.tokenLexer = tokenLexer;
         }
 
         public ILexer<ChunkExtensionName> Create()
         {
-            var innerLexer = tokenLexerFactory.Create();
-            return new ChunkExtensionNameLexer(innerLexer);
+            return new ChunkExtensionNameLexer(tokenLexer);
         }
     }
 }

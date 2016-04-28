@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Txt;
 using Uri.absolute_URI;
 
@@ -6,22 +7,20 @@ namespace Http.absolute_form
 {
     public class AbsoluteFormLexerFactory : ILexerFactory<AbsoluteForm>
     {
-        private readonly ILexerFactory<AbsoluteUri> absoluteUriLexerFactory;
+        private readonly ILexer<AbsoluteUri> absoluteUriLexer;
 
-        public AbsoluteFormLexerFactory(ILexerFactory<AbsoluteUri> absoluteUriLexerFactory)
+        public AbsoluteFormLexerFactory([NotNull] ILexer<AbsoluteUri> absoluteUriLexer)
         {
-            if (absoluteUriLexerFactory == null)
+            if (absoluteUriLexer == null)
             {
-                throw new ArgumentNullException(nameof(absoluteUriLexerFactory));
+                throw new ArgumentNullException(nameof(absoluteUriLexer));
             }
-
-            this.absoluteUriLexerFactory = absoluteUriLexerFactory;
+            this.absoluteUriLexer = absoluteUriLexer;
         }
 
         public ILexer<AbsoluteForm> Create()
         {
-            var innerLexer = absoluteUriLexerFactory.Create();
-            return new AbsoluteFormLexer(innerLexer);
+            return new AbsoluteFormLexer(absoluteUriLexer);
         }
     }
 }

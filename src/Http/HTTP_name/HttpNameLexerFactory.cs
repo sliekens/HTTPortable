@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 
@@ -8,7 +9,7 @@ namespace Http.HTTP_name
     {
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
-        public HttpNameLexerFactory(ITerminalLexerFactory terminalLexerFactory)
+        public HttpNameLexerFactory([NotNull] ITerminalLexerFactory terminalLexerFactory)
         {
             if (terminalLexerFactory == null)
             {

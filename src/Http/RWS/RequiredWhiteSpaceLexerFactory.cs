@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.HTAB;
@@ -10,50 +11,47 @@ namespace Http.RWS
     {
         private readonly IAlternationLexerFactory alternationLexerFactory;
 
-        private readonly ILexerFactory<HorizontalTab> horizontalTabLexerFactory;
+        private readonly ILexer<HorizontalTab> horizontalTabLexer;
 
         private readonly IRepetitionLexerFactory repetitionLexerFactory;
 
-        private readonly ILexerFactory<Space> spaceLexerFactory;
+        private readonly ILexer<Space> spaceLexer;
 
         public RequiredWhiteSpaceLexerFactory(
-            IRepetitionLexerFactory repetitionLexerFactory,
-            IAlternationLexerFactory alternationLexerFactory,
-            ILexerFactory<Space> spaceLexerFactory,
-            ILexerFactory<HorizontalTab> horizontalTabLexerFactory)
+            [NotNull] IAlternationLexerFactory alternationLexerFactory,
+            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
+            [NotNull] ILexer<Space> spaceLexer,
+            [NotNull] ILexer<HorizontalTab> horizontalTabLexer)
         {
-            if (repetitionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(repetitionLexerFactory));
-            }
-
             if (alternationLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(alternationLexerFactory));
             }
-
-            if (spaceLexerFactory == null)
+            if (repetitionLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(spaceLexerFactory));
+                throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
-
-            if (horizontalTabLexerFactory == null)
+            if (spaceLexer == null)
             {
-                throw new ArgumentNullException(nameof(horizontalTabLexerFactory));
+                throw new ArgumentNullException(nameof(spaceLexer));
             }
-
-            this.repetitionLexerFactory = repetitionLexerFactory;
+            if (horizontalTabLexer == null)
+            {
+                throw new ArgumentNullException(nameof(horizontalTabLexer));
+            }
             this.alternationLexerFactory = alternationLexerFactory;
-            this.spaceLexerFactory = spaceLexerFactory;
-            this.horizontalTabLexerFactory = horizontalTabLexerFactory;
+            this.repetitionLexerFactory = repetitionLexerFactory;
+            this.spaceLexer = spaceLexer;
+            this.horizontalTabLexer = horizontalTabLexer;
         }
 
         public ILexer<RequiredWhiteSpace> Create()
         {
-            var sp = spaceLexerFactory.Create();
-            var htab = horizontalTabLexerFactory.Create();
-            var a = alternationLexerFactory.Create(sp, htab);
-            var innerLexer = repetitionLexerFactory.Create(a, 1, int.MaxValue);
+            var innerLexer =
+                repetitionLexerFactory.Create(
+                    alternationLexerFactory.Create(spaceLexer, horizontalTabLexer),
+                    1,
+                    int.MaxValue);
             return new RequiredWhiteSpaceLexer(innerLexer);
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Http.quoted_string;
 using Http.token;
+using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 
@@ -10,40 +11,37 @@ namespace Http.chunk_ext_val
     {
         private readonly IAlternationLexerFactory alternationLexerFactory;
 
-        private readonly ILexerFactory<QuotedString> quotedStringLexerFactory;
+        private readonly ILexer<QuotedString> quotedStringLexer;
 
-        private readonly ILexerFactory<Token> tokenLexerFactory;
+        private readonly ILexer<Token> tokenLexer;
 
         public ChunkExtensionValueLexerFactory(
-            IAlternationLexerFactory alternationLexerFactory,
-            ILexerFactory<Token> tokenLexerFactory,
-            ILexerFactory<QuotedString> quotedStringLexerFactory)
+            [NotNull] IAlternationLexerFactory alternationLexerFactory,
+            [NotNull] ILexer<Token> tokenLexer,
+            [NotNull] ILexer<QuotedString> quotedStringLexer)
         {
             if (alternationLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(alternationLexerFactory));
             }
-
-            if (tokenLexerFactory == null)
+            if (tokenLexer == null)
             {
-                throw new ArgumentNullException(nameof(tokenLexerFactory));
+                throw new ArgumentNullException(nameof(tokenLexer));
             }
-
-            if (quotedStringLexerFactory == null)
+            if (quotedStringLexer == null)
             {
-                throw new ArgumentNullException(nameof(quotedStringLexerFactory));
+                throw new ArgumentNullException(nameof(quotedStringLexer));
             }
-
             this.alternationLexerFactory = alternationLexerFactory;
-            this.tokenLexerFactory = tokenLexerFactory;
-            this.quotedStringLexerFactory = quotedStringLexerFactory;
+            this.tokenLexer = tokenLexer;
+            this.quotedStringLexer = quotedStringLexer;
         }
 
         public ILexer<ChunkExtensionValue> Create()
         {
             var innerLexer = alternationLexerFactory.Create(
-                tokenLexerFactory.Create(),
-                quotedStringLexerFactory.Create());
+                tokenLexer,
+                quotedStringLexer);
             return new ChunkExtensionValueLexer(innerLexer);
         }
     }

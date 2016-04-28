@@ -1,6 +1,7 @@
 ﻿using System;
 using Http.request_line;
 using Http.status_line;
+using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 
@@ -10,37 +11,36 @@ namespace Http.start_line
     {
         private readonly IAlternationLexerFactory alternationLexerFactory;
 
-        private readonly ILexerFactory<RequestLine> requestLineLexerFactory;
+        private readonly ILexer<RequestLine> requestLineLexer;
 
-        private readonly ILexerFactory<StatusLine> statusLineLexerFactory;
+        private readonly ILexer<StatusLine> statusLineLexer;
 
         public StartLineLexerFactory(
-            IAlternationLexerFactory alternationLexerFactory,
-            ILexerFactory<RequestLine> requestLineLexerFactory,
-            ILexerFactory<StatusLine> statusLineLexerFactory)
+            [NotNull] IAlternationLexerFactory alternationLexerFactory,
+            [NotNull] ILexer<RequestLine> requestLineLexer,
+            [NotNull] ILexer<StatusLine> statusLineLexer)
         {
             if (alternationLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(alternationLexerFactory));
             }
-            if (requestLineLexerFactory == null)
+            if (requestLineLexer == null)
             {
-                throw new ArgumentNullException(nameof(requestLineLexerFactory));
+                throw new ArgumentNullException(nameof(requestLineLexer));
             }
-            if (statusLineLexerFactory == null)
+            if (statusLineLexer == null)
             {
-                throw new ArgumentNullException(nameof(statusLineLexerFactory));
+                throw new ArgumentNullException(nameof(statusLineLexer));
             }
             this.alternationLexerFactory = alternationLexerFactory;
-            this.requestLineLexerFactory = requestLineLexerFactory;
-            this.statusLineLexerFactory = statusLineLexerFactory;
+            this.requestLineLexer = requestLineLexer;
+            this.statusLineLexer = statusLineLexer;
         }
 
         public ILexer<StartLine> Create()
         {
-            return
-                new StartLineLexer(
-                    alternationLexerFactory.Create(requestLineLexerFactory.Create(), statusLineLexerFactory.Create()));
+            var innerLexer = alternationLexerFactory.Create(requestLineLexer, statusLineLexer);
+            return new StartLineLexer(innerLexer);
         }
     }
 }

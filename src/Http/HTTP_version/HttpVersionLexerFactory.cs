@@ -1,5 +1,6 @@
 ﻿using System;
 using Http.HTTP_name;
+using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.DIGIT;
@@ -8,53 +9,50 @@ namespace Http.HTTP_version
 {
     public class HttpVersionLexerFactory : ILexerFactory<HttpVersion>
     {
-        private readonly ILexerFactory<Digit> digitLexerFactory;
-
-        private readonly ILexerFactory<HttpName> httpNameLexerFactory;
-
         private readonly IConcatenationLexerFactory concatenationLexerFactory;
+
+        private readonly ILexer<Digit> digitLexer;
+
+        private readonly ILexer<HttpName> httpNameLexer;
 
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
         public HttpVersionLexerFactory(
-            IConcatenationLexerFactory concatenationLexerFactory,
-            ITerminalLexerFactory terminalLexerFactory,
-            ILexerFactory<HttpName> httpNameLexerFactory,
-            ILexerFactory<Digit> digitLexerFactory)
+            [NotNull] ITerminalLexerFactory terminalLexerFactory,
+            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
+            [NotNull] ILexer<HttpName> httpNameLexer,
+            [NotNull] ILexer<Digit> digitLexer)
         {
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-
             if (terminalLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
-
-            if (httpNameLexerFactory == null)
+            if (concatenationLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(httpNameLexerFactory));
+                throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
-
-            if (digitLexerFactory == null)
+            if (httpNameLexer == null)
             {
-                throw new ArgumentNullException(nameof(digitLexerFactory));
+                throw new ArgumentNullException(nameof(httpNameLexer));
             }
-
-            this.concatenationLexerFactory = concatenationLexerFactory;
+            if (digitLexer == null)
+            {
+                throw new ArgumentNullException(nameof(digitLexer));
+            }
             this.terminalLexerFactory = terminalLexerFactory;
-            this.httpNameLexerFactory = httpNameLexerFactory;
-            this.digitLexerFactory = digitLexerFactory;
+            this.concatenationLexerFactory = concatenationLexerFactory;
+            this.httpNameLexer = httpNameLexer;
+            this.digitLexer = digitLexer;
         }
 
         public ILexer<HttpVersion> Create()
         {
-            var httpName = httpNameLexerFactory.Create();
-            var digit = digitLexerFactory.Create();
-            var slash = terminalLexerFactory.Create(@"/", StringComparer.Ordinal);
-            var dot = terminalLexerFactory.Create(@".", StringComparer.Ordinal);
-            var innerLexer = concatenationLexerFactory.Create(httpName, slash, digit, dot, digit);
+            var innerLexer = concatenationLexerFactory.Create(
+                httpNameLexer,
+                terminalLexerFactory.Create(@"/", StringComparer.Ordinal),
+                digitLexer,
+                terminalLexerFactory.Create(@".", StringComparer.Ordinal),
+                digitLexer);
             return new HttpVersionLexer(innerLexer);
         }
     }

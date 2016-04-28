@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 
@@ -8,7 +9,7 @@ namespace Http.asterisk_form
     {
         private readonly ITerminalLexerFactory terminalLexerFactory;
 
-        public AsteriskFormLexerFactory(ITerminalLexerFactory terminalLexerFactory)
+        public AsteriskFormLexerFactory([NotNull] ITerminalLexerFactory terminalLexerFactory)
         {
             if (terminalLexerFactory == null)
             {
