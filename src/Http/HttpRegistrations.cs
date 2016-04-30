@@ -8,7 +8,12 @@ namespace Http
     {
         public static IEnumerable<Registration> GetRegistrations(GetInstanceDelegate getInstance)
         {
-            return GetRegistrations(typeof(HttpRegistrations).GetTypeInfo().Assembly, getInstance);
+            yield return new Registration(typeof(IRequiredDelimitedListLexerFactory), typeof(RequiredDelimitedListLexerFactory));
+            yield return new Registration(typeof(IOptionalDelimitedListLexerFactory), typeof(OptionalDelimitedListLexerFactory));
+            foreach (var registration in GetRegistrations(typeof(HttpRegistrations).GetTypeInfo().Assembly, getInstance))
+            {
+                yield return registration;
+            }
         }
     }
 }

@@ -1,1 +1,1 @@
-﻿qdtext = HTAB / SP / "!" / %x23-5B ; '#'-'[' / %x5D-7E ; ']'-'~' / obs-text
+﻿qdtext = HTAB / SP / "!" / %x23-5B / %x5D-7E / obs-text

@@ -1,12 +1,35 @@
-﻿using Txt;
+﻿using System;
+using Txt;
+using Txt.ABNF;
 
 namespace Http.transfer_extension
 {
-    public class TransferExtensionLexer : Lexer<TransferExtension>
+    public sealed class TransferExtensionLexer : Lexer<TransferExtension>
     {
+        private readonly ILexer<Concatenation> innerLexer;
+
+        public TransferExtensionLexer(ILexer<Concatenation> innerLexer)
+        {
+            if (innerLexer == null)
+            {
+                throw new ArgumentNullException(nameof(innerLexer));
+            }
+            this.innerLexer = innerLexer;
+        }
+
         public override ReadResult<TransferExtension> Read(ITextScanner scanner)
         {
-            throw new System.NotImplementedException();
+            if (scanner == null)
+            {
+                throw new ArgumentNullException(nameof(scanner));
+            }
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
+            {
+                return ReadResult<TransferExtension>.FromResult(new TransferExtension(result.Element));
+            }
+            return
+                ReadResult<TransferExtension>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

@@ -87,12 +87,7 @@ namespace Http
                 await writer.FlushAsync().ConfigureAwait(false);
                 if (callback != null)
                 {
-                    long contentLength;
-                    if (!message.Headers.TryGetContentLength(out contentLength))
-                    {
-                        contentLength = 0;
-                    }
-
+                    long contentLength = 0;
                     using (var messageBodyStream = new MessageBodyStream(writer.BaseStream, contentLength))
                     {
                         await callback(message, messageBodyStream, cancellationToken).ConfigureAwait(false);

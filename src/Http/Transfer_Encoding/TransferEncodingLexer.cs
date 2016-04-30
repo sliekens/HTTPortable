@@ -1,12 +1,34 @@
-﻿using Txt;
+﻿using System;
+using Txt;
 
 namespace Http.Transfer_Encoding
 {
-    public class TransferEncodingLexer : Lexer<TransferEncoding>
+    public sealed class TransferEncodingLexer : Lexer<TransferEncoding>
     {
+        private readonly ILexer<RequiredDelimitedList> innerLexer;
+
+        public TransferEncodingLexer(ILexer<RequiredDelimitedList> innerLexer)
+        {
+            if (innerLexer == null)
+            {
+                throw new ArgumentNullException(nameof(innerLexer));
+            }
+            this.innerLexer = innerLexer;
+        }
+
         public override ReadResult<TransferEncoding> Read(ITextScanner scanner)
         {
-            throw new System.NotImplementedException();
+            if (scanner == null)
+            {
+                throw new ArgumentNullException(nameof(scanner));
+            }
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
+            {
+                return ReadResult<TransferEncoding>.FromResult(new TransferEncoding(result.Element));
+            }
+            return ReadResult<TransferEncoding>.FromSyntaxError(
+                SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

@@ -1,12 +1,34 @@
+using System;
 using Txt;
+using Txt.ABNF;
 
 namespace Http.trailer_part
 {
-    public class TrailerPartLexer : Lexer<TrailerPart>
+    public sealed class TrailerPartLexer : Lexer<TrailerPart>
     {
+        private readonly ILexer<Repetition> innerLexer;
+
+        public TrailerPartLexer(ILexer<Repetition> innerLexer)
+        {
+            if (innerLexer == null)
+            {
+                throw new ArgumentNullException(nameof(innerLexer));
+            }
+            this.innerLexer = innerLexer;
+        }
+
         public override ReadResult<TrailerPart> Read(ITextScanner scanner)
         {
-            throw new System.NotImplementedException();
+            if (scanner == null)
+            {
+                throw new ArgumentNullException(nameof(scanner));
+            }
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
+            {
+                return ReadResult<TrailerPart>.FromResult(new TrailerPart(result.Element));
+            }
+            return ReadResult<TrailerPart>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

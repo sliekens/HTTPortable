@@ -1,12 +1,35 @@
-﻿using Txt;
+﻿using System;
+using Txt;
+using Txt.ABNF;
 
 namespace Http.received_protocol
 {
-    public class ReceivedProtocolLexer : Lexer<ReceivedProtocol>
+    public sealed class ReceivedProtocolLexer : Lexer<ReceivedProtocol>
     {
+        private readonly ILexer<Concatenation> innerLexer;
+
+        public ReceivedProtocolLexer(ILexer<Concatenation> innerLexer)
+        {
+            if (innerLexer == null)
+            {
+                throw new ArgumentNullException(nameof(innerLexer));
+            }
+            this.innerLexer = innerLexer;
+        }
+
         public override ReadResult<ReceivedProtocol> Read(ITextScanner scanner)
         {
-            throw new System.NotImplementedException();
+            if (scanner == null)
+            {
+                throw new ArgumentNullException(nameof(scanner));
+            }
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
+            {
+                return ReadResult<ReceivedProtocol>.FromResult(new ReceivedProtocol(result.Element));
+            }
+            return ReadResult<ReceivedProtocol>.FromSyntaxError(
+                SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

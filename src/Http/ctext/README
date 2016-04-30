@@ -1,1 +1,1 @@
-﻿ctext = HTAB / SP / %x21-27 ; '!'-''' / %x2A-5B ; '*'-'[' / %x5D-7E ; ']'-'~' / obs-text
+﻿ctext = HTAB / SP / %x21-27 / %x2A-5B / %x5D-7E / obs-text

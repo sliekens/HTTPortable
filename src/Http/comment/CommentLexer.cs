@@ -14,7 +14,6 @@ namespace Http.comment
             {
                 throw new ArgumentNullException(nameof(innerLexer));
             }
-
             this.innerLexer = innerLexer;
         }
 
@@ -31,4 +30,5 @@ namespace Http.comment
             }
             return ReadResult<Comment>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
-    }}
+    }
+}

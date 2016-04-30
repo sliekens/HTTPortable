@@ -1,13 +1,35 @@
 ﻿using System;
 using Txt;
+using Txt.ABNF;
 
 namespace Http.t_ranking
 {
-    public class TransferCodingRankLexer : Lexer<TransferCodingRank>
+    public sealed class TransferCodingRankLexer : Lexer<TransferCodingRank>
     {
+        private readonly ILexer<Concatenation> innerLexer;
+
+        public TransferCodingRankLexer(ILexer<Concatenation> innerLexer)
+        {
+            if (innerLexer == null)
+            {
+                throw new ArgumentNullException(nameof(innerLexer));
+            }
+            this.innerLexer = innerLexer;
+        }
+
         public override ReadResult<TransferCodingRank> Read(ITextScanner scanner)
         {
-            throw new NotImplementedException();
+            if (scanner == null)
+            {
+                throw new ArgumentNullException(nameof(scanner));
+            }
+            var result = innerLexer.Read(scanner);
+            if (result.Success)
+            {
+                return ReadResult<TransferCodingRank>.FromResult(new TransferCodingRank(result.Element));
+            }
+            return
+                ReadResult<TransferCodingRank>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }
