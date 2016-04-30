@@ -19,7 +19,8 @@
         }
     },
     "dependencies": {
-        "Uri": "1.0.0-*"
+        "Uri": "1.0.0-*",
+        "Txt.ABNF": "2.0.0-*" 
     },
     "configurations": {
         "Debug": {
