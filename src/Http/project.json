@@ -1,8 +1,8 @@
 ﻿{
     "version": "1.0.0-*",
     "description": "Implements RFCs 7230-7237",
-    "authors": ["Steven Liekens"],
-    "tags": [""],
+    "authors": [ "Steven Liekens" ],
+    "tags": [ "" ],
     "projectUrl": "https://github.com/StevenLiekens/HTTPortable",
     "licenseUrl": "https://raw.githubusercontent.com/StevenLiekens/HTTPortable/master/LICENSE",
     "frameworks": {
@@ -14,23 +14,22 @@
                 "System.Runtime": "4.0.21-beta-23516",
                 "System.Threading": "4.0.11-beta-23516",
                 "System.Net.Primitives": "4.0.11-beta-23516",
-                "System.Net.Requests": "4.0.11-beta-23516"
+                "System.Net.Requests": "4.0.11-beta-23516",
+                "Txt": "2.0.0-*",
+                "Txt.ABNF": "2.0.0-*",
+                "Uri": "1.0.0-*"
             }
         }
-    },
-    "dependencies": {
-        "Uri": "1.0.0-*",
-        "Txt.ABNF": "2.0.0-*" 
     },
     "configurations": {
         "Debug": {
             "compilationOptions": {
-                "define": ["JETBRAINS_ANNOTATIONS"]
+                "define": [ "JETBRAINS_ANNOTATIONS" ]
             }
         },
         "Release": {
             "compilationOptions": {
-                "define": ["JETBRAINS_ANNOTATIONS"]
+                "define": [ "JETBRAINS_ANNOTATIONS" ]
             }
         }
 

@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Http;
@@ -10,12 +9,13 @@ namespace HTTPortable
     public class ProxyUserAgentFactory : IUserAgentFactory
     {
         private readonly IUserAgentFactory userAgentFactory;
+
         private readonly IWebProxy webProxy;
 
         /// <summary>
-        /// Creates a new instance of the <see cref="ProxyUserAgentFactory" /> class using the default web proxy. This
-        /// constructor reads proxy settings from the app.config file. If there is no config file, the current user's Internet
-        /// Explorer (IE) proxy settings are used.
+        ///     Creates a new instance of the <see cref="ProxyUserAgentFactory" /> class using the default web proxy. This
+        ///     constructor reads proxy settings from the app.config file. If there is no config file, the current user's Internet
+        ///     Explorer (IE) proxy settings are used.
         /// </summary>
         /// <param name="userAgentFactory">The inner user agent factory that creates user agents for the final destination URI.</param>
         public ProxyUserAgentFactory(IUserAgentFactory userAgentFactory)
