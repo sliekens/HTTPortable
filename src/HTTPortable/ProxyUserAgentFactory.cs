@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Http;
@@ -12,22 +13,19 @@ namespace HTTPortable
 
         private readonly IWebProxy webProxy;
 
-        /// <summary>
-        ///     Creates a new instance of the <see cref="ProxyUserAgentFactory" /> class using the default web proxy. This
-        ///     constructor reads proxy settings from the app.config file. If there is no config file, the current user's Internet
-        ///     Explorer (IE) proxy settings are used.
-        /// </summary>
-        /// <param name="userAgentFactory">The inner user agent factory that creates user agents for the final destination URI.</param>
-        public ProxyUserAgentFactory(IUserAgentFactory userAgentFactory)
-            : this(userAgentFactory, WebRequest.DefaultWebProxy)
-        {
-        }
-
         /// <summary>Creates a new instance of the <see cref="ProxyUserAgentFactory" /> class using the specified web proxy.</summary>
         /// <param name="userAgentFactory">The inner user agent factory that creates user agents for the final destination URI.</param>
         /// <param name="webProxy">The web proxy to connect to.</param>
         public ProxyUserAgentFactory(IUserAgentFactory userAgentFactory, IWebProxy webProxy)
         {
+            if (userAgentFactory == null)
+            {
+                throw new ArgumentNullException(nameof(userAgentFactory));
+            }
+            if (webProxy == null)
+            {
+                throw new ArgumentNullException(nameof(webProxy));
+            }
             this.userAgentFactory = userAgentFactory;
             this.webProxy = webProxy;
         }
