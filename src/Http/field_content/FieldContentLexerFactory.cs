@@ -47,11 +47,12 @@ namespace Http.field_content
                     concatenationLexerFactory.Create(
                         fieldVisibleCharacterLexer,
                         optionLexerFactory.Create(
-                            repetitionLexerFactory.Create(
-                                alternationLexerFactory.Create(spaceLexer, horizontalTabLexer),
-                                1,
-                                int.MaxValue)),
-                        fieldVisibleCharacterLexer));
+                            concatenationLexerFactory.Create(
+                                repetitionLexerFactory.Create(
+                                    alternationLexerFactory.Create(spaceLexer, horizontalTabLexer),
+                                    1,
+                                    int.MaxValue),
+                                fieldVisibleCharacterLexer))));
         }
     }
 }
