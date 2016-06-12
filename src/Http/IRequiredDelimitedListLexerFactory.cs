@@ -1,4 +1,5 @@
 ﻿using Txt;
+using Txt.Core;
 
 namespace Http
 {

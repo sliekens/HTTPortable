@@ -4,6 +4,7 @@ using Http.quoted_pair;
 using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.comment
 {

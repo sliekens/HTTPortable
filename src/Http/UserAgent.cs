@@ -17,6 +17,7 @@ using Txt.ABNF;
 using Txt.ABNF.Core.CR;
 using Txt.ABNF.Core.CRLF;
 using Txt.ABNF.Core.LF;
+using Txt.Core;
 
 namespace Http
 {
@@ -61,11 +62,22 @@ namespace Http
                 throw new ObjectDisposedException(GetType().FullName);
             }
 
+            string text;
             using (var pushbackInputStream = new PushbackInputStream(inputStream))
             {
-                using (ITextScanner scanner = new TextScanner(new StreamTextSource(pushbackInputStream, Encoding.UTF8)))
+                using (var streamTextSource = new StreamTextSource(pushbackInputStream, Encoding.UTF8))
+                using (var sr = new TextSourceReader(streamTextSource))
+                {
+                    text = await sr.ReadToEndAsync().ConfigureAwait(false);
+                }
+                using (var textSource = new StringTextSource(text))
+                using (ITextScanner scanner = new TextScanner(textSource))
                 {
                     var result = httpMessageLexer.Read(scanner);
+                    if (!result.Success)
+                    {
+                        throw new InvalidOperationException(result.ErrorText);
+                    }
                     throw new NotImplementedException();
                 }
             }

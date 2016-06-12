@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.quoted_string
 {
@@ -17,7 +18,7 @@ namespace Http.quoted_string
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<QuotedString> Read(ITextScanner scanner)
+        public override ReadResult<QuotedString> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

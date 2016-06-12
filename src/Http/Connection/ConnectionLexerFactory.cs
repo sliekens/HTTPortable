@@ -2,6 +2,7 @@ using System;
 using Http.connection_option;
 using JetBrains.Annotations;
 using Txt;
+using Txt.Core;
 
 namespace Http.Connection
 {

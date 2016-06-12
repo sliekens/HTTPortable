@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.CRLF;
+using Txt.Core;
 
 namespace Http.last_chunk
 {

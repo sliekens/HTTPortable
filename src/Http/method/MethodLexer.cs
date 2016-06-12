@@ -1,6 +1,7 @@
 ﻿using System;
 using Http.token;
 using Txt;
+using Txt.Core;
 
 namespace Http.method
 {
@@ -18,7 +19,7 @@ namespace Http.method
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Method> Read(ITextScanner scanner)
+        public override ReadResult<Method> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

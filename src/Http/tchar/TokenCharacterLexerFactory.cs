@@ -4,6 +4,7 @@ using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.ALPHA;
 using Txt.ABNF.Core.DIGIT;
+using Txt.Core;
 
 namespace Http.tchar
 {

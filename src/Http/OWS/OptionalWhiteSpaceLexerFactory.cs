@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.WSP;
+using Txt.Core;
 
 namespace Http.OWS
 {

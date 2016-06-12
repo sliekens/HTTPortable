@@ -2,6 +2,7 @@
 using Http.transfer_coding;
 using JetBrains.Annotations;
 using Txt;
+using Txt.Core;
 
 namespace Http.Transfer_Encoding
 {

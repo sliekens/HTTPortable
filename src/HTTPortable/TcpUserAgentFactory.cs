@@ -6,13 +6,12 @@ using System.Net.Security;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using Http;
-using Http.HTTP_message;
 using SimpleInjector;
-using Txt;
 using Txt.ABNF;
-using Uri;
-using Registration = Txt.Registration;
+using Txt.Core;
+using UriSyntax;
+using Http;
+using Registration = Txt.Core.Registration;
 
 namespace HTTPortable
 {
@@ -44,7 +43,7 @@ namespace HTTPortable
         }
 
         /// <inheritdoc />
-        public async Task<IUserAgent> CreateAsync(System.Uri uri, CancellationToken cancellationToken)
+        public async Task<IUserAgent> CreateAsync(Uri uri, CancellationToken cancellationToken)
         {
             var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             var endpoint = new DnsEndPoint(uri.DnsSafeHost, uri.Port, AddressFamily.InterNetwork);
@@ -56,7 +55,7 @@ namespace HTTPortable
                 await sslStream.AuthenticateAsClientAsync(uri.Host).ConfigureAwait(false);
                 stream = sslStream;
             }
-            return new UserAgent(stream, container.GetInstance<ILexer<HttpMessage>>());
+            return new UserAgent(stream, container.GetInstance<ILexer<Http.HTTP_message.HttpMessage>>());
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http
 {
@@ -18,7 +19,7 @@ namespace Http
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<OptionalDelimitedList> Read(ITextScanner scanner)
+        public override ReadResult<OptionalDelimitedList> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

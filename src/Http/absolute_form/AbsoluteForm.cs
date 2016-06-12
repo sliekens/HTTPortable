@@ -1,4 +1,4 @@
-﻿using Uri.absolute_URI;
+﻿using UriSyntax.absolute_URI;
 
 namespace Http.absolute_form
 {

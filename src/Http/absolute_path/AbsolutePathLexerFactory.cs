@@ -2,7 +2,8 @@
 using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
-using Uri.segment;
+using Txt.Core;
+using UriSyntax.segment;
 
 namespace Http.absolute_path
 {

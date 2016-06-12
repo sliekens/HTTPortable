@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.ctext
 {
@@ -17,7 +18,7 @@ namespace Http.ctext
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<CommentText> Read(ITextScanner scanner)
+        public override ReadResult<CommentText> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

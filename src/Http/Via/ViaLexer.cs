@@ -1,5 +1,6 @@
 ﻿using System;
 using Txt;
+using Txt.Core;
 
 namespace Http.Via
 {
@@ -16,7 +17,7 @@ namespace Http.Via
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Via> Read(ITextScanner scanner)
+        public override ReadResult<Via> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

@@ -3,10 +3,11 @@ using Http.http_URI;
 using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
-using Uri.authority;
-using Uri.fragment;
-using Uri.path_abempty;
-using Uri.query;
+using Txt.Core;
+using UriSyntax.authority;
+using UriSyntax.fragment;
+using UriSyntax.path_abempty;
+using UriSyntax.query;
 
 namespace Http.https_URI
 {

@@ -2,6 +2,7 @@ using System;
 using Http.protocol;
 using JetBrains.Annotations;
 using Txt;
+using Txt.Core;
 
 namespace Http.Upgrade
 {

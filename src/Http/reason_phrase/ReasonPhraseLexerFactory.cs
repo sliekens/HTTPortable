@@ -4,6 +4,7 @@ using Txt.ABNF;
 using Txt.ABNF.Core.HTAB;
 using Txt.ABNF.Core.SP;
 using Txt.ABNF.Core.VCHAR;
+using Txt.Core;
 
 namespace Http.reason_phrase
 {

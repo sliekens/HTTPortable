@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.status_code
 {
@@ -18,7 +19,7 @@ namespace Http.status_code
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<StatusCode> Read(ITextScanner scanner)
+        public override ReadResult<StatusCode> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

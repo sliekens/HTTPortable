@@ -4,6 +4,7 @@ using Http.status_line;
 using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.start_line
 {

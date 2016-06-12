@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.transfer_extension
 {
@@ -17,7 +18,7 @@ namespace Http.transfer_extension
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<TransferExtension> Read(ITextScanner scanner)
+        public override ReadResult<TransferExtension> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

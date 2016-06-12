@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.absolute_path
 {
@@ -18,7 +19,7 @@ namespace Http.absolute_path
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<AbsolutePath> Read(ITextScanner scanner)
+        public override ReadResult<AbsolutePath> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

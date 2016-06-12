@@ -3,7 +3,8 @@ using Http.pseudonym;
 using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
-using Uri.port;
+using Txt.Core;
+using UriSyntax.port;
 
 namespace Http.received_by
 {
@@ -13,7 +14,7 @@ namespace Http.received_by
 
         private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
-        private readonly ILexer<Uri.host.Host> hostLexer;
+        private readonly ILexer<UriSyntax.host.Host> hostLexer;
 
         private readonly IOptionLexerFactory optionLexerFactory;
 
@@ -28,7 +29,7 @@ namespace Http.received_by
             [NotNull] IAlternationLexerFactory alternationLexerFactory,
             [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
             [NotNull] IOptionLexerFactory optionLexerFactory,
-            [NotNull] ILexer<Uri.host.Host> hostLexer,
+            [NotNull] ILexer<UriSyntax.host.Host> hostLexer,
             [NotNull] ILexer<Port> portLexer,
             [NotNull] ILexer<Pseudonym> pseudonymLexer)
         {

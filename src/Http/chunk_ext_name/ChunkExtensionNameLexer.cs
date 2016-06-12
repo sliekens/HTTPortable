@@ -1,6 +1,7 @@
 using System;
 using Http.token;
 using Txt;
+using Txt.Core;
 
 namespace Http.chunk_ext_name
 {
@@ -18,7 +19,7 @@ namespace Http.chunk_ext_name
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<ChunkExtensionName> Read(ITextScanner scanner)
+        public override ReadResult<ChunkExtensionName> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

@@ -3,6 +3,7 @@ using Http.transfer_extension;
 using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.transfer_coding
 {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using SimpleInjector;
 using Txt.ABNF;
-using Uri;
+using UriSyntax;
 using Xunit;
-using Registration = Txt.Registration;
+using Registration = Txt.Core.Registration;
 
 namespace Http
 {

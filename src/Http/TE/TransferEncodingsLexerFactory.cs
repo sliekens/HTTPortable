@@ -2,6 +2,7 @@
 using Http.t_codings;
 using JetBrains.Annotations;
 using Txt;
+using Txt.Core;
 
 namespace Http.TE
 {

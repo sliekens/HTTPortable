@@ -1,5 +1,6 @@
 ﻿using System;
 using Txt;
+using Txt.Core;
 
 namespace Http.Trailer
 {
@@ -16,7 +17,7 @@ namespace Http.Trailer
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Trailer> Read(ITextScanner scanner)
+        public override ReadResult<Trailer> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

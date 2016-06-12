@@ -6,6 +6,7 @@ using Http.origin_form;
 using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.request_target
 {

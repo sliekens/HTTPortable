@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.partial_URI
 {
@@ -17,7 +18,7 @@ namespace Http.partial_URI
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<PartialUri> Read(ITextScanner scanner)
+        public override ReadResult<PartialUri> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

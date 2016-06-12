@@ -1,4 +1,4 @@
-﻿using Uri.authority;
+﻿using UriSyntax.authority;
 
 namespace Http.authority_form
 {

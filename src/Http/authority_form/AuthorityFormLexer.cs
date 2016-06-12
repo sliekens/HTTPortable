@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
-using Uri.authority;
+using Txt.Core;
+using UriSyntax.authority;
 
 namespace Http.authority_form
 {
@@ -17,7 +18,7 @@ namespace Http.authority_form
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<AuthorityForm> Read(ITextScanner scanner)
+        public override ReadResult<AuthorityForm> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

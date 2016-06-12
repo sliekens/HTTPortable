@@ -2,6 +2,7 @@
 using Http.field_name;
 using JetBrains.Annotations;
 using Txt;
+using Txt.Core;
 
 namespace Http.Trailer
 {

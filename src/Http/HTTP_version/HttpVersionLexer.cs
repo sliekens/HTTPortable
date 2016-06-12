@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.HTTP_version
 {
@@ -18,7 +19,7 @@ namespace Http.HTTP_version
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<HttpVersion> Read(ITextScanner scanner)
+        public override ReadResult<HttpVersion> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

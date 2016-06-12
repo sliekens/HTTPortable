@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.https_URI
 {
@@ -17,7 +18,7 @@ namespace Http.https_URI
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<HttpsUri> Read(ITextScanner scanner)
+        public override ReadResult<HttpsUri> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

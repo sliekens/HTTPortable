@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.t_ranking
 {
@@ -17,7 +18,7 @@ namespace Http.t_ranking
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<TransferCodingRank> Read(ITextScanner scanner)
+        public override ReadResult<TransferCodingRank> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

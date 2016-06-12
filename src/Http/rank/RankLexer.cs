@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.rank
 {
@@ -17,7 +18,7 @@ namespace Http.rank
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Rank> Read(ITextScanner scanner)
+        public override ReadResult<Rank> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

@@ -5,6 +5,7 @@ using Http.transfer_parameter;
 using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.transfer_extension
 {

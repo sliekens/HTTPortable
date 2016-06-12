@@ -2,6 +2,7 @@
 using System.Linq;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http
 {

@@ -1,7 +1,8 @@
 ﻿using System;
 using JetBrains.Annotations;
 using Txt;
-using Uri.authority;
+using Txt.Core;
+using UriSyntax.authority;
 
 namespace Http.authority_form
 {

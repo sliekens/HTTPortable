@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.obs_fold
 {
@@ -17,7 +18,7 @@ namespace Http.obs_fold
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<ObsoleteFold> Read(ITextScanner scanner)
+        public override ReadResult<ObsoleteFold> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

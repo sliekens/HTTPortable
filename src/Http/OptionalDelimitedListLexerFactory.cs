@@ -2,6 +2,7 @@
 using Http.OWS;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http
 {

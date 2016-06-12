@@ -1,5 +1,6 @@
 ﻿using System;
 using Txt;
+using Txt.Core;
 
 namespace Http.Upgrade
 {
@@ -16,7 +17,7 @@ namespace Http.Upgrade
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Upgrade> Read(ITextScanner scanner)
+        public override ReadResult<Upgrade> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.obs_text
 {
@@ -17,7 +18,7 @@ namespace Http.obs_text
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<ObsoleteText> Read(ITextScanner scanner)
+        public override ReadResult<ObsoleteText> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

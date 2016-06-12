@@ -7,6 +7,7 @@ using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.CRLF;
 using Txt.ABNF.Core.SP;
+using Txt.Core;
 
 namespace Http.request_line
 {

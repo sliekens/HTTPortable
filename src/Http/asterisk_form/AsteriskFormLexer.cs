@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.asterisk_form
 {
@@ -17,7 +18,7 @@ namespace Http.asterisk_form
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<AsteriskForm> Read(ITextScanner scanner)
+        public override ReadResult<AsteriskForm> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

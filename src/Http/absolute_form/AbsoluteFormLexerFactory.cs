@@ -1,7 +1,8 @@
 ﻿using System;
 using JetBrains.Annotations;
 using Txt;
-using Uri.absolute_URI;
+using Txt.Core;
+using UriSyntax.absolute_URI;
 
 namespace Http.absolute_form
 {

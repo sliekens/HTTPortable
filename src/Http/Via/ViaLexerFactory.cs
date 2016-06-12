@@ -2,6 +2,7 @@
 using Http.received_protocol;
 using JetBrains.Annotations;
 using Txt;
+using Txt.Core;
 
 namespace Http.Via
 {

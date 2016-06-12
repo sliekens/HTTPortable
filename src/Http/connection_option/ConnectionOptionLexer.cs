@@ -1,6 +1,7 @@
 ﻿using System;
 using Http.token;
 using Txt;
+using Txt.Core;
 
 namespace Http.connection_option
 {
@@ -17,7 +18,7 @@ namespace Http.connection_option
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<ConnectionOption> Read(ITextScanner scanner)
+        public override ReadResult<ConnectionOption> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

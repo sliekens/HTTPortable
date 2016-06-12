@@ -3,7 +3,8 @@ using Http.absolute_path;
 using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
-using Uri.query;
+using Txt.Core;
+using UriSyntax.query;
 
 namespace Http.origin_form
 {

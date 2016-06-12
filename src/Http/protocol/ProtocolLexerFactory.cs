@@ -4,6 +4,7 @@ using Http.protocol_version;
 using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.protocol
 {

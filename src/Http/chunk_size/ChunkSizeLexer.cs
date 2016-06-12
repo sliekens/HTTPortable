@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.chunk_size
 {
@@ -18,7 +19,7 @@ namespace Http.chunk_size
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<ChunkSize> Read(ITextScanner scanner)
+        public override ReadResult<ChunkSize> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

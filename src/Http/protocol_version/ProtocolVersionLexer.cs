@@ -1,6 +1,7 @@
 ﻿using System;
 using Http.token;
 using Txt;
+using Txt.Core;
 
 namespace Http.protocol_version
 {
@@ -18,7 +19,7 @@ namespace Http.protocol_version
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<ProtocolVersion> Read(ITextScanner scanner)
+        public override ReadResult<ProtocolVersion> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

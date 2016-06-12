@@ -3,6 +3,7 @@ using System.Text;
 using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.obs_text
 {

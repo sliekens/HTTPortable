@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.transfer_coding
 {
@@ -17,7 +18,7 @@ namespace Http.transfer_coding
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<TransferCoding> Read(ITextScanner scanner)
+        public override ReadResult<TransferCoding> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

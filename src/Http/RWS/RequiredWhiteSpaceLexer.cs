@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.RWS
 {
@@ -18,7 +19,7 @@ namespace Http.RWS
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<RequiredWhiteSpace> Read(ITextScanner scanner)
+        public override ReadResult<RequiredWhiteSpace> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

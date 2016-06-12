@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.origin_form
 {
@@ -17,7 +18,7 @@ namespace Http.origin_form
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<OriginForm> Read(ITextScanner scanner)
+        public override ReadResult<OriginForm> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

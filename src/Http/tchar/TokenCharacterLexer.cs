@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.tchar
 {
@@ -18,7 +19,7 @@ namespace Http.tchar
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<TokenCharacter> Read(ITextScanner scanner)
+        public override ReadResult<TokenCharacter> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

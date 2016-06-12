@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.OCTET;
+using Txt.Core;
 
 namespace Http.chunk_data
 {

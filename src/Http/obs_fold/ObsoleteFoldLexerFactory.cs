@@ -5,6 +5,7 @@ using Txt.ABNF;
 using Txt.ABNF.Core.CRLF;
 using Txt.ABNF.Core.HTAB;
 using Txt.ABNF.Core.SP;
+using Txt.Core;
 
 namespace Http.obs_fold
 {

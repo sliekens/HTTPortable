@@ -14,7 +14,7 @@ namespace HTTPortable.Tcp.Tests
         public async void GetGitHubPage()
         {
             IUserAgentFactory factory = new TcpUserAgentFactory();
-            var uri = new Uri("https://github.com/");
+            var uri = new Uri("http://github.com/");
             var userAgent = await factory.CreateAsync(uri, CancellationToken.None);
             using (userAgent)
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using Http.token;
 using Txt;
+using Txt.Core;
 
 namespace Http.pseudonym
 {
@@ -18,7 +19,7 @@ namespace Http.pseudonym
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<Pseudonym> Read(ITextScanner scanner)
+        public override ReadResult<Pseudonym> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

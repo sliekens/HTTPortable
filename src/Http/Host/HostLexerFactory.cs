@@ -2,7 +2,8 @@
 using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
-using Uri.port;
+using Txt.Core;
+using UriSyntax.port;
 
 namespace Http.Host
 {
@@ -10,7 +11,7 @@ namespace Http.Host
     {
         private readonly IConcatenationLexerFactory concatenationLexerFactory;
 
-        private readonly ILexer<Uri.host.Host> hostLexer;
+        private readonly ILexer<UriSyntax.host.Host> hostLexer;
 
         private readonly IOptionLexerFactory optionLexerFactory;
 
@@ -22,7 +23,7 @@ namespace Http.Host
             [NotNull] ITerminalLexerFactory terminalLexerFactory,
             [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
             [NotNull] IOptionLexerFactory optionLexerFactory,
-            [NotNull] ILexer<Uri.host.Host> hostLexer,
+            [NotNull] ILexer<UriSyntax.host.Host> hostLexer,
             [NotNull] ILexer<Port> portLexer)
         {
             if (terminalLexerFactory == null)

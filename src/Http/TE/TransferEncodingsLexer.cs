@@ -1,5 +1,6 @@
 ﻿using System;
 using Txt;
+using Txt.Core;
 
 namespace Http.TE
 {
@@ -16,7 +17,7 @@ namespace Http.TE
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<TransferEncodings> Read(ITextScanner scanner)
+        public override ReadResult<TransferEncodings> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using Txt;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.reason_phrase
 {
@@ -17,7 +18,7 @@ namespace Http.reason_phrase
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<ReasonPhrase> Read(ITextScanner scanner)
+        public override ReadResult<ReasonPhrase> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

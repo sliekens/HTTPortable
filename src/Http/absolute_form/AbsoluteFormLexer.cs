@@ -1,6 +1,6 @@
 ﻿using System;
-using Txt;
-using Uri.absolute_URI;
+using Txt.Core;
+using UriSyntax.absolute_URI;
 
 namespace Http.absolute_form
 {
@@ -18,7 +18,7 @@ namespace Http.absolute_form
             this.innerLexer = innerLexer;
         }
 
-        public override ReadResult<AbsoluteForm> Read(ITextScanner scanner)
+        public override ReadResult<AbsoluteForm> ReadImpl(ITextScanner scanner)
         {
             if (scanner == null)
             {

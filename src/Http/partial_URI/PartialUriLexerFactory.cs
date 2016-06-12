@@ -2,8 +2,9 @@
 using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
-using Uri.query;
-using Uri.relative_part;
+using Txt.Core;
+using UriSyntax.query;
+using UriSyntax.relative_part;
 
 namespace Http.partial_URI
 {

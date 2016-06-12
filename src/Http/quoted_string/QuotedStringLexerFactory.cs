@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.DQUOTE;
+using Txt.Core;
 
 namespace Http.quoted_string
 {
