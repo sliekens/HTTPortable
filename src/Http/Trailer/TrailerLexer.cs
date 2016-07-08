@@ -1,34 +1,13 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.Core;
 
 namespace Http.Trailer
 {
-    public sealed class TrailerLexer : Lexer<Trailer>
+    public sealed class TrailerLexer : CompositeLexer<RequiredDelimitedList, Trailer>
     {
-        private readonly ILexer<RequiredDelimitedList> innerLexer;
-
-        public TrailerLexer(ILexer<RequiredDelimitedList> innerLexer)
+        public TrailerLexer([NotNull] ILexer<RequiredDelimitedList> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<Trailer> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<Trailer>.FromResult(new Trailer(result.Element));
-            }
-            return ReadResult<Trailer>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

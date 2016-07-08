@@ -1,36 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.status_code
 {
-    public sealed class StatusCodeLexer : Lexer<StatusCode>
+    public sealed class StatusCodeLexer : CompositeLexer<Repetition, StatusCode>
     {
-        private readonly ILexer<Repetition> innerLexer;
-
-        public StatusCodeLexer(ILexer<Repetition> innerLexer)
+        public StatusCodeLexer([NotNull] ILexer<Repetition> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<StatusCode> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<StatusCode>.FromResult(new StatusCode(result.Element));
-            }
-            return ReadResult<StatusCode>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

@@ -1,36 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.transfer_parameter
 {
-    public sealed class TransferParameterLexer : Lexer<TransferParameter>
+    public sealed class TransferParameterLexer : CompositeLexer<Concatenation, TransferParameter>
     {
-        private readonly ILexer<Concatenation> innerLexer;
-
-        public TransferParameterLexer(ILexer<Concatenation> innerLexer)
+        public TransferParameterLexer([NotNull] ILexer<Concatenation> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<TransferParameter> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<TransferParameter>.FromResult(new TransferParameter(result.Element));
-            }
-            return
-                ReadResult<TransferParameter>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

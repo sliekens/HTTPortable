@@ -1,35 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.Content_Length
 {
-    public sealed class ContentLengthLexer : Lexer<ContentLength>
+    public sealed class ContentLengthLexer : CompositeLexer<Repetition, ContentLength>
     {
-        private readonly ILexer<Repetition> innerLexer;
-
-        public ContentLengthLexer(ILexer<Repetition> innerLexer)
+        public ContentLengthLexer([NotNull] ILexer<Repetition> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<ContentLength> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<ContentLength>.FromResult(new ContentLength(result.Element));
-            }
-            return ReadResult<ContentLength>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

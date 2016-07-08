@@ -1,36 +1,14 @@
-﻿using System;
-using Http.token;
-using Txt;
+﻿using Http.token;
+using JetBrains.Annotations;
 using Txt.Core;
 
 namespace Http.connection_option
 {
-    public sealed class ConnectionOptionLexer : Lexer<ConnectionOption>
+    public sealed class ConnectionOptionLexer : CompositeLexer<Token, ConnectionOption>
     {
-        private readonly ILexer<Token> innerLexer;
-
-        public ConnectionOptionLexer(ILexer<Token> innerLexer)
+        public ConnectionOptionLexer([NotNull] ILexer<Token> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<ConnectionOption> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<ConnectionOption>.FromResult(new ConnectionOption(result.Element));
-            }
-            return ReadResult<ConnectionOption>.FromSyntaxError(
-                SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

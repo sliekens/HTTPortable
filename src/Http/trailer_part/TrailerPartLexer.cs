@@ -1,35 +1,14 @@
-using System;
-using Txt;
+using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.trailer_part
 {
-    public sealed class TrailerPartLexer : Lexer<TrailerPart>
+    public sealed class TrailerPartLexer : CompositeLexer<Repetition, TrailerPart>
     {
-        private readonly ILexer<Repetition> innerLexer;
-
-        public TrailerPartLexer(ILexer<Repetition> innerLexer)
+        public TrailerPartLexer([NotNull] ILexer<Repetition> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<TrailerPart> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<TrailerPart>.FromResult(new TrailerPart(result.Element));
-            }
-            return ReadResult<TrailerPart>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

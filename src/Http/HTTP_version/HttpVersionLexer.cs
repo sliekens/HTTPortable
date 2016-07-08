@@ -1,35 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.HTTP_version
 {
-    public sealed class HttpVersionLexer : Lexer<HttpVersion>
+    public sealed class HttpVersionLexer : CompositeLexer<Concatenation, HttpVersion>
     {
-        private readonly ILexer<Concatenation> innerLexer;
-
-        public HttpVersionLexer(ILexer<Concatenation> innerLexer)
+        public HttpVersionLexer([NotNull] ILexer<Concatenation> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-
-            this.innerLexer = innerLexer;
         }
-
-        public override ReadResult<HttpVersion> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<HttpVersion>.FromResult(new HttpVersion(result.Element));
-            }
-            return ReadResult<HttpVersion>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
-        }
-    }}
+    }
+}

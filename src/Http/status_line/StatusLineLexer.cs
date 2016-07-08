@@ -1,35 +1,14 @@
-using System;
-using Txt;
+using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.status_line
 {
-    public sealed class StatusLineLexer : Lexer<StatusLine>
+    public sealed class StatusLineLexer : CompositeLexer<Concatenation, StatusLine>
     {
-        private readonly ILexer<Concatenation> innerLexer;
-
-        public StatusLineLexer(ILexer<Concatenation> innerLexer)
+        public StatusLineLexer([NotNull] ILexer<Concatenation> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<StatusLine> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<StatusLine>.FromResult(new StatusLine(result.Element));
-            }
-            return ReadResult<StatusLine>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

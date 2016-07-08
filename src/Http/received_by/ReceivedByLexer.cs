@@ -1,35 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.received_by
 {
-    public sealed class ReceivedByLexer : Lexer<ReceivedBy>
+    public sealed class ReceivedByLexer : CompositeLexer<Alternation, ReceivedBy>
     {
-        private readonly ILexer<Alternation> innerLexer;
-
-        public ReceivedByLexer(ILexer<Alternation> innerLexer)
+        public ReceivedByLexer([NotNull] ILexer<Alternation> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<ReceivedBy> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<ReceivedBy>.FromResult(new ReceivedBy(result.Element));
-            }
-            return ReadResult<ReceivedBy>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

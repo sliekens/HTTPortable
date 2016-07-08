@@ -1,35 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.qdtext
 {
-    public sealed class QuotedTextLexer : Lexer<QuotedText>
+    public sealed class QuotedTextLexer : CompositeLexer<Alternation, QuotedText>
     {
-        private readonly ILexer<Alternation> innerLexer;
-
-        public QuotedTextLexer(ILexer<Alternation> innerLexer)
+        public QuotedTextLexer([NotNull] ILexer<Alternation> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<QuotedText> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<QuotedText>.FromResult(new QuotedText(result.Element));
-            }
-            return ReadResult<QuotedText>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

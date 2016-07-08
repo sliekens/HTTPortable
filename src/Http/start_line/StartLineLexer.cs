@@ -1,35 +1,14 @@
-using System;
-using Txt;
+using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.start_line
 {
-    public sealed class StartLineLexer : Lexer<StartLine>
+    public sealed class StartLineLexer : CompositeLexer<Alternation, StartLine>
     {
-        private readonly ILexer<Alternation> innerLexer;
-
-        public StartLineLexer(ILexer<Alternation> innerLexer)
+        public StartLineLexer([NotNull] ILexer<Alternation> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-
-            this.innerLexer = innerLexer;
         }
-
-        public override ReadResult<StartLine> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<StartLine>.FromResult(new StartLine(result.Element));
-            }
-            return ReadResult<StartLine>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
-        }
-    }}
+    }
+}

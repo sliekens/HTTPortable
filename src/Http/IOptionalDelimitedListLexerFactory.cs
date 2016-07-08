@@ -5,6 +5,6 @@ namespace Http
 {
     public interface IOptionalDelimitedListLexerFactory
     {
-        ILexer<OptionalDelimitedList> Create(ILexer lexer);
+        ILexer<OptionalDelimitedList> Create(ILexer<Element> lexer);
     }
 }

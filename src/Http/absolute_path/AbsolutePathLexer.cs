@@ -1,35 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.absolute_path
 {
-    public sealed class AbsolutePathLexer : Lexer<AbsolutePath>
+    public sealed class AbsolutePathLexer : CompositeLexer<Repetition, AbsolutePath>
     {
-        private readonly ILexer<Repetition> innerLexer;
-
-        public AbsolutePathLexer(ILexer<Repetition> innerLexer)
+        public AbsolutePathLexer([NotNull] ILexer<Repetition> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-
-            this.innerLexer = innerLexer;
         }
-
-        public override ReadResult<AbsolutePath> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<AbsolutePath>.FromResult(new AbsolutePath(result.Element));
-            }
-            return ReadResult<AbsolutePath>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
-        }
-    }}
+    }
+}

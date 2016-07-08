@@ -1,35 +1,14 @@
-﻿using System;
-using Http.token;
-using Txt;
+﻿using Http.token;
+using JetBrains.Annotations;
 using Txt.Core;
 
 namespace Http.field_name
 {
-    public sealed class FieldNameLexer : Lexer<FieldName>
+    public sealed class FieldNameLexer : CompositeLexer<Token, FieldName>
     {
-        private readonly ILexer<Token> innerLexer;
-
-        public FieldNameLexer(ILexer<Token> innerLexer)
+        public FieldNameLexer([NotNull] ILexer<Token> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<FieldName> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<FieldName>.FromResult(new FieldName(result.Element));
-            }
-            return ReadResult<FieldName>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

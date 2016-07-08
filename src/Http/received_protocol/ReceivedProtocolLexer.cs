@@ -1,36 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.received_protocol
 {
-    public sealed class ReceivedProtocolLexer : Lexer<ReceivedProtocol>
+    public sealed class ReceivedProtocolLexer : CompositeLexer<Concatenation, ReceivedProtocol>
     {
-        private readonly ILexer<Concatenation> innerLexer;
-
-        public ReceivedProtocolLexer(ILexer<Concatenation> innerLexer)
+        public ReceivedProtocolLexer([NotNull] ILexer<Concatenation> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<ReceivedProtocol> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<ReceivedProtocol>.FromResult(new ReceivedProtocol(result.Element));
-            }
-            return ReadResult<ReceivedProtocol>.FromSyntaxError(
-                SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

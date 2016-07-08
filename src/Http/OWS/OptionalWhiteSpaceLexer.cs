@@ -1,35 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.OWS
 {
-    public sealed class OptionalWhiteSpaceLexer : Lexer<OptionalWhiteSpace>
+    public sealed class OptionalWhiteSpaceLexer : CompositeLexer<Repetition, OptionalWhiteSpace>
     {
-        private readonly ILexer<Repetition> innerLexer;
-
-        public OptionalWhiteSpaceLexer(ILexer<Repetition> innerLexer)
+        public OptionalWhiteSpaceLexer([NotNull] ILexer<Repetition> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-
-            this.innerLexer = innerLexer;
         }
-
-        public override ReadResult<OptionalWhiteSpace> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<OptionalWhiteSpace>.FromResult(new OptionalWhiteSpace(result.Element));
-            }
-            return ReadResult<OptionalWhiteSpace>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
-        }
-    }}
+    }
+}

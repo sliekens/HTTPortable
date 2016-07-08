@@ -57,7 +57,7 @@ namespace Http
             this.optionalWhiteSpaceLexerFactory = optionalWhiteSpaceLexerFactory;
         }
 
-        public ILexer<RequiredDelimitedList> Create(ILexer lexer)
+        public ILexer<RequiredDelimitedList> Create(ILexer<Element> lexer)
         {
             var delim = terminalLexerFactory.Create(@",", StringComparer.Ordinal);
             var ows = optionalWhiteSpaceLexerFactory.Create();

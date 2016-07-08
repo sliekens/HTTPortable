@@ -1,35 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.ctext
 {
-    public sealed class CommentTextLexer : Lexer<CommentText>
+    public sealed class CommentTextLexer : CompositeLexer<Alternation, CommentText>
     {
-        private readonly ILexer<Alternation> innerLexer;
-
-        public CommentTextLexer(ILexer<Alternation> innerLexer)
+        public CommentTextLexer([NotNull] ILexer<Alternation> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<CommentText> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<CommentText>.FromResult(new CommentText(result.Element));
-            }
-            return ReadResult<CommentText>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

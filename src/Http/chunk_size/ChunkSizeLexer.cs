@@ -1,35 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.chunk_size
 {
-    public sealed class ChunkSizeLexer : Lexer<ChunkSize>
+    public sealed class ChunkSizeLexer : CompositeLexer<Repetition, ChunkSize>
     {
-        private readonly ILexer<Repetition> innerLexer;
-
-        public ChunkSizeLexer(ILexer<Repetition> innerLexer)
+        public ChunkSizeLexer([NotNull] ILexer<Repetition> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-
-            this.innerLexer = innerLexer;
         }
-
-        public override ReadResult<ChunkSize> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<ChunkSize>.FromResult(new ChunkSize(result.Element));
-            }
-            return ReadResult<ChunkSize>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
-        }
-    }}
+    }
+}

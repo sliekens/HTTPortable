@@ -1,36 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.tchar
 {
-    public sealed class TokenCharacterLexer : Lexer<TokenCharacter>
+    public sealed class TokenCharacterLexer : CompositeLexer<Alternation, TokenCharacter>
     {
-        private readonly ILexer<Alternation> innerLexer;
-
-        public TokenCharacterLexer(ILexer<Alternation> innerLexer)
+        public TokenCharacterLexer([NotNull] ILexer<Alternation> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<TokenCharacter> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<TokenCharacter>.FromResult(new TokenCharacter(result.Element));
-            }
-            return ReadResult<TokenCharacter>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

@@ -66,7 +66,7 @@ namespace Http
             this.repetitionLexerFactory = repetitionLexerFactory;
         }
 
-        public ILexer<OptionalDelimitedList> Create(ILexer lexer)
+        public ILexer<OptionalDelimitedList> Create(ILexer<Element> lexer)
         {
             var delim = terminalLexerFactory.Create(@",", StringComparer.Ordinal);
             var ows = optionalWhiteSpaceLexerFactory.Create();

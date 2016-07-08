@@ -1,35 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.header_field
 {
-    public sealed class HeaderFieldLexer : Lexer<HeaderField>
+    public sealed class HeaderFieldLexer : CompositeLexer<Concatenation, HeaderField>
     {
-        private readonly ILexer<Concatenation> innerLexer;
-
-        public HeaderFieldLexer(ILexer<Concatenation> innerLexer)
+        public HeaderFieldLexer([NotNull] ILexer<Concatenation> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<HeaderField> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<HeaderField>.FromResult(new HeaderField(result.Element));
-            }
-            return ReadResult<HeaderField>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

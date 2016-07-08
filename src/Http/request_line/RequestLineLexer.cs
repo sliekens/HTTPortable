@@ -1,35 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.request_line
 {
-    public sealed class RequestLineLexer : Lexer<RequestLine>
+    public sealed class RequestLineLexer : CompositeLexer<Concatenation, RequestLine>
     {
-        private readonly ILexer<Concatenation> innerLexer;
-
-        public RequestLineLexer(ILexer<Concatenation> innerLexer)
+        public RequestLineLexer([NotNull] ILexer<Concatenation> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<RequestLine> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<RequestLine>.FromResult(new RequestLine(result.Element));
-            }
-            return ReadResult<RequestLine>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

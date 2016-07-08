@@ -1,35 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.HTTP_name
 {
-    public sealed class HttpNameLexer : Lexer<HttpName>
+    public sealed class HttpNameLexer : CompositeLexer<Terminal, HttpName>
     {
-        private readonly ILexer<Terminal> innerLexer;
-
-        public HttpNameLexer(ILexer<Terminal> innerLexer)
+        public HttpNameLexer([NotNull] ILexer<Terminal> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<HttpName> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<HttpName>.FromResult(new HttpName(result.Element));
-            }
-            return ReadResult<HttpName>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

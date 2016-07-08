@@ -1,35 +1,14 @@
-﻿using System;
-using Http.token;
-using Txt;
+﻿using Http.token;
+using JetBrains.Annotations;
 using Txt.Core;
 
 namespace Http.pseudonym
 {
-    public sealed class PseudonymLexer : Lexer<Pseudonym>
+    public sealed class PseudonymLexer : CompositeLexer<Token, Pseudonym>
     {
-        private readonly ILexer<Token> innerLexer;
-
-        public PseudonymLexer(ILexer<Token> innerLexer)
+        public PseudonymLexer([NotNull] ILexer<Token> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-
-            this.innerLexer = innerLexer;
         }
-
-        public override ReadResult<Pseudonym> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<Pseudonym>.FromResult(new Pseudonym(result.Element));
-            }
-            return ReadResult<Pseudonym>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
-        }
-    }}
+    }
+}

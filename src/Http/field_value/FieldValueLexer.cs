@@ -1,35 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.field_value
 {
-    public sealed class FieldValueLexer : Lexer<FieldValue>
+    public sealed class FieldValueLexer : CompositeLexer<Repetition, FieldValue>
     {
-        private readonly ILexer<Repetition> innerLexer;
-
-        public FieldValueLexer(ILexer<Repetition> innerLexer)
+        public FieldValueLexer([NotNull] ILexer<Repetition> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<FieldValue> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<FieldValue>.FromResult(new FieldValue(result.Element));
-            }
-            return ReadResult<FieldValue>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

@@ -1,35 +1,14 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.obs_text
 {
-    public sealed class ObsoleteTextLexer : Lexer<ObsoleteText>
+    public sealed class ObsoleteTextLexer : CompositeLexer<Terminal, ObsoleteText>
     {
-        private readonly ILexer<Terminal> innerLexer;
-
-        public ObsoleteTextLexer(ILexer<Terminal> innerLexer)
+        public ObsoleteTextLexer([NotNull] ILexer<Terminal> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<ObsoleteText> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<ObsoleteText>.FromResult(new ObsoleteText(result.Element));
-            }
-            return ReadResult<ObsoleteText>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

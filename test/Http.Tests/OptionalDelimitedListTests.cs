@@ -28,14 +28,14 @@ namespace Http
 
         [Theory]
         [MemberData("GetTestData")]
-        public void GetWellFormedText_NormalizesWhiteSpace(string input, string expected, ILexer listItemLexer)
+        public void GetWellFormedText_NormalizesWhiteSpace(string input, string expected, ILexer<Element> listItemLexer)
         {
             var optionalDelimitedList = CreateTestCase(input, listItemLexer);
             var result = optionalDelimitedList.GetWellFormedText();
             Assert.Equal(expected, result);
         }
 
-        private static OptionalDelimitedList CreateTestCase(string input, ILexer listItemLexer)
+        private static OptionalDelimitedList CreateTestCase(string input, ILexer<Element> listItemLexer)
         {
             var optionLexerFactory = new OptionLexerFactory();
             var concatenationLexerFactory = new ConcatenationLexerFactory();

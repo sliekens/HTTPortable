@@ -1,34 +1,13 @@
-﻿using System;
-using Txt;
+﻿using JetBrains.Annotations;
 using Txt.Core;
 
 namespace Http.Upgrade
 {
-    public sealed class UpgradeLexer : Lexer<Upgrade>
+    public sealed class UpgradeLexer : CompositeLexer<RequiredDelimitedList, Upgrade>
     {
-        private readonly ILexer<RequiredDelimitedList> innerLexer;
-
-        public UpgradeLexer(ILexer<RequiredDelimitedList> innerLexer)
+        public UpgradeLexer([NotNull] ILexer<RequiredDelimitedList> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<Upgrade> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<Upgrade>.FromResult(new Upgrade(result.Element));
-            }
-            return ReadResult<Upgrade>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }

@@ -1,35 +1,14 @@
-﻿using System;
+﻿using JetBrains.Annotations;
 using Txt.Core;
 using UriSyntax.absolute_URI;
 
 namespace Http.absolute_form
 {
-    public class AbsoluteFormLexer : Lexer<AbsoluteForm>
+    public sealed class AbsoluteFormLexer : CompositeLexer<AbsoluteUri, AbsoluteForm>
     {
-        private readonly ILexer<AbsoluteUri> innerLexer;
-
-        public AbsoluteFormLexer(ILexer<AbsoluteUri> innerLexer)
+        public AbsoluteFormLexer([NotNull] ILexer<AbsoluteUri> innerLexer)
+            : base(innerLexer)
         {
-            if (innerLexer == null)
-            {
-                throw new ArgumentNullException(nameof(innerLexer));
-            }
-
-            this.innerLexer = innerLexer;
-        }
-
-        public override ReadResult<AbsoluteForm> ReadImpl(ITextScanner scanner)
-        {
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(nameof(scanner));
-            }
-            var result = innerLexer.Read(scanner);
-            if (result.Success)
-            {
-                return ReadResult<AbsoluteForm>.FromResult(new AbsoluteForm(result.Element));
-            }
-            return ReadResult<AbsoluteForm>.FromSyntaxError(SyntaxError.FromReadResult(result, scanner.GetContext()));
         }
     }
 }
