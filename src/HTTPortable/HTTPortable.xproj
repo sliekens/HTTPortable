@@ -8,7 +8,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>95f195c6-6dac-40cb-999b-3b3d6be3c309</ProjectGuid>
     <RootNamespace>HTTPortable</RootNamespace>
-    <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>

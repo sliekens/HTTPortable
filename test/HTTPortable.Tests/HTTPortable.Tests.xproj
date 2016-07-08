@@ -8,7 +8,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>1b859d34-75ae-465c-9ca8-3c73fdb9884e</ProjectGuid>
     <RootNamespace>HTTPortable</RootNamespace>
-    <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">..\..\artifacts\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>

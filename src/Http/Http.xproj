@@ -8,7 +8,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>db0bc4ee-30d5-47ac-8b1b-9aa749d35454</ProjectGuid>
     <RootNamespace>Http</RootNamespace>
-    <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
