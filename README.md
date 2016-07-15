@@ -2,9 +2,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/76485w5o6npwh6bh?svg=true)](https://ci.appveyor.com/project/StevenLiekens/httportable)
 
 # About
-This library provides a low-level implementation of the HTTP protocol.
-
-This library is intended for users with advanced knowledge of HTTP as well as connection-oriented protocols in general.
+HTTPortable provides a cross-platform, .NET based implementation of the HTTP protocol.
 
 # Background and Goals
 
@@ -18,7 +16,10 @@ Taken from RFC 7230:
 
 Unfortunately, most HTTP libraries are hard-coded to use TCP/IP sockets. That includes the .NET framework's `System.Net.WebRequest` API and also the ASP.NET framework in its entirety.
 
-The key goal for this project is to allow any `System.IO.Stream` to be used as the transport channel. This opens up tons of new possibilities. For example: HTTP over Bluetooth.
+The key goal for this project is to allow any `System.IO.Stream` to be used as the transport channel. This opens up tons of new possibilities. For example: HTTP over RFCOMM.
+
+The secondary goal for this project is to work the same across all supported platforms. It is my opinion that you should only have to test managed code on one platform to be certain that it will work everywhere. That can be accomplished by only using managed code. This is different from other HTTP APIs in .NET that call into native APIs.
+For example: the HttpClient class in .NET Core uses WinHTTP on Windows and libcurl on Unix variants. Those two implementations behave differently, making it more expensive to write code for multiple platforms.
 
 # Specifications
 Code is based on the latest RFCs regarding version HTTP/1.1.  
