@@ -11,8 +11,8 @@ namespace Http.header_field
         {
         }
 
-        public FieldName FieldName => (FieldName)Elements[0];
+        public FieldName FieldName => (FieldName)this[0];
 
-        public FieldValue FieldValue => (FieldValue)Elements[3];
+        public FieldValue FieldValue => (FieldValue)this[3];
     }
 }

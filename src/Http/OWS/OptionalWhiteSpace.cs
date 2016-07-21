@@ -8,16 +8,5 @@ namespace Http.OWS
             : base(repetition)
         {
         }
-
-        public override string GetWellFormedText()
-        {
-            var elements = Elements;
-            if (elements.Count == 0)
-            {
-                return string.Empty;
-            }
-
-            return " ";
-        }
     }
 }

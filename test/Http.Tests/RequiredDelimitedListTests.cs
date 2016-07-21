@@ -30,7 +30,7 @@ namespace Http
         public void GetWellFormedText_NormalizesWhiteSpace(string input, string expected, ILexer<Element> listItemLexer)
         {
             var optionalDelimitedList = CreateTestCase(input, listItemLexer);
-            var result = optionalDelimitedList.GetWellFormedText();
+            var result = optionalDelimitedList.Text;
             Assert.Equal(expected, result);
         }
 
