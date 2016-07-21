@@ -8,6 +8,7 @@ using Txt.ABNF.Core.SP;
 using Txt.ABNF.Core.WSP;
 using Txt.Core;
 using Xunit;
+using System.Linq;
 
 namespace Http
 {
@@ -29,8 +30,8 @@ namespace Http
         [MemberData("GetTestData")]
         public void GetWellFormedText_NormalizesWhiteSpace(string input, string expected, ILexer<Element> listItemLexer)
         {
-            var optionalDelimitedList = CreateTestCase(input, listItemLexer);
-            var result = optionalDelimitedList.Text;
+            var requiredDelimitedList = CreateTestCase(input, listItemLexer);
+            var result = string.Join(", ", requiredDelimitedList.GetItems().Select(o => o.Text));
             Assert.Equal(expected, result);
         }
 
