@@ -4,29 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Http.header_field;
-using Http.Headers;
 using Http.HTTP_message;
-using Http.method;
-using Http.request_line;
-using Http.start_line;
-using Http.status_line;
 using JetBrains.Annotations;
-using Txt;
-using Txt.ABNF;
-using Txt.ABNF.Core.CR;
-using Txt.ABNF.Core.CRLF;
-using Txt.ABNF.Core.LF;
 using Txt.Core;
 
 namespace Http
 {
     public class UserAgent : IUserAgent
     {
-        private readonly Stream inputStream;
-        private readonly Stream outputStream;
-
         private readonly ILexer<HttpMessage> httpMessageLexer;
+
+        private readonly Stream inputStream;
+
+        private readonly Stream outputStream;
 
         /// <summary>Indicates whether this object has been disposed.</summary>
         private bool disposed;
@@ -61,36 +51,28 @@ namespace Http
             {
                 throw new ObjectDisposedException(GetType().FullName);
             }
-
-            string text;
             using (var pushbackInputStream = new PushbackInputStream(inputStream))
+            using (var textSource = new StreamTextSource(pushbackInputStream, Encoding.UTF8))
+            using (ITextScanner scanner = new TextScanner(textSource))
             {
-                using (var streamTextSource = new StreamTextSource(pushbackInputStream, Encoding.UTF8))
-                using (var sr = new TextSourceReader(streamTextSource))
+                var result = httpMessageLexer.Read(scanner);
+                if (!result.Success)
                 {
-                    text = await sr.ReadToEndAsync().ConfigureAwait(false);
+                    throw new InvalidOperationException(result.ErrorText);
                 }
-                using (var textSource = new StringTextSource(text))
-                using (ITextScanner scanner = new TextScanner(textSource))
-                {
-                    var result = httpMessageLexer.Read(scanner);
-                    if (!result.Success)
-                    {
-                        throw new InvalidOperationException(result.ErrorText);
-                    }
-                    throw new NotImplementedException();
-                }
+                throw new NotImplementedException();
             }
         }
 
-        public async Task SendAsync(IRequestMessage message, CancellationToken cancellationToken,
+        public async Task SendAsync(
+            IRequestMessage message,
+            CancellationToken cancellationToken,
             OnRequestHeadersComplete callback = null)
         {
             if (disposed)
             {
                 throw new ObjectDisposedException(GetType().FullName);
             }
-
             using (var writer = new StreamWriter(outputStream, new UTF8Encoding(false), 512, true))
             {
                 await WriteRequestLineAsync(writer, message).ConfigureAwait(false);
@@ -128,8 +110,8 @@ namespace Http
 
         /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         /// <param name="disposing">
-        /// <c>true</c> to clean up both managed and unmanaged resources; otherwise, <c>false</c> to clean up only unmanaged
-        /// resources.
+        ///     <c>true</c> to clean up both managed and unmanaged resources; otherwise, <c>false</c> to clean up only unmanaged
+        ///     resources.
         /// </param>
         protected virtual void Dispose(bool disposing)
         {
@@ -137,22 +119,20 @@ namespace Http
             {
                 return;
             }
-
             if (disposing)
             {
                 inputStream.Dispose();
                 outputStream.Dispose();
             }
-
             disposed = true;
         }
 
         /// <summary>
-        /// Gets a value indicating whether the given header should be included in a request.
-        /// By default, headers should be included if they have one or more values.
-        /// Additionally, an implementation of the <see cref="IHeader"/> interface is allowed to override
-        /// the <see cref="IHeader.Required"/> property in a way that indicates that the header must be included in a request,
-        /// even if it has no values.
+        ///     Gets a value indicating whether the given header should be included in a request.
+        ///     By default, headers should be included if they have one or more values.
+        ///     Additionally, an implementation of the <see cref="IHeader" /> interface is allowed to override
+        ///     the <see cref="IHeader.Required" /> property in a way that indicates that the header must be included in a request,
+        ///     even if it has no values.
         /// </summary>
         /// <param name="header">The header to evaluate.</param>
         /// <returns><c>true</c> if the header should be included in a request; otherwise, <c>false</c>.</returns>
@@ -164,7 +144,7 @@ namespace Http
         private static async Task WriteHeadersAsync(StreamWriter writer, IHeaderCollection headerCollection)
         {
             foreach (var header in headerCollection.Where(ShouldSendHeader).OrderBy(h => h.Name, StringComparer.Ordinal)
-                )
+            )
             {
                 await writer.WriteAsync(header.Name).ConfigureAwait(false);
                 await writer.WriteAsync(": ").ConfigureAwait(false);
