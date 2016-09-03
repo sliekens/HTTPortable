@@ -20,8 +20,8 @@
   },
   "dependencies": {
     "NETStandard.Library": "1.6.0",
-    "Txt": "2.0.0-*",
-    "Uri": "1.0.0-*"
+    "Txt": "0.1.0-*",
+    "Uri": "0.1.0-*"
   },
   "buildOptions": {
     "define": [ "JETBRAINS_ANNOTATIONS" ]
