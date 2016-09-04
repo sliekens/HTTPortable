@@ -56,9 +56,9 @@ namespace Http
             using (ITextScanner scanner = new TextScanner(textSource))
             {
                 var result = httpMessageLexer.Read(scanner);
-                if (!result.Success)
+                if (!result.IsSuccess)
                 {
-                    throw new InvalidOperationException(result.ErrorText);
+                    throw new InvalidOperationException($"L{result.SyntaxError.Line}:{result.SyntaxError.Column} {result.SyntaxError.Message}");
                 }
                 throw new NotImplementedException();
             }
