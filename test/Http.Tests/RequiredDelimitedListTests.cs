@@ -59,7 +59,7 @@ namespace Http
                 optionalWhiteSpaceLexerFactory);
             using (var scanner = new TextScanner(new StringTextSource(input)))
             {
-                return lexerFactory.Create(listItemLexer).Read(scanner).Element;
+                return lexerFactory.Create(listItemLexer).Read(scanner);
             }
         }
     }
