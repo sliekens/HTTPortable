@@ -1,10 +1,12 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.HTTP_message
 {
     public class HttpMessage : Concatenation
     {
-        public HttpMessage(Concatenation concatenation)
+        public HttpMessage([NotNull] Concatenation concatenation)
             : base(concatenation)
         {
         }

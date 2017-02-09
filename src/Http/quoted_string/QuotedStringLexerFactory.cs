@@ -2,76 +2,66 @@
 using Http.qdtext;
 using Http.quoted_pair;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.DQUOTE;
 using Txt.Core;
 
 namespace Http.quoted_string
 {
-    public class QuotedStringLexerFactory : ILexerFactory<QuotedString>
+    public sealed class QuotedStringLexerFactory : RuleLexerFactory<QuotedString>
     {
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ILexer<DoubleQuote> doubleQuoteLexer;
-
-        private readonly ILexer<QuotedPair> quotedPairLexer;
-
-        private readonly ILexer<QuotedText> quotedTextLexer;
-
-        private readonly IRepetitionLexerFactory repetitionLexerFactory;
-
-        public QuotedStringLexerFactory(
-            [NotNull] IAlternationLexerFactory alternationLexerFactory,
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
-            [NotNull] ILexer<DoubleQuote> doubleQuoteLexer,
-            [NotNull] ILexer<QuotedText> quotedTextLexer,
-            [NotNull] ILexer<QuotedPair> quotedPairLexer)
+        static QuotedStringLexerFactory()
         {
-            if (alternationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alternationLexerFactory));
-            }
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (repetitionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(repetitionLexerFactory));
-            }
-            if (doubleQuoteLexer == null)
-            {
-                throw new ArgumentNullException(nameof(doubleQuoteLexer));
-            }
-            if (quotedTextLexer == null)
-            {
-                throw new ArgumentNullException(nameof(quotedTextLexer));
-            }
-            if (quotedPairLexer == null)
-            {
-                throw new ArgumentNullException(nameof(quotedPairLexer));
-            }
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.repetitionLexerFactory = repetitionLexerFactory;
-            this.doubleQuoteLexer = doubleQuoteLexer;
-            this.quotedTextLexer = quotedTextLexer;
-            this.quotedPairLexer = quotedPairLexer;
+            Default = new QuotedStringLexerFactory(
+                Txt.ABNF.Core.DQUOTE.DoubleQuoteLexerFactory.Default.Singleton(),
+                qdtext.QuotedTextLexerFactory.Default.Singleton(),
+                quoted_pair.QuotedPairLexerFactory.Default.Singleton());
         }
 
-        public ILexer<QuotedString> Create()
+        public QuotedStringLexerFactory(
+            [NotNull] ILexerFactory<DoubleQuote> doubleQuoteLexerFactory,
+            [NotNull] ILexerFactory<QuotedText> quotedTextLexerFactory,
+            [NotNull] ILexerFactory<QuotedPair> quotedPairLexerFactory)
         {
-            var innerLexer = concatenationLexerFactory.Create(
-                doubleQuoteLexer,
-                repetitionLexerFactory.Create(
-                    alternationLexerFactory.Create(quotedTextLexer, quotedPairLexer),
+            if (doubleQuoteLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(doubleQuoteLexerFactory));
+            }
+            if (quotedTextLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(quotedTextLexerFactory));
+            }
+            if (quotedPairLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(quotedPairLexerFactory));
+            }
+            DoubleQuoteLexerFactory = doubleQuoteLexerFactory;
+            QuotedTextLexerFactory = quotedTextLexerFactory;
+            QuotedPairLexerFactory = quotedPairLexerFactory;
+        }
+
+        [NotNull]
+        public static QuotedStringLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<DoubleQuote> DoubleQuoteLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<QuotedPair> QuotedPairLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<QuotedText> QuotedTextLexerFactory { get; set; }
+
+        public override ILexer<QuotedString> Create()
+        {
+            var dquote = DoubleQuoteLexerFactory.Create();
+            var innerLexer = Concatenation.Create(
+                dquote,
+                Repetition.Create(
+                    Alternation.Create(QuotedTextLexerFactory.Create(), QuotedPairLexerFactory.Create()),
                     0,
                     int.MaxValue),
-                doubleQuoteLexer);
+                dquote);
             return new QuotedStringLexer(innerLexer);
         }
     }

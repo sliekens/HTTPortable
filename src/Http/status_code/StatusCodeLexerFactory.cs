@@ -1,37 +1,36 @@
 ﻿using System;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.DIGIT;
 using Txt.Core;
 
 namespace Http.status_code
 {
-    public class StatusCodeLexerFactory : ILexerFactory<StatusCode>
+    public sealed class StatusCodeLexerFactory : RuleLexerFactory<StatusCode>
     {
-        private readonly ILexer<Digit> digitLexer;
-
-        private readonly IRepetitionLexerFactory repetitionLexerFactory;
-
-        public StatusCodeLexerFactory(
-            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
-            [NotNull] ILexer<Digit> digitLexer)
+        static StatusCodeLexerFactory()
         {
-            if (repetitionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(repetitionLexerFactory));
-            }
-            if (digitLexer == null)
-            {
-                throw new ArgumentNullException(nameof(digitLexer));
-            }
-            this.repetitionLexerFactory = repetitionLexerFactory;
-            this.digitLexer = digitLexer;
+            Default = new StatusCodeLexerFactory(Txt.ABNF.Core.DIGIT.DigitLexerFactory.Default.Singleton());
         }
 
-        public ILexer<StatusCode> Create()
+        public StatusCodeLexerFactory([NotNull] ILexerFactory<Digit> digitLexerFactory)
         {
-            var innerLexer = repetitionLexerFactory.Create(digitLexer, 3, 3);
+            if (digitLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(digitLexerFactory));
+            }
+            DigitLexerFactory = digitLexerFactory;
+        }
+
+        [NotNull]
+        public static StatusCodeLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Digit> DigitLexerFactory { get; }
+
+        public override ILexer<StatusCode> Create()
+        {
+            var innerLexer = Repetition.Create(DigitLexerFactory.Create(), 3, 3);
             return new StatusCodeLexer(innerLexer);
         }
     }

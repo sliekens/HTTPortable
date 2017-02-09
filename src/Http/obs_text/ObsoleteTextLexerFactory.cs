@@ -1,28 +1,24 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.obs_text
 {
-    public class ObsoleteTextLexerFactory : ILexerFactory<ObsoleteText>
+    public class ObsoleteTextLexerFactory : RuleLexerFactory<ObsoleteText>
     {
-        private readonly IValueRangeLexerFactory valueRangeLexerFactory;
-
-        public ObsoleteTextLexerFactory([NotNull] IValueRangeLexerFactory valueRangeLexerFactory)
+        static ObsoleteTextLexerFactory()
         {
-            if (valueRangeLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(valueRangeLexerFactory));
-            }
-            this.valueRangeLexerFactory = valueRangeLexerFactory;
+            Default = new ObsoleteTextLexerFactory();
         }
 
-        public ILexer<ObsoleteText> Create()
+        [NotNull]
+        public static ObsoleteTextLexerFactory Default { get; }
+
+        public override ILexer<ObsoleteText> Create()
         {
-            return new ObsoleteTextLexer(valueRangeLexerFactory.Create(0x80, 0xFF, Encoding.UTF8));
+            var innerLexer = ValueRange.Create(0x80, 0xFF, Encoding.UTF8);
+            return new ObsoleteTextLexer(innerLexer);
         }
     }
 }

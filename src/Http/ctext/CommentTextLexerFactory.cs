@@ -2,7 +2,6 @@
 using System.Text;
 using Http.obs_text;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.HTAB;
 using Txt.ABNF.Core.SP;
@@ -10,63 +9,60 @@ using Txt.Core;
 
 namespace Http.ctext
 {
-    public class CommentTextLexerFactory : ILexerFactory<CommentText>
+    public sealed class CommentTextLexerFactory : RuleLexerFactory<CommentText>
     {
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly ILexer<HorizontalTab> horizontalTabLexer;
-
-        private readonly ILexer<ObsoleteText> obsoleteTextLexer;
-
-        private readonly ILexer<Space> spaceLexer;
-
-        private readonly IValueRangeLexerFactory valueRangeLexerFactory;
-
-        public CommentTextLexerFactory(
-            [NotNull] IValueRangeLexerFactory valueRangeLexerFactory,
-            [NotNull] IAlternationLexerFactory alternationLexerFactory,
-            [NotNull] ILexer<HorizontalTab> horizontalTabLexer,
-            [NotNull] ILexer<Space> spaceLexer,
-            [NotNull] ILexer<ObsoleteText> obsoleteTextLexer)
+        static CommentTextLexerFactory()
         {
-            if (valueRangeLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(valueRangeLexerFactory));
-            }
-            if (alternationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alternationLexerFactory));
-            }
-            if (horizontalTabLexer == null)
-            {
-                throw new ArgumentNullException(nameof(horizontalTabLexer));
-            }
-            if (spaceLexer == null)
-            {
-                throw new ArgumentNullException(nameof(spaceLexer));
-            }
-            if (obsoleteTextLexer == null)
-            {
-                throw new ArgumentNullException(nameof(obsoleteTextLexer));
-            }
-            this.valueRangeLexerFactory = valueRangeLexerFactory;
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.horizontalTabLexer = horizontalTabLexer;
-            this.spaceLexer = spaceLexer;
-            this.obsoleteTextLexer = obsoleteTextLexer;
+            Default = new CommentTextLexerFactory(
+                Txt.ABNF.Core.HTAB.HorizontalTabLexerFactory.Default.Singleton(),
+                Txt.ABNF.Core.SP.SpaceLexerFactory.Default.Singleton(),
+                obs_text.ObsoleteTextLexerFactory.Default.Singleton());
         }
 
-        public ILexer<CommentText> Create()
+        public CommentTextLexerFactory(
+            [NotNull] ILexerFactory<HorizontalTab> horizontalTabLexerFactory,
+            [NotNull] ILexerFactory<Space> spaceLexerFactory,
+            [NotNull] ILexerFactory<ObsoleteText> obsoleteTextLexerFactory)
         {
-            return
-                new CommentTextLexer(
-                    alternationLexerFactory.Create(
-                        horizontalTabLexer,
-                        spaceLexer,
-                        valueRangeLexerFactory.Create(0x21, 0x27, Encoding.UTF8),
-                        valueRangeLexerFactory.Create(0x2A, 0x5B, Encoding.UTF8),
-                        valueRangeLexerFactory.Create(0x5D, 0x7E, Encoding.UTF8),
-                        obsoleteTextLexer));
+            if (horizontalTabLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(horizontalTabLexerFactory));
+            }
+            if (spaceLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(spaceLexerFactory));
+            }
+            if (obsoleteTextLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(obsoleteTextLexerFactory));
+            }
+            HorizontalTabLexerFactory = horizontalTabLexerFactory;
+            SpaceLexerFactory = spaceLexerFactory;
+            ObsoleteTextLexerFactory = obsoleteTextLexerFactory;
+        }
+
+        [NotNull]
+        public static CommentTextLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<HorizontalTab> HorizontalTabLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<ObsoleteText> ObsoleteTextLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<Space> SpaceLexerFactory { get; set; }
+
+        public override ILexer<CommentText> Create()
+        {
+            var innerLexer = Alternation.Create(
+                HorizontalTabLexerFactory.Create(),
+                SpaceLexerFactory.Create(),
+                ValueRange.Create(0x21, 0x27, Encoding.UTF8),
+                ValueRange.Create(0x2A, 0x5B, Encoding.UTF8),
+                ValueRange.Create(0x5D, 0x7E, Encoding.UTF8),
+                ObsoleteTextLexerFactory.Create());
+            return new CommentTextLexer(innerLexer);
         }
     }
 }

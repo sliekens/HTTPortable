@@ -1,37 +1,37 @@
 ﻿using System;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.DIGIT;
 using Txt.Core;
 
 namespace Http.Content_Length
 {
-    public class ContentLengthLexerFactory : ILexerFactory<ContentLength>
+    public sealed class ContentLengthLexerFactory : RuleLexerFactory<ContentLength>
     {
-        private readonly ILexer<Digit> digitLexer;
-
-        private readonly IRepetitionLexerFactory repetitionLexerFactory;
-
-        public ContentLengthLexerFactory(
-            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
-            [NotNull] ILexer<Digit> digitLexer)
+        static ContentLengthLexerFactory()
         {
-            if (repetitionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(repetitionLexerFactory));
-            }
-            if (digitLexer == null)
-            {
-                throw new ArgumentNullException(nameof(digitLexer));
-            }
-            this.repetitionLexerFactory = repetitionLexerFactory;
-            this.digitLexer = digitLexer;
+            Default = new ContentLengthLexerFactory(Txt.ABNF.Core.DIGIT.DigitLexerFactory.Default.Singleton());
         }
 
-        public ILexer<ContentLength> Create()
+        public ContentLengthLexerFactory([NotNull] ILexerFactory<Digit> digitLexerFactory)
         {
-            return new ContentLengthLexer(repetitionLexerFactory.Create(digitLexer, 1, int.MaxValue));
+            if (digitLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(digitLexerFactory));
+            }
+            DigitLexerFactory = digitLexerFactory;
+        }
+
+        [NotNull]
+        public static ContentLengthLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Digit> DigitLexerFactory { get; set; }
+
+        public override ILexer<ContentLength> Create()
+        {
+            var innerLexer = Repetition.Create(DigitLexerFactory.Create(), 1, int.MaxValue);
+            return new ContentLengthLexer(innerLexer);
         }
     }
 }

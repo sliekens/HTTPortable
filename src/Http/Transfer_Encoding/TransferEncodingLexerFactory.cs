@@ -1,36 +1,49 @@
 ﻿using System;
 using Http.transfer_coding;
 using JetBrains.Annotations;
-using Txt;
+using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.Transfer_Encoding
 {
-    public class TransferEncodingLexerFactory : ILexerFactory<TransferEncoding>
+    public sealed class TransferEncodingLexerFactory : RuleLexerFactory<TransferEncoding>
     {
-        private readonly IRequiredDelimitedListLexerFactory requiredDelimitedListLexerFactory;
-
-        private readonly ILexer<TransferCoding> transferCodingLexer;
+        static TransferEncodingLexerFactory()
+        {
+            Default = new TransferEncodingLexerFactory(
+                Http.RequiredDelimitedListLexerFactory.Default,
+                transfer_coding.TransferCodingLexerFactory.Default.Singleton());
+        }
 
         public TransferEncodingLexerFactory(
             [NotNull] IRequiredDelimitedListLexerFactory requiredDelimitedListLexerFactory,
-            [NotNull] ILexer<TransferCoding> transferCodingLexer)
+            [NotNull] ILexerFactory<TransferCoding> transferCodingLexerFactory)
         {
             if (requiredDelimitedListLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(requiredDelimitedListLexerFactory));
             }
-            if (transferCodingLexer == null)
+            if (transferCodingLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(transferCodingLexer));
+                throw new ArgumentNullException(nameof(transferCodingLexerFactory));
             }
-            this.requiredDelimitedListLexerFactory = requiredDelimitedListLexerFactory;
-            this.transferCodingLexer = transferCodingLexer;
+            RequiredDelimitedListLexerFactory = requiredDelimitedListLexerFactory;
+            TransferCodingLexerFactory = transferCodingLexerFactory;
         }
 
-        public ILexer<TransferEncoding> Create()
+        [NotNull]
+        public static TransferEncodingLexerFactory Default { get; }
+
+        [NotNull]
+        public IRequiredDelimitedListLexerFactory RequiredDelimitedListLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<TransferCoding> TransferCodingLexerFactory { get; }
+
+        public override ILexer<TransferEncoding> Create()
         {
-            return new TransferEncodingLexer(requiredDelimitedListLexerFactory.Create(transferCodingLexer));
+            var innerLexer = RequiredDelimitedListLexerFactory.Create(TransferCodingLexerFactory.Create());
+            return new TransferEncodingLexer(innerLexer);
         }
     }
 }

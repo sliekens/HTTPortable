@@ -1,10 +1,12 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.request_line
 {
     public class RequestLine : Concatenation
     {
-        public RequestLine(Concatenation concatenation)
+        public RequestLine([NotNull] Concatenation concatenation)
             : base(concatenation)
         {
         }

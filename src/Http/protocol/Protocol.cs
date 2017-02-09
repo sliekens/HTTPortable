@@ -1,10 +1,11 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
 
 namespace Http.protocol
 {
     public class Protocol : Concatenation
     {
-        public Protocol(Concatenation concatenation)
+        public Protocol([NotNull] Concatenation concatenation)
             : base(concatenation)
         {
         }

@@ -1,10 +1,11 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
 
 namespace Http.qdtext
 {
     public class QuotedText : Alternation
     {
-        public QuotedText(Alternation alternation)
+        public QuotedText([NotNull] Alternation alternation)
             : base(alternation)
         {
         }

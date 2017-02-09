@@ -1,5 +1,6 @@
 ﻿using System;
 using Http.OWS;
+using JetBrains.Annotations;
 using Txt;
 using Txt.ABNF;
 using Txt.Core;
@@ -8,77 +9,91 @@ namespace Http
 {
     public class OptionalDelimitedListLexerFactory : IOptionalDelimitedListLexerFactory
     {
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly ILexerFactory<OptionalWhiteSpace> optionalWhiteSpaceLexerFactory;
-
-        private readonly IOptionLexerFactory optionLexerFactory;
-
-        private readonly IRepetitionLexerFactory repetitionLexerFactory;
-
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
+        static OptionalDelimitedListLexerFactory()
+        {
+            Default = new OptionalDelimitedListLexerFactory(
+                Txt.ABNF.OptionLexerFactory.Default,
+                Txt.ABNF.ConcatenationLexerFactory.Default,
+                Txt.ABNF.AlternationLexerFactory.Default,
+                Txt.ABNF.TerminalLexerFactory.Default,
+                Txt.ABNF.RepetitionLexerFactory.Default,
+                OWS.OptionalWhiteSpaceLexerFactory.Default.Singleton());
+        }
 
         public OptionalDelimitedListLexerFactory(
             IOptionLexerFactory optionLexerFactory,
             IConcatenationLexerFactory concatenationLexerFactory,
             IAlternationLexerFactory alternationLexerFactory,
             ITerminalLexerFactory terminalLexerFactory,
-            ILexerFactory<OptionalWhiteSpace> optionalWhiteSpaceLexerFactory,
-            IRepetitionLexerFactory repetitionLexerFactory)
+            IRepetitionLexerFactory repetitionLexerFactory,
+            ILexerFactory<OptionalWhiteSpace> optionalWhiteSpaceLexerFactory)
         {
             if (optionLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(optionLexerFactory));
             }
-
             if (concatenationLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(concatenationLexerFactory));
             }
-
             if (alternationLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(alternationLexerFactory));
             }
-
             if (terminalLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(terminalLexerFactory));
             }
-
             if (optionalWhiteSpaceLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(optionalWhiteSpaceLexerFactory));
             }
-
             if (repetitionLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(repetitionLexerFactory));
             }
-
-            this.optionLexerFactory = optionLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.optionalWhiteSpaceLexerFactory = optionalWhiteSpaceLexerFactory;
-            this.repetitionLexerFactory = repetitionLexerFactory;
+            OptionLexerFactory = optionLexerFactory;
+            ConcatenationLexerFactory = concatenationLexerFactory;
+            AlternationLexerFactory = alternationLexerFactory;
+            TerminalLexerFactory = terminalLexerFactory;
+            OptionalWhiteSpaceLexerFactory = optionalWhiteSpaceLexerFactory;
+            RepetitionLexerFactory = repetitionLexerFactory;
         }
+
+        [NotNull]
+        public static OptionalDelimitedListLexerFactory Default { get; }
+
+        [NotNull]
+        public IAlternationLexerFactory AlternationLexerFactory { get; }
+
+        [NotNull]
+        public IConcatenationLexerFactory ConcatenationLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<OptionalWhiteSpace> OptionalWhiteSpaceLexerFactory { get; }
+
+        [NotNull]
+        public IOptionLexerFactory OptionLexerFactory { get; }
+
+        [NotNull]
+        public IRepetitionLexerFactory RepetitionLexerFactory { get; }
+
+        [NotNull]
+        public ITerminalLexerFactory TerminalLexerFactory { get; }
 
         public ILexer<OptionalDelimitedList> Create(ILexer<Element> lexer)
         {
-            var delim = terminalLexerFactory.Create(@",", StringComparer.Ordinal);
-            var ows = optionalWhiteSpaceLexerFactory.Create();
+            var delim = TerminalLexerFactory.Create(@",", StringComparer.Ordinal);
+            var ows = OptionalWhiteSpaceLexerFactory.Create();
             var innerLexer =
-                optionLexerFactory.Create(
-                    concatenationLexerFactory.Create(
-                        alternationLexerFactory.Create(delim, lexer),
-                        repetitionLexerFactory.Create(
-                            concatenationLexerFactory.Create(
+                OptionLexerFactory.Create(
+                    ConcatenationLexerFactory.Create(
+                        AlternationLexerFactory.Create(delim, lexer),
+                        RepetitionLexerFactory.Create(
+                            ConcatenationLexerFactory.Create(
                                 ows,
                                 delim,
-                                optionLexerFactory.Create(concatenationLexerFactory.Create(ows, lexer))),
+                                OptionLexerFactory.Create(ConcatenationLexerFactory.Create(ows, lexer))),
                             0,
                             int.MaxValue)));
             return new OptionalDelimitedListLexer(innerLexer);

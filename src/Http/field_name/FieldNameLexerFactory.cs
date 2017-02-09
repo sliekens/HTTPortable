@@ -1,27 +1,37 @@
 ﻿using System;
 using Http.token;
 using JetBrains.Annotations;
-using Txt;
+using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.field_name
 {
-    public class FieldNameLexerFactory : ILexerFactory<FieldName>
+    public sealed class FieldNameLexerFactory : RuleLexerFactory<FieldName>
     {
-        private readonly ILexer<Token> tokenLexer;
-
-        public FieldNameLexerFactory([NotNull] ILexer<Token> tokenLexer)
+        static FieldNameLexerFactory()
         {
-            if (tokenLexer == null)
-            {
-                throw new ArgumentNullException(nameof(tokenLexer));
-            }
-            this.tokenLexer = tokenLexer;
+            Default = new FieldNameLexerFactory(token.TokenLexerFactory.Default.Singleton());
         }
 
-        public ILexer<FieldName> Create()
+        public FieldNameLexerFactory([NotNull] ILexerFactory<Token> tokenLexerFactory)
         {
-            return new FieldNameLexer(tokenLexer);
+            if (tokenLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(tokenLexerFactory));
+            }
+            TokenLexerFactory = tokenLexerFactory;
+        }
+
+        [NotNull]
+        public static FieldNameLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Token> TokenLexerFactory { get; }
+
+        public override ILexer<FieldName> Create()
+        {
+            var innerLexer = TokenLexerFactory.Create();
+            return new FieldNameLexer(innerLexer);
         }
     }
 }

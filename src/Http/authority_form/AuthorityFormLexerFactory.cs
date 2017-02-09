@@ -1,27 +1,37 @@
 ﻿using System;
 using JetBrains.Annotations;
-using Txt;
+using Txt.ABNF;
 using Txt.Core;
 using UriSyntax.authority;
 
 namespace Http.authority_form
 {
-    public class AuthorityFormLexerFactory : ILexerFactory<AuthorityForm>
+    public class AuthorityFormLexerFactory : RuleLexerFactory<AuthorityForm>
     {
-        private readonly ILexer<Authority> authorityLexer;
-
-        public AuthorityFormLexerFactory([NotNull] ILexer<Authority> authorityLexer)
+        static AuthorityFormLexerFactory()
         {
-            if (authorityLexer == null)
-            {
-                throw new ArgumentNullException(nameof(authorityLexer));
-            }
-            this.authorityLexer = authorityLexer;
+            Default = new AuthorityFormLexerFactory(AuthorityLexerFactory.Default.Singleton());
         }
 
-        public ILexer<AuthorityForm> Create()
+        public AuthorityFormLexerFactory([NotNull] ILexerFactory<Authority> authority)
         {
-            return new AuthorityFormLexer(authorityLexer);
+            if (authority == null)
+            {
+                throw new ArgumentNullException(nameof(authority));
+            }
+            Authority = authority;
+        }
+
+        [NotNull]
+        public static AuthorityFormLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Authority> Authority { get; }
+
+        public override ILexer<AuthorityForm> Create()
+        {
+            var innerLexer = Authority.Create();
+            return new AuthorityFormLexer(innerLexer);
         }
     }
 }

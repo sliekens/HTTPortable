@@ -2,60 +2,55 @@
 using Http.OWS;
 using Http.rank;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.t_ranking
 {
-    public class TransferCodingRankLexerFactory : ILexerFactory<TransferCodingRank>
+    public sealed class TransferCodingRankLexerFactory : RuleLexerFactory<TransferCodingRank>
     {
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer;
-
-        private readonly ILexer<Rank> rankLexer;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        public TransferCodingRankLexerFactory(
-            [NotNull] ITerminalLexerFactory terminalLexerFactory,
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer,
-            [NotNull] ILexer<Rank> rankLexer)
+        static TransferCodingRankLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (optionalWhiteSpaceLexer == null)
-            {
-                throw new ArgumentNullException(nameof(optionalWhiteSpaceLexer));
-            }
-            if (rankLexer == null)
-            {
-                throw new ArgumentNullException(nameof(rankLexer));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.optionalWhiteSpaceLexer = optionalWhiteSpaceLexer;
-            this.rankLexer = rankLexer;
+            Default = new TransferCodingRankLexerFactory(
+                OWS.OptionalWhiteSpaceLexerFactory.Default.Singleton(),
+                rank.RankLexerFactory.Default.Singleton());
         }
 
-        public ILexer<TransferCodingRank> Create()
+        public TransferCodingRankLexerFactory(
+            [NotNull] ILexerFactory<OptionalWhiteSpace> optionalWhiteSpaceLexerFactory,
+            [NotNull] ILexerFactory<Rank> rankLexerFactory)
         {
-            return
-                new TransferCodingRankLexer(
-                    concatenationLexerFactory.Create(
-                        optionalWhiteSpaceLexer,
-                        terminalLexerFactory.Create(@";", StringComparer.Ordinal),
-                        optionalWhiteSpaceLexer,
-                        terminalLexerFactory.Create(@"q=", StringComparer.OrdinalIgnoreCase),
-                        rankLexer));
+            if (optionalWhiteSpaceLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(optionalWhiteSpaceLexerFactory));
+            }
+            if (rankLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(rankLexerFactory));
+            }
+            OptionalWhiteSpaceLexerFactory = optionalWhiteSpaceLexerFactory;
+            RankLexerFactory = rankLexerFactory;
+        }
+
+        [NotNull]
+        public static TransferCodingRankLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<OptionalWhiteSpace> OptionalWhiteSpaceLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<Rank> RankLexerFactory { get; }
+
+        public override ILexer<TransferCodingRank> Create()
+        {
+            var ows = OptionalWhiteSpaceLexerFactory.Create();
+            var innerLexer = Concatenation.Create(
+                ows,
+                Terminal.Create(@";", StringComparer.Ordinal),
+                ows,
+                Terminal.Create(@"q=", StringComparer.OrdinalIgnoreCase),
+                RankLexerFactory.Create());
+            return new TransferCodingRankLexer(innerLexer);
         }
     }
 }

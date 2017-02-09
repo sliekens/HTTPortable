@@ -1,47 +1,53 @@
 ﻿using System;
 using Http.obs_text;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.VCHAR;
 using Txt.Core;
 
 namespace Http.field_vchar
 {
-    public class FieldVisibleCharacterLexerFactory : ILexerFactory<FieldVisibleCharacter>
+    public sealed class FieldVisibleCharacterLexerFactory : RuleLexerFactory<FieldVisibleCharacter>
     {
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly ILexer<ObsoleteText> obsoleteTextLexer;
-
-        private readonly ILexer<VisibleCharacter> visibleCharacterLexer;
-
-        public FieldVisibleCharacterLexerFactory(
-            [NotNull] IAlternationLexerFactory alternationLexerFactory,
-            [NotNull] ILexer<VisibleCharacter> visibleCharacterLexer,
-            [NotNull] ILexer<ObsoleteText> obsoleteTextLexer)
+        static FieldVisibleCharacterLexerFactory()
         {
-            if (alternationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alternationLexerFactory));
-            }
-            if (visibleCharacterLexer == null)
-            {
-                throw new ArgumentNullException(nameof(visibleCharacterLexer));
-            }
-            if (obsoleteTextLexer == null)
-            {
-                throw new ArgumentNullException(nameof(obsoleteTextLexer));
-            }
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.visibleCharacterLexer = visibleCharacterLexer;
-            this.obsoleteTextLexer = obsoleteTextLexer;
+            Default =
+                new FieldVisibleCharacterLexerFactory(
+                    Txt.ABNF.Core.VCHAR.VisibleCharacterLexerFactory.Default.Singleton(),
+                    obs_text.ObsoleteTextLexerFactory.Default.Singleton());
         }
 
-        public ILexer<FieldVisibleCharacter> Create()
+        public FieldVisibleCharacterLexerFactory(
+            [NotNull] ILexerFactory<VisibleCharacter> visibleCharacterLexerFactory,
+            [NotNull] ILexerFactory<ObsoleteText> obsoleteTextLexerFactory)
         {
-            return
-                new FieldVisibleCharacterLexer(alternationLexerFactory.Create(visibleCharacterLexer, obsoleteTextLexer));
+            if (visibleCharacterLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(visibleCharacterLexerFactory));
+            }
+            if (obsoleteTextLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(obsoleteTextLexerFactory));
+            }
+            VisibleCharacterLexerFactory = visibleCharacterLexerFactory;
+            ObsoleteTextLexerFactory = obsoleteTextLexerFactory;
+        }
+
+        [NotNull]
+        public static FieldVisibleCharacterLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<ObsoleteText> ObsoleteTextLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<VisibleCharacter> VisibleCharacterLexerFactory { get; }
+
+        public override ILexer<FieldVisibleCharacter> Create()
+        {
+            var innerLexer = Alternation.Create(
+                VisibleCharacterLexerFactory.Create(),
+                ObsoleteTextLexerFactory.Create());
+            return new FieldVisibleCharacterLexer(innerLexer);
         }
     }
 }

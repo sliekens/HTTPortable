@@ -1,36 +1,49 @@
-using System;
+﻿using System;
 using Http.protocol;
 using JetBrains.Annotations;
-using Txt;
+using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.Upgrade
 {
-    public class UpgradeLexerFactory : ILexerFactory<Upgrade>
+    public sealed class UpgradeLexerFactory : RuleLexerFactory<Upgrade>
     {
-        private readonly ILexer<Protocol> protocolLexer;
-
-        private readonly IRequiredDelimitedListLexerFactory requiredDelimitedListLexerFactory;
+        static UpgradeLexerFactory()
+        {
+            Default = new UpgradeLexerFactory(
+                Http.RequiredDelimitedListLexerFactory.Default,
+                ProtocolLexerFactory.Default.Singleton());
+        }
 
         public UpgradeLexerFactory(
             [NotNull] IRequiredDelimitedListLexerFactory requiredDelimitedListLexerFactory,
-            [NotNull] ILexer<Protocol> protocolLexer)
+            [NotNull] ILexerFactory<Protocol> protocoLexerFactory)
         {
             if (requiredDelimitedListLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(requiredDelimitedListLexerFactory));
             }
-            if (protocolLexer == null)
+            if (protocoLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(protocolLexer));
+                throw new ArgumentNullException(nameof(protocoLexerFactory));
             }
-            this.requiredDelimitedListLexerFactory = requiredDelimitedListLexerFactory;
-            this.protocolLexer = protocolLexer;
+            RequiredDelimitedListLexerFactory = requiredDelimitedListLexerFactory;
+            ProtocoLexerFactory = protocoLexerFactory;
         }
 
-        public ILexer<Upgrade> Create()
+        [NotNull]
+        public static UpgradeLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Protocol> ProtocoLexerFactory { get; set; }
+
+        [NotNull]
+        public IRequiredDelimitedListLexerFactory RequiredDelimitedListLexerFactory { get; set; }
+
+        public override ILexer<Upgrade> Create()
         {
-            return new UpgradeLexer(requiredDelimitedListLexerFactory.Create(protocolLexer));
+            var innerLexer = RequiredDelimitedListLexerFactory.Create(ProtocoLexerFactory.Create());
+            return new UpgradeLexer(innerLexer);
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
-using Http.http_URI;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 using UriSyntax.authority;
@@ -11,83 +9,75 @@ using UriSyntax.query;
 
 namespace Http.https_URI
 {
-    public class HttpsUriLexerFactory : ILexerFactory<HttpsUri>
+    public sealed class HttpsUriLexerFactory : RuleLexerFactory<HttpsUri>
     {
-        private readonly ILexer<Authority> authorityLexer;
-
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ILexer<Fragment> fragmentLexer;
-
-        private readonly IOptionLexerFactory optionLexerFactory;
-
-        private readonly ILexer<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexer;
-
-        private readonly ILexer<Query> queryLexer;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        public HttpsUriLexerFactory(
-            [NotNull] ITerminalLexerFactory terminalLexerFactory,
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] IOptionLexerFactory optionLexerFactory,
-            [NotNull] ILexer<Authority> authorityLexer,
-            [NotNull] ILexer<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexer,
-            [NotNull] ILexer<Query> queryLexer,
-            [NotNull] ILexer<Fragment> fragmentLexer)
+        static HttpsUriLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (optionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(optionLexerFactory));
-            }
-            if (authorityLexer == null)
-            {
-                throw new ArgumentNullException(nameof(authorityLexer));
-            }
-            if (pathAbsoluteOrEmptyLexer == null)
-            {
-                throw new ArgumentNullException(nameof(pathAbsoluteOrEmptyLexer));
-            }
-            if (queryLexer == null)
-            {
-                throw new ArgumentNullException(nameof(queryLexer));
-            }
-            if (fragmentLexer == null)
-            {
-                throw new ArgumentNullException(nameof(fragmentLexer));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.optionLexerFactory = optionLexerFactory;
-            this.authorityLexer = authorityLexer;
-            this.pathAbsoluteOrEmptyLexer = pathAbsoluteOrEmptyLexer;
-            this.queryLexer = queryLexer;
-            this.fragmentLexer = fragmentLexer;
+            Default = new HttpsUriLexerFactory(
+                UriSyntax.authority.AuthorityLexerFactory.Default.Singleton(),
+                UriSyntax.path_abempty.PathAbsoluteOrEmptyLexerFactory.Default.Singleton(),
+                UriSyntax.query.QueryLexerFactory.Default.Singleton(),
+                UriSyntax.fragment.FragmentLexerFactory.Default.Singleton());
         }
 
-        public ILexer<HttpsUri> Create()
+        public HttpsUriLexerFactory(
+            [NotNull] ILexerFactory<Authority> authorityLexerFactory,
+            [NotNull] ILexerFactory<PathAbsoluteOrEmpty> pathAbsoluteOrEmptyLexerFactory,
+            [NotNull] ILexerFactory<Query> queryLexerFactory,
+            [NotNull] ILexerFactory<Fragment> fragmentLexerFactory)
+        {
+            if (authorityLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(authorityLexerFactory));
+            }
+            if (pathAbsoluteOrEmptyLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(pathAbsoluteOrEmptyLexerFactory));
+            }
+            if (queryLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(queryLexerFactory));
+            }
+            if (fragmentLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(fragmentLexerFactory));
+            }
+            AuthorityLexerFactory = authorityLexerFactory;
+            PathAbsoluteOrEmptyLexerFactory = pathAbsoluteOrEmptyLexerFactory;
+            QueryLexerFactory = queryLexerFactory;
+            FragmentLexerFactory = fragmentLexerFactory;
+        }
+
+        [NotNull]
+        public static HttpsUriLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Authority> AuthorityLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<Fragment> FragmentLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<PathAbsoluteOrEmpty> PathAbsoluteOrEmptyLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<Query> QueryLexerFactory { get; }
+
+        public override ILexer<HttpsUri> Create()
         {
             var innerLexer =
-                concatenationLexerFactory.Create(
-                    terminalLexerFactory.Create(@"https://", StringComparer.OrdinalIgnoreCase),
-                    authorityLexer,
-                    pathAbsoluteOrEmptyLexer,
-                    optionLexerFactory.Create(
-                        concatenationLexerFactory.Create(
-                            terminalLexerFactory.Create(@"?", StringComparer.Ordinal),
-                            queryLexer)),
-                    optionLexerFactory.Create(
-                        concatenationLexerFactory.Create(
-                            terminalLexerFactory.Create(@"#", StringComparer.Ordinal),
-                            fragmentLexer)));
+                Concatenation.Create(
+                    Terminal.Create(@"https://", StringComparer.OrdinalIgnoreCase),
+                    AuthorityLexerFactory.Create(),
+                    PathAbsoluteOrEmptyLexerFactory.Create(),
+                    Option.Create(
+                        Concatenation.Create(
+                            Terminal.Create(@"?", StringComparer.Ordinal),
+                            QueryLexerFactory.Create())),
+                    Option.Create(
+                        Concatenation.Create(
+                            Terminal.Create(@"#", StringComparer.Ordinal),
+                            FragmentLexerFactory.Create())));
             return new HttpsUriLexer(innerLexer);
         }
     }

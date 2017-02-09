@@ -3,76 +3,66 @@ using Http.BWS;
 using Http.quoted_string;
 using Http.token;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.transfer_parameter
 {
-    public class TransferParameterLexerFactory : ILexerFactory<TransferParameter>
+    public sealed class TransferParameterLexerFactory : RuleLexerFactory<TransferParameter>
     {
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly ILexer<BadWhiteSpace> badWhiteSpaceLexer;
-
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ILexer<QuotedString> quotedStringLexer;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        private readonly ILexer<Token> tokenLexer;
-
-        public TransferParameterLexerFactory(
-            [NotNull] ITerminalLexerFactory terminalLexerFactory,
-            [NotNull] IAlternationLexerFactory alternationLexerFactory,
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] ILexer<Token> tokenLexer,
-            [NotNull] ILexer<BadWhiteSpace> badWhiteSpaceLexer,
-            [NotNull] ILexer<QuotedString> quotedStringLexer)
+        static TransferParameterLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            if (alternationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alternationLexerFactory));
-            }
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (tokenLexer == null)
-            {
-                throw new ArgumentNullException(nameof(tokenLexer));
-            }
-            if (badWhiteSpaceLexer == null)
-            {
-                throw new ArgumentNullException(nameof(badWhiteSpaceLexer));
-            }
-            if (quotedStringLexer == null)
-            {
-                throw new ArgumentNullException(nameof(quotedStringLexer));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.tokenLexer = tokenLexer;
-            this.badWhiteSpaceLexer = badWhiteSpaceLexer;
-            this.quotedStringLexer = quotedStringLexer;
+            Default = new TransferParameterLexerFactory(
+                token.TokenLexerFactory.Default.Singleton(),
+                BWS.BadWhiteSpaceLexerFactory.Default.Singleton(),
+                quoted_string.QuotedStringLexerFactory.Default.Singleton());
         }
 
-        public ILexer<TransferParameter> Create()
+        public TransferParameterLexerFactory(
+            [NotNull] ILexerFactory<Token> tokenLexerFactory,
+            [NotNull] ILexerFactory<BadWhiteSpace> badWhiteSpaceLexerFactory,
+            [NotNull] ILexerFactory<QuotedString> quotedStringLexerFactory)
         {
-            return
-                new TransferParameterLexer(
-                    concatenationLexerFactory.Create(
-                        tokenLexer,
-                        badWhiteSpaceLexer,
-                        terminalLexerFactory.Create(@"=", StringComparer.Ordinal),
-                        badWhiteSpaceLexer,
-                        alternationLexerFactory.Create(tokenLexer, quotedStringLexer)));
+            if (tokenLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(tokenLexerFactory));
+            }
+            if (badWhiteSpaceLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(badWhiteSpaceLexerFactory));
+            }
+            if (quotedStringLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(quotedStringLexerFactory));
+            }
+            TokenLexerFactory = tokenLexerFactory;
+            BadWhiteSpaceLexerFactory = badWhiteSpaceLexerFactory;
+            QuotedStringLexerFactory = quotedStringLexerFactory;
+        }
+
+        [NotNull]
+        public static TransferParameterLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<BadWhiteSpace> BadWhiteSpaceLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<QuotedString> QuotedStringLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<Token> TokenLexerFactory { get; set; }
+
+        public override ILexer<TransferParameter> Create()
+        {
+            var bws = BadWhiteSpaceLexerFactory.Create();
+            var token = TokenLexerFactory.Create();
+            var innerLexer = Concatenation.Create(
+                token,
+                bws,
+                Terminal.Create(@"=", StringComparer.Ordinal),
+                bws,
+                Alternation.Create(token, QuotedStringLexerFactory.Create()));
+            return new TransferParameterLexer(innerLexer);
         }
     }
 }

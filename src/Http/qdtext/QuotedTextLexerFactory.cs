@@ -2,7 +2,6 @@
 using System.Text;
 using Http.obs_text;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.HTAB;
 using Txt.ABNF.Core.SP;
@@ -10,69 +9,59 @@ using Txt.Core;
 
 namespace Http.qdtext
 {
-    public class QuotedTextLexerFactory : ILexerFactory<QuotedText>
+    public sealed class QuotedTextLexerFactory : RuleLexerFactory<QuotedText>
     {
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly ILexer<HorizontalTab> horizontalTabLexer;
-
-        private readonly ILexer<ObsoleteText> obsoleteTextLexer;
-
-        private readonly ILexer<Space> spaceLexer;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        private readonly IValueRangeLexerFactory valueRangeLexerFactory;
-
-        public QuotedTextLexerFactory(
-            [NotNull] ITerminalLexerFactory terminalLexerFactory,
-            [NotNull] IValueRangeLexerFactory valueRangeLexerFactory,
-            [NotNull] IAlternationLexerFactory alternationLexerFactory,
-            [NotNull] ILexer<HorizontalTab> horizontalTabLexer,
-            [NotNull] ILexer<Space> spaceLexer,
-            [NotNull] ILexer<ObsoleteText> obsoleteTextLexer)
+        static QuotedTextLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            if (valueRangeLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(valueRangeLexerFactory));
-            }
-            if (alternationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alternationLexerFactory));
-            }
-            if (horizontalTabLexer == null)
-            {
-                throw new ArgumentNullException(nameof(horizontalTabLexer));
-            }
-            if (spaceLexer == null)
-            {
-                throw new ArgumentNullException(nameof(spaceLexer));
-            }
-            if (obsoleteTextLexer == null)
-            {
-                throw new ArgumentNullException(nameof(obsoleteTextLexer));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.valueRangeLexerFactory = valueRangeLexerFactory;
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.horizontalTabLexer = horizontalTabLexer;
-            this.spaceLexer = spaceLexer;
-            this.obsoleteTextLexer = obsoleteTextLexer;
+            Default = new QuotedTextLexerFactory(
+                Txt.ABNF.Core.HTAB.HorizontalTabLexerFactory.Default.Singleton(),
+                Txt.ABNF.Core.SP.SpaceLexerFactory.Default.Singleton(),
+                obs_text.ObsoleteTextLexerFactory.Default.Singleton());
         }
 
-        public ILexer<QuotedText> Create()
+        public QuotedTextLexerFactory(
+            [NotNull] ILexerFactory<HorizontalTab> horizontalTabLexerFactory,
+            [NotNull] ILexerFactory<Space> spaceLexerFactory,
+            [NotNull] ILexerFactory<ObsoleteText> obsoleteTextLexerFactory)
         {
-            var innerLexer = alternationLexerFactory.Create(
-                horizontalTabLexer,
-                spaceLexer,
-                terminalLexerFactory.Create(@"!", StringComparer.Ordinal),
-                valueRangeLexerFactory.Create(0x23, 0x5B, Encoding.UTF8),
-                valueRangeLexerFactory.Create(0x5D, 0x7E, Encoding.UTF8),
-                obsoleteTextLexer);
+            if (horizontalTabLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(horizontalTabLexerFactory));
+            }
+            if (spaceLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(spaceLexerFactory));
+            }
+            if (obsoleteTextLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(obsoleteTextLexerFactory));
+            }
+            HorizontalTabLexerFactory = horizontalTabLexerFactory;
+            SpaceLexerFactory = spaceLexerFactory;
+            ObsoleteTextLexerFactory = obsoleteTextLexerFactory;
+        }
+
+        [NotNull]
+        public static QuotedTextLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<HorizontalTab> HorizontalTabLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<ObsoleteText> ObsoleteTextLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<Space> SpaceLexerFactory { get; set; }
+
+        public override ILexer<QuotedText> Create()
+        {
+            var innerLexer = Alternation.Create(
+                HorizontalTabLexerFactory.Create(),
+                SpaceLexerFactory.Create(),
+                Terminal.Create(@"!", StringComparer.Ordinal),
+                ValueRange.Create(0x23, 0x5B, Encoding.UTF8),
+                ValueRange.Create(0x5D, 0x7E, Encoding.UTF8),
+                ObsoleteTextLexerFactory.Create());
             return new QuotedTextLexer(innerLexer);
         }
     }

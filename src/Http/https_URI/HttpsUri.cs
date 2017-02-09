@@ -1,10 +1,11 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
 
 namespace Http.https_URI
 {
     public class HttpsUri : Concatenation
     {
-        public HttpsUri(Concatenation concatenation)
+        public HttpsUri([NotNull] Concatenation concatenation)
             : base(concatenation)
         {
         }

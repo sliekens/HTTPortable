@@ -2,45 +2,48 @@
 using Http.request_line;
 using Http.status_line;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.start_line
 {
-    public class StartLineLexerFactory : ILexerFactory<StartLine>
+    public sealed class StartLineLexerFactory : RuleLexerFactory<StartLine>
     {
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly ILexer<RequestLine> requestLineLexer;
-
-        private readonly ILexer<StatusLine> statusLineLexer;
-
-        public StartLineLexerFactory(
-            [NotNull] IAlternationLexerFactory alternationLexerFactory,
-            [NotNull] ILexer<RequestLine> requestLineLexer,
-            [NotNull] ILexer<StatusLine> statusLineLexer)
+        static StartLineLexerFactory()
         {
-            if (alternationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alternationLexerFactory));
-            }
-            if (requestLineLexer == null)
-            {
-                throw new ArgumentNullException(nameof(requestLineLexer));
-            }
-            if (statusLineLexer == null)
-            {
-                throw new ArgumentNullException(nameof(statusLineLexer));
-            }
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.requestLineLexer = requestLineLexer;
-            this.statusLineLexer = statusLineLexer;
+            Default = new StartLineLexerFactory(
+                request_line.RequestLineLexerFactory.Default.Singleton(),
+                status_line.StatusLineLexerFactory.Default.Singleton());
         }
 
-        public ILexer<StartLine> Create()
+        public StartLineLexerFactory(
+            [NotNull] ILexerFactory<RequestLine> requestLineLexerFactory,
+            [NotNull] ILexerFactory<StatusLine> statusLineLexerFactory)
         {
-            var innerLexer = alternationLexerFactory.Create(requestLineLexer, statusLineLexer);
+            if (requestLineLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(requestLineLexerFactory));
+            }
+            if (statusLineLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(statusLineLexerFactory));
+            }
+            RequestLineLexerFactory = requestLineLexerFactory;
+            StatusLineLexerFactory = statusLineLexerFactory;
+        }
+
+        [NotNull]
+        public static StartLineLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<RequestLine> RequestLineLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<StatusLine> StatusLineLexerFactory { get; }
+
+        public override ILexer<StartLine> Create()
+        {
+            var innerLexer = Alternation.Create(RequestLineLexerFactory.Create(), StatusLineLexerFactory.Create());
             return new StartLineLexer(innerLexer);
         }
     }

@@ -1,14 +1,33 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.origin_form
 {
-    public sealed class OriginFormLexer : CompositeLexer<Concatenation, OriginForm>
+    public sealed class OriginFormLexer : Lexer<OriginForm>
     {
         public OriginFormLexer([NotNull] ILexer<Concatenation> innerLexer)
-            : base(innerLexer)
         {
+            if (innerLexer == null)
+            {
+                throw new ArgumentNullException(nameof(innerLexer));
+            }
+            InnerLexer = innerLexer;
+        }
+
+        [NotNull]
+        public ILexer<Concatenation> InnerLexer { get; }
+
+        protected override IEnumerable<OriginForm> ReadImpl(
+            ITextScanner scanner,
+            ITextContext context)
+        {
+            foreach (var concatenation in InnerLexer.Read(scanner, context))
+            {
+                yield return new OriginForm(concatenation);
+            }
         }
     }
 }

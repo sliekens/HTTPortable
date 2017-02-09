@@ -1,64 +1,75 @@
-using System;
+﻿using System;
 using Http.absolute_form;
 using Http.asterisk_form;
 using Http.authority_form;
 using Http.origin_form;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.request_target
 {
-    public class RequestTargetLexerFactory : ILexerFactory<RequestTarget>
+    public sealed class RequestTargetLexerFactory : RuleLexerFactory<RequestTarget>
     {
-        private readonly ILexer<AbsoluteForm> absoluteFormLexer;
-
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly ILexer<AsteriskForm> asteriskFormLexer;
-
-        private readonly ILexer<AuthorityForm> authorityFormLexer;
-
-        private readonly ILexer<OriginForm> originFormLexer;
-
-        public RequestTargetLexerFactory(
-            [NotNull] IAlternationLexerFactory alternationLexerFactory,
-            [NotNull] ILexer<OriginForm> originFormLexer,
-            [NotNull] ILexer<AbsoluteForm> absoluteFormLexer,
-            [NotNull] ILexer<AuthorityForm> authorityFormLexer,
-            [NotNull] ILexer<AsteriskForm> asteriskFormLexer)
+        static RequestTargetLexerFactory()
         {
-            if (alternationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alternationLexerFactory));
-            }
-            if (originFormLexer == null)
-            {
-                throw new ArgumentNullException(nameof(originFormLexer));
-            }
-            if (absoluteFormLexer == null)
-            {
-                throw new ArgumentNullException(nameof(absoluteFormLexer));
-            }
-            if (authorityFormLexer == null)
-            {
-                throw new ArgumentNullException(nameof(authorityFormLexer));
-            }
-            if (asteriskFormLexer == null)
-            {
-                throw new ArgumentNullException(nameof(asteriskFormLexer));
-            }
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.originFormLexer = originFormLexer;
-            this.absoluteFormLexer = absoluteFormLexer;
-            this.authorityFormLexer = authorityFormLexer;
-            this.asteriskFormLexer = asteriskFormLexer;
+            Default = new RequestTargetLexerFactory(
+                origin_form.OriginFormLexerFactory.Default.Singleton(),
+                absolute_form.AbsoluteFormLexerFactory.Default.Singleton(),
+                authority_form.AuthorityFormLexerFactory.Default.Singleton(),
+                asterisk_form.AsteriskFormLexerFactory.Default.Singleton());
         }
 
-        public ILexer<RequestTarget> Create()
+        public RequestTargetLexerFactory(
+            [NotNull] ILexerFactory<OriginForm> originFormLexerFactory,
+            [NotNull] ILexerFactory<AbsoluteForm> absoluteFormLexerFactory,
+            [NotNull] ILexerFactory<AuthorityForm> authorityFormLexerFactory,
+            [NotNull] ILexerFactory<AsteriskForm> asteriskFormLexerFactory)
         {
-            var innerLexer = alternationLexerFactory.Create(originFormLexer, absoluteFormLexer, authorityFormLexer, asteriskFormLexer);
+            if (originFormLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(originFormLexerFactory));
+            }
+            if (absoluteFormLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(absoluteFormLexerFactory));
+            }
+            if (authorityFormLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(authorityFormLexerFactory));
+            }
+            if (asteriskFormLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(asteriskFormLexerFactory));
+            }
+            OriginFormLexerFactory = originFormLexerFactory;
+            AbsoluteFormLexerFactory = absoluteFormLexerFactory;
+            AuthorityFormLexerFactory = authorityFormLexerFactory;
+            AsteriskFormLexerFactory = asteriskFormLexerFactory;
+        }
+
+        [NotNull]
+        public static RequestTargetLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<AbsoluteForm> AbsoluteFormLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<AsteriskForm> AsteriskFormLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<AuthorityForm> AuthorityFormLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<OriginForm> OriginFormLexerFactory { get; }
+
+        public override ILexer<RequestTarget> Create()
+        {
+            var innerLexer = Alternation.Create(
+                OriginFormLexerFactory.Create(),
+                AbsoluteFormLexerFactory.Create(),
+                AuthorityFormLexerFactory.Create(),
+                AsteriskFormLexerFactory.Create());
             return new RequestTargetLexer(innerLexer);
         }
     }

@@ -1,59 +1,55 @@
 ﻿using System;
 using Http.HTTP_name;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.DIGIT;
 using Txt.Core;
 
 namespace Http.HTTP_version
 {
-    public class HttpVersionLexerFactory : ILexerFactory<HttpVersion>
+    public sealed class HttpVersionLexerFactory : RuleLexerFactory<HttpVersion>
     {
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ILexer<Digit> digitLexer;
-
-        private readonly ILexer<HttpName> httpNameLexer;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        public HttpVersionLexerFactory(
-            [NotNull] ITerminalLexerFactory terminalLexerFactory,
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] ILexer<HttpName> httpNameLexer,
-            [NotNull] ILexer<Digit> digitLexer)
+        static HttpVersionLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (httpNameLexer == null)
-            {
-                throw new ArgumentNullException(nameof(httpNameLexer));
-            }
-            if (digitLexer == null)
-            {
-                throw new ArgumentNullException(nameof(digitLexer));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.httpNameLexer = httpNameLexer;
-            this.digitLexer = digitLexer;
+            Default = new HttpVersionLexerFactory(
+                HTTP_name.HttpNameLexerFactory.Default.Singleton(),
+                Txt.ABNF.Core.DIGIT.DigitLexerFactory.Default.Singleton());
         }
 
-        public ILexer<HttpVersion> Create()
+        public HttpVersionLexerFactory(
+            [NotNull] ILexerFactory<HttpName> httpNameLexerFactory,
+            [NotNull] ILexerFactory<Digit> digitLexerFactory)
         {
-            var innerLexer = concatenationLexerFactory.Create(
-                httpNameLexer,
-                terminalLexerFactory.Create(@"/", StringComparer.Ordinal),
-                digitLexer,
-                terminalLexerFactory.Create(@".", StringComparer.Ordinal),
-                digitLexer);
+            if (httpNameLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(httpNameLexerFactory));
+            }
+            if (digitLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(digitLexerFactory));
+            }
+            HttpNameLexerFactory = httpNameLexerFactory;
+            DigitLexerFactory = digitLexerFactory;
+        }
+
+        [NotNull]
+        public static HttpVersionLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Digit> DigitLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<HttpName> HttpNameLexerFactory { get; set; }
+
+        public override ILexer<HttpVersion> Create()
+        {
+            var digit = DigitLexerFactory.Create();
+            var innerLexer = Concatenation.Create(
+                HttpNameLexerFactory.Create(),
+                Terminal.Create(@"/", StringComparer.Ordinal),
+                digit,
+                Terminal.Create(@".", StringComparer.Ordinal),
+                digit);
             return new HttpVersionLexer(innerLexer);
         }
     }

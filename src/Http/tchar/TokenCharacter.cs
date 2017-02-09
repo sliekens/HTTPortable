@@ -1,10 +1,11 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
 
 namespace Http.tchar
 {
     public class TokenCharacter : Alternation
     {
-        public TokenCharacter(Alternation alternation)
+        public TokenCharacter([NotNull] Alternation alternation)
             : base(alternation)
         {
         }

@@ -1,10 +1,12 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.reason_phrase
 {
     public class ReasonPhrase : Repetition
     {
-        public ReasonPhrase(Repetition repetition)
+        public ReasonPhrase([NotNull] Repetition repetition)
             : base(repetition)
         {
         }

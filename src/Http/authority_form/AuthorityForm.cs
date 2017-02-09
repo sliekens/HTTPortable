@@ -1,10 +1,11 @@
-﻿using UriSyntax.authority;
+﻿using JetBrains.Annotations;
+using UriSyntax.authority;
 
 namespace Http.authority_form
 {
     public class AuthorityForm : Authority
     {
-        public AuthorityForm(Authority authority)
+        public AuthorityForm([NotNull] Authority authority)
             : base(authority)
         {
         }

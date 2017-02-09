@@ -1,10 +1,11 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
 
 namespace Http.token
 {
     public class Token : Repetition
     {
-        public Token(Repetition repetition)
+        public Token([NotNull] Repetition repetition)
             : base(repetition)
         {
         }

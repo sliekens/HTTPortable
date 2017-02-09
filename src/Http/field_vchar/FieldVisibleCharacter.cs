@@ -1,10 +1,12 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.field_vchar
 {
     public class FieldVisibleCharacter : Alternation
     {
-        public FieldVisibleCharacter(Alternation alternation)
+        public FieldVisibleCharacter([NotNull] Alternation alternation)
             : base(alternation)
         {
         }

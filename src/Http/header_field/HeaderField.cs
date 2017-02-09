@@ -1,18 +1,14 @@
-﻿using Http.field_name;
-using Http.field_value;
+﻿using JetBrains.Annotations;
 using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.header_field
 {
     public class HeaderField : Concatenation
     {
-        public HeaderField(Concatenation concatenation)
+        public HeaderField([NotNull] Concatenation concatenation)
             : base(concatenation)
         {
         }
-
-        public FieldName FieldName => (FieldName)this[0];
-
-        public FieldValue FieldValue => (FieldValue)this[3];
     }
 }

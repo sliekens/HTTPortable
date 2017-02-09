@@ -1,27 +1,23 @@
 ﻿using System;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.HTTP_name
 {
-    public class HttpNameLexerFactory : ILexerFactory<HttpName>
+    public sealed class HttpNameLexerFactory : RuleLexerFactory<HttpName>
     {
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        public HttpNameLexerFactory([NotNull] ITerminalLexerFactory terminalLexerFactory)
+        static HttpNameLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
+            Default = new HttpNameLexerFactory();
         }
 
-        public ILexer<HttpName> Create()
+        [NotNull]
+        public static HttpNameLexerFactory Default { get; }
+
+        public override ILexer<HttpName> Create()
         {
-            var innerLexer = terminalLexerFactory.Create("HTTP", StringComparer.OrdinalIgnoreCase);
+            var innerLexer = Terminal.Create(@"HTTP", StringComparer.Ordinal);
             return new HttpNameLexer(innerLexer);
         }
     }

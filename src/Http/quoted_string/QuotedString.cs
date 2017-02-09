@@ -1,10 +1,11 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
 
 namespace Http.quoted_string
 {
     public class QuotedString : Concatenation
     {
-        public QuotedString(Concatenation concatenation)
+        public QuotedString([NotNull] Concatenation concatenation)
             : base(concatenation)
         {
         }

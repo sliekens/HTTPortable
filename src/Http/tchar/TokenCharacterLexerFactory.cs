@@ -1,6 +1,5 @@
 ﻿using System;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.ALPHA;
 using Txt.ABNF.Core.DIGIT;
@@ -8,65 +7,60 @@ using Txt.Core;
 
 namespace Http.tchar
 {
-    public class TokenCharacterLexerFactory : ILexerFactory<TokenCharacter>
+    public class TokenCharacterLexerFactory : RuleLexerFactory<TokenCharacter>
     {
-        private readonly ILexer<Alpha> alphaLexer;
-
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly ILexer<Digit> digitLexer;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        public TokenCharacterLexerFactory(
-            [NotNull] ITerminalLexerFactory terminalLexerFactory,
-            [NotNull] IAlternationLexerFactory alternationLexerFactory,
-            [NotNull] ILexer<Digit> digitLexer,
-            [NotNull] ILexer<Alpha> alphaLexer)
+        static TokenCharacterLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            if (alternationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alternationLexerFactory));
-            }
-            if (digitLexer == null)
-            {
-                throw new ArgumentNullException(nameof(digitLexer));
-            }
-            if (alphaLexer == null)
-            {
-                throw new ArgumentNullException(nameof(alphaLexer));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.digitLexer = digitLexer;
-            this.alphaLexer = alphaLexer;
+            Default = new TokenCharacterLexerFactory(
+                Txt.ABNF.Core.DIGIT.DigitLexerFactory.Default.Singleton(),
+                Txt.ABNF.Core.ALPHA.AlphaLexerFactory.Default.Singleton());
         }
 
-        public ILexer<TokenCharacter> Create()
+        public TokenCharacterLexerFactory(
+            [NotNull] ILexerFactory<Digit> digitLexerFactory,
+            [NotNull] ILexerFactory<Alpha> alphaLexerFactory)
         {
-            var innerLexer =
-                alternationLexerFactory.Create(
-                    terminalLexerFactory.Create(@"!", StringComparer.Ordinal),
-                    terminalLexerFactory.Create(@"#", StringComparer.Ordinal),
-                    terminalLexerFactory.Create(@"$", StringComparer.Ordinal),
-                    terminalLexerFactory.Create(@"%", StringComparer.Ordinal),
-                    terminalLexerFactory.Create(@"&", StringComparer.Ordinal),
-                    terminalLexerFactory.Create(@"'", StringComparer.Ordinal),
-                    terminalLexerFactory.Create(@"*", StringComparer.Ordinal),
-                    terminalLexerFactory.Create(@"+", StringComparer.Ordinal),
-                    terminalLexerFactory.Create(@"-", StringComparer.Ordinal),
-                    terminalLexerFactory.Create(@".", StringComparer.Ordinal),
-                    terminalLexerFactory.Create(@"^", StringComparer.Ordinal),
-                    terminalLexerFactory.Create(@"_", StringComparer.Ordinal),
-                    terminalLexerFactory.Create(@"`", StringComparer.Ordinal),
-                    terminalLexerFactory.Create(@"|", StringComparer.Ordinal),
-                    terminalLexerFactory.Create(@"~", StringComparer.Ordinal),
-                    digitLexer,
-                    alphaLexer);
+            if (digitLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(digitLexerFactory));
+            }
+            if (alphaLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(alphaLexerFactory));
+            }
+            DigitLexerFactory = digitLexerFactory;
+            AlphaLexerFactory = alphaLexerFactory;
+        }
+
+        [NotNull]
+        public static TokenCharacterLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Alpha> AlphaLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<Digit> DigitLexerFactory { get; set; }
+
+        public override ILexer<TokenCharacter> Create()
+        {
+            var innerLexer = Alternation.Create(
+                Terminal.Create(@"!", StringComparer.Ordinal),
+                Terminal.Create(@"#", StringComparer.Ordinal),
+                Terminal.Create(@"$", StringComparer.Ordinal),
+                Terminal.Create(@"%", StringComparer.Ordinal),
+                Terminal.Create(@"&", StringComparer.Ordinal),
+                Terminal.Create(@"'", StringComparer.Ordinal),
+                Terminal.Create(@"*", StringComparer.Ordinal),
+                Terminal.Create(@"+", StringComparer.Ordinal),
+                Terminal.Create(@"-", StringComparer.Ordinal),
+                Terminal.Create(@".", StringComparer.Ordinal),
+                Terminal.Create(@"^", StringComparer.Ordinal),
+                Terminal.Create(@"_", StringComparer.Ordinal),
+                Terminal.Create(@"`", StringComparer.Ordinal),
+                Terminal.Create(@"|", StringComparer.Ordinal),
+                Terminal.Create(@"~", StringComparer.Ordinal),
+                DigitLexerFactory.Create(),
+                AlphaLexerFactory.Create());
             return new TokenCharacterLexer(innerLexer);
         }
     }

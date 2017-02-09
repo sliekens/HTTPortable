@@ -1,36 +1,49 @@
 ﻿using System;
 using Http.field_name;
 using JetBrains.Annotations;
-using Txt;
+using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.Trailer
 {
-    public class TrailerLexerFactory : ILexerFactory<Trailer>
+    public sealed class TrailerLexerFactory : RuleLexerFactory<Trailer>
     {
-        private readonly ILexer<FieldName> fieldNameLexer;
-
-        private readonly IRequiredDelimitedListLexerFactory requiredDelimitedListLexerFactory;
+        static TrailerLexerFactory()
+        {
+            Default = new TrailerLexerFactory(
+                Http.RequiredDelimitedListLexerFactory.Default,
+                field_name.FieldNameLexerFactory.Default.Singleton());
+        }
 
         public TrailerLexerFactory(
             [NotNull] IRequiredDelimitedListLexerFactory requiredDelimitedListLexerFactory,
-            [NotNull] ILexer<FieldName> fieldNameLexer)
+            [NotNull] ILexerFactory<FieldName> fieldNameLexerFactory)
         {
             if (requiredDelimitedListLexerFactory == null)
             {
                 throw new ArgumentNullException(nameof(requiredDelimitedListLexerFactory));
             }
-            if (fieldNameLexer == null)
+            if (fieldNameLexerFactory == null)
             {
-                throw new ArgumentNullException(nameof(fieldNameLexer));
+                throw new ArgumentNullException(nameof(fieldNameLexerFactory));
             }
-            this.requiredDelimitedListLexerFactory = requiredDelimitedListLexerFactory;
-            this.fieldNameLexer = fieldNameLexer;
+            RequiredDelimitedListLexerFactory = requiredDelimitedListLexerFactory;
+            FieldNameLexerFactory = fieldNameLexerFactory;
         }
 
-        public ILexer<Trailer> Create()
+        [NotNull]
+        public static TrailerLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<FieldName> FieldNameLexerFactory { get; }
+
+        [NotNull]
+        public IRequiredDelimitedListLexerFactory RequiredDelimitedListLexerFactory { get; }
+
+        public override ILexer<Trailer> Create()
         {
-            return new TrailerLexer(requiredDelimitedListLexerFactory.Create(fieldNameLexer));
+            var innerLexer = RequiredDelimitedListLexerFactory.Create(FieldNameLexerFactory.Create());
+            return new TrailerLexer(innerLexer);
         }
     }
 }

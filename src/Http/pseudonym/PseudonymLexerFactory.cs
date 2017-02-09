@@ -1,27 +1,37 @@
 ﻿using System;
 using Http.token;
 using JetBrains.Annotations;
-using Txt;
+using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.pseudonym
 {
-    public class PseudonymLexerFactory : ILexerFactory<Pseudonym>
+    public sealed class PseudonymLexerFactory : RuleLexerFactory<Pseudonym>
     {
-        private readonly ILexer<Token> tokenLexer;
-
-        public PseudonymLexerFactory([NotNull] ILexer<Token> tokenLexer)
+        static PseudonymLexerFactory()
         {
-            if (tokenLexer == null)
-            {
-                throw new ArgumentNullException(nameof(tokenLexer));
-            }
-            this.tokenLexer = tokenLexer;
+            Default = new PseudonymLexerFactory(token.TokenLexerFactory.Default.Singleton());
         }
 
-        public ILexer<Pseudonym> Create()
+        public PseudonymLexerFactory([NotNull] ILexerFactory<Token> tokenLexerFactory)
         {
-            return new PseudonymLexer(tokenLexer);
+            if (tokenLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(tokenLexerFactory));
+            }
+            TokenLexerFactory = tokenLexerFactory;
+        }
+
+        [NotNull]
+        public static PseudonymLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Token> TokenLexerFactory { get; set; }
+
+        public override ILexer<Pseudonym> Create()
+        {
+            var innerLexer = TokenLexerFactory.Create();
+            return new PseudonymLexer(innerLexer);
         }
     }
 }

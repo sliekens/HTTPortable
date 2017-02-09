@@ -1,10 +1,11 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
 
 namespace Http.partial_URI
 {
     public class PartialUri : Concatenation
     {
-        public PartialUri(Concatenation concatenation)
+        public PartialUri([NotNull] Concatenation concatenation)
             : base(concatenation)
         {
         }

@@ -1,66 +1,54 @@
 ﻿using System;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 using UriSyntax.port;
+using UriHost = UriSyntax.host.Host;
 
 namespace Http.Host
 {
-    public class HostLexerFactory : ILexerFactory<Host>
+    public sealed class HostLexerFactory : RuleLexerFactory<Host>
     {
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ILexer<UriSyntax.host.Host> hostLexer;
-
-        private readonly IOptionLexerFactory optionLexerFactory;
-
-        private readonly ILexer<Port> portLexer;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        public HostLexerFactory(
-            [NotNull] ITerminalLexerFactory terminalLexerFactory,
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] IOptionLexerFactory optionLexerFactory,
-            [NotNull] ILexer<UriSyntax.host.Host> hostLexer,
-            [NotNull] ILexer<Port> portLexer)
+        static HostLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (optionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(optionLexerFactory));
-            }
-            if (hostLexer == null)
-            {
-                throw new ArgumentNullException(nameof(hostLexer));
-            }
-            if (portLexer == null)
-            {
-                throw new ArgumentNullException(nameof(portLexer));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.optionLexerFactory = optionLexerFactory;
-            this.hostLexer = hostLexer;
-            this.portLexer = portLexer;
+            Default = new HostLexerFactory(
+                UriSyntax.host.HostLexerFactory.Default.Singleton(),
+                UriSyntax.port.PortLexerFactory.Default.Singleton());
         }
 
-        public ILexer<Host> Create()
+        public HostLexerFactory(
+            [NotNull] ILexerFactory<UriHost> hostLexerFactory,
+            [NotNull] ILexerFactory<Port> portLexerFactory)
         {
-            var innerLexer = concatenationLexerFactory.Create(
-                hostLexer,
-                optionLexerFactory.Create(
-                    concatenationLexerFactory.Create(
-                        terminalLexerFactory.Create(@":", StringComparer.Ordinal),
-                        portLexer)));
+            if (hostLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(hostLexerFactory));
+            }
+            if (portLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(portLexerFactory));
+            }
+            UriHostLexerFactory = hostLexerFactory;
+            PortLexerFactory = portLexerFactory;
+        }
+
+        [NotNull]
+        public static HostLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Port> PortLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<UriHost> UriHostLexerFactory { get; set; }
+
+        public override ILexer<Host> Create()
+        {
+            var innerLexer = Concatenation.Create(
+                UriHostLexerFactory.Create(),
+                Option.Create(
+                    Concatenation.Create(
+                        Terminal.Create(@":", StringComparer.Ordinal),
+                        PortLexerFactory.Create())));
             return new HostLexer(innerLexer);
         }
     }

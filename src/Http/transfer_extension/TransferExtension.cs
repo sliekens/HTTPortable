@@ -1,10 +1,11 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
 
 namespace Http.transfer_extension
 {
     public class TransferExtension : Concatenation
     {
-        public TransferExtension(Concatenation concatenation)
+        public TransferExtension([NotNull] Concatenation concatenation)
             : base(concatenation)
         {
         }

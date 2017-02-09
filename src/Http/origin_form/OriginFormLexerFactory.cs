@@ -1,67 +1,54 @@
 ﻿using System;
 using Http.absolute_path;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 using UriSyntax.query;
 
 namespace Http.origin_form
 {
-    public class OriginFormLexerFactory : ILexerFactory<OriginForm>
+    public sealed class OriginFormLexerFactory : RuleLexerFactory<OriginForm>
     {
-        private readonly ILexer<AbsolutePath> absolutePathLexer;
-
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly IOptionLexerFactory optionLexerFactory;
-
-        private readonly ILexer<Query> queryLexer;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        public OriginFormLexerFactory(
-            [NotNull] ITerminalLexerFactory terminalLexerFactory,
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] IOptionLexerFactory optionLexerFactory,
-            [NotNull] ILexer<AbsolutePath> absolutePathLexer,
-            [NotNull] ILexer<Query> queryLexer)
+        static OriginFormLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (optionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(optionLexerFactory));
-            }
-            if (absolutePathLexer == null)
-            {
-                throw new ArgumentNullException(nameof(absolutePathLexer));
-            }
-            if (queryLexer == null)
-            {
-                throw new ArgumentNullException(nameof(queryLexer));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.optionLexerFactory = optionLexerFactory;
-            this.absolutePathLexer = absolutePathLexer;
-            this.queryLexer = queryLexer;
+            Default = new OriginFormLexerFactory(
+                absolute_path.AbsolutePathLexerFactory.Default.Singleton(),
+                UriSyntax.query.QueryLexerFactory.Default.Singleton());
         }
 
-        public ILexer<OriginForm> Create()
+        public OriginFormLexerFactory(
+            [NotNull] ILexerFactory<AbsolutePath> absolutePathLexerFactory,
+            [NotNull] ILexerFactory<Query> queryLexerFactory)
         {
-            var innerLexer = concatenationLexerFactory.Create(
-                absolutePathLexer,
-                optionLexerFactory.Create(
-                    concatenationLexerFactory.Create(
-                        terminalLexerFactory.Create(@"?", StringComparer.Ordinal),
-                        queryLexer)));
+            if (absolutePathLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(absolutePathLexerFactory));
+            }
+            if (queryLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(queryLexerFactory));
+            }
+            AbsolutePathLexerFactory = absolutePathLexerFactory;
+            QueryLexerFactory = queryLexerFactory;
+        }
+
+        [NotNull]
+        public static OriginFormLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<AbsolutePath> AbsolutePathLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<Query> QueryLexerFactory { get; set; }
+
+        public override ILexer<OriginForm> Create()
+        {
+            var innerLexer = Concatenation.Create(
+                AbsolutePathLexerFactory.Create(),
+                Option.Create(
+                    Concatenation.Create(
+                        Terminal.Create(@"?", StringComparer.Ordinal),
+                        QueryLexerFactory.Create())));
             return new OriginFormLexer(innerLexer);
         }
     }

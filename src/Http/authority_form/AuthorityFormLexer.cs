@@ -1,14 +1,33 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using Txt.Core;
 using UriSyntax.authority;
 
 namespace Http.authority_form
 {
-    public sealed class AuthorityFormLexer : CompositeLexer<Authority, AuthorityForm>
+    public class AuthorityFormLexer : Lexer<AuthorityForm>
     {
         public AuthorityFormLexer([NotNull] ILexer<Authority> innerLexer)
-            : base(innerLexer)
         {
+            if (innerLexer == null)
+            {
+                throw new ArgumentNullException(nameof(innerLexer));
+            }
+            InnerLexer = innerLexer;
+        }
+
+        [NotNull]
+        public ILexer<Authority> InnerLexer { get; }
+
+        protected override IEnumerable<AuthorityForm> ReadImpl(
+            ITextScanner scanner,
+            ITextContext context)
+        {
+            foreach (var authority in InnerLexer.Read(scanner, context))
+            {
+                yield return new AuthorityForm(authority);
+            }
         }
     }
 }

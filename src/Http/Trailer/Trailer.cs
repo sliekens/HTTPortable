@@ -1,9 +1,13 @@
-﻿namespace Http.Trailer
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
+using Txt.Core;
+
+namespace Http.Trailer
 {
     public class Trailer : RequiredDelimitedList
     {
-        public Trailer(RequiredDelimitedList delimitedList)
-            : base(delimitedList)
+        public Trailer([NotNull] RequiredDelimitedList requiredDelimitedList)
+            : base(requiredDelimitedList)
         {
         }
     }

@@ -1,52 +1,43 @@
-using System;
+﻿using System;
 using Http.transfer_extension;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.transfer_coding
 {
-    public class TransferCodingLexerFactory : ILexerFactory<TransferCoding>
+    public sealed class TransferCodingLexerFactory : RuleLexerFactory<TransferCoding>
     {
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        private readonly ILexer<TransferExtension> transferExtensionLexer;
-
-        public TransferCodingLexerFactory(
-            [NotNull] ITerminalLexerFactory terminalLexerFactory,
-            [NotNull] IAlternationLexerFactory alternationLexerFactory,
-            [NotNull] ILexer<TransferExtension> transferExtensionLexer)
+        static TransferCodingLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            if (alternationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alternationLexerFactory));
-            }
-            if (transferExtensionLexer == null)
-            {
-                throw new ArgumentNullException(nameof(transferExtensionLexer));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.transferExtensionLexer = transferExtensionLexer;
+            Default =
+                new TransferCodingLexerFactory(transfer_extension.TransferExtensionLexerFactory.Default.Singleton());
         }
 
-        public ILexer<TransferCoding> Create()
+        public TransferCodingLexerFactory([NotNull] ILexerFactory<TransferExtension> transferExtensionLexerFactory)
         {
-            return
-                new TransferCodingLexer(
-                    alternationLexerFactory.Create(
-                        terminalLexerFactory.Create(@"chunked", StringComparer.OrdinalIgnoreCase),
-                        terminalLexerFactory.Create(@"compress", StringComparer.OrdinalIgnoreCase),
-                        terminalLexerFactory.Create(@"deflate", StringComparer.OrdinalIgnoreCase),
-                        terminalLexerFactory.Create(@"gzip", StringComparer.OrdinalIgnoreCase),
-                        transferExtensionLexer));
+            if (transferExtensionLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(transferExtensionLexerFactory));
+            }
+            TransferExtensionLexerFactory = transferExtensionLexerFactory;
+        }
+
+        [NotNull]
+        public static TransferCodingLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<TransferExtension> TransferExtensionLexerFactory { get; }
+
+        public override ILexer<TransferCoding> Create()
+        {
+            var innerLexer = Alternation.Create(
+                Terminal.Create(@"chunked", StringComparer.OrdinalIgnoreCase),
+                Terminal.Create(@"compress", StringComparer.OrdinalIgnoreCase),
+                Terminal.Create(@"deflate", StringComparer.OrdinalIgnoreCase),
+                Terminal.Create(@"gzip", StringComparer.OrdinalIgnoreCase),
+                TransferExtensionLexerFactory.Create());
+            return new TransferCodingLexer(innerLexer);
         }
     }
 }

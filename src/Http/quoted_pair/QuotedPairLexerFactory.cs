@@ -1,7 +1,6 @@
-using System;
+﻿using System;
 using Http.obs_text;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.HTAB;
 using Txt.ABNF.Core.SP;
@@ -10,73 +9,69 @@ using Txt.Core;
 
 namespace Http.quoted_pair
 {
-    public class QuotedPairLexerFactory : ILexerFactory<QuotedPair>
+    public sealed class QuotedPairLexerFactory : RuleLexerFactory<QuotedPair>
     {
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ILexer<HorizontalTab> horizontalTabLexer;
-
-        private readonly ILexer<ObsoleteText> obsoleteTextLexer;
-
-        private readonly ILexer<Space> spaceLexer;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        private readonly ILexer<VisibleCharacter> visibleCharacterLexer;
-
-        public QuotedPairLexerFactory(
-            [NotNull] ITerminalLexerFactory terminalLexerFactory,
-            [NotNull] IAlternationLexerFactory alternationLexerFactory,
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] ILexer<HorizontalTab> horizontalTabLexer,
-            [NotNull] ILexer<Space> spaceLexer,
-            [NotNull] ILexer<VisibleCharacter> visibleCharacterLexer,
-            [NotNull] ILexer<ObsoleteText> obsoleteTextLexer)
+        static QuotedPairLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            if (alternationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alternationLexerFactory));
-            }
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (horizontalTabLexer == null)
-            {
-                throw new ArgumentNullException(nameof(horizontalTabLexer));
-            }
-            if (spaceLexer == null)
-            {
-                throw new ArgumentNullException(nameof(spaceLexer));
-            }
-            if (visibleCharacterLexer == null)
-            {
-                throw new ArgumentNullException(nameof(visibleCharacterLexer));
-            }
-            if (obsoleteTextLexer == null)
-            {
-                throw new ArgumentNullException(nameof(obsoleteTextLexer));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.horizontalTabLexer = horizontalTabLexer;
-            this.spaceLexer = spaceLexer;
-            this.visibleCharacterLexer = visibleCharacterLexer;
-            this.obsoleteTextLexer = obsoleteTextLexer;
+            Default = new QuotedPairLexerFactory(
+                Txt.ABNF.Core.HTAB.HorizontalTabLexerFactory.Default.Singleton(),
+                Txt.ABNF.Core.SP.SpaceLexerFactory.Default.Singleton(),
+                Txt.ABNF.Core.VCHAR.VisibleCharacterLexerFactory.Default.Singleton(),
+                obs_text.ObsoleteTextLexerFactory.Default.Singleton());
         }
 
-        public ILexer<QuotedPair> Create()
+        public QuotedPairLexerFactory(
+            [NotNull] ILexerFactory<HorizontalTab> horizontalTabLexerFactory,
+            [NotNull] ILexerFactory<Space> spaceLexerFactory,
+            [NotNull] ILexerFactory<VisibleCharacter> visibleCharacterLexerFactory,
+            [NotNull] ILexerFactory<ObsoleteText> obsoleteTextLexerFactory)
         {
-            var innerLexer = concatenationLexerFactory.Create(
-                terminalLexerFactory.Create(@"\", StringComparer.Ordinal),
-                alternationLexerFactory.Create(horizontalTabLexer, spaceLexer, visibleCharacterLexer, obsoleteTextLexer));
+            if (horizontalTabLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(horizontalTabLexerFactory));
+            }
+            if (spaceLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(spaceLexerFactory));
+            }
+            if (visibleCharacterLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(visibleCharacterLexerFactory));
+            }
+            if (obsoleteTextLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(obsoleteTextLexerFactory));
+            }
+            HorizontalTabLexerFactory = horizontalTabLexerFactory;
+            SpaceLexerFactory = spaceLexerFactory;
+            VisibleCharacterLexerFactory = visibleCharacterLexerFactory;
+            ObsoleteTextLexerFactory = obsoleteTextLexerFactory;
+        }
+
+        [NotNull]
+        public static QuotedPairLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<HorizontalTab> HorizontalTabLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<ObsoleteText> ObsoleteTextLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<Space> SpaceLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<VisibleCharacter> VisibleCharacterLexerFactory { get; set; }
+
+        public override ILexer<QuotedPair> Create()
+        {
+            var htab = HorizontalTabLexerFactory.Create();
+            var sp = SpaceLexerFactory.Create();
+            var vchar = VisibleCharacterLexerFactory.Create();
+            var obsText = ObsoleteTextLexerFactory.Create();
+            var innerLexer = Concatenation.Create(
+                Terminal.Create(@"\", StringComparer.Ordinal),
+                Alternation.Create(htab, sp, vchar, obsText));
             return new QuotedPairLexer(innerLexer);
         }
     }

@@ -1,27 +1,23 @@
 ﻿using System;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.asterisk_form
 {
-    public class AsteriskFormLexerFactory : ILexerFactory<AsteriskForm>
+    public class AsteriskFormLexerFactory : RuleLexerFactory<AsteriskForm>
     {
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        public AsteriskFormLexerFactory([NotNull] ITerminalLexerFactory terminalLexerFactory)
+        static AsteriskFormLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
+            Default = new AsteriskFormLexerFactory();
         }
 
-        public ILexer<AsteriskForm> Create()
+        [NotNull]
+        public static AsteriskFormLexerFactory Default { get; }
+
+        public override ILexer<AsteriskForm> Create()
         {
-            var innerLexer = terminalLexerFactory.Create(@"*", StringComparer.Ordinal);
+            var innerLexer = Terminal.Create(@"*", StringComparer.Ordinal);
             return new AsteriskFormLexer(innerLexer);
         }
     }

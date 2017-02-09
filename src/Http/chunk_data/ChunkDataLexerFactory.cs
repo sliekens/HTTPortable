@@ -1,37 +1,36 @@
 ﻿using System;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.OCTET;
 using Txt.Core;
 
 namespace Http.chunk_data
 {
-    public class ChunkDataLexerFactory : ILexerFactory<ChunkData>
+    public class ChunkDataLexerFactory : RuleLexerFactory<ChunkData>
     {
-        private readonly ILexer<Octet> octetLexer;
-
-        private readonly IRepetitionLexerFactory repetitionLexerFactory;
-
-        public ChunkDataLexerFactory(
-            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
-            [NotNull] ILexer<Octet> octetLexer)
+        static ChunkDataLexerFactory()
         {
-            if (repetitionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(repetitionLexerFactory));
-            }
-            if (octetLexer == null)
-            {
-                throw new ArgumentNullException(nameof(octetLexer));
-            }
-            this.repetitionLexerFactory = repetitionLexerFactory;
-            this.octetLexer = octetLexer;
+            Default = new ChunkDataLexerFactory(OctetLexerFactory.Default.Singleton());
         }
 
-        public ILexer<ChunkData> Create()
+        public ChunkDataLexerFactory([NotNull] ILexerFactory<Octet> octet)
         {
-            var innerLexer = repetitionLexerFactory.Create(octetLexer, 1, int.MaxValue);
+            if (octet == null)
+            {
+                throw new ArgumentNullException(nameof(octet));
+            }
+            Octet = octet;
+        }
+
+        [NotNull]
+        public static ChunkDataLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Octet> Octet { get; set; }
+
+        public override ILexer<ChunkData> Create()
+        {
+            var innerLexer = Repetition.Create(Octet.Create(), 1, int.MaxValue);
             return new ChunkDataLexer(innerLexer);
         }
     }

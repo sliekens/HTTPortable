@@ -3,80 +3,69 @@ using Http.OWS;
 using Http.token;
 using Http.transfer_parameter;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.transfer_extension
 {
-    public class TransferExtensionLexerFactory : ILexerFactory<TransferExtension>
+    public sealed class TransferExtensionLexerFactory : RuleLexerFactory<TransferExtension>
     {
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer;
-
-        private readonly IRepetitionLexerFactory repetitionLexerFactory;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        private readonly ILexer<Token> tokenLexer;
-
-        private readonly ILexer<TransferParameter> transferParameterLexer;
-
-        public TransferExtensionLexerFactory(
-            [NotNull] ITerminalLexerFactory terminalLexerFactory,
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
-            [NotNull] ILexer<Token> tokenLexer,
-            [NotNull] ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer,
-            [NotNull] ILexer<TransferParameter> transferParameterLexer)
+        static TransferExtensionLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (repetitionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(repetitionLexerFactory));
-            }
-            if (tokenLexer == null)
-            {
-                throw new ArgumentNullException(nameof(tokenLexer));
-            }
-            if (optionalWhiteSpaceLexer == null)
-            {
-                throw new ArgumentNullException(nameof(optionalWhiteSpaceLexer));
-            }
-            if (transferParameterLexer == null)
-            {
-                throw new ArgumentNullException(nameof(transferParameterLexer));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.repetitionLexerFactory = repetitionLexerFactory;
-            this.tokenLexer = tokenLexer;
-            this.optionalWhiteSpaceLexer = optionalWhiteSpaceLexer;
-            this.transferParameterLexer = transferParameterLexer;
+            Default = new TransferExtensionLexerFactory(
+                token.TokenLexerFactory.Default.Singleton(),
+                OWS.OptionalWhiteSpaceLexerFactory.Default.Singleton(),
+                transfer_parameter.TransferParameterLexerFactory.Default.Singleton());
         }
 
-        public ILexer<TransferExtension> Create()
+        public TransferExtensionLexerFactory(
+            [NotNull] ILexerFactory<Token> tokenLexerFactory,
+            [NotNull] ILexerFactory<OptionalWhiteSpace> optionalWhiteSpaceLexerFactory,
+            [NotNull] ILexerFactory<TransferParameter> transferParameterLexerFactory)
         {
-            return
-                new TransferExtensionLexer(
-                    concatenationLexerFactory.Create(
-                        tokenLexer,
-                        repetitionLexerFactory.Create(
-                            concatenationLexerFactory.Create(
-                                optionalWhiteSpaceLexer,
-                                terminalLexerFactory.Create(@";", StringComparer.Ordinal),
-                                optionalWhiteSpaceLexer,
-                                transferParameterLexer),
-                            0,
-                            int.MaxValue)));
+            if (tokenLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(tokenLexerFactory));
+            }
+            if (optionalWhiteSpaceLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(optionalWhiteSpaceLexerFactory));
+            }
+            if (transferParameterLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(transferParameterLexerFactory));
+            }
+            TokenLexerFactory = tokenLexerFactory;
+            OptionalWhiteSpaceLexerFactory = optionalWhiteSpaceLexerFactory;
+            TransferParameterLexerFactory = transferParameterLexerFactory;
+        }
+
+        [NotNull]
+        public static TransferExtensionLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<OptionalWhiteSpace> OptionalWhiteSpaceLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<Token> TokenLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<TransferParameter> TransferParameterLexerFactory { get; set; }
+
+        public override ILexer<TransferExtension> Create()
+        {
+            var ows = OptionalWhiteSpaceLexerFactory.Create();
+            var innerLexer = Concatenation.Create(
+                TokenLexerFactory.Create(),
+                Repetition.Create(
+                    Concatenation.Create(
+                        ows,
+                        Terminal.Create(@";", StringComparer.Ordinal),
+                        ows,
+                        TransferParameterLexerFactory.Create()),
+                    0,
+                    int.MaxValue));
+            return new TransferExtensionLexer(innerLexer);
         }
     }
 }

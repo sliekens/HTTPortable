@@ -1,10 +1,11 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
 
 namespace Http.chunk_data
 {
     public class ChunkData : Repetition
     {
-        public ChunkData(Repetition repetition)
+        public ChunkData([NotNull] Repetition repetition)
             : base(repetition)
         {
         }

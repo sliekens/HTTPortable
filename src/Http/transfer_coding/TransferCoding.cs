@@ -1,10 +1,12 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.transfer_coding
 {
     public class TransferCoding : Alternation
     {
-        public TransferCoding(Alternation alternation)
+        public TransferCoding([NotNull] Alternation alternation)
             : base(alternation)
         {
         }

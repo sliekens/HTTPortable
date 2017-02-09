@@ -1,10 +1,12 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.received_by
 {
     public class ReceivedBy : Alternation
     {
-        public ReceivedBy(Alternation alternation)
+        public ReceivedBy([NotNull] Alternation alternation)
             : base(alternation)
         {
         }

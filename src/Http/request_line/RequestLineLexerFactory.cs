@@ -3,7 +3,6 @@ using Http.HTTP_version;
 using Http.method;
 using Http.request_target;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.CRLF;
 using Txt.ABNF.Core.SP;
@@ -11,69 +10,80 @@ using Txt.Core;
 
 namespace Http.request_line
 {
-    public class RequestLineLexerFactory : ILexerFactory<RequestLine>
+    public sealed class RequestLineLexerFactory : RuleLexerFactory<RequestLine>
     {
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ILexer<HttpVersion> httpVersionLexer;
-
-        private readonly ILexer<Method> methodLexer;
-
-        private readonly ILexer<NewLine> newLineLexer;
-
-        private readonly ILexer<RequestTarget> requestTargetLexer;
-
-        private readonly ILexer<Space> spaceLexer;
-
-        public RequestLineLexerFactory(
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] ILexer<Method> methodLexer,
-            [NotNull] ILexer<Space> spaceLexer,
-            [NotNull] ILexer<RequestTarget> requestTargetLexer,
-            [NotNull] ILexer<HttpVersion> httpVersionLexer,
-            [NotNull] ILexer<NewLine> newLineLexer)
+        static RequestLineLexerFactory()
         {
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (methodLexer == null)
-            {
-                throw new ArgumentNullException(nameof(methodLexer));
-            }
-            if (spaceLexer == null)
-            {
-                throw new ArgumentNullException(nameof(spaceLexer));
-            }
-            if (requestTargetLexer == null)
-            {
-                throw new ArgumentNullException(nameof(requestTargetLexer));
-            }
-            if (httpVersionLexer == null)
-            {
-                throw new ArgumentNullException(nameof(httpVersionLexer));
-            }
-            if (newLineLexer == null)
-            {
-                throw new ArgumentNullException(nameof(newLineLexer));
-            }
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.methodLexer = methodLexer;
-            this.spaceLexer = spaceLexer;
-            this.requestTargetLexer = requestTargetLexer;
-            this.httpVersionLexer = httpVersionLexer;
-            this.newLineLexer = newLineLexer;
+            Default = new RequestLineLexerFactory(
+                Txt.ABNF.Core.SP.SpaceLexerFactory.Default.Singleton(),
+                Txt.ABNF.Core.CRLF.NewLineLexerFactory.Default.Singleton(),
+                method.MethodLexerFactory.Default.Singleton(),
+                request_target.RequestTargetLexerFactory.Default.Singleton(),
+                HTTP_version.HttpVersionLexerFactory.Default.Singleton());
         }
 
-        public ILexer<RequestLine> Create()
+        public RequestLineLexerFactory(
+            [NotNull] ILexerFactory<Space> spaceLexerFactory,
+            [NotNull] ILexerFactory<NewLine> newLineLexerFactory,
+            [NotNull] ILexerFactory<Method> methodLexerFactory,
+            [NotNull] ILexerFactory<RequestTarget> requestTargetLexerFactory,
+            [NotNull] ILexerFactory<HttpVersion> httpVersionLexerFactory)
         {
-            var innerLexer = concatenationLexerFactory.Create(
-                methodLexer,
-                spaceLexer,
-                requestTargetLexer,
-                spaceLexer,
-                httpVersionLexer,
-                newLineLexer);
+            if (spaceLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(spaceLexerFactory));
+            }
+            if (newLineLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(newLineLexerFactory));
+            }
+            if (methodLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(methodLexerFactory));
+            }
+            if (requestTargetLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(requestTargetLexerFactory));
+            }
+            if (httpVersionLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(httpVersionLexerFactory));
+            }
+            SpaceLexerFactory = spaceLexerFactory;
+            NewLineLexerFactory = newLineLexerFactory;
+            MethodLexerFactory = methodLexerFactory;
+            RequestTargetLexerFactory = requestTargetLexerFactory;
+            HttpVersionLexerFactory = httpVersionLexerFactory;
+        }
+
+        [NotNull]
+        public static RequestLineLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<HttpVersion> HttpVersionLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<Method> MethodLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<NewLine> NewLineLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<RequestTarget> RequestTargetLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<Space> SpaceLexerFactory { get; }
+
+        public override ILexer<RequestLine> Create()
+        {
+            var sp = SpaceLexerFactory.Create();
+            var innerLexer = Concatenation.Create(
+                MethodLexerFactory.Create(),
+                sp,
+                RequestTargetLexerFactory.Create(),
+                sp,
+                HttpVersionLexerFactory.Create(),
+                NewLineLexerFactory.Create());
             return new RequestLineLexer(innerLexer);
         }
     }

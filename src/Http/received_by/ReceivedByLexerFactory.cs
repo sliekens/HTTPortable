@@ -1,87 +1,69 @@
 ﻿using System;
 using Http.pseudonym;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
+using UriSyntax.host;
 using UriSyntax.port;
+using UriHost = UriSyntax.host.Host;
 
 namespace Http.received_by
 {
-    public class ReceivedByLexerFactory : ILexerFactory<ReceivedBy>
+    public sealed class ReceivedByLexerFactory : RuleLexerFactory<ReceivedBy>
     {
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ILexer<UriSyntax.host.Host> hostLexer;
-
-        private readonly IOptionLexerFactory optionLexerFactory;
-
-        private readonly ILexer<Port> portLexer;
-
-        private readonly ILexer<Pseudonym> pseudonymLexer;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        public ReceivedByLexerFactory(
-            [NotNull] ITerminalLexerFactory terminalLexerFactory,
-            [NotNull] IAlternationLexerFactory alternationLexerFactory,
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] IOptionLexerFactory optionLexerFactory,
-            [NotNull] ILexer<UriSyntax.host.Host> hostLexer,
-            [NotNull] ILexer<Port> portLexer,
-            [NotNull] ILexer<Pseudonym> pseudonymLexer)
+        static ReceivedByLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            if (alternationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alternationLexerFactory));
-            }
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (optionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(optionLexerFactory));
-            }
-            if (hostLexer == null)
-            {
-                throw new ArgumentNullException(nameof(hostLexer));
-            }
-            if (portLexer == null)
-            {
-                throw new ArgumentNullException(nameof(portLexer));
-            }
-            if (pseudonymLexer == null)
-            {
-                throw new ArgumentNullException(nameof(pseudonymLexer));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.optionLexerFactory = optionLexerFactory;
-            this.hostLexer = hostLexer;
-            this.portLexer = portLexer;
-            this.pseudonymLexer = pseudonymLexer;
+            Default = new ReceivedByLexerFactory(
+                HostLexerFactory.Default.Singleton(),
+                UriSyntax.port.PortLexerFactory.Default.Singleton(),
+                pseudonym.PseudonymLexerFactory.Default.Singleton());
         }
 
-        public ILexer<ReceivedBy> Create()
+        public ReceivedByLexerFactory(
+            [NotNull] ILexerFactory<UriHost> uriHostLexerFactory,
+            [NotNull] ILexerFactory<Port> portLexerFactory,
+            [NotNull] ILexerFactory<Pseudonym> pseudonymLexerFactory)
         {
-            return
-                new ReceivedByLexer(
-                    alternationLexerFactory.Create(
-                        concatenationLexerFactory.Create(
-                            hostLexer,
-                            optionLexerFactory.Create(
-                                concatenationLexerFactory.Create(
-                                    terminalLexerFactory.Create(@":", StringComparer.Ordinal),
-                                    portLexer))),
-                        pseudonymLexer));
+            if (uriHostLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(uriHostLexerFactory));
+            }
+            if (portLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(portLexerFactory));
+            }
+            if (pseudonymLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(pseudonymLexerFactory));
+            }
+            UriHostLexerFactory = uriHostLexerFactory;
+            PortLexerFactory = portLexerFactory;
+            PseudonymLexerFactory = pseudonymLexerFactory;
+        }
+
+        [NotNull]
+        public static ReceivedByLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Port> PortLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<Pseudonym> PseudonymLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<UriHost> UriHostLexerFactory { get; }
+
+        public override ILexer<ReceivedBy> Create()
+        {
+            var innerLexer = Alternation.Create(
+                Concatenation.Create(
+                    UriHostLexerFactory.Create(),
+                    Option.Create(
+                        Concatenation.Create(
+                            Terminal.Create(@":", StringComparer.Ordinal),
+                            PortLexerFactory.Create()))),
+                PseudonymLexerFactory.Create());
+            return new ReceivedByLexer(innerLexer);
         }
     }
 }

@@ -1,40 +1,36 @@
 ﻿using System;
 using Http.tchar;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.token
 {
-    public class TokenLexerFactory : ILexerFactory<Token>
+    public class TokenLexerFactory : RuleLexerFactory<Token>
     {
-        private readonly IRepetitionLexerFactory repetitionLexerFactory;
-
-        private readonly ILexer<TokenCharacter> tokenCharacterLexer;
-
-        public TokenLexerFactory(
-            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
-            [NotNull] ILexer<TokenCharacter> tokenCharacterLexer)
+        static TokenLexerFactory()
         {
-            if (repetitionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(repetitionLexerFactory));
-            }
-            if (tokenCharacterLexer == null)
-            {
-                throw new ArgumentNullException(nameof(tokenCharacterLexer));
-            }
-            this.repetitionLexerFactory = repetitionLexerFactory;
-            this.tokenCharacterLexer = tokenCharacterLexer;
+            Default = new TokenLexerFactory(tchar.TokenCharacterLexerFactory.Default.Singleton());
         }
 
-        public ILexer<Token> Create()
+        public TokenLexerFactory([NotNull] ILexerFactory<TokenCharacter> tokenCharacterLexerFactory)
         {
-            var innerLexer = repetitionLexerFactory.Create(
-                tokenCharacterLexer,
-                1,
-                int.MaxValue);
+            if (tokenCharacterLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(tokenCharacterLexerFactory));
+            }
+            TokenCharacterLexerFactory = tokenCharacterLexerFactory;
+        }
+
+        [NotNull]
+        public static TokenLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<TokenCharacter> TokenCharacterLexerFactory { get; }
+
+        public override ILexer<Token> Create()
+        {
+            var innerLexer = Repetition.Create(TokenCharacterLexerFactory.Create(), 1, int.MaxValue);
             return new TokenLexer(innerLexer);
         }
     }

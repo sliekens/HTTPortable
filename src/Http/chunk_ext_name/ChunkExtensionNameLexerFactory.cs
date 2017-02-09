@@ -1,27 +1,37 @@
-using System;
+﻿using System;
 using Http.token;
 using JetBrains.Annotations;
-using Txt;
+using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.chunk_ext_name
 {
-    public class ChunkExtensionNameLexerFactory : ILexerFactory<ChunkExtensionName>
+    public sealed class ChunkExtensionNameLexerFactory : RuleLexerFactory<ChunkExtensionName>
     {
-        private readonly ILexer<Token> tokenLexer;
-
-        public ChunkExtensionNameLexerFactory([NotNull] ILexer<Token> tokenLexer)
+        static ChunkExtensionNameLexerFactory()
         {
-            if (tokenLexer == null)
-            {
-                throw new ArgumentNullException(nameof(tokenLexer));
-            }
-            this.tokenLexer = tokenLexer;
+            Default = new ChunkExtensionNameLexerFactory(token.TokenLexerFactory.Default.Singleton());
         }
 
-        public ILexer<ChunkExtensionName> Create()
+        public ChunkExtensionNameLexerFactory([NotNull] ILexerFactory<Token> tokenLexerFactory)
         {
-            return new ChunkExtensionNameLexer(tokenLexer);
+            if (tokenLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(tokenLexerFactory));
+            }
+            TokenLexerFactory = tokenLexerFactory;
+        }
+
+        [NotNull]
+        public static ChunkExtensionNameLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Token> TokenLexerFactory { get; }
+
+        public override ILexer<ChunkExtensionName> Create()
+        {
+            var innerLexer = TokenLexerFactory.Create();
+            return new ChunkExtensionNameLexer(innerLexer);
         }
     }
 }

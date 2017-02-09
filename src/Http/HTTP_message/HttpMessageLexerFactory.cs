@@ -3,85 +3,77 @@ using Http.header_field;
 using Http.message_body;
 using Http.start_line;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.CRLF;
 using Txt.Core;
 
 namespace Http.HTTP_message
 {
-    public class HttpMessageLexerFactory : ILexerFactory<HttpMessage>
+    public sealed class HttpMessageLexerFactory : RuleLexerFactory<HttpMessage>
     {
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ILexer<HeaderField> headerFieldLexer;
-
-        private readonly ILexer<MessageBody> messageBodyLexer;
-
-        private readonly ILexer<NewLine> newLineLexer;
-
-        private readonly IOptionLexerFactory optionLexerFactory;
-
-        private readonly IRepetitionLexerFactory repetitionLexerFactory;
-
-        private readonly ILexer<StartLine> startLineLexer;
-
-        public HttpMessageLexerFactory(
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] IOptionLexerFactory optionLexerFactory,
-            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
-            [NotNull] ILexer<StartLine> startLineLexer,
-            [NotNull] ILexer<HeaderField> headerFieldLexer,
-            [NotNull] ILexer<NewLine> newLineLexer,
-            [NotNull] ILexer<MessageBody> messageBodyLexer)
+        static HttpMessageLexerFactory()
         {
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (optionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(optionLexerFactory));
-            }
-            if (repetitionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(repetitionLexerFactory));
-            }
-            if (startLineLexer == null)
-            {
-                throw new ArgumentNullException(nameof(startLineLexer));
-            }
-            if (headerFieldLexer == null)
-            {
-                throw new ArgumentNullException(nameof(headerFieldLexer));
-            }
-            if (newLineLexer == null)
-            {
-                throw new ArgumentNullException(nameof(newLineLexer));
-            }
-            if (messageBodyLexer == null)
-            {
-                throw new ArgumentNullException(nameof(messageBodyLexer));
-            }
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.optionLexerFactory = optionLexerFactory;
-            this.repetitionLexerFactory = repetitionLexerFactory;
-            this.startLineLexer = startLineLexer;
-            this.headerFieldLexer = headerFieldLexer;
-            this.newLineLexer = newLineLexer;
-            this.messageBodyLexer = messageBodyLexer;
+            Default = new HttpMessageLexerFactory(
+                start_line.StartLineLexerFactory.Default.Singleton(),
+                header_field.HeaderFieldLexerFactory.Default.Singleton(),
+                Txt.ABNF.Core.CRLF.NewLineLexerFactory.Default.Singleton(),
+                message_body.MessageBodyLexerFactory.Default.Singleton());
         }
 
-        public ILexer<HttpMessage> Create()
+        public HttpMessageLexerFactory(
+            [NotNull] ILexerFactory<StartLine> startLineLexerFactory,
+            [NotNull] ILexerFactory<HeaderField> headerFieldLexerFactory,
+            [NotNull] ILexerFactory<NewLine> newLineLexerFactory,
+            [NotNull] ILexerFactory<MessageBody> messageBodyLexerFactory)
         {
-            var innerLexer = concatenationLexerFactory.Create(
-                startLineLexer,
-                repetitionLexerFactory.Create(
-                    concatenationLexerFactory.Create(headerFieldLexer, newLineLexer),
+            if (startLineLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(startLineLexerFactory));
+            }
+            if (headerFieldLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(headerFieldLexerFactory));
+            }
+            if (newLineLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(newLineLexerFactory));
+            }
+            if (messageBodyLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(messageBodyLexerFactory));
+            }
+            StartLineLexerFactory = startLineLexerFactory;
+            HeaderFieldLexerFactory = headerFieldLexerFactory;
+            NewLineLexerFactory = newLineLexerFactory;
+            MessageBodyLexerFactory = messageBodyLexerFactory;
+        }
+
+        [NotNull]
+        public static HttpMessageLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<HeaderField> HeaderFieldLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<MessageBody> MessageBodyLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<NewLine> NewLineLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<StartLine> StartLineLexerFactory { get; }
+
+        public override ILexer<HttpMessage> Create()
+        {
+            var crlf = NewLineLexerFactory.Create();
+            var innerLexer = Concatenation.Create(
+                StartLineLexerFactory.Create(),
+                Repetition.Create(
+                    Concatenation.Create(HeaderFieldLexerFactory.Create(), crlf),
                     0,
                     int.MaxValue),
-                newLineLexer,
-                optionLexerFactory.Create(messageBodyLexer));
+                crlf,
+                Option.Create(MessageBodyLexerFactory.Create()));
             return new HttpMessageLexer(innerLexer);
         }
     }

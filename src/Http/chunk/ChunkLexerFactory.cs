@@ -3,75 +3,78 @@ using Http.chunk_data;
 using Http.chunk_ext;
 using Http.chunk_size;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.CRLF;
 using Txt.Core;
 
 namespace Http.chunk
 {
-    public class ChunkLexerFactory : ILexerFactory<Chunk>
+    public class ChunkLexerFactory : RuleLexerFactory<Chunk>
     {
-        private readonly ILexer<ChunkData> chunkDataLexer;
-
-        private readonly ILexer<ChunkExtension> chunkExtensionLexer;
-
-        private readonly ILexer<ChunkSize> chunkSizeLexer;
-
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ILexer<NewLine> newLineLexer;
-
-        private readonly IOptionLexerFactory optionLexerFactory;
-
-        public ChunkLexerFactory(
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] IOptionLexerFactory optionLexerFactory,
-            [NotNull] ILexer<ChunkSize> chunkSizeLexer,
-            [NotNull] ILexer<ChunkExtension> chunkExtensionLexer,
-            [NotNull] ILexer<NewLine> newLineLexer,
-            [NotNull] ILexer<ChunkData> chunkDataLexer)
+        static ChunkLexerFactory()
         {
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (optionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(optionLexerFactory));
-            }
-            if (chunkSizeLexer == null)
-            {
-                throw new ArgumentNullException(nameof(chunkSizeLexer));
-            }
-            if (chunkExtensionLexer == null)
-            {
-                throw new ArgumentNullException(nameof(chunkExtensionLexer));
-            }
-            if (newLineLexer == null)
-            {
-                throw new ArgumentNullException(nameof(newLineLexer));
-            }
-            if (chunkDataLexer == null)
-            {
-                throw new ArgumentNullException(nameof(chunkDataLexer));
-            }
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.optionLexerFactory = optionLexerFactory;
-            this.chunkSizeLexer = chunkSizeLexer;
-            this.chunkExtensionLexer = chunkExtensionLexer;
-            this.newLineLexer = newLineLexer;
-            this.chunkDataLexer = chunkDataLexer;
+            Default = new ChunkLexerFactory(
+                ChunkSizeLexerFactory.Default.Singleton(),
+                ChunkExtensionLexerFactory.Default.Singleton(),
+                NewLineLexerFactory.Default.Singleton(),
+                ChunkDataLexerFactory.Default.Singleton());
         }
 
-        public ILexer<Chunk> Create()
+        public ChunkLexerFactory(
+            [NotNull] ILexerFactory<ChunkSize> chunkSize,
+            [NotNull] ILexerFactory<ChunkExtension> chunkExtension,
+            [NotNull] ILexerFactory<NewLine> newLine,
+            [NotNull] ILexerFactory<ChunkData> chunkData)
         {
-            var innerLexer = concatenationLexerFactory.Create(
-                chunkSizeLexer,
-                optionLexerFactory.Create(chunkExtensionLexer),
-                newLineLexer,
-                chunkDataLexer,
-                newLineLexer);
+            if (chunkSize == null)
+            {
+                throw new ArgumentNullException(nameof(chunkSize));
+            }
+            if (chunkExtension == null)
+            {
+                throw new ArgumentNullException(nameof(chunkExtension));
+            }
+            if (newLine == null)
+            {
+                throw new ArgumentNullException(nameof(newLine));
+            }
+            if (chunkData == null)
+            {
+                throw new ArgumentNullException(nameof(chunkData));
+            }
+            ChunkSize = chunkSize;
+            ChunkExtension = chunkExtension;
+            NewLine = newLine;
+            ChunkData = chunkData;
+        }
+
+        [NotNull]
+        public static ChunkLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<ChunkData> ChunkData { get; set; }
+
+        [NotNull]
+        public ILexerFactory<ChunkExtension> ChunkExtension { get; set; }
+
+        [NotNull]
+        public ILexerFactory<ChunkSize> ChunkSize { get; set; }
+
+        [NotNull]
+        public ILexerFactory<NewLine> NewLine { get; set; }
+
+        public override ILexer<Chunk> Create()
+        {
+            var chunkSize = ChunkSize.Create();
+            var chunkExt = ChunkExtension.Create();
+            var chunkData = ChunkData.Create();
+            var crlf = NewLine.Create();
+            var innerLexer = Concatenation.Create(
+                chunkSize,
+                Option.Create(chunkExt),
+                crlf,
+                chunkData,
+                crlf);
             return new ChunkLexer(innerLexer);
         }
     }

@@ -2,78 +2,59 @@
 using Http.ctext;
 using Http.quoted_pair;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.comment
 {
-    public class CommentLexerFactory : ILexerFactory<Comment>
+    public sealed class CommentLexerFactory : RuleLexerFactory<Comment>
     {
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly ILexer<CommentText> commentTextLexer;
-
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ILexer<QuotedPair> quotedPairLexer;
-
-        private readonly IRepetitionLexerFactory repetitionLexerFactory;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        public CommentLexerFactory(
-            [NotNull] ITerminalLexerFactory terminalLexerFactory,
-            [NotNull] IAlternationLexerFactory alternationLexerFactory,
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
-            [NotNull] ILexer<CommentText> commentTextLexer,
-            [NotNull] ILexer<QuotedPair> quotedPairLexer)
+        static CommentLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            if (alternationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alternationLexerFactory));
-            }
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (repetitionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(repetitionLexerFactory));
-            }
-            if (commentTextLexer == null)
-            {
-                throw new ArgumentNullException(nameof(commentTextLexer));
-            }
-            if (quotedPairLexer == null)
-            {
-                throw new ArgumentNullException(nameof(quotedPairLexer));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.repetitionLexerFactory = repetitionLexerFactory;
-            this.commentTextLexer = commentTextLexer;
-            this.quotedPairLexer = quotedPairLexer;
+            Default = new CommentLexerFactory(
+                ctext.CommentTextLexerFactory.Default.Singleton(),
+                quoted_pair.QuotedPairLexerFactory.Default.Singleton());
         }
 
-        public ILexer<Comment> Create()
+        public CommentLexerFactory(
+            [NotNull] ILexerFactory<CommentText> commentTextLexerFactory,
+            [NotNull] ILexerFactory<QuotedPair> quotedPairLexerFactory)
+        {
+            if (commentTextLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(commentTextLexerFactory));
+            }
+            if (quotedPairLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(quotedPairLexerFactory));
+            }
+            CommentTextLexerFactory = commentTextLexerFactory;
+            QuotedPairLexerFactory = quotedPairLexerFactory;
+        }
+
+        [NotNull]
+        public static CommentLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<CommentText> CommentTextLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<QuotedPair> QuotedPairLexerFactory { get; set; }
+
+        public override ILexer<Comment> Create()
         {
             var selfLexer = new ProxyLexer<Comment>();
-            var commentLexer =
-                new CommentLexer(
-                    concatenationLexerFactory.Create(
-                        terminalLexerFactory.Create(@"(", StringComparer.Ordinal),
-                        repetitionLexerFactory.Create(
-                            alternationLexerFactory.Create(commentTextLexer, quotedPairLexer, selfLexer),
-                            0,
-                            int.MaxValue),
-                        terminalLexerFactory.Create(@")", StringComparer.Ordinal)));
+            var innerLexer = Concatenation.Create(
+                Terminal.Create(@"(", StringComparer.Ordinal),
+                Repetition.Create(
+                    Alternation.Create(
+                        CommentTextLexerFactory.Create(),
+                        QuotedPairLexerFactory.Create(),
+                        selfLexer),
+                    0,
+                    int.MaxValue),
+                Terminal.Create(@")", StringComparer.Ordinal));
+            var commentLexer = new CommentLexer(innerLexer);
             selfLexer.Initialize(commentLexer);
             return commentLexer;
         }

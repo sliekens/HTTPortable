@@ -2,58 +2,55 @@
 using Http.field_content;
 using Http.obs_fold;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.field_value
 {
-    public class FieldValueLexerFactory : ILexerFactory<FieldValue>
+    public sealed class FieldValueLexerFactory : RuleLexerFactory<FieldValue>
     {
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly ILexer<FieldContent> fieldContentLexer;
-
-        private readonly ILexer<ObsoleteFold> obsoleteFoldLexer;
-
-        private readonly IRepetitionLexerFactory repetitionLexerFactory;
-
-        public FieldValueLexerFactory(
-            [NotNull] IAlternationLexerFactory alternationLexerFactory,
-            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
-            [NotNull] ILexer<FieldContent> fieldContentLexer,
-            [NotNull] ILexer<ObsoleteFold> obsoleteFoldLexer)
+        static FieldValueLexerFactory()
         {
-            if (alternationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alternationLexerFactory));
-            }
-            if (repetitionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(repetitionLexerFactory));
-            }
-            if (fieldContentLexer == null)
-            {
-                throw new ArgumentNullException(nameof(fieldContentLexer));
-            }
-            if (obsoleteFoldLexer == null)
-            {
-                throw new ArgumentNullException(nameof(obsoleteFoldLexer));
-            }
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.repetitionLexerFactory = repetitionLexerFactory;
-            this.fieldContentLexer = fieldContentLexer;
-            this.obsoleteFoldLexer = obsoleteFoldLexer;
+            Default = new FieldValueLexerFactory(
+                field_content.FieldContentLexerFactory.Default.Singleton(),
+                obs_fold.ObsoleteFoldLexerFactory.Default.Singleton());
         }
 
-        public ILexer<FieldValue> Create()
+        public FieldValueLexerFactory(
+            [NotNull] ILexerFactory<FieldContent> fieldContentLexerFactory,
+            [NotNull] ILexerFactory<ObsoleteFold> obsoleteFoldLexerFactory)
         {
-            return
-                new FieldValueLexer(
-                    repetitionLexerFactory.Create(
-                        alternationLexerFactory.Create(fieldContentLexer, obsoleteFoldLexer),
-                        0,
-                        int.MaxValue));
+            if (fieldContentLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(fieldContentLexerFactory));
+            }
+            if (obsoleteFoldLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(obsoleteFoldLexerFactory));
+            }
+            FieldContentLexerFactory = fieldContentLexerFactory;
+            ObsoleteFoldLexerFactory = obsoleteFoldLexerFactory;
+        }
+
+        [NotNull]
+        public static FieldValueLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<FieldContent> FieldContentLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<ObsoleteFold> ObsoleteFoldLexerFactory { get; }
+
+        public override ILexer<FieldValue> Create()
+        {
+            var innerLexer = Repetition.Create(
+                Alternation.Create(
+                    FieldContentLexerFactory.Create(),
+                    ObsoleteFoldLexerFactory.Create()),
+                0,
+                int.MaxValue)
+                ;
+            return new FieldValueLexer(innerLexer);
         }
     }
 }

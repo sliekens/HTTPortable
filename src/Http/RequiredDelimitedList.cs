@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Txt;
+using JetBrains.Annotations;
 using Txt.ABNF;
 using Txt.Core;
 
@@ -8,12 +8,12 @@ namespace Http
 {
     public class RequiredDelimitedList : Concatenation
     {
-        public RequiredDelimitedList(RequiredDelimitedList delimitedList)
+        public RequiredDelimitedList([NotNull] RequiredDelimitedList delimitedList)
             : base(delimitedList)
         {
         }
 
-        public RequiredDelimitedList(Concatenation concatenation)
+        public RequiredDelimitedList([NotNull] Concatenation concatenation)
             : base(concatenation)
         {
         }
@@ -27,7 +27,6 @@ namespace Http
             {
                 items.AddRange(opt1.Cast<Concatenation>().Select(seq2 => seq2[1]));
             }
-
             return items;
         }
     }

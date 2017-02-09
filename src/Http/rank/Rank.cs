@@ -1,10 +1,12 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.rank
 {
     public class Rank : Alternation
     {
-        public Rank(Alternation alternation)
+        public Rank([NotNull] Alternation alternation)
             : base(alternation)
         {
         }

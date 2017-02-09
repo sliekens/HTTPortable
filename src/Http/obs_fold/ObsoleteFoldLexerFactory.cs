@@ -1,6 +1,5 @@
 ﻿using System;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.CRLF;
 using Txt.ABNF.Core.HTAB;
@@ -9,70 +8,59 @@ using Txt.Core;
 
 namespace Http.obs_fold
 {
-    public class ObsoleteFoldLexerFactory : ILexerFactory<ObsoleteFold>
+    public sealed class ObsoleteFoldLexerFactory : RuleLexerFactory<ObsoleteFold>
     {
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ILexer<HorizontalTab> horizontalTabLexer;
-
-        private readonly ILexer<NewLine> newLineLexer;
-
-        private readonly IRepetitionLexerFactory repetitionLexerFactory;
-
-        private readonly ILexer<Space> spaceLexer;
-
-        public ObsoleteFoldLexerFactory(
-            [NotNull] IAlternationLexerFactory alternationLexerFactory,
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
-            [NotNull] ILexer<NewLine> newLineLexer,
-            [NotNull] ILexer<Space> spaceLexer,
-            [NotNull] ILexer<HorizontalTab> horizontalTabLexer)
+        static ObsoleteFoldLexerFactory()
         {
-            if (alternationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alternationLexerFactory));
-            }
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (repetitionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(repetitionLexerFactory));
-            }
-            if (newLineLexer == null)
-            {
-                throw new ArgumentNullException(nameof(newLineLexer));
-            }
-            if (spaceLexer == null)
-            {
-                throw new ArgumentNullException(nameof(spaceLexer));
-            }
-            if (horizontalTabLexer == null)
-            {
-                throw new ArgumentNullException(nameof(horizontalTabLexer));
-            }
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.repetitionLexerFactory = repetitionLexerFactory;
-            this.newLineLexer = newLineLexer;
-            this.spaceLexer = spaceLexer;
-            this.horizontalTabLexer = horizontalTabLexer;
+            Default = new ObsoleteFoldLexerFactory(
+                Txt.ABNF.Core.CRLF.NewLineLexerFactory.Default.Singleton(),
+                Txt.ABNF.Core.SP.SpaceLexerFactory.Default.Singleton(),
+                Txt.ABNF.Core.HTAB.HorizontalTabLexerFactory.Default.Singleton());
         }
 
-        public ILexer<ObsoleteFold> Create()
+        public ObsoleteFoldLexerFactory(
+            [NotNull] ILexerFactory<NewLine> newLineLexerFactory,
+            [NotNull] ILexerFactory<Space> spaceLexerFactory,
+            [NotNull] ILexerFactory<HorizontalTab> horizontalTabLexerFactory)
         {
-            return
-                new ObsoleteFoldLexer(
-                    concatenationLexerFactory.Create(
-                        newLineLexer,
-                        repetitionLexerFactory.Create(
-                            alternationLexerFactory.Create(spaceLexer, horizontalTabLexer),
-                            1,
-                            int.MaxValue)));
+            if (newLineLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(newLineLexerFactory));
+            }
+            if (spaceLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(spaceLexerFactory));
+            }
+            if (horizontalTabLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(horizontalTabLexerFactory));
+            }
+            NewLineLexerFactory = newLineLexerFactory;
+            SpaceLexerFactory = spaceLexerFactory;
+            HorizontalTabLexerFactory = horizontalTabLexerFactory;
+        }
+
+        [NotNull]
+        public static ObsoleteFoldLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<HorizontalTab> HorizontalTabLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<NewLine> NewLineLexerFactory { get; set; }
+
+        [NotNull]
+        public ILexerFactory<Space> SpaceLexerFactory { get; set; }
+
+        public override ILexer<ObsoleteFold> Create()
+        {
+            var innerLexer = Concatenation.Create(
+                NewLineLexerFactory.Create(),
+                Repetition.Create(
+                    Alternation.Create(SpaceLexerFactory.Create(), HorizontalTabLexerFactory.Create()),
+                    1,
+                    int.MaxValue));
+            return new ObsoleteFoldLexer(innerLexer);
         }
     }
 }

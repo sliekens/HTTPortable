@@ -2,67 +2,53 @@
 using Http.protocol_name;
 using Http.protocol_version;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.received_protocol
 {
-    public class ReceivedProtocolLexerFactory : ILexerFactory<ReceivedProtocol>
+    public sealed class ReceivedProtocolLexerFactory : RuleLexerFactory<ReceivedProtocol>
     {
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly IOptionLexerFactory optionLexerFactory;
-
-        private readonly ILexer<ProtocolName> protocolNameLexer;
-
-        private readonly ILexer<ProtocolVersion> protocolVersionLexer;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        public ReceivedProtocolLexerFactory(
-            [NotNull] ITerminalLexerFactory terminalLexerFactory,
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] IOptionLexerFactory optionLexerFactory,
-            [NotNull] ILexer<ProtocolName> protocolNameLexer,
-            [NotNull] ILexer<ProtocolVersion> protocolVersionLexer)
+        static ReceivedProtocolLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (optionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(optionLexerFactory));
-            }
-            if (protocolNameLexer == null)
-            {
-                throw new ArgumentNullException(nameof(protocolNameLexer));
-            }
-            if (protocolVersionLexer == null)
-            {
-                throw new ArgumentNullException(nameof(protocolVersionLexer));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.optionLexerFactory = optionLexerFactory;
-            this.protocolNameLexer = protocolNameLexer;
-            this.protocolVersionLexer = protocolVersionLexer;
+            Default = new ReceivedProtocolLexerFactory(
+                protocol_name.ProtocolNameLexerFactory.Default.Singleton(),
+                protocol_version.ProtocolVersionLexerFactory.Default.Singleton());
         }
 
-        public ILexer<ReceivedProtocol> Create()
+        public ReceivedProtocolLexerFactory(
+            [NotNull] ILexerFactory<ProtocolName> protocolNameLexerFactory,
+            [NotNull] ILexerFactory<ProtocolVersion> protocolVersionLexerFactory)
         {
-            var innerLexer =
-                concatenationLexerFactory.Create(
-                    optionLexerFactory.Create(
-                        concatenationLexerFactory.Create(
-                            protocolNameLexer,
-                            terminalLexerFactory.Create(@"/", StringComparer.Ordinal))),
-                    protocolVersionLexer);
+            if (protocolNameLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(protocolNameLexerFactory));
+            }
+            if (protocolVersionLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(protocolVersionLexerFactory));
+            }
+            ProtocolNameLexerFactory = protocolNameLexerFactory;
+            ProtocolVersionLexerFactory = protocolVersionLexerFactory;
+        }
+
+        [NotNull]
+        public static ReceivedProtocolLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<ProtocolName> ProtocolNameLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<ProtocolVersion> ProtocolVersionLexerFactory { get; }
+
+        public override ILexer<ReceivedProtocol> Create()
+        {
+            var innerLexer = Concatenation.Create(
+                Option.Create(
+                    Concatenation.Create(
+                        ProtocolNameLexerFactory.Create(),
+                        Terminal.Create(@"/", StringComparer.Ordinal))),
+                ProtocolVersionLexerFactory.Create());
             return new ReceivedProtocolLexer(innerLexer);
         }
     }

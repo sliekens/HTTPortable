@@ -2,47 +2,50 @@
 using Http.quoted_string;
 using Http.token;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.chunk_ext_val
 {
-    public class ChunkExtensionValueLexerFactory : ILexerFactory<ChunkExtensionValue>
+    public sealed class ChunkExtensionValueLexerFactory : RuleLexerFactory<ChunkExtensionValue>
     {
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly ILexer<QuotedString> quotedStringLexer;
-
-        private readonly ILexer<Token> tokenLexer;
-
-        public ChunkExtensionValueLexerFactory(
-            [NotNull] IAlternationLexerFactory alternationLexerFactory,
-            [NotNull] ILexer<Token> tokenLexer,
-            [NotNull] ILexer<QuotedString> quotedStringLexer)
+        static ChunkExtensionValueLexerFactory()
         {
-            if (alternationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alternationLexerFactory));
-            }
-            if (tokenLexer == null)
-            {
-                throw new ArgumentNullException(nameof(tokenLexer));
-            }
-            if (quotedStringLexer == null)
-            {
-                throw new ArgumentNullException(nameof(quotedStringLexer));
-            }
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.tokenLexer = tokenLexer;
-            this.quotedStringLexer = quotedStringLexer;
+            Default = new ChunkExtensionValueLexerFactory(
+                TokenLexerFactory.Default.Singleton(),
+                QuotedStringLexerFactory.Default.Singleton());
         }
 
-        public ILexer<ChunkExtensionValue> Create()
+        public ChunkExtensionValueLexerFactory(
+            [NotNull] ILexerFactory<Token> token,
+            [NotNull] ILexerFactory<QuotedString> quotedString)
         {
-            var innerLexer = alternationLexerFactory.Create(
-                tokenLexer,
-                quotedStringLexer);
+            if (token == null)
+            {
+                throw new ArgumentNullException(nameof(token));
+            }
+            if (quotedString == null)
+            {
+                throw new ArgumentNullException(nameof(quotedString));
+            }
+            Token = token;
+            QuotedString = quotedString;
+        }
+
+        [NotNull]
+        public static ChunkExtensionValueLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<QuotedString> QuotedString { get; set; }
+
+        [NotNull]
+        public ILexerFactory<Token> Token { get; set; }
+
+        public override ILexer<ChunkExtensionValue> Create()
+        {
+            var innerLexer = Alternation.Create(
+                Token.Create(),
+                QuotedString.Create());
             return new ChunkExtensionValueLexer(innerLexer);
         }
     }

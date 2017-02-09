@@ -1,10 +1,12 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.http_URI
 {
     public class HttpUri : Concatenation
     {
-        public HttpUri(Concatenation concatenation)
+        public HttpUri([NotNull] Concatenation concatenation)
             : base(concatenation)
         {
         }

@@ -1,83 +1,50 @@
 ﻿using System;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.DIGIT;
 using Txt.Core;
 
 namespace Http.rank
 {
-    public class RankLexerFactory : ILexerFactory<Rank>
+    public sealed class RankLexerFactory : RuleLexerFactory<Rank>
     {
-        private readonly IAlternationLexerFactory alternationLexerFactory;
-
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ILexer<Digit> digitLexer;
-
-        private readonly IOptionLexerFactory optionLexerFactory;
-
-        private readonly IRepetitionLexerFactory repetitionLexerFactory;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        public RankLexerFactory(
-            [NotNull] ITerminalLexerFactory terminalLexerFactory,
-            [NotNull] IAlternationLexerFactory alternationLexerFactory,
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
-            [NotNull] IOptionLexerFactory optionLexerFactory,
-            [NotNull] ILexer<Digit> digitLexer)
+        static RankLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            if (alternationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(alternationLexerFactory));
-            }
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (repetitionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(repetitionLexerFactory));
-            }
-            if (optionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(optionLexerFactory));
-            }
-            if (digitLexer == null)
-            {
-                throw new ArgumentNullException(nameof(digitLexer));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.alternationLexerFactory = alternationLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.repetitionLexerFactory = repetitionLexerFactory;
-            this.optionLexerFactory = optionLexerFactory;
-            this.digitLexer = digitLexer;
+            Default = new RankLexerFactory(Txt.ABNF.Core.DIGIT.DigitLexerFactory.Default.Singleton());
         }
 
-        public ILexer<Rank> Create()
+        public RankLexerFactory([NotNull] ILexerFactory<Digit> digitLexerFactory)
         {
-            var decimalPoint = terminalLexerFactory.Create(@".", StringComparer.Ordinal);
-            var zero = terminalLexerFactory.Create(@"0", StringComparer.Ordinal);
-            var left = concatenationLexerFactory.Create(
+            if (digitLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(digitLexerFactory));
+            }
+            DigitLexerFactory = digitLexerFactory;
+        }
+
+        [NotNull]
+        public static RankLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Digit> DigitLexerFactory { get; }
+
+        public override ILexer<Rank> Create()
+        {
+            var decimalPoint = Terminal.Create(@".", StringComparer.Ordinal);
+            var zero = Terminal.Create(@"0", StringComparer.Ordinal);
+            var left = Concatenation.Create(
                 zero,
-                optionLexerFactory.Create(
-                    concatenationLexerFactory.Create(
+                Option.Create(
+                    Concatenation.Create(
                         decimalPoint,
-                        repetitionLexerFactory.Create(digitLexer, 0, 3))));
+                        Repetition.Create(DigitLexerFactory.Create(), 0, 3))));
             var right =
-                concatenationLexerFactory.Create(
-                    concatenationLexerFactory.Create(
-                        terminalLexerFactory.Create(@"1", StringComparer.Ordinal),
-                        optionLexerFactory.Create(
-                            concatenationLexerFactory.Create(decimalPoint, repetitionLexerFactory.Create(zero, 0, 3)))));
-            var innerLexer = alternationLexerFactory.Create(left, right);
+                Concatenation.Create(
+                    Concatenation.Create(
+                        Terminal.Create(@"1", StringComparer.Ordinal),
+                        Option.Create(
+                            Concatenation.Create(decimalPoint, Repetition.Create(zero, 0, 3)))));
+            var innerLexer = Alternation.Create(left, right);
             return new RankLexer(innerLexer);
         }
     }

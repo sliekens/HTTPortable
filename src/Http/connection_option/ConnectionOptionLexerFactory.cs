@@ -1,27 +1,37 @@
 ﻿using System;
 using Http.token;
 using JetBrains.Annotations;
-using Txt;
+using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.connection_option
 {
-    public class ConnectionOptionLexerFactory : ILexerFactory<ConnectionOption>
+    public sealed class ConnectionOptionLexerFactory : RuleLexerFactory<ConnectionOption>
     {
-        private readonly ILexer<Token> tokenLexer;
-
-        public ConnectionOptionLexerFactory([NotNull] ILexer<Token> tokenLexer)
+        static ConnectionOptionLexerFactory()
         {
-            if (tokenLexer == null)
-            {
-                throw new ArgumentNullException(nameof(tokenLexer));
-            }
-            this.tokenLexer = tokenLexer;
+            Default = new ConnectionOptionLexerFactory(token.TokenLexerFactory.Default.Singleton());
         }
 
-        public ILexer<ConnectionOption> Create()
+        public ConnectionOptionLexerFactory([NotNull] ILexerFactory<Token> tokenLexerFactory)
         {
-            return new ConnectionOptionLexer(tokenLexer);
+            if (tokenLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(tokenLexerFactory));
+            }
+            TokenLexerFactory = tokenLexerFactory;
+        }
+
+        [NotNull]
+        public static ConnectionOptionLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Token> TokenLexerFactory { get; set; }
+
+        public override ILexer<ConnectionOption> Create()
+        {
+            var innerLexer = TokenLexerFactory.Create();
+            return new ConnectionOptionLexer(innerLexer);
         }
     }
 }

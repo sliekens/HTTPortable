@@ -1,40 +1,36 @@
 ﻿using System;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.HEXDIG;
 using Txt.Core;
 
 namespace Http.chunk_size
 {
-    public class ChunkSizeLexerFactory : ILexerFactory<ChunkSize>
+    public class ChunkSizeLexerFactory : RuleLexerFactory<ChunkSize>
     {
-        private readonly ILexer<HexadecimalDigit> hexadecimalDigitLexer;
-
-        private readonly IRepetitionLexerFactory repetitionLexerFactory;
-
-        public ChunkSizeLexerFactory(
-            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
-            [NotNull] ILexer<HexadecimalDigit> hexadecimalDigitLexer)
+        static ChunkSizeLexerFactory()
         {
-            if (repetitionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(repetitionLexerFactory));
-            }
-            if (hexadecimalDigitLexer == null)
-            {
-                throw new ArgumentNullException(nameof(hexadecimalDigitLexer));
-            }
-            this.repetitionLexerFactory = repetitionLexerFactory;
-            this.hexadecimalDigitLexer = hexadecimalDigitLexer;
+            Default = new ChunkSizeLexerFactory(Txt.ABNF.Core.HEXDIG.HexadecimalDigitLexerFactory.Default.Singleton());
         }
 
-        public ILexer<ChunkSize> Create()
+        public ChunkSizeLexerFactory([NotNull] ILexerFactory<HexadecimalDigit> hexadecimalDigitLexerFactory)
         {
-            var innerLexer = repetitionLexerFactory.Create(
-                hexadecimalDigitLexer,
-                1,
-                int.MaxValue);
+            if (hexadecimalDigitLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(hexadecimalDigitLexerFactory));
+            }
+            HexadecimalDigitLexerFactory = hexadecimalDigitLexerFactory;
+        }
+
+        [NotNull]
+        public static ChunkSizeLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<HexadecimalDigit> HexadecimalDigitLexerFactory { get; set; }
+
+        public override ILexer<ChunkSize> Create()
+        {
+            var innerLexer = Repetition.Create(HexadecimalDigitLexerFactory.Create(), 1, int.MaxValue);
             return new ChunkSizeLexer(innerLexer);
         }
     }

@@ -1,27 +1,37 @@
 ﻿using System;
 using Http.token;
 using JetBrains.Annotations;
-using Txt;
+using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.method
 {
-    public class MethodLexerFactory : ILexerFactory<Method>
+    public sealed class MethodLexerFactory : RuleLexerFactory<Method>
     {
-        private readonly ILexer<Token> tokenLexer;
-
-        public MethodLexerFactory([NotNull] ILexer<Token> tokenLexer)
+        static MethodLexerFactory()
         {
-            if (tokenLexer == null)
-            {
-                throw new ArgumentNullException(nameof(tokenLexer));
-            }
-            this.tokenLexer = tokenLexer;
+            Default = new MethodLexerFactory(token.TokenLexerFactory.Default.Singleton());
         }
 
-        public ILexer<Method> Create()
+        public MethodLexerFactory([NotNull] ILexerFactory<Token> tokenLexerFactory)
         {
-            return new MethodLexer(tokenLexer);
+            if (tokenLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(tokenLexerFactory));
+            }
+            TokenLexerFactory = tokenLexerFactory;
+        }
+
+        [NotNull]
+        public static MethodLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Token> TokenLexerFactory { get; }
+
+        public override ILexer<Method> Create()
+        {
+            var innerLexer = TokenLexerFactory.Create();
+            return new MethodLexer(innerLexer);
         }
     }
 }

@@ -1,27 +1,37 @@
 ﻿using System;
 using Http.token;
 using JetBrains.Annotations;
-using Txt;
+using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.protocol_name
 {
-    public class ProtocolNameLexerFactory : ILexerFactory<ProtocolName>
+    public sealed class ProtocolNameLexerFactory : RuleLexerFactory<ProtocolName>
     {
-        private readonly ILexer<Token> tokenLexer;
-
-        public ProtocolNameLexerFactory([NotNull] ILexer<Token> tokenLexer)
+        static ProtocolNameLexerFactory()
         {
-            if (tokenLexer == null)
-            {
-                throw new ArgumentNullException(nameof(tokenLexer));
-            }
-            this.tokenLexer = tokenLexer;
+            Default = new ProtocolNameLexerFactory(token.TokenLexerFactory.Default.Singleton());
         }
 
-        public ILexer<ProtocolName> Create()
+        public ProtocolNameLexerFactory([NotNull] ILexerFactory<Token> tokenLexerFactory)
         {
-            return new ProtocolNameLexer(tokenLexer);
+            if (tokenLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(tokenLexerFactory));
+            }
+            TokenLexerFactory = tokenLexerFactory;
+        }
+
+        [NotNull]
+        public static ProtocolNameLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<Token> TokenLexerFactory { get; set; }
+
+        public override ILexer<ProtocolName> Create()
+        {
+            var innerLexer = TokenLexerFactory.Create();
+            return new ProtocolNameLexer(innerLexer);
         }
     }
 }

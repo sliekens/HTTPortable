@@ -1,10 +1,12 @@
-﻿using Txt;
+﻿using JetBrains.Annotations;
+using Txt;
 using Txt.Core;
 
 namespace Http
 {
     public interface IRequiredDelimitedListLexerFactory
     {
-        ILexer<RequiredDelimitedList> Create(ILexer<Element> lexer);
+        [NotNull]
+        ILexer<RequiredDelimitedList> Create([NotNull] ILexer<Element> lexer);
     }
 }

@@ -1,70 +1,67 @@
-using System;
+﻿using System;
 using Http.field_name;
 using Http.field_value;
 using Http.OWS;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.Core;
 
 namespace Http.header_field
 {
-    public class HeaderFieldLexerFactory : ILexerFactory<HeaderField>
+    public sealed class HeaderFieldLexerFactory : RuleLexerFactory<HeaderField>
     {
-        private readonly IConcatenationLexerFactory concatenationLexerFactory;
-
-        private readonly ILexer<FieldName> fieldNameLexer;
-
-        private readonly ILexer<FieldValue> fieldValueLexer;
-
-        private readonly ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer;
-
-        private readonly ITerminalLexerFactory terminalLexerFactory;
-
-        public HeaderFieldLexerFactory(
-            [NotNull] ITerminalLexerFactory terminalLexerFactory,
-            [NotNull] IConcatenationLexerFactory concatenationLexerFactory,
-            [NotNull] ILexer<FieldName> fieldNameLexer,
-            [NotNull] ILexer<OptionalWhiteSpace> optionalWhiteSpaceLexer,
-            [NotNull] ILexer<FieldValue> fieldValueLexer)
+        static HeaderFieldLexerFactory()
         {
-            if (terminalLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(terminalLexerFactory));
-            }
-            if (concatenationLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(concatenationLexerFactory));
-            }
-            if (fieldNameLexer == null)
-            {
-                throw new ArgumentNullException(nameof(fieldNameLexer));
-            }
-            if (optionalWhiteSpaceLexer == null)
-            {
-                throw new ArgumentNullException(nameof(optionalWhiteSpaceLexer));
-            }
-            if (fieldValueLexer == null)
-            {
-                throw new ArgumentNullException(nameof(fieldValueLexer));
-            }
-            this.terminalLexerFactory = terminalLexerFactory;
-            this.concatenationLexerFactory = concatenationLexerFactory;
-            this.fieldNameLexer = fieldNameLexer;
-            this.optionalWhiteSpaceLexer = optionalWhiteSpaceLexer;
-            this.fieldValueLexer = fieldValueLexer;
+            Default = new HeaderFieldLexerFactory(
+                field_name.FieldNameLexerFactory.Default.Singleton(),
+                OWS.OptionalWhiteSpaceLexerFactory.Default.Singleton(),
+                field_value.FieldValueLexerFactory.Default.Singleton());
         }
 
-        public ILexer<HeaderField> Create()
+        public HeaderFieldLexerFactory(
+            [NotNull] ILexerFactory<FieldName> fieldNameLexerFactory,
+            [NotNull] ILexerFactory<OptionalWhiteSpace> optionalWhiteSpaceLexerFactory,
+            [NotNull] ILexerFactory<FieldValue> fieldValueLexerFactory)
         {
-            return
-                new HeaderFieldLexer(
-                    concatenationLexerFactory.Create(
-                        fieldNameLexer,
-                        terminalLexerFactory.Create(@":", StringComparer.Ordinal),
-                        optionalWhiteSpaceLexer,
-                        fieldValueLexer,
-                        optionalWhiteSpaceLexer));
+            if (fieldNameLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(fieldNameLexerFactory));
+            }
+            if (optionalWhiteSpaceLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(optionalWhiteSpaceLexerFactory));
+            }
+            if (fieldValueLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(fieldValueLexerFactory));
+            }
+            FieldNameLexerFactory = fieldNameLexerFactory;
+            OptionalWhiteSpaceLexerFactory = optionalWhiteSpaceLexerFactory;
+            FieldValueLexerFactory = fieldValueLexerFactory;
+        }
+
+        [NotNull]
+        public static HeaderFieldLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<FieldName> FieldNameLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<FieldValue> FieldValueLexerFactory { get; }
+
+        [NotNull]
+        public ILexerFactory<OptionalWhiteSpace> OptionalWhiteSpaceLexerFactory { get; }
+
+        public override ILexer<HeaderField> Create()
+        {
+            var ows = OptionalWhiteSpaceLexerFactory.Create();
+            var innerLexer = Concatenation.Create(
+                FieldNameLexerFactory.Create(),
+                Terminal.Create(@":", StringComparer.Ordinal),
+                ows,
+                FieldValueLexerFactory.Create(),
+                ows);
+            return new HeaderFieldLexer(innerLexer);
         }
     }
 }

@@ -1,10 +1,12 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
+using Txt.Core;
 
 namespace Http.chunked_body
 {
     public class ChunkedBody : Concatenation
     {
-        public ChunkedBody(Concatenation concatenation)
+        public ChunkedBody([NotNull] Concatenation concatenation)
             : base(concatenation)
         {
         }

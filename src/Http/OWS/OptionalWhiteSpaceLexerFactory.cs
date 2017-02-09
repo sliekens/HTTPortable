@@ -1,37 +1,36 @@
 ﻿using System;
 using JetBrains.Annotations;
-using Txt;
 using Txt.ABNF;
 using Txt.ABNF.Core.WSP;
 using Txt.Core;
 
 namespace Http.OWS
 {
-    public class OptionalWhiteSpaceLexerFactory : ILexerFactory<OptionalWhiteSpace>
+    public class OptionalWhiteSpaceLexerFactory : RuleLexerFactory<OptionalWhiteSpace>
     {
-        private readonly IRepetitionLexerFactory repetitionLexerFactory;
-
-        private readonly ILexer<WhiteSpace> whiteSpaceLexer;
-
-        public OptionalWhiteSpaceLexerFactory(
-            [NotNull] IRepetitionLexerFactory repetitionLexerFactory,
-            [NotNull] ILexer<WhiteSpace> whiteSpaceLexer)
+        static OptionalWhiteSpaceLexerFactory()
         {
-            if (repetitionLexerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(repetitionLexerFactory));
-            }
-            if (whiteSpaceLexer == null)
-            {
-                throw new ArgumentNullException(nameof(whiteSpaceLexer));
-            }
-            this.repetitionLexerFactory = repetitionLexerFactory;
-            this.whiteSpaceLexer = whiteSpaceLexer;
+            Default = new OptionalWhiteSpaceLexerFactory(Txt.ABNF.Core.WSP.WhiteSpaceLexerFactory.Default.Singleton());
         }
 
-        public ILexer<OptionalWhiteSpace> Create()
+        public OptionalWhiteSpaceLexerFactory([NotNull] ILexerFactory<WhiteSpace> whiteSpaceLexerFactory)
         {
-            var innerLexer = repetitionLexerFactory.Create(whiteSpaceLexer, 0, int.MaxValue);
+            if (whiteSpaceLexerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(whiteSpaceLexerFactory));
+            }
+            WhiteSpaceLexerFactory = whiteSpaceLexerFactory;
+        }
+
+        [NotNull]
+        public static OptionalWhiteSpaceLexerFactory Default { get; }
+
+        [NotNull]
+        public ILexerFactory<WhiteSpace> WhiteSpaceLexerFactory { get; set; }
+
+        public override ILexer<OptionalWhiteSpace> Create()
+        {
+            var innerLexer = Repetition.Create(WhiteSpaceLexerFactory.Create(), 0, int.MaxValue);
             return new OptionalWhiteSpaceLexer(innerLexer);
         }
     }

@@ -1,10 +1,11 @@
-﻿using Txt.ABNF;
+﻿using JetBrains.Annotations;
+using Txt.ABNF;
 
 namespace Http.Host
 {
     public class Host : Concatenation
     {
-        public Host(Concatenation concatenation)
+        public Host([NotNull] Concatenation concatenation)
             : base(concatenation)
         {
         }
