@@ -5,7 +5,7 @@
 HTTPortable provides a cross-platform, .NET based implementation of the HTTP protocol.
 
 # ON HOLD
-Development of HTTPortable is currently on hold while I work out some problems with [Txt](https://github.com/StevenLiekens/HTTPortable).
+Development of HTTPortable is currently on hold while I work out some problems with [Txt](https://github.com/StevenLiekens/Txt).
 
 # Background and Goals
 
